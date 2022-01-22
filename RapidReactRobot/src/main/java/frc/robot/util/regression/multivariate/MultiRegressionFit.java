@@ -1,4 +1,4 @@
-package frc.robot.utils.regression.multivariate;
+package frc.robot.util.regression.multivariate;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.LUDecomposition;

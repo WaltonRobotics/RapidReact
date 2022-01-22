@@ -4,13 +4,10 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.util.Units;
-import frc.robot.utils.movingAverage.SimpleMovingAverage;
+import frc.robot.util.movingAverage.SimpleMovingAverage;
 
-import static frc.robot.Constants.Field.kTargetHeightInches;
 import static frc.robot.Constants.Limelight.*;
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.Robot.sShooter;
 
 public class LimelightHelper {
 

@@ -1,4 +1,4 @@
-package frc.robot.utils.regression.multivariate;
+package frc.robot.util.regression.multivariate;
 
 import java.util.LinkedHashMap;
 

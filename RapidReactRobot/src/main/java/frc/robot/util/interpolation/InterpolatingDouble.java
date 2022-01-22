@@ -1,4 +1,4 @@
-package frc.robot.utils.interpolation;
+package frc.robot.util.interpolation;
 
 /**
  * A Double that can be interpolated using the InterpolatingTreeMap.

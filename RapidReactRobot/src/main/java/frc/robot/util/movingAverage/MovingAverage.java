@@ -1,4 +1,4 @@
-package frc.robot.utils.movingAverage;
+package frc.robot.util.movingAverage;
 
 public interface MovingAverage {
 

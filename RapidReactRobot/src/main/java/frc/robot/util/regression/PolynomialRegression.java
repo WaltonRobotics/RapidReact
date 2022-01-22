@@ -1,6 +1,6 @@
-package frc.robot.utils.regression;
+package frc.robot.util.regression;
 
-import frc.robot.utils.DebuggingLog;
+import frc.robot.util.DebuggingLog;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.factory.LinearSolverFactory_DDRM;
 import org.ejml.dense.row.linsol.AdjustableLinearSolver_DDRM;
