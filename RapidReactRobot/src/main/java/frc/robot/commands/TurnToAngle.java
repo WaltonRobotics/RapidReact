@@ -45,11 +45,11 @@ public class TurnToAngle extends CommandBase {
     @Override
     public void execute(){
         double turnRate = -controller.calculate(getHeading(),mTargetHeading);
-        sDrivetrain.move(0,0,turnRate,true);
+        sDrivetrain.move(0,0,turnRate,false);
     }
     @Override
     public void end(boolean interrupted){
-        sDrivetrain.move(0,0,0,true);
+        sDrivetrain.move(0,0,0,false);
     }
     @Override
     public boolean isFinished() {

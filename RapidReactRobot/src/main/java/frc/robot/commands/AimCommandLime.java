@@ -33,26 +33,7 @@ public class AimCommandLime extends CommandBase {
             else if (tx < 1.0){
                 steering_adjust = kP*heading_error + min_command;
             }
-            sdrivetrain.move(0,0,steering_adjust,true);
+            sdrivetrain.move(0,0,steering_adjust,false);
         }
     }
-
-
-
-
-//    {
-//        float heading_error = -tx;
-//        float steering_adjust = 0.0f;
-//        if (tx > 1.0)
-//        {
-//            steering_adjust = Kp*heading_error - min_command;
-//        }
-//        else if (tx < 1.0)
-//        {
-//            steering_adjust = Kp*heading_error + min_command;
-//        }
-//        left_command += steering_adjust;
-//        right_command -= steering_adjust;
-//    }
-
 }
