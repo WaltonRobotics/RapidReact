@@ -19,6 +19,9 @@ import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.util.Gamepad;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.InputDevices.*;
@@ -36,6 +39,7 @@ public class RobotContainer {
   public static JoystickButton resetDrivetrainButton = new JoystickButton(leftJoystick, 1);
   public static final WaltRobot currentRobot;
   public static final Superstructure godSubsystem;
+  public static final Logger robotLogger = Logger.getLogger("frc.robot");
 
   static {
     currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),
@@ -43,12 +47,14 @@ public class RobotContainer {
 
     godSubsystem = new Superstructure();
 
-    CommandScheduler.getInstance().setDefaultCommand(godSubsystem, new SuperstructureCommand());
-    CommandScheduler.getInstance().setDefaultCommand(godSubsystem.getDrivetrain(), new DriveCommand());
+    robotLogger.setLevel(Level.FINEST);
   }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    CommandScheduler.getInstance().setDefaultCommand(godSubsystem, new SuperstructureCommand());
+    CommandScheduler.getInstance().setDefaultCommand(godSubsystem.getDrivetrain(), new DriveCommand());
+
     // Configure the button bindings
     configureButtonBindings();
   }
