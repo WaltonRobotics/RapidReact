@@ -56,12 +56,12 @@ public class LimelightHelper {
             mPnPData.rollDegreesMovingAverage.addData(camtran[5]);
         }
 
-        SmartDashboard.putNumber(kLimelightSolvePnPXInchesKey, camtran[0]);
-        SmartDashboard.putNumber(kLimelightSolvePnPYInchesKey, camtran[1]);
-        SmartDashboard.putNumber(kLimelightSolvePnPZInchesKey, camtran[2]);
-        SmartDashboard.putNumber(kLimelightSolvePnPPitchDegreesKey, camtran[3]);
-        SmartDashboard.putNumber(kLimelightSolvePnPYawDegreesKey, camtran[4]);
-        SmartDashboard.putNumber(kLimelightSolvePnPRollDegreesKey, camtran[5]);
+//        SmartDashboard.putNumber(kLimelightSolvePnPXInchesKey, camtran[0]);
+//        SmartDashboard.putNumber(kLimelightSolvePnPYInchesKey, camtran[1]);
+//        SmartDashboard.putNumber(kLimelightSolvePnPZInchesKey, camtran[2]);
+//        SmartDashboard.putNumber(kLimelightSolvePnPPitchDegreesKey, camtran[3]);
+//        SmartDashboard.putNumber(kLimelightSolvePnPYawDegreesKey, camtran[4]);
+//        SmartDashboard.putNumber(kLimelightSolvePnPRollDegreesKey, camtran[5]);
     }
 
     /**

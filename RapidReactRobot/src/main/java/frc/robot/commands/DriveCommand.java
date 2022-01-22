@@ -18,7 +18,7 @@ public class DriveCommand extends CommandBase {
     private static final double FORWARD_XPOSCALE = 0.6;
     private static final double STRAFE_XPOSCALE = 0.6;
     private static final double YAW_XPOSCALE = 0.75;
-
+    
 
     public DriveCommand() {
         addRequirements(drivetrain);

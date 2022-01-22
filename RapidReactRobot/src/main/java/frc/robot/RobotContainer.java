@@ -36,7 +36,8 @@ public class RobotContainer {
   public static Joystick leftJoystick = new Joystick(kLeftJoystickPort);
   public static Joystick rightJoystick = new Joystick(kRightJoystickPort);
   public static Gamepad gamepad = new Gamepad(kGamepadPort);
-  public static JoystickButton resetDrivetrainButton = new JoystickButton(leftJoystick, 1);
+  public static JoystickButton resetDrivetrainButton = new JoystickButton(leftJoystick, 2);
+  public static JoystickButton aimButton = new JoystickButton(leftJoystick,1);
   public static final WaltRobot currentRobot;
   public static final Superstructure godSubsystem;
   public static final Logger robotLogger = Logger.getLogger("frc.robot");
