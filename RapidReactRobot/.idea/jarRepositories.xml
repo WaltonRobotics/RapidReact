@@ -46,5 +46,10 @@
       <option name="name" value="WPI3f48eb8c-50fe-43a6-9cb7-44c86353c4cb_0Release" />
       <option name="url" value="https://maven.revrobotics.com/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPI13c4f4b5-a1c0-4670-8f8d-b7b03628c0d3_0Release" />
+      <option name="name" value="WPI13c4f4b5-a1c0-4670-8f8d-b7b03628c0d3_0Release" />
+      <option name="url" value="https://dl9vkdsodilqp.cloudfront.net/repo" />
+    </remote-repository>
   </component>
 </project>
