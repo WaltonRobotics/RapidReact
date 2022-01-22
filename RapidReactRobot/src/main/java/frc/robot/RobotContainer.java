@@ -6,18 +6,22 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Superstructure;
+import frc.robot.util.Gamepad;
 
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
+import static frc.robot.Constants.InputDevices.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,7 +30,10 @@ import static frc.robot.Constants.DioIDs.kRobotID2;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
+  public static Joystick leftJoystick = new Joystick(kLeftJoystickPort);
+  public static Joystick rightJoystick = new Joystick(kRightJoystickPort);
+  public static Gamepad gamepad = new Gamepad(kGamepadPort);
+  public static JoystickButton resetDrivetrainButton = new JoystickButton(leftJoystick, 1);
   public static final WaltRobot currentRobot;
   public static final Superstructure godSubsystem;
 
