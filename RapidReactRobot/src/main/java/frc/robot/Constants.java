@@ -14,10 +14,13 @@ package frc.robot;
  */
 public final class Constants {
 
-<<<<<<< Updated upstream
+    public static final class DioIDs {
 
+        public static final int kRobotID1 = 8;
+        public static final int kRobotID2 = 9;
 
-=======
+    }
+
     public static class Field{
         public static final int kTargetHeightInches = 104;
     }
