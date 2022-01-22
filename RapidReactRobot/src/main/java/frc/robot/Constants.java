@@ -14,6 +14,11 @@ package frc.robot;
  */
 public final class Constants {
 
+    public static final class DioIDs {
 
+        public static final int kRobotID1 = 8;
+        public static final int kRobotID2 = 9;
+
+    }
 
 }

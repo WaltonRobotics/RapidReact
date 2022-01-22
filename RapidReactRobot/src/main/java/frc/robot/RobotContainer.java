@@ -4,10 +4,20 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.SuperstructureCommand;
+import frc.robot.robots.RobotIdentifier;
+import frc.robot.robots.WaltRobot;
+import frc.robot.subsystems.Superstructure;
+
+import static frc.robot.Constants.DioIDs.kRobotID1;
+import static frc.robot.Constants.DioIDs.kRobotID2;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -16,6 +26,19 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+  public static final WaltRobot currentRobot;
+  public static final Superstructure godSubsystem;
+
+  static {
+    currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),
+            new DigitalInput(kRobotID2).get()).getSelectedRobot();
+
+    godSubsystem = new Superstructure();
+
+    CommandScheduler.getInstance().setDefaultCommand(godSubsystem, new SuperstructureCommand());
+    CommandScheduler.getInstance().setDefaultCommand(godSubsystem.getDrivetrain(), new DriveCommand());
+  }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-public class Shooter implements SubSubsystem {
+public class Intake implements SubSubsystem {
 
     @Override
     public void zeroSensors() {

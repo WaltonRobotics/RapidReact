@@ -1,7 +1,19 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+public class Climber implements SubSubsystem {
 
-public class Climber extends SubsystemBase {
+    @Override
+    public void zeroSensors() {
 
+    }
+
+    @Override
+    public void collectData() {
+
+    }
+
+    @Override
+    public void outputData() {
+
+    }
 }
