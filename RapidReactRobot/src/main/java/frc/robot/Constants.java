@@ -19,6 +19,21 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+    public static final class ControllerPorts {
+
+        public static final class GamepadsConfigPorts {
+            public static final int kDriveGamepadPort = 0;
+            public static final int kManipulationGamepadPort = 1;
+        }
+
+        public static final class JoysticksConfigPorts {
+            public static final int kLeftJoystickPort = 0;
+            public static final int kRightJoystickPort = 1;
+            public static final int kManipulationGamepadPort = 2;
+        }
+
+    }
+
     public static final class DioIDs {
 
         public static final int kRobotID1 = 8;
