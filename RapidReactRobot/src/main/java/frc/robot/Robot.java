@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimesliceRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.util.WaltTimesliceRobot;
 
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -18,7 +19,7 @@ import static frc.robot.RobotContainer.godSubsystem;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimesliceRobot {
+public class Robot extends WaltTimesliceRobot {
   private Command autonomousCommand;
 
   private RobotContainer robotContainer;
