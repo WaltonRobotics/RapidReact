@@ -81,7 +81,12 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     @Override
     public void outputData() {
         azimuthSparkMax.getPIDController().setReference(periodicIO.azimuthRelativeCountsDemand, CANSparkMax.ControlType.kSmartMotion);
-        driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand);
+
+        if (driveControlState == DriveControlState.OPEN_LOOP) {
+            driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand);
+        } else if (driveControlState == DriveControlState.VELOCITY) {
+            driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand);
+        }
     }
 
     @Override
