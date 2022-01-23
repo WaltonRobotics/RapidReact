@@ -5,8 +5,8 @@ import frc.robot.util.Gamepad;
 
 public class GamepadsConfig implements ControllerConfig {
 
-    private Gamepad driveGamepad = new Gamepad(Constants.ControllerPorts.GamepadsConfigPorts.kDriveGamepadPort);
-    private Gamepad manipulationGamepad = new Gamepad(Constants.ControllerPorts.GamepadsConfigPorts.kManipulationGamepadPort);
+    private final Gamepad driveGamepad = new Gamepad(Constants.ControllerPorts.GamepadsConfigPorts.kDriveGamepadPort);
+    private final Gamepad manipulationGamepad = new Gamepad(Constants.ControllerPorts.GamepadsConfigPorts.kManipulationGamepadPort);
 
     @Override
     public double getForward() {

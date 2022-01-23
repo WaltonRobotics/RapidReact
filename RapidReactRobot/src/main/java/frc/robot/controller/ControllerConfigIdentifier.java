@@ -4,19 +4,20 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class ControllerConfigIdentifier {
 
-    static Map<String[], ControllerConfig> configMap = new HashMap<>();
+    static Map<String[], Supplier<ControllerConfig>> configMap = new HashMap<>();
 
     static {
-        configMap.put(new String[]{"T.16000M", "T.16000M", "Logitech Dual Action"}, new JoysticksConfig());
-        configMap.put(new String[]{"Logitech Dual Action", "Logitech Dual Action"}, new GamepadsConfig());
+        configMap.put(new String[]{"Logitech Dual Action", "Logitech Dual Action"}, GamepadsConfig::new);
+        configMap.put(new String[]{"T.16000M", "T.16000M", "Logitech Dual Action"}, JoysticksConfig::new);
     }
 
     ControllerConfig getInferredControllerConfig() {
-        for(Map.Entry entry : configMap.entrySet() ){
-            String[] devices = (String[])entry.getKey();
+        for(Map.Entry<String[], Supplier<ControllerConfig>> entry : configMap.entrySet() ){
+            String[] devices = entry.getKey();
 
             boolean matches = true;
 
@@ -28,7 +29,8 @@ public class ControllerConfigIdentifier {
             }
 
             if(matches) {
-                return (ControllerConfig) entry.getValue();
+                Supplier<ControllerConfig> configSupplier = entry.getValue();
+                return configSupplier.get();
             }
         }
 
