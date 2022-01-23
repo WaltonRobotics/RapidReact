@@ -15,7 +15,7 @@ public class ControllerConfigIdentifier {
         configMap.put(new String[]{"T.16000M", "T.16000M", "Logitech Dual Action"}, JoysticksConfig::new);
     }
 
-    ControllerConfig getInferredControllerConfig() {
+    public static ControllerConfig getInferredControllerConfig() {
         for(Map.Entry<String[], Supplier<ControllerConfig>> entry : configMap.entrySet() ){
             String[] devices = entry.getKey();
 
