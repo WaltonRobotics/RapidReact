@@ -32,12 +32,12 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final double driveMaximumMetersPerSecond;
     private final Translation2d wheelLocationMeters;
 
-    private PeriodicIO periodicIO = new PeriodicIO();
+    private final PeriodicIO periodicIO = new PeriodicIO();
     private Rotation2d previousAngle = new Rotation2d();
 
     private DriveControlState driveControlState = DriveControlState.OPEN_LOOP;
 
-    public class PeriodicIO {
+    public static class PeriodicIO {
         // Outputs
         public double azimuthRelativeCountsDemand;
         public double driveDemand;
@@ -136,27 +136,24 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     public void storeAzimuthZeroReference() {
         int index = getWheelIndex();
         int position = getAzimuthAbsoluteEncoderCounts();
-        Preferences preferences = Preferences.getInstance();
         String key = String.format("SwerveDrive/wheel.%d", index);
-        preferences.putInt(key, position);
+        Preferences.setInt(key, position);
         robotLogger.log(Level.INFO, "azimuth {0}: saved zero = {1}", new Object[]{index, position});
     }
 
     @Override
     public void storeAzimuthZeroReference(int absoluteCounts) {
         int index = getWheelIndex();
-        Preferences preferences = Preferences.getInstance();
         String key = String.format("SwerveDrive/wheel.%d", index);
-        preferences.putInt(key, absoluteCounts);
+        Preferences.setInt(key, absoluteCounts);
         robotLogger.log(Level.INFO, "azimuth {0}: saved zero = {1}", new Object[]{index, absoluteCounts});
     }
 
     @Override
     public void loadAndSetAzimuthZeroReference() {
         int index = getWheelIndex();
-        Preferences preferences = Preferences.getInstance();
         String key = String.format("SwerveDrive/wheel.%d", index);
-        int reference = preferences.getInt(key, Integer.MIN_VALUE);
+        int reference = Preferences.getInt(key, Integer.MIN_VALUE);
         if (reference == Integer.MIN_VALUE) {
             robotLogger.log(Level.WARNING, "no saved azimuth zero reference for swerve module {0}", index);
             throw new IllegalStateException();
