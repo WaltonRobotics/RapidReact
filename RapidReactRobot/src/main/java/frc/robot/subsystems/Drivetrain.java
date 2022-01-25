@@ -213,25 +213,25 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         field.setRobotPose(getPoseMeters());
 //        LiveDashboardHelper.putRobotData(getPoseMeters());
 
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_FRONT_ABSOLUTE_POSITION, swerveModules[0].getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_FRONT_ABSOLUTE_POSITION, swerveModules[1].getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_REAR_ABSOLUTE_POSITION, swerveModules[2].getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_REAR_ABSOLUTE_POSITION, swerveModules[3].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainLeftFrontAbsolutePositionKey, swerveModules[0].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainRightFrontAbsolutePositionKey, swerveModules[1].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainLeftRearAbsolutePositionKey, swerveModules[2].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainRightRearAbsolutePositionKey, swerveModules[3].getAzimuthAbsoluteEncoderCounts());
 
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_FRONT_RELATIVE_POSITION, swerveModules[0].getAzimuthRelativeEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_FRONT_RELATIVE_POSITION, swerveModules[1].getAzimuthRelativeEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_REAR_RELATIVE_POSITION, swerveModules[2].getAzimuthRelativeEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_REAR_RELATIVE_POSITION, swerveModules[3].getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainLeftFrontRelativePositionKey, swerveModules[0].getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainRightFrontRelativePositionKey, swerveModules[1].getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainLeftRearRelativePositionKey, swerveModules[2].getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainRightRearRelativePositionKey, swerveModules[3].getAzimuthRelativeEncoderCounts());
 
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_FRONT_ANGLE_DEGREES, swerveModules[0].getAzimuthRotation2d().getDegrees());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_FRONT_ANGLE_DEGREES, swerveModules[1].getAzimuthRotation2d().getDegrees());
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_REAR_ANGLE_DEGREES, swerveModules[2].getAzimuthRotation2d().getDegrees());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_REAR_ANGLE_DEGREES, swerveModules[3].getAzimuthRotation2d().getDegrees());
+        SmartDashboard.putNumber(kDrivetrainLeftFrontAngleDegreesKey, swerveModules[0].getAzimuthRotation2d().getDegrees());
+        SmartDashboard.putNumber(kDrivetrainRightFrontAngleDegreesKey, swerveModules[1].getAzimuthRotation2d().getDegrees());
+        SmartDashboard.putNumber(kDrivetrainLeftRearAngleDegreesKey, swerveModules[2].getAzimuthRotation2d().getDegrees());
+        SmartDashboard.putNumber(kDrivetrainRightRearAngleDegreesKey, swerveModules[3].getAzimuthRotation2d().getDegrees());
 
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_FRONT_VELOCITY_ERROR, swerveModules[0].getDriveVelocityError());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_FRONT_VELOCITY_ERROR, swerveModules[1].getDriveVelocityError());
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_REAR_VELOCITY_ERROR, swerveModules[2].getDriveVelocityError());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_REAR_VELOCITY_ERROR, swerveModules[3].getDriveVelocityError());
+        SmartDashboard.putNumber(kDrivetrainLeftFrontVelocityErrorKey, swerveModules[0].getDriveVelocityError());
+        SmartDashboard.putNumber(kDrivetrainRightFrontVelocityErrorKey, swerveModules[1].getDriveVelocityError());
+        SmartDashboard.putNumber(kDrivetrainLeftRearVelocityErrorKey, swerveModules[2].getDriveVelocityError());
+        SmartDashboard.putNumber(kDrivetrainRightRearVelocityErrorKey, swerveModules[3].getDriveVelocityError());
     }
 
     /**
