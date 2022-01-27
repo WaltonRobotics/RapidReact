@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.SPI;
@@ -251,6 +252,13 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             double omegaRadiansPerSecond,
             boolean isFieldOriented) {
         swerveDrive.move(vxMetersPerSecond, vyMetersPerSecond, omegaRadiansPerSecond, isFieldOriented);
+    }
+
+    public void setModuleStates(SwerveModuleState state) {
+        for (SwerveModule module : getSwerveModules()) {
+            ((WaltSwerveModule)module).setDriveClosedLoopMetersPerSecond(state.speedMetersPerSecond);
+            ((WaltSwerveModule)module).setAzimuthRotation2d(state.angle);
+        }
     }
 
     public void setHeadingOffset(Rotation2d offsetRads) {

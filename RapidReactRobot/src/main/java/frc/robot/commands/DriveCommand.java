@@ -13,4 +13,9 @@ public class DriveCommand extends CommandBase {
         addRequirements(drivetrain);
     }
 
+    @Override
+    public void execute() {
+
+    }
+
 }

@@ -22,6 +22,13 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+    public static final class ContextFlags {
+
+        public static final boolean isInCompetition = false;
+        public static final boolean isInTuningMode = false;
+
+    }
+
     public static final class ControllerPorts {
 
         public static final class GamepadsConfigPorts {
@@ -150,6 +157,10 @@ public final class Constants {
         public static final String kDrivetrainSaveRightFrontZeroKey = "Drivetrain/Save Right Front Azimuth Zero";
         public static final String kDrivetrainSaveLeftRearZeroKey = "Drivetrain/Save Left Rear Azimuth Zero";
         public static final String kDrivetrainSaveRightRearZeroKey = "Drivetrain/Save Right Rear Azimuth Zero";
+
+        public static final String kDriverForwardScale = "Driver/Forward Scale";
+        public static final String kDriverStrafeScale = "Driver/Strafe Scale";
+        public static final String kDriverYawScale = "Driver/Yaw Scale";
 
     }
 
