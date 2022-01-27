@@ -2,57 +2,56 @@ package frc.robot.stateMachine;
 
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.utils.DebuggingLog;
 
 import java.util.logging.Level;
 
-import static frc.robot.utils.UtilMethods.joinStrings;
+import static frc.robot.RobotContainer.robotLogger;
+import static frc.robot.util.UtilMethods.joinStrings;
 
 public class StateMachine {
 
-    private final String mName;
-    private IState mCurrentState;
+    private final String name;
+    private IState currentState;
 
     public StateMachine(String name, IState initialState) {
-        mName = name;
+        this.name = name;
 
         if (initialState != null) {
-            mCurrentState = initialState;
+            currentState = initialState;
         } else {
             throw new IllegalArgumentException("Initial state must not be null!");
         }
 
-        mCurrentState.initialize();
+        currentState.initialize();
     }
 
     public void run() {
-        if (mCurrentState.getName() == null) {
-            DebuggingLog.getInstance().getLogger().log(Level.WARNING,
-                    mCurrentState.getName() + " state has a null name!");
+        if (currentState.getName() == null) {
+            robotLogger.log(Level.WARNING, currentState.getName() + " state has a null name!");
         } else {
-            SmartDashboard.putString(joinStrings(" ", mName, "Current State"), mCurrentState.getName());
+            SmartDashboard.putString(joinStrings(" ", name, "Current State"), currentState.getName());
         }
 
-        IState nextState = mCurrentState.execute();
+        IState nextState = currentState.execute();
 
         if (nextState != null) {
-            if (!nextState.equals(mCurrentState)) {
-                mCurrentState.finish();
-                mCurrentState = nextState;
-                mCurrentState.initialize();
+            if (!nextState.equals(currentState)) {
+                currentState.finish();
+                currentState = nextState;
+                currentState.initialize();
             }
         } else {
-            DebuggingLog.getInstance().getLogger().log(Level.WARNING, "State machine \"" + mName
-                    + "\" has effectively terminated due to a null state");
+            robotLogger.log(Level.WARNING,
+                    "State machine \"" + name + "\" has effectively terminated due to a null state");
         }
     }
 
     public IState getCurrentState() {
-        return mCurrentState;
+        return currentState;
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
 }
