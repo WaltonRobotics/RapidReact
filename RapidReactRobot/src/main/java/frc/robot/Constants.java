@@ -24,8 +24,8 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean isInCompetition = false;
-        public static final boolean isInTuningMode = false;
+        public static final boolean kIsInCompetition = false;
+        public static final boolean kIsInTuningMode = false;
 
     }
 

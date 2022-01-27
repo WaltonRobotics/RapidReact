@@ -15,17 +15,17 @@ public class GamepadsConfig implements ControllerConfig {
 
     @Override
     public double getForward() {
-        return 0;
+        return -driveGamepad.getLeftY();
     }
 
     @Override
     public double getStrafe() {
-        return 0;
+        return -driveGamepad.getLeftX();
     }
 
     @Override
     public double getYaw() {
-        return 0;
+        return -driveGamepad.getRightX();
     }
 
     @Override

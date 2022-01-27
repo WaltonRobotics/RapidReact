@@ -23,7 +23,7 @@ import frc.robot.subsystems.Superstructure;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static frc.robot.Constants.ContextFlags.isInTuningMode;
+import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
@@ -76,7 +76,7 @@ public class RobotContainer {
 
     SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
 
-    if (isInTuningMode) {
+    if (kIsInTuningMode) {
       SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
       SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);
       SmartDashboard.putNumber(kDrivetrainLeftRearZeroValueKey, 0.0);
