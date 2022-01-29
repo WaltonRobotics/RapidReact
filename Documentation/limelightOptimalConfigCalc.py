@@ -18,7 +18,7 @@ max_d = 192.4 + 16.285
 # Minimum mounting height to test
 min_h = 26
 # Maximum mounting height to test
-max_h = 60
+max_h = 35
 # Step size for range of heights
 h_step = 0.5
 
