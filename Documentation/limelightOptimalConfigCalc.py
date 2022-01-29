@@ -11,9 +11,9 @@ def inRange(x, lower, upper):
 vision_target_height = 101.625
 
 # Minimum expected shooting distance
-min_d = 42
+min_d = 42 + 16.285
 # Maximum expected shooting distance (inches)
-max_d = 192.4
+max_d = 192.4 + 16.285
 
 # Minimum mounting height to test
 min_h = 26
