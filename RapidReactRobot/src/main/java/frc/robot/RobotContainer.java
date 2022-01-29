@@ -16,6 +16,7 @@ import frc.robot.commands.SuperstructureCommand;
 import frc.robot.commands.auton.RotateModulesToAngle;
 import frc.robot.controller.ControllerConfig;
 import frc.robot.controller.GamepadsConfig;
+import frc.robot.controller.XboxConfig;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Superstructure;
@@ -47,7 +48,7 @@ public class RobotContainer {
 
     godSubsystem = new Superstructure();
 
-    controllerConfig = new GamepadsConfig();
+    controllerConfig = new XboxConfig();
 
     robotLogger.setLevel(Level.FINEST);
   }
