@@ -3,6 +3,7 @@ package frc.robot.controller;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.lib.strykeforce.thirdcoast.util.ExpoScale;
 import frc.robot.Constants;
+import frc.robot.util.EnhancedJoystickButton;
 import frc.robot.util.Gamepad;
 
 public class JoysticksConfig implements ControllerConfig {
@@ -43,6 +44,11 @@ public class JoysticksConfig implements ControllerConfig {
     @Override
     public ExpoScale getYawScale() {
         return yawScale;
+    }
+
+    @Override
+    public EnhancedJoystickButton getResetDrivetrainButton() {
+        return null;
     }
 
 }
