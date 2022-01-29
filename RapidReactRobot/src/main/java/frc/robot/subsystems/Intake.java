@@ -14,8 +14,6 @@ public class Intake implements SubSubsystem {
     private static final DoubleSolenoid intake2 =
             new DoubleSolenoid(PneumaticsModuleType.CTREPCM,3,4);
 
-    public Intake(){
-    }
 
     @Override
     public void zeroSensors() {
