@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
 import frc.robot.commands.auton.RotateModulesToAngle;
+import frc.robot.commands.auton.SwerveTrajectoryCommand;
 import frc.robot.controller.ControllerConfig;
 import frc.robot.controller.GamepadsConfig;
 import frc.robot.robots.RobotIdentifier;
@@ -27,6 +29,7 @@ import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.Paths.grabLowBlue1;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -110,6 +113,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new InstantCommand();
+    return new SequentialCommandGroup(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(grabLowBlue1.getInitialPose())),
+            new SwerveTrajectoryCommand(grabLowBlue1)
+            );
   }
 }
