@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 public class Intake implements SubSubsystem {
+
     //following hardware have dummy channels
     private static final Spark intakeController = new Spark(1);
     private static final DoubleSolenoid intake1 =
