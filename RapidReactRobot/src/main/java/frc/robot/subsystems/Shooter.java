@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Shooter implements SubSubsystem {
-    private final TalonFX FlywheelMaster = new TalonFX(1);
-    private final TalonFX FlywheelSlave = new TalonFX(2);
-    private final Solenoid AdjustableHoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 3);
+    private final TalonFX flywheelMaster = new TalonFX(1);
+    private final TalonFX flywheelSlave = new TalonFX(2);
+    private final Solenoid adjustableHoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 3);
 
     @Override
     public void zeroSensors() {
