@@ -114,6 +114,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return new SequentialCommandGroup(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(grabLowBlue1.getInitialPose())),
             new SwerveTrajectoryCommand(grabLowBlue1)
             );
