@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -285,16 +286,30 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     @Override
     public void collectData() {
+        double startTime = Timer.getFPGATimestamp();
+
         for (WaltSwerveModule module : swerveModules) {
             module.collectData();
         }
+
+        double endTime = Timer.getFPGATimestamp();
+        double deltaTime = endTime - startTime;
+
+        SmartDashboard.putNumber("Collect Data Time", deltaTime);
     }
 
     @Override
     public void outputData() {
+        double startTime = Timer.getFPGATimestamp();
+
         for (WaltSwerveModule module : swerveModules) {
             module.outputData();
         }
+
+        double endTime = Timer.getFPGATimestamp();
+        double deltaTime = endTime - startTime;
+
+        SmartDashboard.putNumber("Output Data Time", deltaTime);
     }
 
 }

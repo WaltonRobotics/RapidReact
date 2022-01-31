@@ -18,6 +18,7 @@ import frc.robot.commands.auton.RotateModulesToAngle;
 import frc.robot.commands.auton.SwerveTrajectoryCommand;
 import frc.robot.controller.ControllerConfig;
 import frc.robot.controller.GamepadsConfig;
+import frc.robot.controller.XboxConfig;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Superstructure;
@@ -50,7 +51,7 @@ public class RobotContainer {
 
     godSubsystem = new Superstructure();
 
-    controllerConfig = new GamepadsConfig();
+    controllerConfig = new XboxConfig();
 
     robotLogger.setLevel(Level.FINEST);
   }
@@ -72,7 +73,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    controllerConfig.getResetDrivetrainButton().whenPressed(new SequentialCommandGroup(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new InstantCommand(() -> System.out.println("Reset drivetrain"))
+    ));
+  }
 
   private void initShuffleboard() {
     SmartDashboard.putData(kDrivetrainRotateModulesToAngleKey, new RotateModulesToAngle());
