@@ -1,9 +1,12 @@
 package frc.robot.controller;
 
+import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.strykeforce.thirdcoast.util.ExpoScale;
 import frc.robot.Constants;
 import frc.robot.util.EnhancedJoystickButton;
 import frc.robot.util.Gamepad;
+
+import static frc.robot.util.Gamepad.Button.LEFT_BUMPER;
 
 public class GamepadsConfig implements ControllerConfig {
 
@@ -13,6 +16,8 @@ public class GamepadsConfig implements ControllerConfig {
     private final ExpoScale forwardScale = new ExpoScale(0.05, 0.6);
     private final ExpoScale strafeScale = new ExpoScale(0.05, 0.6);
     private final ExpoScale yawScale = new ExpoScale(0.01, 0.75);
+
+    private final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, LEFT_BUMPER.getIndex());
 
     @Override
     public double getForward() {
@@ -46,7 +51,7 @@ public class GamepadsConfig implements ControllerConfig {
 
     @Override
     public EnhancedJoystickButton getResetDrivetrainButton() {
-        return null;
+        return resetDrivetrainButton;
     }
 
 }

@@ -31,6 +31,7 @@ import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Paths.grabLowBlue1;
+import static frc.robot.Paths.sCurveForward;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -51,7 +52,7 @@ public class RobotContainer {
 
     godSubsystem = new Superstructure();
 
-    controllerConfig = new XboxConfig();
+    controllerConfig = new GamepadsConfig();
 
     robotLogger.setLevel(Level.FINEST);
   }
@@ -121,8 +122,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(grabLowBlue1.getInitialPose())),
-            new SwerveTrajectoryCommand(grabLowBlue1)
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(sCurveForward.getInitialPose())),
+            new SwerveTrajectoryCommand(sCurveForward)
             );
   }
 }
