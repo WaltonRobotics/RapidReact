@@ -79,6 +79,11 @@ public class RobotContainer {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new InstantCommand(() -> System.out.println("Reset drivetrain"))
     ));
+    controllerConfig.getIntakeButton().whenPressed(
+            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(SmartDashboard.getNumber("Intake voltage", 8))));
+    controllerConfig.getOuttakeButton().whenPressed(
+            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(-SmartDashboard.getNumber("Intake voltage", 8))));
+
   }
 
   private void initShuffleboard() {

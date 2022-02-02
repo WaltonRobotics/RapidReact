@@ -6,11 +6,17 @@ import frc.robot.Constants;
 import frc.robot.util.EnhancedJoystickButton;
 import frc.robot.util.Gamepad;
 
+import static frc.robot.util.Gamepad.Button.RIGHT_BUMPER;
+import static frc.robot.util.Gamepad.Button.RIGHT_TRIGGER;
+
 public class JoysticksConfig implements ControllerConfig {
 
     private Joystick leftJoystick = new Joystick(Constants.ControllerPorts.JoysticksConfigPorts.kLeftJoystickPort);
     private Joystick rightJoystick = new Joystick(Constants.ControllerPorts.JoysticksConfigPorts.kRightJoystickPort);
     private Gamepad manipulationGamepad = new Gamepad(Constants.ControllerPorts.JoysticksConfigPorts.kManipulationGamepadPort);
+
+    private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad,RIGHT_TRIGGER.getIndex());
+    private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad,RIGHT_BUMPER.getIndex());
 
     private final ExpoScale forwardScale = new ExpoScale(0.05, 0.6);
     private final ExpoScale strafeScale = new ExpoScale(0.05, 0.6);
@@ -49,6 +55,16 @@ public class JoysticksConfig implements ControllerConfig {
     @Override
     public EnhancedJoystickButton getResetDrivetrainButton() {
         return null;
+    }
+
+    @Override
+    public EnhancedJoystickButton getIntakeButton() {
+        return intakeButton;
+    }
+
+    @Override
+    public EnhancedJoystickButton getOuttakeButton() {
+        return outtakeButton;
     }
 
 }
