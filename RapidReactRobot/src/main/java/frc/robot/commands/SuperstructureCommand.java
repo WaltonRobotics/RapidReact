@@ -30,11 +30,9 @@ public class SuperstructureCommand extends CommandBase {
     public void execute() {
         if(controllerConfig.getIntakeButton().get()) {
             godSubsystem.getIntake().setVoltage(SmartDashboard.getNumber(kIntakeVoltage, 9.5));
-        }
-        else if(controllerConfig.getOuttakeButton().get()){
+        } else if(controllerConfig.getOuttakeButton().get()){
             godSubsystem.getIntake().setVoltage(-SmartDashboard.getNumber(kIntakeVoltage, 9.5));
-        }
-        else{
+        } else {
             godSubsystem.getIntake().setVoltage(0.0);
         }
     }
