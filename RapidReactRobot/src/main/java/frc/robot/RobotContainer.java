@@ -30,9 +30,6 @@ import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.Paths.grabLowBlue1;
-import static frc.robot.Paths.sCurveForward;
-
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
