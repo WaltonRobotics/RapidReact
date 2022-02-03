@@ -29,17 +29,17 @@ public class SuperstructureCommand extends CommandBase {
     @Override
     public void execute() {
         if(controllerConfig.getIntakeButton().get()) {
-            godSubsystem.getIntake().setVoltage(SmartDashboard.getNumber(kIntakeVoltage, 9.5));
+            intake.setVoltage(SmartDashboard.getNumber(kIntakeVoltage, 9.5));
         } else if(controllerConfig.getOuttakeButton().get()){
-            godSubsystem.getIntake().setVoltage(-SmartDashboard.getNumber(kIntakeVoltage, 9.5));
+            intake.setVoltage(-SmartDashboard.getNumber(kIntakeVoltage, 9.5));
         } else {
-            godSubsystem.getIntake().setVoltage(0.0);
+            intake.setVoltage(0.0);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        godSubsystem.getIntake().setVoltage(0);
+        intake.setVoltage(0);
     }
 
 }
