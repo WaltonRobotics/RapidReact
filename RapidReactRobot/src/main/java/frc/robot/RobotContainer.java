@@ -91,6 +91,8 @@ public class RobotContainer {
 
     SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
 
+    SmartDashboard.putNumber(kIntakeVoltage, 9.5);
+
     if (kIsInTuningMode) {
       SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
       SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);

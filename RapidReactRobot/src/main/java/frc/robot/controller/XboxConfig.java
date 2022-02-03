@@ -3,16 +3,19 @@ package frc.robot.controller;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.strykeforce.thirdcoast.util.ExpoScale;
 import frc.robot.util.EnhancedJoystickButton;
+import frc.robot.util.Gamepad;
 
+import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kDriveXboxControllerPort;
+import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kManipulationXboxControllerPort;
 import static frc.robot.util.Gamepad.Button.RIGHT_BUMPER;
 import static frc.robot.util.Gamepad.Button.RIGHT_TRIGGER;
 
 public class XboxConfig implements ControllerConfig{
-    public static XboxController gamepad = new XboxController(0);
-    public static XboxController manipulationGamepad = new XboxController(1);
+    public static XboxController gamepad = new XboxController(kDriveXboxControllerPort);
+    public static Gamepad manipulationGamepad = new Gamepad(kManipulationXboxControllerPort);
 
-    private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad,RIGHT_TRIGGER.getIndex());
-    private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad,RIGHT_BUMPER.getIndex());
+    private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_TRIGGER.getIndex());
+    private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_BUMPER.getIndex());
 
     private final ExpoScale forwardScale = new ExpoScale(0.1, 0.6);
     private final ExpoScale strafeScale = new ExpoScale(0.1, 0.6);

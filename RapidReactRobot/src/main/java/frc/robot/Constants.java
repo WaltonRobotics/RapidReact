@@ -42,6 +42,11 @@ public final class Constants {
             public static final int kManipulationGamepadPort = 2;
         }
 
+        public static final class XboxConfigPorts {
+            public static final int kDriveXboxControllerPort = 0;
+            public static final int kManipulationXboxControllerPort = 1;
+        }
+
     }
 
     public static final class DioIDs {
@@ -161,6 +166,8 @@ public final class Constants {
         public static final String kDriverForwardScale = "Driver/Forward Scale";
         public static final String kDriverStrafeScale = "Driver/Strafe Scale";
         public static final String kDriverYawScale = "Driver/Yaw Scale";
+
+        public static final String kIntakeVoltage = "Intake/Voltage";
 
     }
 
