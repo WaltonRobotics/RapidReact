@@ -8,16 +8,15 @@ import frc.robot.Paths;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
-    ROUTINE_ONE("Get off tarmac from GAMMA", new SequentialCommandGroup(
+    ROUTINE_ONE("Taxi from tarmac from gamma", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new SwerveTrajectoryCommand(Paths.Routine1.gammaMoveOffTarmac)
+            new SwerveTrajectoryCommand(Paths.RoutineOne.gammaMoveOffTarmac)
 
     )),
 
     ROUTINE_TWO("", new SequentialCommandGroup(
 
-    ))
-    ;
+    ));
 
     private final String mDescription;
     private final CommandBase mCommandGroup;

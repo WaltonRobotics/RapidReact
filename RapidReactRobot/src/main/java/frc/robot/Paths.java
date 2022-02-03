@@ -15,20 +15,20 @@ public class Paths {
     public static PathPlannerTrajectory sCurveForward =
             PathPlanner.loadPath("sCurveForward", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
 
-    /**
-     * Move approximately 5m diagonal off of tarmac
-     * start at gamme with shooter facing the hub
-     */
-    public static class Routine1{
+    public static class RoutineOne {
+
+        // Move approximately 5m diagonal off of tarmac
+        // start at gamma with shooter facing the hub
         public static PathPlannerTrajectory gammaMoveOffTarmac =
                 PathPlanner.loadPath("gammaMoveOffTarmac", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
-    }
-
-    public static class Routine2{
 
     }
 
-    public static class Routine3{
+    public static class RoutineTwo {
+
+    }
+
+    public static class RoutineThree {
 
     }
 }
