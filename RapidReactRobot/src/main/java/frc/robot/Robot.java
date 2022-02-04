@@ -26,7 +26,7 @@ public class Robot extends WaltTimesliceRobot {
   private RobotContainer robotContainer;
 
   public Robot() {
-    super(0.002, 0.005);
+    super(0.002, 0.01);
   }
 
   /**
@@ -42,7 +42,7 @@ public class Robot extends WaltTimesliceRobot {
     // Schedule low-level periodic input and output methods for each subsystem
     // This is done to reduce CAN bus utilization
     schedule(godSubsystem.getDrivetrain()::collectData, 0.0003);
-    schedule(godSubsystem.getDrivetrain()::outputData, 0.0006);
+    schedule(godSubsystem.getDrivetrain()::outputData, 0.0003);
     schedule(godSubsystem.getIntake()::collectData, 0.0003);
     schedule(godSubsystem.getIntake()::outputData, 0.0006);
     schedule(godSubsystem.getConveyor()::collectData, 0.0003);

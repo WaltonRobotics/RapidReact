@@ -92,6 +92,7 @@ public class RobotContainer {
     SmartDashboard.putNumber(kIntakeVoltage, 9.5);
 
     //auton chooser
+    autonChooser = new SendableChooser<>();
     Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
     autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
     SmartDashboard.putData("Auton Selector", autonChooser);

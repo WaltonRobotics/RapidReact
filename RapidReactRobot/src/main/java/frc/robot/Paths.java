@@ -34,15 +34,15 @@ public class Paths {
         public static PathPlannerTrajectory alphaPickUpA =
                 PathPlanner.loadPath("alphaPickUpA", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
         public static PathPlannerTrajectory ballAtoBallB=
-                PathPlanner.loadPath("ballA_to_ballB", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+                PathPlanner.loadPath("ballAtoballB", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
         public static PathPlannerTrajectory ballBtoBallG=
-                PathPlanner.loadPath("ballB_to_ballG", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+                PathPlanner.loadPath("ballBtoballG", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
     }
 
     public static class RoutineSix{
         public static PathPlannerTrajectory gammaPickUpC =
-                PathPlanner.loadPath("gammePickUpC", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+                PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
         public static PathPlannerTrajectory ballCtoBallG =
-                PathPlanner.loadPath("ballC_to_ballG", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+                PathPlanner.loadPath("ballCtoballG", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
     }
 }
