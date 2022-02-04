@@ -54,27 +54,15 @@ public class Robot extends WaltTimesliceRobot {
     // Schedule low-level periodic input and output methods for each subsystem
     // This is done to reduce CAN bus utilization
     schedule(godSubsystem.getDrivetrain()::collectData, 0.0003);
-    schedule(godSubsystem.getDrivetrain()::outputData, 0.0003);
+    schedule(godSubsystem.getDrivetrain()::outputData, 0.0006);
     schedule(godSubsystem.getIntake()::collectData, 0.0003);
-    schedule(godSubsystem.getIntake()::outputData, 0.0003);
+    schedule(godSubsystem.getIntake()::outputData, 0.0006);
     schedule(godSubsystem.getConveyor()::collectData, 0.0003);
-    schedule(godSubsystem.getConveyor()::outputData, 0.0003);
+    schedule(godSubsystem.getConveyor()::outputData, 0.0006);
     schedule(godSubsystem.getShooter()::collectData, 0.0003);
-    schedule(godSubsystem.getShooter()::outputData, 0.0003);
+    schedule(godSubsystem.getShooter()::outputData, 0.0006);
     schedule(godSubsystem.getClimber()::collectData, 0.0003);
-    schedule(godSubsystem.getClimber()::outputData, 0.0003);
-    CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
-    Trajectory trajectory =
-            TrajectoryGenerator.generateTrajectory(
-                    new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-                    List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-                    new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
-                    new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
-    drivetrain.getField();
-    SmartDashboard.putData(drivetrain.getField());
-    drivetrain.getField().getObject("traj").setTrajectory(trajectory);
-    drivetrain.getField().getRobotPose().getTranslation();
-    drivetrain.getField().getRobotPose().getRotation();
+    schedule(godSubsystem.getClimber()::outputData, 0.0006);
   }
 
   /**
