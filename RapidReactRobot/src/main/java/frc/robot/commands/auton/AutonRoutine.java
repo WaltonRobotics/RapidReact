@@ -24,13 +24,17 @@ public enum AutonRoutine {
     ROUTINE_TWO("", new SequentialCommandGroup(
     )),
 
-    ROUTINE_THREE("Start from alpha, pick up ball A, shoot 2 balls", new SequentialCommandGroup(
+    ROUTINE_THREE("Start from alpha, shoot, pick up ball A, pick shoot 2 balls", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose())),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //SHOOT 2 Balls
+    )),
+
+    ROUTINE_FIVE_B("Start from alpha, shoot 1, pick up ball A, pick up ball B, shoot", new SequentialCommandGroup(
+
     ))
 
     ;
