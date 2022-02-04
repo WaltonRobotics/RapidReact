@@ -32,7 +32,7 @@ import static frc.robot.RobotContainer.godSubsystem;
  * project.
  */
 public class Robot extends WaltTimesliceRobot {
-  public static Drivetrain drivetrain = new Drivetrain();;
+
   private Command autonomousCommand;
 
   private RobotContainer robotContainer;

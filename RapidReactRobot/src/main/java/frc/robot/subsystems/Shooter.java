@@ -4,15 +4,19 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Shooter implements SubSubsystem {
-    private final TalonFX flywheelMaster = new TalonFX(1);
-    private final TalonFX flywheelSlave = new TalonFX(2);
-    private final Solenoid adjustableHoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 3);
+
+    private final TalonFX flywheelMasterController = new TalonFX(1);
+    private final TalonFX flywheelSlaveController = new TalonFX(2);
+
+    private final Servo leftAdjustableHoodServo = new Servo(0);
+    private final Servo rightAdjustableHoodServo = new Servo(1);
 
     @Override
     public void zeroSensors() {

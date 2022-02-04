@@ -26,7 +26,7 @@ import static frc.robot.Constants.SwerveDriveConfig.*;
 
 public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
-    private Field2d field = new Field2d();
+    private final Field2d field = new Field2d();
 
     private final SwerveDrive swerveDrive;
     private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
