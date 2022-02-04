@@ -3,6 +3,7 @@ package frc.robot;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.Superstructure;
 
 public class Paths {
 

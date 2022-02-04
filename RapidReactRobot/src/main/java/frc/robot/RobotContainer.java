@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
+import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.RotateModulesToAngle;
 import frc.robot.commands.auton.SwerveTrajectoryCommand;
 import frc.robot.controller.ControllerConfig;
@@ -23,6 +25,7 @@ import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Superstructure;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,6 +33,8 @@ import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.commands.auton.AutonRoutine.DO_NOTHING;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -42,6 +47,7 @@ public class RobotContainer {
   public static final Superstructure godSubsystem;
   public static final ControllerConfig controllerConfig;
   public static final Logger robotLogger = Logger.getLogger("frc.robot");
+  public static SendableChooser<AutonRoutine> autonChooser;
 
   static {
     currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),
@@ -85,6 +91,11 @@ public class RobotContainer {
 
     SmartDashboard.putNumber(kIntakeVoltage, 9.5);
 
+    //auton chooser
+    Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
+    autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
+    SmartDashboard.putData("Auton Selector", autonChooser);
+
     if (kIsInTuningMode) {
       SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
       SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);
@@ -119,10 +130,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new SequentialCommandGroup(
-            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()));
-//            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(sCurveForward.getInitialPose())),
-//            new SwerveTrajectoryCommand(sCurveForward)
-//            );
+    return autonChooser.getSelected().getCommandGroup();
   }
 }

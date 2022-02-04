@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Paths;
+import frc.robot.subsystems.Drivetrain;
 
 import static frc.robot.Paths.RoutineOne.gammaMoveOffTarmac;
 import static frc.robot.Paths.RoutineThree.alphaPickUpA;
@@ -11,8 +12,12 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
 
+    DO_NOTHING("Doing Nothing", new SequentialCommandGroup(
+    )),
+
     ROUTINE_ONE("Taxi from tarmac from gamma", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(gammaMoveOffTarmac.getInitialPose())),
             new SwerveTrajectoryCommand(Paths.RoutineOne.gammaMoveOffTarmac)
     )),
 
@@ -20,7 +25,7 @@ public enum AutonRoutine {
     )),
 
     ROUTINE_THREE("Start from alpha, pick up ball A, shoot 2 balls", new SequentialCommandGroup(
-            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),   //Do I need to zero intake sensors?
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose())),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
@@ -30,24 +35,24 @@ public enum AutonRoutine {
 
     ;
 
-    private final String mDescription;
-    private final CommandBase mCommandGroup;
+    private final String description;
+    private final CommandBase commandGroup;
 
     AutonRoutine(String description, CommandBase commandGroup) {
-        this.mDescription = description;
-        this.mCommandGroup = commandGroup;
+        this.description = description;
+        this.commandGroup = commandGroup;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public CommandBase getCommandGroup() {
-        return mCommandGroup;
+        return commandGroup;
     }
 
     @Override
     public String toString() {
-        return name() + ": " + mDescription;
+        return name() + ": " + description;
     }
 }
