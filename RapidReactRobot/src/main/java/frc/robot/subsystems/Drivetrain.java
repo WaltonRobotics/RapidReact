@@ -256,8 +256,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     public void setModuleStates(SwerveModuleState state) {
         for (SwerveModule module : getSwerveModules()) {
-            ((WaltSwerveModule)module).setDriveClosedLoopMetersPerSecond(state.speedMetersPerSecond);
-            ((WaltSwerveModule)module).setAzimuthRotation2d(state.angle);
+            ((WaltSwerveModule) module).setDriveClosedLoopMetersPerSecond(state.speedMetersPerSecond);
+            ((WaltSwerveModule) module).setAzimuthRotation2d(state.angle);
         }
     }
 

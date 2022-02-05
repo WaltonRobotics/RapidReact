@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -15,6 +12,8 @@ public class Intake implements SubSubsystem {
     private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
     private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
 
+    private final PeriodicIO periodicIO = new PeriodicIO();
+    private IntakeControlState intakeControlState;
 
     @Override
     public void zeroSensors() {
@@ -29,6 +28,19 @@ public class Intake implements SubSubsystem {
     @Override
     public void outputData() {
 
+    }
+
+    public enum IntakeControlState {
+        VOLTAGE, OPEN_LOOP, DISABLED
+    }
+
+    public static class PeriodicIO {
+        // Outputs
+        public double leftIntakeDemand;
+        public double rightIntakeDemand;
+
+        public boolean leftIntakeDeployState;
+        public boolean rightIntakeDeployState;
     }
 
 }

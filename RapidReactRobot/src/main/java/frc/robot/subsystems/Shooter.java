@@ -1,13 +1,8 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Shooter implements SubSubsystem {
@@ -17,6 +12,9 @@ public class Shooter implements SubSubsystem {
 
     private final Servo leftAdjustableHoodServo = new Servo(0);
     private final Servo rightAdjustableHoodServo = new Servo(1);
+
+    private final PeriodicIO periodicIO = new PeriodicIO();
+    private ShooterControlState shooterControlState;
 
     @Override
     public void zeroSensors() {
@@ -31,6 +29,20 @@ public class Shooter implements SubSubsystem {
     @Override
     public void outputData() {
 
+    }
+
+    public enum ShooterControlState {
+        VELOCITY, OPEN_LOOP, DISABLED
+    }
+
+    public static class PeriodicIO {
+        // Outputs
+        public double flywheelDemand;
+        public double leftAdjustableHoodDutyCycleDemand;
+        public double rightAdjustableHoodDutyCycleDemand;
+
+        // Inputs
+        public double flywheelVelocityNU;
     }
 
 }

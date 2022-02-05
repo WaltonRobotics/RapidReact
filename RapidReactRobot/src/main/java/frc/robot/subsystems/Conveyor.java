@@ -7,6 +7,9 @@ public class Conveyor implements SubSubsystem {
     private final Spark transportController = new Spark(1);
     private final Spark feedController = new Spark(2);
 
+    private final PeriodicIO periodicIO = new PeriodicIO();
+    private ConveyorControlState conveyorControlState;
+
     public Conveyor() {
 
     }
@@ -24,6 +27,16 @@ public class Conveyor implements SubSubsystem {
     @Override
     public void outputData() {
 
+    }
+
+    public enum ConveyorControlState {
+        VOLTAGE, OPEN_LOOP, DISABLED
+    }
+
+    public static class PeriodicIO {
+        // Outputs
+        public double transportDemand;
+        public double feedDemand;
     }
 
 }

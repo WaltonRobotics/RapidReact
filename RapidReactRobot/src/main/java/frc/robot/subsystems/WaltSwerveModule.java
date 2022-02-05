@@ -37,21 +37,6 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     private DriveControlState driveControlState = DriveControlState.OPEN_LOOP;
 
-    public static class PeriodicIO {
-        // Outputs
-        public double azimuthRelativeCountsDemand;
-        public double driveDemand;
-
-        // Inputs
-        public double azimuthRelativeCounts;
-        public double driveVelocityNU;
-        public double closedLoopErrorNU;
-    }
-
-    private enum DriveControlState {
-        OPEN_LOOP, VELOCITY
-    }
-
     public WaltSwerveModule(Builder builder) {
         azimuthSparkMax = builder.azimuthSparkMax;
         driveTalon = builder.driveTalon;
@@ -143,7 +128,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         int position = getAzimuthAbsoluteEncoderCounts();
         Preferences preferences = Preferences.getInstance();
         String key = String.format("SwerveDrive/wheel.%d", index);
-        preferences.putInt(key, position);
+        Preferences.putInt(key, position);
         robotLogger.log(Level.INFO, "azimuth {0}: saved zero = {1}", new Object[]{index, position});
     }
 
@@ -152,7 +137,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         int index = getWheelIndex();
         Preferences preferences = Preferences.getInstance();
         String key = String.format("SwerveDrive/wheel.%d", index);
-        preferences.putInt(key, absoluteCounts);
+        Preferences.putInt(key, absoluteCounts);
         robotLogger.log(Level.INFO, "azimuth {0}: saved zero = {1}", new Object[]{index, absoluteCounts});
     }
 
@@ -161,7 +146,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         int index = getWheelIndex();
         Preferences preferences = Preferences.getInstance();
         String key = String.format("SwerveDrive/wheel.%d", index);
-        int reference = preferences.getInt(key, Integer.MIN_VALUE);
+        int reference = Preferences.getInt(key, Integer.MIN_VALUE);
         if (reference == Integer.MIN_VALUE) {
             robotLogger.log(Level.WARNING, "no saved azimuth zero reference for swerve module {0}", index);
             throw new IllegalStateException();
@@ -210,7 +195,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             robotLogger.log(Level.SEVERE, "Absolute encoder data not valid!");
         }
 
-        int position = (int)(Math.round(output * 4098.0) - 1);
+        int position = (int) (Math.round(output * 4098.0) - 1);
 
         if (position < 0) {
             position = 0;
@@ -248,7 +233,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     private void setDriveOpenLoopMetersPerSecond(double metersPerSecond) {
         if (driveControlState != DriveControlState.OPEN_LOOP) {
-            robotLogger.log(Level.FINEST, "Switching swerve module index {0} to open loop", new Object[]{ getWheelIndex() });
+            robotLogger.log(Level.FINEST, "Switching swerve module index {0} to open loop", new Object[]{getWheelIndex()});
             driveControlState = DriveControlState.OPEN_LOOP;
         }
 
@@ -257,7 +242,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     public void setDriveClosedLoopMetersPerSecond(double metersPerSecond) {
         if (driveControlState != DriveControlState.VELOCITY) {
-            robotLogger.log(Level.FINEST, "Switching swerve module index {0} to velocity", new Object[]{ getWheelIndex() });
+            robotLogger.log(Level.FINEST, "Switching swerve module index {0} to velocity", new Object[]{getWheelIndex()});
             driveControlState = DriveControlState.VELOCITY;
         }
 
@@ -286,6 +271,21 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return "TalonSwerveModule{" + getWheelIndex() + '}';
     }
 
+    private enum DriveControlState {
+        OPEN_LOOP, VELOCITY
+    }
+
+    public static class PeriodicIO {
+        // Outputs
+        public double azimuthRelativeCountsDemand;
+        public double driveDemand;
+
+        // Inputs
+        public double azimuthRelativeCounts;
+        public double driveVelocityNU;
+        public double closedLoopErrorNU;
+    }
+
     public static class Builder {
 
         public static final int kDefaultTalonSRXCountsPerRev = 4096;
@@ -301,7 +301,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         private double driveMaximumMetersPerSecond;
         private Translation2d wheelLocationMeters;
 
-        public Builder() {}
+        public Builder() {
+        }
 
         public Builder azimuthSparkMax(CANSparkMax azimuthSparkMax) {
             this.azimuthSparkMax = azimuthSparkMax;
