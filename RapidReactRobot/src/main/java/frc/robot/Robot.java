@@ -6,12 +6,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.TimesliceRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.util.WaltTimesliceRobot;
 
+
 import static frc.robot.RobotContainer.godSubsystem;
+import static frc.robot.vision.ColorSensor.detectedColor;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,7 +24,6 @@ import static frc.robot.RobotContainer.godSubsystem;
  */
 public class Robot extends WaltTimesliceRobot {
   private Command autonomousCommand;
-
   private RobotContainer robotContainer;
 
   public Robot() {
@@ -66,6 +68,9 @@ public class Robot extends WaltTimesliceRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    SmartDashboard.putNumber("Green", detectedColor.green);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

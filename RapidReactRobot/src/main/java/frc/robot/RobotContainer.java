@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -27,6 +29,10 @@ import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.vision.ColorSensor.detectedColor;
+
+import frc.robot.vision.ColorSensor;
+import frc.robot.vision.ColorSensor.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -50,6 +56,8 @@ public class RobotContainer {
     controllerConfig = new GamepadsConfig();
 
     robotLogger.setLevel(Level.FINEST);
+
+    //colorSensor = new ColorSensorV3(i2cPort);
   }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -101,6 +109,8 @@ public class RobotContainer {
       SmartDashboard.putData(kDriverForwardScale, controllerConfig.getForwardScale());
       SmartDashboard.putData(kDriverStrafeScale, controllerConfig.getStrafeScale());
       SmartDashboard.putData(kDriverYawScale, controllerConfig.getYawScale());
+
+
     }
   }
 
