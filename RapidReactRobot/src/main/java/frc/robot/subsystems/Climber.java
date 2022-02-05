@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 
+import static frc.robot.Constants.PIDSlots.kClimberPivotAuxiliaryAbsoluteSlot;
+import static frc.robot.Constants.PIDSlots.kClimberPivotPrimaryIntegratedSlot;
+
 public class Climber implements SubSubsystem {
 
     private final DigitalInput leftExtensionLowerLimit = new DigitalInput(0);
@@ -23,17 +26,36 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void zeroSensors() {
-
+        extensionController.setSelectedSensorPosition(0.0);
     }
 
     @Override
     public void collectData() {
+        periodicIO.isLeftExtensionLowerLimitClosed = leftExtensionLowerLimit.get();
+        periodicIO.isRightExtensionLowerLimitClosed = rightExtensionLowerLimit.get();
 
+        periodicIO.pivotAbsoluteEncoderPosition = pivotController.getSelectedSensorPosition(kClimberPivotAuxiliaryAbsoluteSlot);
+        periodicIO.pivotIntegratedEncoderPosition = pivotController.getSelectedSensorPosition(kClimberPivotPrimaryIntegratedSlot);
+
+        periodicIO.extensionIntegratedEncoderPosition = extensionController.getSelectedSensorPosition();
     }
 
     @Override
     public void outputData() {
+        switch (climberControlState) {
+            case ZEROING:
+                break;
+            case AUTO:
+                break;
+            case OPEN_LOOP:
+                break;
+            case DISABLED:
+                break;
+        }
 
+        leftClimberLock.set(periodicIO.leftClimberLockStateDemand);
+        rightClimberLock.set(periodicIO.rightClimberLockStateDemand);
+        climberDiscBrake.set(periodicIO.climberDiscBrakeStateDemand ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
 
     public enum ClimberControlState {
