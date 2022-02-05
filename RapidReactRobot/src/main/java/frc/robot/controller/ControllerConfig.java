@@ -1,6 +1,7 @@
 package frc.robot.controller;
 
-import frc.robot.util.Gamepad;
+import frc.lib.strykeforce.thirdcoast.util.ExpoScale;
+import frc.robot.util.EnhancedJoystickButton;
 
 public interface ControllerConfig {
 
@@ -8,6 +9,12 @@ public interface ControllerConfig {
     double getStrafe();
     double getYaw();
 
-    Gamepad getManipulatorGamepad();
+    ExpoScale getForwardScale();
+    ExpoScale getStrafeScale();
+    ExpoScale getYawScale();
+
+    EnhancedJoystickButton getResetDrivetrainButton();
+    EnhancedJoystickButton getIntakeButton();
+    EnhancedJoystickButton getOuttakeButton();
 
 }

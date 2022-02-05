@@ -11,9 +11,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,7 +44,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveModules = new WaltSwerveModule[4];
         Translation2d[] wheelLocations = getWheelLocationMeters();
 
-        boolean[] inversions = {true, true, true, false};
+        boolean[] inversions = {false, true, true, false};
 
         for (int i = 0; i < 4; i++) {
             var azimuthSparkMax = new CANSparkMax(i + 1, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -213,25 +215,25 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         field.setRobotPose(getPoseMeters());
 //        LiveDashboardHelper.putRobotData(getPoseMeters());
 
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_FRONT_ABSOLUTE_POSITION, swerveModules[0].getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_FRONT_ABSOLUTE_POSITION, swerveModules[1].getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_REAR_ABSOLUTE_POSITION, swerveModules[2].getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_REAR_ABSOLUTE_POSITION, swerveModules[3].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainLeftFrontAbsolutePositionKey, swerveModules[0].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainRightFrontAbsolutePositionKey, swerveModules[1].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainLeftRearAbsolutePositionKey, swerveModules[2].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainRightRearAbsolutePositionKey, swerveModules[3].getAzimuthAbsoluteEncoderCounts());
 
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_FRONT_RELATIVE_POSITION, swerveModules[0].getAzimuthRelativeEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_FRONT_RELATIVE_POSITION, swerveModules[1].getAzimuthRelativeEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_REAR_RELATIVE_POSITION, swerveModules[2].getAzimuthRelativeEncoderCounts());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_REAR_RELATIVE_POSITION, swerveModules[3].getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainLeftFrontRelativePositionKey, swerveModules[0].getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainRightFrontRelativePositionKey, swerveModules[1].getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainLeftRearRelativePositionKey, swerveModules[2].getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber(kDrivetrainRightRearRelativePositionKey, swerveModules[3].getAzimuthRelativeEncoderCounts());
 
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_FRONT_ANGLE_DEGREES, swerveModules[0].getAzimuthRotation2d().getDegrees());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_FRONT_ANGLE_DEGREES, swerveModules[1].getAzimuthRotation2d().getDegrees());
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_REAR_ANGLE_DEGREES, swerveModules[2].getAzimuthRotation2d().getDegrees());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_REAR_ANGLE_DEGREES, swerveModules[3].getAzimuthRotation2d().getDegrees());
+        SmartDashboard.putNumber(kDrivetrainLeftFrontAngleDegreesKey, swerveModules[0].getAzimuthRotation2d().getDegrees());
+        SmartDashboard.putNumber(kDrivetrainRightFrontAngleDegreesKey, swerveModules[1].getAzimuthRotation2d().getDegrees());
+        SmartDashboard.putNumber(kDrivetrainLeftRearAngleDegreesKey, swerveModules[2].getAzimuthRotation2d().getDegrees());
+        SmartDashboard.putNumber(kDrivetrainRightRearAngleDegreesKey, swerveModules[3].getAzimuthRotation2d().getDegrees());
 
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_FRONT_VELOCITY_ERROR, swerveModules[0].getDriveVelocityError());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_FRONT_VELOCITY_ERROR, swerveModules[1].getDriveVelocityError());
-        SmartDashboard.putNumber(DRIVETRAIN_LEFT_REAR_VELOCITY_ERROR, swerveModules[2].getDriveVelocityError());
-        SmartDashboard.putNumber(DRIVETRAIN_RIGHT_REAR_VELOCITY_ERROR, swerveModules[3].getDriveVelocityError());
+        SmartDashboard.putNumber(kDrivetrainLeftFrontVelocityErrorKey, swerveModules[0].getDriveVelocityError());
+        SmartDashboard.putNumber(kDrivetrainRightFrontVelocityErrorKey, swerveModules[1].getDriveVelocityError());
+        SmartDashboard.putNumber(kDrivetrainLeftRearVelocityErrorKey, swerveModules[2].getDriveVelocityError());
+        SmartDashboard.putNumber(kDrivetrainRightRearVelocityErrorKey, swerveModules[3].getDriveVelocityError());
     }
 
     /**
@@ -251,6 +253,13 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             double omegaRadiansPerSecond,
             boolean isFieldOriented) {
         swerveDrive.move(vxMetersPerSecond, vyMetersPerSecond, omegaRadiansPerSecond, isFieldOriented);
+    }
+
+    public void setModuleStates(SwerveModuleState state) {
+        for (SwerveModule module : getSwerveModules()) {
+            ((WaltSwerveModule)module).setDriveClosedLoopMetersPerSecond(state.speedMetersPerSecond);
+            ((WaltSwerveModule)module).setAzimuthRotation2d(state.angle);
+        }
     }
 
     public void setHeadingOffset(Rotation2d offsetRads) {
@@ -277,16 +286,30 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     @Override
     public void collectData() {
+        double startTime = Timer.getFPGATimestamp();
+
         for (WaltSwerveModule module : swerveModules) {
             module.collectData();
         }
+
+        double endTime = Timer.getFPGATimestamp();
+        double deltaTime = endTime - startTime;
+
+        SmartDashboard.putNumber("Collect Data Time", deltaTime);
     }
 
     @Override
     public void outputData() {
+        double startTime = Timer.getFPGATimestamp();
+
         for (WaltSwerveModule module : swerveModules) {
             module.outputData();
         }
+
+        double endTime = Timer.getFPGATimestamp();
+        double deltaTime = endTime - startTime;
+
+        SmartDashboard.putNumber("Output Data Time", deltaTime);
     }
 
     public double getAngularVelocityDegreesPerSec(){
