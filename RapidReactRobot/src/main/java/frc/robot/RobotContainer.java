@@ -29,7 +29,6 @@ import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.vision.ColorSensor.detectedColor;
 
 import frc.robot.vision.ColorSensor;
 import frc.robot.vision.ColorSensor.*;

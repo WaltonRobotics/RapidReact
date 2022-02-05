@@ -7,14 +7,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.TimesliceRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.util.WaltTimesliceRobot;
+import frc.robot.vision.ColorSensor;
 
 
 import static frc.robot.RobotContainer.godSubsystem;
-import static frc.robot.vision.ColorSensor.detectedColor;
+import static frc.robot.vision.ColorSensor.colorSensor;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -68,6 +70,7 @@ public class Robot extends WaltTimesliceRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    Color detectedColor = colorSensor.getColor();
     SmartDashboard.putNumber("Red", detectedColor.red);
     SmartDashboard.putNumber("Green", detectedColor.green);
     SmartDashboard.putNumber("Blue", detectedColor.blue);

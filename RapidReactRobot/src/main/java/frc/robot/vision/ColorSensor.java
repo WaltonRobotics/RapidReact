@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class ColorSensor {
     private static final I2C.Port i2cPort = I2C.Port.kOnboard;
-    private static final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
-    public static Color detectedColor = colorSensor.getColor();
+    public static final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
+
 
    // private static final ColorMatch colorMatcher = new ColorMatch(); //used to register and detect known colors
 
