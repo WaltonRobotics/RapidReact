@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.util.WaltTimesliceRobot;
-import frc.robot.Paths.*;
 
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -26,7 +25,7 @@ public class Robot extends WaltTimesliceRobot {
   private RobotContainer robotContainer;
 
   public Robot() {
-    super(0.002, 0.01);
+    super(0.002, 0.007);
   }
 
   /**
@@ -42,7 +41,7 @@ public class Robot extends WaltTimesliceRobot {
     // Schedule low-level periodic input and output methods for each subsystem
     // This is done to reduce CAN bus utilization
     schedule(godSubsystem.getDrivetrain()::collectData, 0.0003);
-    schedule(godSubsystem.getDrivetrain()::outputData, 0.0003);
+    schedule(godSubsystem.getDrivetrain()::outputData, 0.0006);
     schedule(godSubsystem.getIntake()::collectData, 0.0003);
     schedule(godSubsystem.getIntake()::outputData, 0.0006);
     schedule(godSubsystem.getConveyor()::collectData, 0.0003);
