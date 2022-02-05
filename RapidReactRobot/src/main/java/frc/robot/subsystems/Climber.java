@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
 import static frc.robot.Constants.PIDSlots.kClimberPivotAuxiliaryAbsoluteSlot;
 import static frc.robot.Constants.PIDSlots.kClimberPivotPrimaryIntegratedSlot;
 
@@ -55,7 +57,7 @@ public class Climber implements SubSubsystem {
 
         leftClimberLock.set(periodicIO.leftClimberLockStateDemand);
         rightClimberLock.set(periodicIO.rightClimberLockStateDemand);
-        climberDiscBrake.set(periodicIO.climberDiscBrakeStateDemand ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+        climberDiscBrake.set(periodicIO.climberDiscBrakeStateDemand ? kForward : kReverse);
     }
 
     public enum ClimberControlState {
