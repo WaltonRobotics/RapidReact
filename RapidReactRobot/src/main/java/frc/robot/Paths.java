@@ -27,7 +27,7 @@ public class Paths {
 
     public static class RoutineThree{
         public static PathPlannerTrajectory alphaPickUpA =
-                PathPlanner.loadPath("alphaPickUpA", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+                PathPlanner.loadPath("alphaPickUpA", Units.feetToMeters(11.0), Units.feetToMeters(5.0), true);
     }
 
     public static class RoutineFiveB{
