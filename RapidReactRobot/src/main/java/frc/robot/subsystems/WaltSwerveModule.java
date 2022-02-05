@@ -128,7 +128,6 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     public void storeAzimuthZeroReference() {
         int index = getWheelIndex();
         int position = getAzimuthAbsoluteEncoderCounts();
-        Preferences preferences = Preferences.getInstance();
         String key = String.format("SwerveDrive/wheel.%d", index);
         Preferences.putInt(key, position);
         robotLogger.log(Level.INFO, "azimuth {0}: saved zero = {1}", new Object[]{index, position});
@@ -137,7 +136,6 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     @Override
     public void storeAzimuthZeroReference(int absoluteCounts) {
         int index = getWheelIndex();
-        Preferences preferences = Preferences.getInstance();
         String key = String.format("SwerveDrive/wheel.%d", index);
         Preferences.putInt(key, absoluteCounts);
         robotLogger.log(Level.INFO, "azimuth {0}: saved zero = {1}", new Object[]{index, absoluteCounts});
@@ -146,7 +144,6 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     @Override
     public void loadAndSetAzimuthZeroReference() {
         int index = getWheelIndex();
-        Preferences preferences = Preferences.getInstance();
         String key = String.format("SwerveDrive/wheel.%d", index);
         int reference = Preferences.getInt(key, Integer.MIN_VALUE);
         if (reference == Integer.MIN_VALUE) {
