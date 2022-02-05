@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-import static frc.robot.Constants.SwerveDriveConfig.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class SwerveTrajectoryCommand extends CommandBase {
@@ -24,8 +23,11 @@ public class SwerveTrajectoryCommand extends CommandBase {
     }
 
     public void initialize() {
-        kThetaController.enableContinuousInput(Math.toRadians(-180), Math.toRadians(180));
-        holonomicDriveController = new HolonomicDriveController(kXController, kYController, kThetaController);
+        drivetrain.getConfig().thetaController.enableContinuousInput(Math.toRadians(-180), Math.toRadians(180));
+        holonomicDriveController = new HolonomicDriveController(
+                drivetrain.getConfig().xController,
+                drivetrain.getConfig().yController,
+                drivetrain.getConfig().thetaController);
 
         holonomicDriveController.setEnabled(true);
 

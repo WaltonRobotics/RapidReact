@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -9,7 +10,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -20,11 +20,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
 import frc.lib.strykeforce.swerve.SwerveModule;
+import frc.robot.config.DrivetrainConfig;
+import frc.robot.config.SmartMotionConstants;
 
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.Constants.SwerveDriveConfig.*;
+import static frc.robot.RobotContainer.currentRobot;
 
 public class Drivetrain extends SubsystemBase implements SubSubsystem {
+
+    private final DrivetrainConfig config = currentRobot.getDrivetrainConfig();
 
     private final Field2d field = new Field2d();
 
@@ -36,14 +40,11 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     public Drivetrain() {
         var moduleBuilder =
                 new WaltSwerveModule.Builder()
-                        .driveGearRatio(kDriveGearRatio)
-                        .wheelDiameterInches(kWheelDiameterInches)
-                        .driveMaximumMetersPerSecond(kMaxSpeedMetersPerSecond);
+                        .driveGearRatio(config.kDriveGearRatio)
+                        .wheelDiameterInches(config.kWheelDiameterInches)
+                        .driveMaximumMetersPerSecond(config.kMaxSpeedMetersPerSecond);
 
         swerveModules = new WaltSwerveModule[4];
-        Translation2d[] wheelLocations = getWheelLocationMeters();
-
-        boolean[] inversions = {true, true, true, false};
 
         for (int i = 0; i < 4; i++) {
             var azimuthSparkMax = new CANSparkMax(i + 1, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -52,51 +53,40 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             azimuthSparkMax.setSmartCurrentLimit(80);
             azimuthSparkMax.setOpenLoopRampRate(0.0);
             azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
-            azimuthSparkMax.setInverted(true);
+            azimuthSparkMax.setInverted(config.azimuthControllerInversions[i]);
 
             RelativeEncoder azimuthRelativeEncoder = azimuthSparkMax.getEncoder();
             SparkMaxPIDController azimuthPID = azimuthSparkMax.getPIDController();
 
-            double relativeEncoderDegreesPerTick = 1.0 / (5.33 * 12.0);
-            double inverseEncoderConstant = 1.0 / relativeEncoderDegreesPerTick;
+            azimuthRelativeEncoder.setPositionConversionFactor(config.kRelativeEncoderRotationsPerTick);
+            azimuthRelativeEncoder.setVelocityConversionFactor(config.kRelativeEncoderRotationsPerTick);
 
-            azimuthRelativeEncoder.setPositionConversionFactor(relativeEncoderDegreesPerTick);
-            azimuthRelativeEncoder.setVelocityConversionFactor(relativeEncoderDegreesPerTick);
+            SmartMotionConstants azimuthConfig = config.azimuthControllerConfigs[i];
 
             // Smart Motion Configuration
-            azimuthPID.setP(5e-5 * inverseEncoderConstant);
-            azimuthPID.setI(1e-6 * inverseEncoderConstant);
-            azimuthPID.setD(0.0);
-            azimuthPID.setIZone(0.0);
-            azimuthPID.setFF(0.000156 * inverseEncoderConstant);
-            azimuthPID.setOutputRange(-1.0, 1.0);
+            azimuthPID.setP(azimuthConfig.velocityPID.getP());
+            azimuthPID.setI(azimuthConfig.velocityPID.getI());
+            azimuthPID.setD(azimuthConfig.velocityPID.getD());
+            azimuthPID.setIZone(azimuthConfig.iZone);
+            azimuthPID.setFF(azimuthConfig.feedforward);
+            azimuthPID.setOutputRange(azimuthConfig.minOutput, azimuthConfig.maxOutput);
 
-            /**
-             * Smart Motion coefficients are set on a SparkMaxPIDController object
-             *
-             * - setSmartMotionMaxVelocity() will limit the velocity in RPM of
-             * the pid controller in Smart Motion mode
-             * - setSmartMotionMinOutputVelocity() will put a lower bound in
-             * RPM of the pid controller in Smart Motion mode
-             * - setSmartMotionMaxAccel() will limit the acceleration in RPM^2
-             * of the pid controller in Smart Motion mode
-             * - setSmartMotionAllowedClosedLoopError() will set the max allowed
-             * error for the pid controller in Smart Motion mode
-             */
             int smartMotionSlot = 0;
-            azimuthPID.setSmartMotionMaxVelocity(120, smartMotionSlot);
-            azimuthPID.setSmartMotionMinOutputVelocity(0, smartMotionSlot);
-            azimuthPID.setSmartMotionMaxAccel(100, smartMotionSlot);
-            azimuthPID.setSmartMotionAllowedClosedLoopError(0, smartMotionSlot);
+            azimuthPID.setSmartMotionMaxVelocity(azimuthConfig.maxVelocity, smartMotionSlot);
+            azimuthPID.setSmartMotionMinOutputVelocity(azimuthConfig.minOutputVelocity, smartMotionSlot);
+            azimuthPID.setSmartMotionMaxAccel(azimuthConfig.maxAccel, smartMotionSlot);
+            azimuthPID.setSmartMotionAllowedClosedLoopError(azimuthConfig.allowedClosedLoopError, smartMotionSlot);
+
+            TalonFXConfiguration driveConfig = config.driveControllerConfigs[i];
 
             var driveTalon = new TalonFX(i + 11);
-            driveTalon.configFactoryDefault(kTalonConfigTimeout);
-            driveTalon.configAllSettings(getDriveTalonConfig(), kTalonConfigTimeout);
+            driveTalon.configFactoryDefault(config.kTalonConfigTimeout);
+            driveTalon.configAllSettings(driveConfig, config.kTalonConfigTimeout);
             driveTalon.enableVoltageCompensation(true);
             driveTalon.setNeutralMode(NeutralMode.Brake);
 
-            driveTalon.setInverted(inversions[i]);
-            driveTalon.setSensorPhase(inversions[i]);
+            driveTalon.setInverted(config.driveControllerInversions[i]);
+            driveTalon.setSensorPhase(config.driveControllerInversions[i]);
 
             DutyCycle encoderPWM = new DutyCycle(new DigitalInput(i));
 
@@ -113,22 +103,16 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                             .azimuthSparkMax(azimuthSparkMax)
                             .driveTalon(driveTalon)
                             .azimuthAbsoluteEncoderPWM(encoderPWM)
-                            .wheelLocationMeters(wheelLocations[i])
+                            .isAzimuthAbsoluteEncoderInverted(config.absoluteEncoderInversions[i])
+                            .wheelLocationMeters(config.wheelLocationMeters[i])
                             .build();
-
-            swerveModules[i].loadAndSetAzimuthZeroReference();
         }
 
         swerveDrive = new SwerveDrive(ahrs, swerveModules);
-        zeroHeading();
 
         SmartDashboard.putData("Field", field);
-    }
 
-    public void loadAzimuthZeroReference() {
-        for (SwerveModule module : swerveModules) {
-            module.loadAndSetAzimuthZeroReference();
-        }
+        zeroSensors();
     }
 
     public void saveLeftFrontZero(int absoluteCounts) {
@@ -267,6 +251,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     public Rotation2d getHeading() {
         return swerveDrive.getHeading();
+    }
+
+    public DrivetrainConfig getConfig() {
+        return config;
     }
 
     public void xLockSwerveDrive() {

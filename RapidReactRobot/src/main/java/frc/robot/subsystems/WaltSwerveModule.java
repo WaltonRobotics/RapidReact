@@ -24,6 +24,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final CANSparkMax azimuthSparkMax;
     private final BaseTalon driveTalon;
     private final DutyCycle azimuthAbsoluteEncoderPWM;
+    private final boolean isAzimuthAbsoluteEncoderInverted;
     private final double azimuthAbsoluteCountsPerRev;
     private final double driveCountsPerRev;
     private final double driveGearRatio;
@@ -41,6 +42,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         azimuthSparkMax = builder.azimuthSparkMax;
         driveTalon = builder.driveTalon;
         azimuthAbsoluteEncoderPWM = builder.azimuthAbsoluteEncoderPWM;
+        isAzimuthAbsoluteEncoderInverted = builder.isAzimuthAbsoluteEncoderInverted;
         azimuthAbsoluteCountsPerRev = builder.azimuthAbsoluteCountsPerRev;
         driveCountsPerRev = builder.driveCountsPerRev;
         driveGearRatio = builder.driveGearRatio;
@@ -203,7 +205,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             position = 4095;
         }
 
-        return 4095 - position;
+        if (isAzimuthAbsoluteEncoderInverted) {
+            return 4095 - position;
+        }
+
+        return position;
     }
 
     public double getAzimuthRelativeEncoderCounts() {
@@ -294,6 +300,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         private CANSparkMax azimuthSparkMax;
         private BaseTalon driveTalon;
         private DutyCycle azimuthAbsoluteEncoderPWM;
+        private boolean isAzimuthAbsoluteEncoderInverted;
         private double driveGearRatio;
         private double wheelDiameterInches;
         private int driveCountsPerRev = kDefaultTalonFXCountsPerRev;
@@ -326,6 +333,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
         public Builder azimuthAbsoluteEncoderPWM(DutyCycle encoderPWM) {
             azimuthAbsoluteEncoderPWM = encoderPWM;
+            return this;
+        }
+
+        public Builder isAzimuthAbsoluteEncoderInverted(boolean isInverted) {
+            isAzimuthAbsoluteEncoderInverted = isInverted;
             return this;
         }
 
