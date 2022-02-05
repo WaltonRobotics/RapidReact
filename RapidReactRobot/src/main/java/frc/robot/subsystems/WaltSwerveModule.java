@@ -32,20 +32,20 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final double driveMaximumMetersPerSecond;
     private final Translation2d wheelLocationMeters;
 
-    private PeriodicIO periodicIO = new PeriodicIO();
+    private final PeriodicIO periodicIO = new PeriodicIO();
     private Rotation2d previousAngle = new Rotation2d();
 
     private DriveControlState driveControlState = DriveControlState.OPEN_LOOP;
 
-    public class PeriodicIO {
+    public static class PeriodicIO {
         // Outputs
         public double azimuthRelativeCountsDemand;
         public double driveDemand;
 
         // Inputs
-        public double currentAzimuthRelativeCounts;
-        public double currentDriveVelocityNU;
-        public double currentDriveClosedLoopErrorNU;
+        public double azimuthRelativeCounts;
+        public double driveVelocityNU;
+        public double closedLoopErrorNU;
     }
 
     private enum DriveControlState {
@@ -73,9 +73,9 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public void collectData() {
-        periodicIO.currentAzimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
-        periodicIO.currentDriveVelocityNU = driveTalon.getSelectedSensorVelocity();
-        periodicIO.currentDriveClosedLoopErrorNU = driveTalon.getClosedLoopError();
+        periodicIO.azimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
+        periodicIO.driveVelocityNU = driveTalon.getSelectedSensorVelocity();
+        periodicIO.closedLoopErrorNU = driveTalon.getClosedLoopError();
     }
 
     @Override
@@ -190,7 +190,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     public double getDriveVelocityError() {
-        return periodicIO.currentDriveClosedLoopErrorNU;
+        return periodicIO.closedLoopErrorNU;
     }
 
     public int getAzimuthAbsoluteEncoderCounts() {
@@ -222,7 +222,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     public double getAzimuthRelativeEncoderCounts() {
-        return periodicIO.currentAzimuthRelativeCounts;
+        return periodicIO.azimuthRelativeCounts;
     }
 
     public Rotation2d getAzimuthRotation2d() {
@@ -239,7 +239,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     private double getDriveMetersPerSecond() {
-        double encoderCountsPer100ms = periodicIO.currentDriveVelocityNU;
+        double encoderCountsPer100ms = periodicIO.driveVelocityNU;
         double motorRotationsPer100ms = encoderCountsPer100ms / driveCountsPerRev;
         double wheelRotationsPer100ms = motorRotationsPer100ms * driveGearRatio;
         double metersPer100ms = wheelRotationsPer100ms * wheelCircumferenceMeters;
