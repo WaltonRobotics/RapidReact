@@ -41,6 +41,7 @@ public class Robot extends WaltTimesliceRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
+    ColorSensor.loadColorMatcher();
 
     // Schedule low-level periodic input and output methods for each subsystem
     // This is done to reduce CAN bus utilization
