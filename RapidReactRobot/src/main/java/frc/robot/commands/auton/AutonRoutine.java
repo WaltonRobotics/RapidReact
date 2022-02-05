@@ -9,6 +9,7 @@ import frc.robot.subsystems.Drivetrain;
 import static frc.robot.Paths.RoutineFiveB.ballAtoBallB;
 import static frc.robot.Paths.RoutineFiveB.ballBtoBallG;
 import static frc.robot.Paths.RoutineOne.gammaMoveOffTarmac;
+import static frc.robot.Paths.RoutineSix.ballCtoBallG;
 import static frc.robot.Paths.RoutineSix.gammaPickUpC;
 import static frc.robot.Paths.RoutineThree.alphaPickUpA;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -36,9 +37,15 @@ public enum AutonRoutine {
             //SHOOT 2 Balls
     )),
 
+    ROUTINE_FOUR_A("Start from beta, pick up ball B, shoot 2 balls, pick up ball(s) G, move in and shoot",
+            new SequentialCommandGroup(
+
+            )),
+
     ROUTINE_FIVE_B("Start from alpha, shoot 1, pick up ball A, pick up ball B, shoot", new SequentialCommandGroup(
             //SHOOT
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            //SHOOT
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose())),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
@@ -51,22 +58,29 @@ public enum AutonRoutine {
 
     ROUTINE_FIVE_C("Routine_FIVE_B, move to pick up ball G, move in to shoot", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            //SHOOT ONE
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose())),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballAtoBallB.getInitialPose())),
             new SwerveTrajectoryCommand(ballAtoBallB),
-
+            //SHOOT TWO
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballBtoBallG.getInitialPose())),
+            new SwerveTrajectoryCommand(ballBtoBallG),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
-            //MOVE IN & SHOOT (moving in distance not determined, make path for that)
+            //MOVE IN & SHOOT 1 or 2(moving in distance not determined, make path for that)
     )),
 
     ROUTINE_SIX("Start from gamma, pick up ball C, shoot 2, pick up ball G, move in to shoot", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(gammaPickUpC.getInitialPose())),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-            new SwerveTrajectoryCommand(gammaPickUpC)
+            new SwerveTrajectoryCommand(gammaPickUpC),
+            //SHOOT 2
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballCtoBallG.getInitialPose())),
+            new SwerveTrajectoryCommand(ballCtoBallG),
+            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
+            //MOVE IN & Shoot 1 or 2
     ))
 
     ;

@@ -37,6 +37,13 @@ public class Paths {
                 PathPlanner.loadPath("ballAtoballB", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
         public static PathPlannerTrajectory ballBtoBallG=
                 PathPlanner.loadPath("ballBtoballG", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+        //MOVE IN
+    }
+
+    public static class RoutineFourA{
+        public static PathPlannerTrajectory betaPickUpB=
+                PathPlanner.loadPath("betaPickUpB", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+        //TODO: Finish this routine
     }
 
     public static class RoutineSix{
@@ -44,5 +51,6 @@ public class Paths {
                 PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
         public static PathPlannerTrajectory ballCtoBallG =
                 PathPlanner.loadPath("ballCtoballG", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+        //MOVE IN
     }
 }
