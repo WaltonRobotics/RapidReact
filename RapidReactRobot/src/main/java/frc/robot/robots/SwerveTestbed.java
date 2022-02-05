@@ -50,6 +50,10 @@ public class SwerveTestbed extends WaltRobot {
             drivetrainConfig.driveControllerConfigs[i] = driveConfig;
         }
 
+        drivetrainConfig.azimuthControllerIDs = new int[] { 1, 2, 3, 4 };
+        drivetrainConfig.driveControllerIDs = new int[] { 11, 12, 13, 14 };
+        drivetrainConfig.absoluteEncoderChannels = new int[] { 1, 2, 3, 4 };
+
         drivetrainConfig.azimuthControllerInversions = new boolean[]{ true, true, true, true };
         drivetrainConfig.driveControllerInversions = new boolean[]{ true, true, true, false };
         drivetrainConfig.absoluteEncoderInversions = new boolean[]{ true, true, true, true };

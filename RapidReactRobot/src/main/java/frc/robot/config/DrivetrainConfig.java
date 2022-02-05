@@ -8,8 +8,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 public class DrivetrainConfig {
 
     // Control-related constants
+    // All arrays are in order of modules: left-front, right-front, left-rear, right-rear
     public SmartMotionConstants[] azimuthControllerConfigs = new SmartMotionConstants[4];
     public TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
+
+    public int[] azimuthControllerIDs;
+    public int[] driveControllerIDs;
+    public int[] absoluteEncoderChannels;
 
     public boolean[] azimuthControllerInversions;
     public boolean[] driveControllerInversions;

@@ -47,7 +47,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveModules = new WaltSwerveModule[4];
 
         for (int i = 0; i < 4; i++) {
-            var azimuthSparkMax = new CANSparkMax(i + 1, CANSparkMaxLowLevel.MotorType.kBrushless);
+            var azimuthSparkMax = new CANSparkMax(config.azimuthControllerIDs[i], CANSparkMaxLowLevel.MotorType.kBrushless);
             azimuthSparkMax.restoreFactoryDefaults();
             azimuthSparkMax.enableVoltageCompensation(12.0);
             azimuthSparkMax.setSmartCurrentLimit(80);
@@ -79,7 +79,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
             TalonFXConfiguration driveConfig = config.driveControllerConfigs[i];
 
-            var driveTalon = new TalonFX(i + 11);
+            var driveTalon = new TalonFX(config.driveControllerIDs[i]);
             driveTalon.configFactoryDefault(config.kTalonConfigTimeout);
             driveTalon.configAllSettings(driveConfig, config.kTalonConfigTimeout);
             driveTalon.enableVoltageCompensation(true);
@@ -88,7 +88,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             driveTalon.setInverted(config.driveControllerInversions[i]);
             driveTalon.setSensorPhase(config.driveControllerInversions[i]);
 
-            DutyCycle encoderPWM = new DutyCycle(new DigitalInput(i));
+            DutyCycle encoderPWM = new DutyCycle(new DigitalInput(config.absoluteEncoderChannels[i]));
 
 //            ProfiledPIDController controller = new ProfiledPIDController(
 //                    /* 20.0 / 1023.0 */ 10.0 / 4096.0, 0.0, 0.0,
