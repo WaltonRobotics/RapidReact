@@ -38,7 +38,7 @@ public class Robot extends WaltTimesliceRobot {
   private RobotContainer robotContainer;
 
   public Robot() {
-    super(0.002, 0.005);
+    super(0.002, 0.007);
   }
 
   /**

@@ -1,8 +1,10 @@
 package frc.robot.config;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+
 public class ClimberConfig {
 
-    public MotorConfig pivotControllerConfig;
-    public MotorConfig extensionControllerConfig;
+    public TalonFXConfiguration pivotControllerConfig;
+    public TalonFXConfiguration extensionControllerConfig;
 
 }
