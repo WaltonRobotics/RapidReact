@@ -55,13 +55,13 @@ public class SwerveTestbed extends WaltRobot {
         drivetrainConfig.absoluteEncoderChannels = new int[] { 1, 2, 3, 4 };
 
         drivetrainConfig.azimuthControllerInversions = new boolean[]{ true, true, true, true };
-        drivetrainConfig.driveControllerInversions = new boolean[]{ true, true, true, false };
+        drivetrainConfig.driveControllerInversions = new boolean[]{ false, true, true, false };
         drivetrainConfig.absoluteEncoderInversions = new boolean[]{ true, true, true, true };
 
         drivetrainConfig.kRelativeEncoderRotationsPerTick = 1.0 / (5.33 * 12.0);
 
-        final double kDistanceBetweenWheelsWidthWiseMeters = Units.inchesToMeters(16.0 + 17.0 / 32.0 + 1.761652 * 2.0); // 20.055 in
-        final double kDistanceBetweenWheelsLengthWiseMeters = Units.inchesToMeters(15.0 + 1.0 / 16.0 + 1.761652 * 2.0); // 18.586 in
+        final double kDistanceBetweenWheelsWidthWiseMeters = Units.inchesToMeters(15.0 + 1.0 / 16.0 + 1.761652 * 2.0); // 18.586 in
+        final double kDistanceBetweenWheelsLengthWiseMeters = Units.inchesToMeters(16.0 + 17.0 / 32.0 + 1.761652 * 2.0); // 20.055 in
 
         final double x = kDistanceBetweenWheelsLengthWiseMeters / 2.0; // front-back, was ROBOT_LENGTH
         final double y = kDistanceBetweenWheelsWidthWiseMeters / 2.0; // left-right, was ROBOT_WIDTH

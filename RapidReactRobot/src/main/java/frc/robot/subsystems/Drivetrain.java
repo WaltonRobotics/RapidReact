@@ -23,6 +23,7 @@ import frc.lib.strykeforce.swerve.SwerveModule;
 import frc.robot.config.DrivetrainConfig;
 import frc.robot.config.SmartMotionConstants;
 
+import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.RobotContainer.currentRobot;
 
@@ -76,6 +77,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             azimuthPID.setSmartMotionMinOutputVelocity(azimuthConfig.minOutputVelocity, smartMotionSlot);
             azimuthPID.setSmartMotionMaxAccel(azimuthConfig.maxAccel, smartMotionSlot);
             azimuthPID.setSmartMotionAllowedClosedLoopError(azimuthConfig.allowedClosedLoopError, smartMotionSlot);
+
+            if (kIsInCompetition) {
+                azimuthSparkMax.burnFlash();
+            }
 
             TalonFXConfiguration driveConfig = config.driveControllerConfigs[i];
 
