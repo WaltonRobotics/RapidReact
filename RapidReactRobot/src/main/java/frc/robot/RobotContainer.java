@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
-import frc.robot.commands.auton.RotateModulesToAngle;
+import frc.robot.commands.auton.SetModuleStates;
 import frc.robot.controller.ControllerConfig;
 import frc.robot.controller.GamepadsConfig;
 import frc.robot.robots.RobotIdentifier;
@@ -72,9 +72,10 @@ public class RobotContainer {
   private void configureButtonBindings() {}
 
   private void initShuffleboard() {
-    SmartDashboard.putData(kDrivetrainRotateModulesToAngleKey, new RotateModulesToAngle());
+    SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
 
     SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
+    SmartDashboard.putNumber(kDrivetrainSetpointVelocityKey, 0.0);
 
     if (kIsInTuningMode) {
       SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
