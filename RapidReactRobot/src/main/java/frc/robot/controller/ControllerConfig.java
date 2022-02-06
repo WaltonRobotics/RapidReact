@@ -14,6 +14,7 @@ public interface ControllerConfig {
     ExpoScale getYawScale();
 
     EnhancedJoystickButton getResetDrivetrainButton();
+    EnhancedJoystickButton getAutoAimButton();
     EnhancedJoystickButton getIntakeButton();
     EnhancedJoystickButton getOuttakeButton();
 

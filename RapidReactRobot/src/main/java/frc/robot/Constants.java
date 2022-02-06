@@ -128,6 +128,22 @@ public final class Constants {
         }
     }
 
+    public static class Limelight {
+
+        public static final int kLEDsOff = 1;
+        public static final int kLEDsOn = 3;
+
+        public static final int kVisionMode = 0;
+        public static final int kDriverMode = 1;
+
+        public static final int kTxWindowSize = 1;
+        public static final int kTyWindowSize = 5;
+        public static final int kCamtranWindowSize = 5;
+
+        public static final int kAlignmentPipeline = 0;
+
+    }
+
     public static final class SmartDashboardKeys {
 
         public static final String kDrivetrainRotateModulesToAngleKey = "Drivetrain/Rotate Modules To Angle";

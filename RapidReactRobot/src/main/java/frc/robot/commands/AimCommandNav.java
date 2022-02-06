@@ -6,14 +6,17 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.Limelight.kAlignmentPipeline;
+import static frc.robot.RobotContainer.godSubsystem;
 
 public class AimCommandNav extends SequentialCommandGroup {
-    private Drivetrain sDrivetrain = new Drivetrain();
-    public AimCommandNav(){
+
+    private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
+
+    public AimCommandNav() {
         addCommands(
                 new InstantCommand(() -> LimelightHelper.setLEDMode(true)),
                 new InstantCommand(() -> LimelightHelper.setPipeline(kAlignmentPipeline)),
-                new TurnToAngle(() -> sDrivetrain.getHeading().getDegrees() - LimelightHelper.getTX())
+                new TurnToAngle(() -> drivetrain.getHeading().getDegrees() - LimelightHelper.getTX())
         );
     }
 

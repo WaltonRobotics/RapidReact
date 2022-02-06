@@ -58,6 +58,11 @@ public class JoysticksConfig implements ControllerConfig {
     }
 
     @Override
+    public EnhancedJoystickButton getAutoAimButton() {
+        return null;
+    }
+
+    @Override
     public EnhancedJoystickButton getIntakeButton() {
         return intakeButton;
     }

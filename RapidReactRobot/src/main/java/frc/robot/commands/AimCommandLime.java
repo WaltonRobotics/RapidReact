@@ -1,29 +1,23 @@
 package frc.robot.commands;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.vision.LimelightHelper;
 
-import static frc.robot.Constants.Limelight.kAlignmentPipeline;
-import static frc.robot.RobotContainer.aimButton;
-import static frc.robot.RobotContainer.leftJoystick;
+import static frc.robot.RobotContainer.*;
 
 public class AimCommandLime extends CommandBase {
-    Drivetrain sdrivetrain = new Drivetrain();
+
+    private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
 
     @Override
     public void execute() {
-        float kP = -0.1f;
+        float kP = 0.1f;
         float min_command = 0.05f;
 
-        double tx = LimelightHelper.getTX();
+        double tx = -LimelightHelper.getTX();
 
-        if(aimButton.get()){
+        if (controllerConfig.getAutoAimButton().get()) {
             double heading_error = -tx;
             double steering_adjust = 0.0f;
 
@@ -33,7 +27,8 @@ public class AimCommandLime extends CommandBase {
             else if (tx < 1.0){
                 steering_adjust = kP*heading_error + min_command;
             }
-            sdrivetrain.move(0,0,steering_adjust,false);
+
+            drivetrain.move(0,0,steering_adjust,false);
         }
     }
 }
