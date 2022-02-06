@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Paths;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Drivetrain;
 
 import static frc.robot.Paths.RoutineFiveB.ballAtoBallB;
@@ -81,9 +82,12 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(ballCtoBallG),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //MOVE IN & Shoot 1 or 2
-    ))
+    )),
 
-    ;
+    ROTATE_90("Rotate 90 degrees", new SequentialCommandGroup(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new TurnToAngle(90.0)
+    ));
 
     private final String description;
     private final CommandBase commandGroup;

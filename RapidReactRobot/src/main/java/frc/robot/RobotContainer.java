@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AimCommandNav;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
 import frc.robot.commands.auton.AutonRoutine;
@@ -55,7 +56,7 @@ public class RobotContainer {
 
     godSubsystem = new Superstructure();
 
-    controllerConfig = new XboxConfig();
+    controllerConfig = new GamepadsConfig();
 
     robotLogger.setLevel(Level.FINEST);
   }
@@ -82,6 +83,8 @@ public class RobotContainer {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new InstantCommand(() -> System.out.println("Reset drivetrain"))
     ));
+
+    controllerConfig.getAutoAimButton().whenPressed(new AimCommandNav().withTimeout(1.5));
   }
 
   private void initShuffleboard() {

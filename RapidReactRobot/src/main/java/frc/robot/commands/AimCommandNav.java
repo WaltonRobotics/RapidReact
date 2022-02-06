@@ -16,6 +16,7 @@ public class AimCommandNav extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(() -> LimelightHelper.setLEDMode(true)),
                 new InstantCommand(() -> LimelightHelper.setPipeline(kAlignmentPipeline)),
+                new InstantCommand(() -> System.out.println("Auto aligning")),
                 new TurnToAngle(() -> drivetrain.getHeading().getDegrees() - LimelightHelper.getTX())
         );
     }

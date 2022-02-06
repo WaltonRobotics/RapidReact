@@ -20,13 +20,18 @@ public class TurnToAngle extends CommandBase {
     private final DoubleSupplier targetHeadingSupplier;
     private double targetHeading;
 
+    private final double minOmega = 0.6;
+
     private final ProfiledPIDController controller = new ProfiledPIDController
-            (0.045, 0.0005, 0.000, new TrapezoidProfile.Constraints(kMaxOmega,2 ));
+            (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(Math.toDegrees(kMaxOmega / 2.0), 360.0 ));
 
     public TurnToAngle(DoubleSupplier targetHeadingSupplier) {
         addRequirements(drivetrain);
 
         this.targetHeadingSupplier = targetHeadingSupplier;
+
+        controller.enableContinuousInput(-180.0, 180.0);
+        controller.setTolerance(1.5, 1.0);
 
         SmartDashboard.putData("Turn to angle controller", controller);
     }
@@ -43,11 +48,19 @@ public class TurnToAngle extends CommandBase {
                 drivetrain.getAngularVelocityDegreesPerSec()));
 
         controller.setGoal(targetHeading);
+
+        System.out.println("Turning to: " + targetHeading);
     }
 
     @Override
     public void execute(){
-        double turnRate = -controller.calculate(getHeading(), targetHeading);
+        double turnRate = controller.calculate(getHeading(), targetHeading);
+
+        turnRate += Math.signum(turnRate) * minOmega;
+
+        SmartDashboard.putNumber("Error", controller.getPositionError());
+        SmartDashboard.putNumber("Turn rate", turnRate);
+        SmartDashboard.putNumber("Angular velocity", drivetrain.getAngularVelocityDegreesPerSec());
 
         drivetrain.move(0,0, turnRate,false);
     }
@@ -59,7 +72,7 @@ public class TurnToAngle extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return controller.atSetpoint();
+        return UtilMethods.isWithinTolerance(getHeading(), targetHeading, 1.0);
     }
 
     private double getHeading() {
