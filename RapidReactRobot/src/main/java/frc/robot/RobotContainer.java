@@ -18,10 +18,8 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
 import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.RotateModulesToAngle;
-import frc.robot.commands.auton.SwerveTrajectoryCommand;
 import frc.robot.controller.ControllerConfig;
 import frc.robot.controller.GamepadsConfig;
-import frc.robot.controller.XboxConfig;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Superstructure;
@@ -34,6 +32,7 @@ import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.Constants.VisionConstants.kAlignmentTimeout;
 import static frc.robot.commands.auton.AutonRoutine.DO_NOTHING;
 
 /**
@@ -84,7 +83,7 @@ public class RobotContainer {
             new InstantCommand(() -> System.out.println("Reset drivetrain"))
     ));
 
-    controllerConfig.getAutoAimButton().whenPressed(new AimCommandNav().withTimeout(1.5));
+    controllerConfig.getAutoAimButton().whenPressed(new AimCommandNav().withTimeout(kAlignmentTimeout));
   }
 
   private void initShuffleboard() {
@@ -92,9 +91,9 @@ public class RobotContainer {
 
     SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
 
-    SmartDashboard.putNumber(kIntakeVoltage, 9.5);
+    SmartDashboard.putNumber(kIntakeVoltageKey, 9.5);
 
-    //auton chooser
+    // Auton chooser
     autonChooser = new SendableChooser<>();
     Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
     autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
@@ -122,9 +121,12 @@ public class RobotContainer {
               new InstantCommand(() ->
                       godSubsystem.getDrivetrain().saveRightRearZero((int)SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
 
-      SmartDashboard.putData(kDriverForwardScale, controllerConfig.getForwardScale());
-      SmartDashboard.putData(kDriverStrafeScale, controllerConfig.getStrafeScale());
-      SmartDashboard.putData(kDriverYawScale, controllerConfig.getYawScale());
+      SmartDashboard.putData(kDriverForwardScaleKey, controllerConfig.getForwardScale());
+      SmartDashboard.putData(kDriverStrafeScaleKey, controllerConfig.getStrafeScale());
+      SmartDashboard.putData(kDriverYawScaleKey, controllerConfig.getYawScale());
+
+      SmartDashboard.putNumber(kTurnToAngleErrorDegrees, 0.0);
+      SmartDashboard.putNumber(kTurnToAngleOmegaOutputKey, 0.0);
     }
   }
 

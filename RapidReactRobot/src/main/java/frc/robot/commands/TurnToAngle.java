@@ -8,6 +8,7 @@ import frc.robot.util.UtilMethods;
 
 import java.util.function.DoubleSupplier;
 
+import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Constants.SwerveDriveConfig.kMaxOmega;
 import static frc.robot.RobotContainer.godSubsystem;
 //import static frc.robot.Robot.sDrivetrain;
@@ -33,7 +34,7 @@ public class TurnToAngle extends CommandBase {
         controller.enableContinuousInput(-180.0, 180.0);
         controller.setTolerance(1.5, 1.0);
 
-        SmartDashboard.putData("Turn to angle controller", controller);
+        SmartDashboard.putData(kTurnToAngleControllerKey, controller);
     }
 
     public TurnToAngle(double targetHeading) {
@@ -58,9 +59,8 @@ public class TurnToAngle extends CommandBase {
 
         turnRate += Math.signum(turnRate) * minOmega;
 
-        SmartDashboard.putNumber("Error", controller.getPositionError());
-        SmartDashboard.putNumber("Turn rate", turnRate);
-        SmartDashboard.putNumber("Angular velocity", drivetrain.getAngularVelocityDegreesPerSec());
+        SmartDashboard.putNumber(kTurnToAngleErrorDegrees, controller.getPositionError());
+        SmartDashboard.putNumber(kTurnToAngleOmegaOutputKey, turnRate);
 
         drivetrain.move(0,0, turnRate,false);
     }

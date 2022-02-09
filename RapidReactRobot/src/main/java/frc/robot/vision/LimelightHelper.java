@@ -3,11 +3,9 @@ package frc.robot.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.movingAverage.SimpleMovingAverage;
 
-import static frc.robot.Constants.Limelight.*;
-import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.Constants.VisionConstants.*;
 
 public class LimelightHelper {
 

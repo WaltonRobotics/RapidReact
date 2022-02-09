@@ -128,7 +128,7 @@ public final class Constants {
         }
     }
 
-    public static class Limelight {
+    public static class VisionConstants {
 
         public static final int kLEDsOff = 1;
         public static final int kLEDsOn = 3;
@@ -141,6 +141,8 @@ public final class Constants {
         public static final int kCamtranWindowSize = 5;
 
         public static final int kAlignmentPipeline = 0;
+
+        public static final double kAlignmentTimeout = 1.5;
 
     }
 
@@ -179,11 +181,17 @@ public final class Constants {
         public static final String kDrivetrainSaveLeftRearZeroKey = "Drivetrain/Save Left Rear Azimuth Zero";
         public static final String kDrivetrainSaveRightRearZeroKey = "Drivetrain/Save Right Rear Azimuth Zero";
 
-        public static final String kDriverForwardScale = "Driver/Forward Scale";
-        public static final String kDriverStrafeScale = "Driver/Strafe Scale";
-        public static final String kDriverYawScale = "Driver/Yaw Scale";
+        public static final String kDrivetrainAngularVelocity = "Drivetrain/Angular Velocity Dsec";
 
-        public static final String kIntakeVoltage = "Intake/Voltage";
+        public static final String kDriverForwardScaleKey = "Driver/Forward Scale";
+        public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
+        public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
+
+        public static final String kIntakeVoltageKey = "Intake/Voltage";
+
+        public static final String kTurnToAngleControllerKey = "Turn to Angle Controller";
+        public static final String kTurnToAngleErrorDegrees = "Turn to Angle Error Deg";
+        public static final String kTurnToAngleOmegaOutputKey = "Turn to Angle Omega Output";
 
     }
 

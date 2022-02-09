@@ -215,6 +215,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         field.setRobotPose(getPoseMeters());
 //        LiveDashboardHelper.putRobotData(getPoseMeters());
 
+        SmartDashboard.putNumber(kDrivetrainAngularVelocity, getAngularVelocityDegreesPerSec());
+
         SmartDashboard.putNumber(kDrivetrainLeftFrontAbsolutePositionKey, swerveModules[0].getAzimuthAbsoluteEncoderCounts());
         SmartDashboard.putNumber(kDrivetrainRightFrontAbsolutePositionKey, swerveModules[1].getAzimuthAbsoluteEncoderCounts());
         SmartDashboard.putNumber(kDrivetrainLeftRearAbsolutePositionKey, swerveModules[2].getAzimuthAbsoluteEncoderCounts());
@@ -286,30 +288,16 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     @Override
     public void collectData() {
-        double startTime = Timer.getFPGATimestamp();
-
         for (WaltSwerveModule module : swerveModules) {
             module.collectData();
         }
-
-        double endTime = Timer.getFPGATimestamp();
-        double deltaTime = endTime - startTime;
-
-        SmartDashboard.putNumber("Collect Data Time", deltaTime);
     }
 
     @Override
     public void outputData() {
-        double startTime = Timer.getFPGATimestamp();
-
         for (WaltSwerveModule module : swerveModules) {
             module.outputData();
         }
-
-        double endTime = Timer.getFPGATimestamp();
-        double deltaTime = endTime - startTime;
-
-        SmartDashboard.putNumber("Output Data Time", deltaTime);
     }
 
     public double getAngularVelocityDegreesPerSec(){
