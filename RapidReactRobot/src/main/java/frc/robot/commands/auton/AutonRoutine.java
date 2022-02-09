@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Paths;
-import frc.robot.subsystems.Drivetrain;
 
 import static frc.robot.Paths.RoutineFiveB.ballAtoBallB;
 import static frc.robot.Paths.RoutineFiveB.ballBtoBallG;
@@ -12,11 +11,19 @@ import static frc.robot.Paths.RoutineOne.gammaMoveOffTarmac;
 import static frc.robot.Paths.RoutineSix.ballCtoBallG;
 import static frc.robot.Paths.RoutineSix.gammaPickUpC;
 import static frc.robot.Paths.RoutineThree.alphaPickUpA;
+import static frc.robot.Paths.RoutineTwo.betaBackward;
+import static frc.robot.Paths.fiveFeetForward;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
 
     DO_NOTHING("Doing Nothing", new SequentialCommandGroup(
+    )),
+
+    FIVE_FEET_FORWARD("moves forward five feet starting 1 meter (3.28084 ft) from wall", new SequentialCommandGroup(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(fiveFeetForward.getInitialPose())),
+            new SwerveTrajectoryCommand(fiveFeetForward)
     )),
 
     ROUTINE_ONE("Taxi from tarmac from gamma", new SequentialCommandGroup(
@@ -25,7 +32,13 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(Paths.RoutineOne.gammaMoveOffTarmac)
     )),
 
-    ROUTINE_TWO("", new SequentialCommandGroup(
+    ROUTINE_TWO("start from beta, shoot 1 ball, move backward off tarmac", new SequentialCommandGroup(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            //SHOOT 1 BALL
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(betaBackward.getInitialPose())),
+            new SwerveTrajectoryCommand(betaBackward)
+            //distance off is not precise
+
     )),
 
     ROUTINE_THREE("Start from alpha, shoot, pick up ball A, pick shoot 2 balls", new SequentialCommandGroup(
