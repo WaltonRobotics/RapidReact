@@ -50,7 +50,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             var azimuthSparkMax = new CANSparkMax(i + 1, CANSparkMaxLowLevel.MotorType.kBrushless);
             azimuthSparkMax.restoreFactoryDefaults();
             azimuthSparkMax.enableVoltageCompensation(12.0);
-            azimuthSparkMax.setSmartCurrentLimit(80);
+            azimuthSparkMax.setSmartCurrentLimit(20);
             azimuthSparkMax.setOpenLoopRampRate(0.0);
             azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
             azimuthSparkMax.setInverted(true);
