@@ -26,7 +26,14 @@ public class Conveyor implements SubSubsystem {
 
     @Override
     public void outputData() {
-
+        switch (conveyorControlState) {
+            case VOLTAGE:
+                break;
+            case OPEN_LOOP:
+                break;
+            case DISABLED:
+                break;
+        }
     }
 
     public enum ConveyorControlState {
