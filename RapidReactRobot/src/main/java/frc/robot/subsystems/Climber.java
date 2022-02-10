@@ -1,20 +1,18 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.*;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
-import static frc.robot.Constants.PIDSlots.kClimberPivotAuxiliaryAbsoluteSlot;
 import static frc.robot.Constants.PIDSlots.kClimberPivotPrimaryIntegratedSlot;
 
 public class Climber implements SubSubsystem {
 
     private final DigitalInput leftExtensionLowerLimit = new DigitalInput(0);
     private final DigitalInput rightExtensionLowerLimit = new DigitalInput(1);
+
+    private final Encoder pivotAngleAbsoluteEncoder = new Encoder(0, 1);
 
     private final TalonFX pivotController = new TalonFX(0);
     private final TalonFX extensionController = new TalonFX(1);
@@ -36,8 +34,8 @@ public class Climber implements SubSubsystem {
         periodicIO.isLeftExtensionLowerLimitClosed = leftExtensionLowerLimit.get();
         periodicIO.isRightExtensionLowerLimitClosed = rightExtensionLowerLimit.get();
 
-        periodicIO.pivotAbsoluteEncoderPosition = pivotController.getSelectedSensorPosition(kClimberPivotAuxiliaryAbsoluteSlot);
-        periodicIO.pivotIntegratedEncoderPosition = pivotController.getSelectedSensorPosition(kClimberPivotPrimaryIntegratedSlot);
+        periodicIO.pivotAbsoluteEncoderPositionNU = pivotAngleAbsoluteEncoder.get();
+        periodicIO.pivotIntegratedEncoderPositionNU = pivotController.getSelectedSensorPosition(kClimberPivotPrimaryIntegratedSlot);
 
         periodicIO.extensionIntegratedEncoderPosition = extensionController.getSelectedSensorPosition();
     }
@@ -79,8 +77,8 @@ public class Climber implements SubSubsystem {
         public boolean isLeftExtensionLowerLimitClosed;
         public boolean isRightExtensionLowerLimitClosed;
 
-        public double pivotAbsoluteEncoderPosition;
-        public double pivotIntegratedEncoderPosition;
+        public double pivotAbsoluteEncoderPositionNU;
+        public double pivotIntegratedEncoderPositionNU;
 
         public double extensionIntegratedEncoderPosition;
     }

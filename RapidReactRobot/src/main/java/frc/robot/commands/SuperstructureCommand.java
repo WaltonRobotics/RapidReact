@@ -13,6 +13,15 @@ public class SuperstructureCommand extends CommandBase {
     private final Shooter shooter;
     private final Climber climber;
 
+    // State machine states:
+    // Idle
+    // Intaking
+    // Outtaking
+    // AdjustingHood
+    // AligningAndSpinningUp
+    // Shooting
+    // SpinningUp
+
     public SuperstructureCommand() {
         addRequirements(godSubsystem);
 
