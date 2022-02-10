@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.*;
 import frc.robot.util.EnhancedBoolean;
 
@@ -28,9 +30,6 @@ public class Climber implements SubSubsystem {
 
     private EnhancedBoolean isZeroed = new EnhancedBoolean();
 
-    private ClimberControlState pivotControlState;
-    private ClimberControlState extensionControlState;
-
     @Override
     public void zeroSensors() {
         extensionController.setSelectedSensorPosition(0.0);
@@ -49,7 +48,7 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void outputData() {
-        switch (pivotControlState) {
+        switch (periodicIO.pivotControlState) {
             case ZEROING:
                 break;
             case AUTO:
@@ -67,7 +66,7 @@ public class Climber implements SubSubsystem {
                 break;
         }
 
-        switch (extensionControlState) {
+        switch (periodicIO.extensionControlState) {
             case ZEROING:
                 extensionController.set(ControlMode.PercentOutput, kExtensionZeroingPercentOutput);
 
@@ -114,8 +113,11 @@ public class Climber implements SubSubsystem {
         ZEROING, AUTO, OPEN_LOOP, DISABLED
     }
 
-    public static class PeriodicIO {
+    public static class PeriodicIO implements Sendable {
         // Outputs
+        private ClimberControlState pivotControlState;
+        private ClimberControlState extensionControlState;
+
         public double pivotPercentOutputDemand;
         public double pivotPositionDemandNU;
         public double extensionPercentOutputDemand;
@@ -133,6 +135,19 @@ public class Climber implements SubSubsystem {
         public boolean isRightExtensionLowerLimitClosed;
 
         public double extensionIntegratedEncoderPosition;
+
+        @Override
+        public void initSendable(SendableBuilder builder) {
+            builder.setSmartDashboardType("PeriodicIO");
+            builder.addStringProperty("Pivot Control State", () -> pivotControlState.name(), (x) -> {});
+            builder.addStringProperty("Extension Control State", () -> extensionControlState.name(), (x) -> {});
+            builder.addDoubleProperty("Pivot Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {});
+            builder.addDoubleProperty("Pivot Position Demand NU", () -> pivotPercentOutputDemand, (x) -> {});
+            builder.addDoubleProperty("Extension Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {});
+            builder.addDoubleProperty("Extension Position Demand NU", () -> pivotPercentOutputDemand, (x) -> {});
+            builder.addBooleanProperty("Left Climber Lock State Demand", () -> leftClimberLockStateDemand, (x) -> {});
+            builder.addBooleanProperty("Right Climber Lock State Demand", () -> rightClimberLockStateDemand, (x) -> {});
+        }
     }
 
 }
