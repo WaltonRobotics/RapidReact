@@ -43,9 +43,15 @@ public final class Constants {
 
     }
 
-    public static class PIDSlots {
+    public static final class PIDSlots {
 
         public static final int kClimberPivotPrimaryIntegratedSlot = 0;
+
+    }
+
+    public static final class Climber {
+
+        public static final double kExtensionZeroingPercentOutput = -0.2;
 
     }
 

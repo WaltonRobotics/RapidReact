@@ -14,6 +14,8 @@ public class SuperstructureCommand extends CommandBase {
     private final Climber climber;
 
     // State machine states:
+    // Disabled
+    // Initializing
     // Idle
     // Intaking
     // Outtaking

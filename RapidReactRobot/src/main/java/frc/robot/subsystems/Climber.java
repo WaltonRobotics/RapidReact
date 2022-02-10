@@ -3,9 +3,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.*;
+import frc.robot.util.EnhancedBoolean;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
+import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
 import static frc.robot.Constants.PIDSlots.kClimberPivotPrimaryIntegratedSlot;
 
 public class Climber implements SubSubsystem {
@@ -23,6 +25,8 @@ public class Climber implements SubSubsystem {
     private final DoubleSolenoid climberDiscBrake = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
 
     private final PeriodicIO periodicIO = new PeriodicIO();
+
+    private EnhancedBoolean isZeroed = new EnhancedBoolean();
 
     private ClimberControlState pivotControlState;
     private ClimberControlState extensionControlState;
@@ -65,6 +69,14 @@ public class Climber implements SubSubsystem {
 
         switch (extensionControlState) {
             case ZEROING:
+                extensionController.set(ControlMode.PercentOutput, kExtensionZeroingPercentOutput);
+
+                if (isZeroRising()) {
+                    extensionController.setSelectedSensorPosition(0);
+                }
+
+                periodicIO.extensionPositionDemandNU = 0;
+
                 break;
             case AUTO:
                 extensionController.set(ControlMode.MotionMagic, periodicIO.extensionPositionDemandNU);
@@ -84,6 +96,18 @@ public class Climber implements SubSubsystem {
         leftClimberLock.set(periodicIO.leftClimberLockStateDemand);
         rightClimberLock.set(periodicIO.rightClimberLockStateDemand);
         climberDiscBrake.set(periodicIO.climberDiscBrakeStateDemand ? kForward : kReverse);
+    }
+
+    public boolean isZeroed() {
+        return isZeroed.get();
+    }
+
+    public void setZeroed(boolean zeroed) {
+        isZeroed.set(zeroed);
+    }
+
+    public boolean isZeroRising() {
+        return isZeroed.isRisingEdge();
     }
 
     public enum ClimberControlState {
