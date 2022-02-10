@@ -147,7 +147,105 @@ public class Climber implements SubSubsystem {
             builder.addDoubleProperty("Extension Position Demand NU", () -> pivotPercentOutputDemand, (x) -> {});
             builder.addBooleanProperty("Left Climber Lock State Demand", () -> leftClimberLockStateDemand, (x) -> {});
             builder.addBooleanProperty("Right Climber Lock State Demand", () -> rightClimberLockStateDemand, (x) -> {});
+            builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {});
+            builder.addDoubleProperty("Pivot Absolute Encoder Position NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {});
+            builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {});
+            builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {});
+            builder.addBooleanProperty("Is Right Extension Lower Limit Closed", () -> isRightExtensionLowerLimitClosed, (x) -> {});
+            builder.addDoubleProperty("Extension Integrated Encoder Position", () -> extensionIntegratedEncoderPosition, (x) -> {});
         }
+    }
+
+    public ClimberControlState getPivotControlState() {
+        return periodicIO.pivotControlState;
+    }
+
+    public void setPivotControlState(ClimberControlState pivotControlState) {
+        periodicIO.pivotControlState = pivotControlState;
+    }
+
+    public ClimberControlState getExtensionControlState() {
+        return periodicIO.extensionControlState;
+    }
+
+    public void setExtensionControlState(ClimberControlState extensionControlState) {
+        periodicIO.extensionControlState = extensionControlState;
+    }
+
+    public double getPivotPercentOutputDemand() {
+        return periodicIO.pivotPercentOutputDemand;
+    }
+
+    public void setPivotPercentOutputDemand(double pivotPercentOutputDemand) {
+        periodicIO.pivotPercentOutputDemand = pivotPercentOutputDemand;
+    }
+
+    public double getPivotPositionDemandNU() {
+        return periodicIO.pivotPositionDemandNU;
+    }
+
+    public void setPivotPositionDemandNU(double pivotPositionDemandNU) {
+        periodicIO.pivotPositionDemandNU = pivotPositionDemandNU;
+    }
+
+    public double getExtensionPercentOutputDemand() {
+        return periodicIO.extensionPercentOutputDemand;
+    }
+
+    public void setExtensionPercentOutputDemand(double extensionPercentOutputDemand) {
+        periodicIO.extensionPercentOutputDemand = extensionPercentOutputDemand;
+    }
+
+    public double getExtensionPositionDemandNU() {
+        return periodicIO.extensionPositionDemandNU;
+    }
+
+    public void setExtensionPositionDemandNU(double extensionPositionDemandNU) {
+        periodicIO.extensionPositionDemandNU = extensionPositionDemandNU;
+    }
+
+    public boolean getLeftClimberLockStateDemand() {
+        return periodicIO.leftClimberLockStateDemand;
+    }
+
+    public void setLeftClimberLockStateDemand(boolean leftClimberLockStateDemand) {
+        periodicIO.leftClimberLockStateDemand = leftClimberLockStateDemand;
+    }
+
+    public boolean getRightClimberLockStateDemand() {
+        return periodicIO.rightClimberLockStateDemand;
+    }
+
+    public void setRightClimberLockStateDemand(boolean rightClimberLockStateDemand) {
+        periodicIO.rightClimberLockStateDemand = rightClimberLockStateDemand;
+    }
+
+    public boolean getClimberDiscBrakeStateDemand() {
+        return periodicIO.climberDiscBrakeStateDemand;
+    }
+
+    public void setClimberDiscBrakeStateDemand(boolean climberDiscBrakeStateDemand) {
+        periodicIO.climberDiscBrakeStateDemand = climberDiscBrakeStateDemand;
+    }
+
+    public double getPivotAbsoluteEncoderPositionNU() {
+        return periodicIO.pivotAbsoluteEncoderPositionNU;
+    }
+
+    public double getPivotIntegratedEncoderPositionNU() {
+        return periodicIO.pivotIntegratedEncoderPositionNU;
+    }
+
+    public boolean isLeftExtensionLowerLimitClosed() {
+        return periodicIO.isLeftExtensionLowerLimitClosed;
+    }
+
+    public boolean isRightExtensionLowerLimitClosed() {
+        return periodicIO.isRightExtensionLowerLimitClosed;
+    }
+
+    public double getExtensionIntegratedEncoderPosition() {
+        return periodicIO.extensionIntegratedEncoderPosition;
     }
 
 }
