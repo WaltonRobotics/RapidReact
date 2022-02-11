@@ -13,7 +13,6 @@ public class Intake implements SubSubsystem {
     private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
 
     private final PeriodicIO periodicIO = new PeriodicIO();
-    private IntakeControlState intakeControlState;
 
     @Override
     public void zeroSensors() {
@@ -35,12 +34,14 @@ public class Intake implements SubSubsystem {
     }
 
     public static class PeriodicIO {
+        private IntakeControlState intakeControlState;
+        
         // Outputs
         public double leftIntakeDemand;
         public double rightIntakeDemand;
 
-        public boolean leftIntakeDeployState;
-        public boolean rightIntakeDeployState;
+        public boolean leftIntakeDeployStateDemand;
+        public boolean rightIntakeDeployStateDemand;
     }
 
 }
