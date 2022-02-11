@@ -43,6 +43,7 @@ public class Shooter implements SubSubsystem {
 
         // Inputs
         public double flywheelVelocityNU;
+        public double flywheelClosedLoopErrorNU;
     }
 
 }
