@@ -10,7 +10,7 @@ import frc.robot.util.EnhancedBoolean;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
-import static frc.robot.Constants.PIDSlots.kClimberPivotPrimaryIntegratedSlot;
+import static frc.robot.Constants.PIDProfileSlots.kClimberPivotPrimaryIntegratedSlot;
 
 public class Climber implements SubSubsystem {
 
@@ -38,7 +38,7 @@ public class Climber implements SubSubsystem {
     @Override
     public void collectData() {
         periodicIO.pivotAbsoluteEncoderPositionNU = pivotAngleAbsoluteEncoder.get();
-        periodicIO.pivotIntegratedEncoderPositionNU = pivotController.getSelectedSensorPosition(kClimberPivotPrimaryIntegratedSlot);
+        periodicIO.pivotIntegratedEncoderPositionNU = pivotController.getSelectedSensorPosition();
 
         periodicIO.isLeftExtensionLowerLimitClosed = leftExtensionLowerLimit.get();
         periodicIO.isRightExtensionLowerLimitClosed = rightExtensionLowerLimit.get();

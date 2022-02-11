@@ -43,8 +43,8 @@ public class Intake implements SubSubsystem {
                 break;
         }
 
-        leftIntakeSolenoid.set(periodicIO.leftIntakeDeployStateDemand);
-        rightIntakeSolenoid.set(periodicIO.rightIntakeDeployStateDemand);
+        leftIntakeSolenoid.set(periodicIO.leftIntakeDeployDemand);
+        rightIntakeSolenoid.set(periodicIO.rightIntakeDeployDemand);
     }
 
     public IntakeControlState getIntakeControlState() {
@@ -72,19 +72,19 @@ public class Intake implements SubSubsystem {
     }
 
     public boolean isLeftIntakeDeployStateDemand() {
-        return periodicIO.leftIntakeDeployStateDemand;
+        return periodicIO.leftIntakeDeployDemand;
     }
 
     public void setLeftIntakeDeployStateDemand(boolean leftIntakeDeployStateDemand) {
-        periodicIO.leftIntakeDeployStateDemand = leftIntakeDeployStateDemand;
+        periodicIO.leftIntakeDeployDemand = leftIntakeDeployStateDemand;
     }
 
     public boolean isRightIntakeDeployStateDemand() {
-        return periodicIO.rightIntakeDeployStateDemand;
+        return periodicIO.rightIntakeDeployDemand;
     }
 
     public void setRightIntakeDeployStateDemand(boolean rightIntakeDeployStateDemand) {
-        periodicIO.rightIntakeDeployStateDemand = rightIntakeDeployStateDemand;
+        periodicIO.rightIntakeDeployDemand = rightIntakeDeployStateDemand;
     }
 
     public enum IntakeControlState {
@@ -98,8 +98,8 @@ public class Intake implements SubSubsystem {
         public double leftIntakeDemand;
         public double rightIntakeDemand;
 
-        public boolean leftIntakeDeployStateDemand;
-        public boolean rightIntakeDeployStateDemand;
+        public boolean leftIntakeDeployDemand;
+        public boolean rightIntakeDeployDemand;
 
 
         @Override
@@ -108,8 +108,8 @@ public class Intake implements SubSubsystem {
             builder.addStringProperty("Intake Control State", () -> intakeControlState.name(), (x) -> {});
             builder.addDoubleProperty("Left Intake Demand", () -> leftIntakeDemand, (x) -> {});
             builder.addDoubleProperty("Right Intake Demand", () -> rightIntakeDemand, (x) -> {});
-            builder.addBooleanProperty("Left Intake Deploy State", () -> leftIntakeDeployStateDemand, (x) -> {});
-            builder.addBooleanProperty("Right Intake Deploy State", () -> rightIntakeDeployStateDemand, (x) -> {});
+            builder.addBooleanProperty("Left Intake Deploy State Demand", () -> leftIntakeDeployDemand, (x) -> {});
+            builder.addBooleanProperty("Right Intake Deploy State Demand", () -> rightIntakeDeployDemand, (x) -> {});
         }
     }
 

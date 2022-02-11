@@ -43,9 +43,9 @@ public final class Constants {
 
     }
 
-    public static final class PIDSlots {
+    public static final class PIDProfileSlots {
 
-        public static final int kClimberPivotPrimaryIntegratedSlot = 0;
+        public static final int kShooterDefaultIndex = 0;
 
     }
 
