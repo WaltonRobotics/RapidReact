@@ -41,13 +41,37 @@ public class Conveyor implements SubSubsystem {
         }
     }
 
+    public ConveyorControlState getConveyorControlState() {
+        return periodicIO.conveyorControlState;
+    }
+
+    public void setConveyorControlState(ConveyorControlState conveyorControlState) {
+        periodicIO.conveyorControlState = conveyorControlState;
+    }
+
+    public double getTransportDemand() {
+        return periodicIO.transportDemand;
+    }
+
+    public void setTransportDemand(double transportDemand) {
+        periodicIO.transportDemand = transportDemand;
+    }
+
+    public double getFeedDemand() {
+        return periodicIO.feedDemand;
+    }
+
+    public void setFeedDemand(double feedDemand) {
+        periodicIO.feedDemand = feedDemand;
+    }
+
     public enum ConveyorControlState {
         VOLTAGE, OPEN_LOOP, DISABLED
     }
 
     public static class PeriodicIO {
         // Outputs
-        private ConveyorControlState conveyorControlState;
+        public ConveyorControlState conveyorControlState;
 
         public double transportDemand;
         public double feedDemand;

@@ -35,7 +35,7 @@ public class Intake implements SubSubsystem {
 
     public static class PeriodicIO {
         private IntakeControlState intakeControlState;
-        
+
         // Outputs
         public double leftIntakeDemand;
         public double rightIntakeDemand;
