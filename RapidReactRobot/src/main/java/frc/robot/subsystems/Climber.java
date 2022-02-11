@@ -10,7 +10,6 @@ import frc.robot.util.EnhancedBoolean;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
-import static frc.robot.Constants.PIDProfileSlots.kClimberPivotPrimaryIntegratedSlot;
 
 public class Climber implements SubSubsystem {
 
