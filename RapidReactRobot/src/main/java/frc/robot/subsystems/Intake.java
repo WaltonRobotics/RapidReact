@@ -26,7 +26,23 @@ public class Intake implements SubSubsystem {
 
     @Override
     public void outputData() {
+        switch (periodicIO.intakeControlState) {
+            case VOLTAGE:
+                leftIntakeController.setVoltage(periodicIO.leftIntakeDemand);
+                rightIntakeController.setVoltage(periodicIO.rightIntakeDemand);
+                break;
+            case OPEN_LOOP:
+                leftIntakeController.set(periodicIO.leftIntakeDemand);
+                rightIntakeController.set(periodicIO.rightIntakeDemand);
+                break;
+            case DISABLED:
+                leftIntakeController.set(0.0);
+                rightIntakeController.set(0.0);
+                break;
+        }
 
+        leftIntakeSolenoid.set(periodicIO.leftIntakeDeployStateDemand);
+        rightIntakeSolenoid.set(periodicIO.rightIntakeDeployStateDemand);
     }
 
     public enum IntakeControlState {

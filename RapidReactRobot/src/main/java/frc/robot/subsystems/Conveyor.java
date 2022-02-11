@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 public class Conveyor implements SubSubsystem {
@@ -25,20 +27,7 @@ public class Conveyor implements SubSubsystem {
 
     @Override
     public void outputData() {
-        switch (periodicIO.conveyorControlState) {
-            case VOLTAGE:
-                transportController.setVoltage(periodicIO.transportDemand);
-                feedController.setVoltage(periodicIO.feedDemand);
-                break;
-            case OPEN_LOOP:
-                transportController.set(periodicIO.transportDemand);
-                feedController.set(periodicIO.feedDemand);
-                break;
-            case DISABLED:
-                transportController.set(0.0);
-                feedController.set(0.0);
-                break;
-        }
+
     }
 
     public ConveyorControlState getConveyorControlState() {
@@ -69,12 +58,20 @@ public class Conveyor implements SubSubsystem {
         VOLTAGE, OPEN_LOOP, DISABLED
     }
 
-    public static class PeriodicIO {
+    public static class PeriodicIO implements Sendable {
         // Outputs
         public ConveyorControlState conveyorControlState;
 
         public double transportDemand;
         public double feedDemand;
+
+        @Override
+        public void initSendable(SendableBuilder builder) {
+            builder.setSmartDashboardType("PeriodicIO");
+            builder.addStringProperty("Conveyor Control State", () -> conveyorControlState.name(), (x) -> {});
+            builder.addDoubleProperty("Transport Demand", () -> transportDemand, (x) -> {});
+            builder.addDoubleProperty("Feed Demand", () -> feedDemand, (x) -> {});
+        }
     }
 
 }
