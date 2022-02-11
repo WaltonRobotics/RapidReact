@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Paths;
 
+import static frc.robot.Paths.*;
 import static frc.robot.Paths.RoutineFiveB.ballAtoBallB;
 import static frc.robot.Paths.RoutineFiveB.ballBtoBallG;
 import static frc.robot.Paths.RoutineFourA.betaPickUpB;
@@ -13,10 +14,10 @@ import static frc.robot.Paths.RoutineSix.ballCtoBallG;
 import static frc.robot.Paths.RoutineSix.gammaPickUpC;
 import static frc.robot.Paths.RoutineThree.alphaPickUpA;
 import static frc.robot.Paths.RoutineTwo.betaBackward;
-import static frc.robot.Paths.fiveFeetForward;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
+    //TODO: add param getInitialState() command to resetPose in autons
 
     DO_NOTHING("Doing Nothing", new SequentialCommandGroup(
     )),
@@ -25,6 +26,19 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(fiveFeetForward.getInitialPose())),
             new SwerveTrajectoryCommand(fiveFeetForward)
+    )),
+
+    S_CURVE_FORWARD("forward curve to test PID controllers", new SequentialCommandGroup(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(sCurveForward.getInitialPose(),sCurveForward.getInitialState())),
+            new SwerveTrajectoryCommand(sCurveForward)
+    )),
+
+    //THIS PATH IS IN PROGRESS
+    S_CURVE_BACKWARD("backward curve to test PID controllers", new SequentialCommandGroup(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(sCurveBackward.getInitialPose())),
+            new SwerveTrajectoryCommand(sCurveBackward)
     )),
 
     ROUTINE_ONE("Taxi from tarmac from gamma", new SequentialCommandGroup(

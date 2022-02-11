@@ -4,6 +4,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -51,6 +52,9 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
         LiveDashboardHelper.putRobotData(drivetrain.getPoseMeters());
         LiveDashboardHelper.putTrajectoryData(trajectory.sample(currentTime).poseMeters);
+        SmartDashboard.putNumber("kX Position Error", kXController.getPositionError());
+        SmartDashboard.putNumber("kY Position Error", kYController.getPositionError());
+        SmartDashboard.putNumber("kTheta Position Error", kThetaController.getPositionError());
     }
     @Override
     public boolean isFinished() {
