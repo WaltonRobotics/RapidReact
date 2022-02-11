@@ -74,9 +74,9 @@ public class Robot extends WaltTimesliceRobot {
     SmartDashboard.putData("kYController", kYController);
     SmartDashboard.putData("kThetaController", kThetaController);
 
-    SmartDashboard.putNumber("kX Position Error", kXController.getPositionError());
-    SmartDashboard.putNumber("kY Position Error", kYController.getPositionError());
-    SmartDashboard.putNumber("kTheta Position Error", kThetaController.getPositionError());
+//    SmartDashboard.putNumber("kX Position Error", kXController.getPositionError());
+//    SmartDashboard.putNumber("kY Position Error", kYController.getPositionError());
+//    SmartDashboard.putNumber("kTheta Position Error", kThetaController.getPositionError());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
