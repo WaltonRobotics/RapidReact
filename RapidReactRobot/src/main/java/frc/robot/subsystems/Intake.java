@@ -47,6 +47,46 @@ public class Intake implements SubSubsystem {
         rightIntakeSolenoid.set(periodicIO.rightIntakeDeployStateDemand);
     }
 
+    public IntakeControlState getIntakeControlState() {
+        return periodicIO.intakeControlState;
+    }
+
+    public void setIntakeControlState(IntakeControlState intakeControlState) {
+        periodicIO.intakeControlState = intakeControlState;
+    }
+
+    public double getLeftIntakeDemand() {
+        return periodicIO.leftIntakeDemand;
+    }
+
+    public void setLeftIntakeDemand(double leftIntakeDemand) {
+        periodicIO.leftIntakeDemand = leftIntakeDemand;
+    }
+
+    public double getRightIntakeDemand() {
+        return periodicIO.rightIntakeDemand;
+    }
+
+    public void setRightIntakeDemand(double rightIntakeDemand) {
+        periodicIO.rightIntakeDemand = rightIntakeDemand;
+    }
+
+    public boolean isLeftIntakeDeployStateDemand() {
+        return periodicIO.leftIntakeDeployStateDemand;
+    }
+
+    public void setLeftIntakeDeployStateDemand(boolean leftIntakeDeployStateDemand) {
+        periodicIO.leftIntakeDeployStateDemand = leftIntakeDeployStateDemand;
+    }
+
+    public boolean isRightIntakeDeployStateDemand() {
+        return periodicIO.rightIntakeDeployStateDemand;
+    }
+
+    public void setRightIntakeDeployStateDemand(boolean rightIntakeDeployStateDemand) {
+        periodicIO.rightIntakeDeployStateDemand = rightIntakeDeployStateDemand;
+    }
+
     public enum IntakeControlState {
         VOLTAGE, OPEN_LOOP, DISABLED
     }
