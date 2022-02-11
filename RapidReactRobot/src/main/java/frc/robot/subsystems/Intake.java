@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -49,7 +51,7 @@ public class Intake implements SubSubsystem {
         VOLTAGE, OPEN_LOOP, DISABLED
     }
 
-    public static class PeriodicIO {
+    public static class PeriodicIO implements Sendable {
         private IntakeControlState intakeControlState;
 
         // Outputs
@@ -58,6 +60,17 @@ public class Intake implements SubSubsystem {
 
         public boolean leftIntakeDeployStateDemand;
         public boolean rightIntakeDeployStateDemand;
+
+
+        @Override
+        public void initSendable(SendableBuilder builder) {
+            builder.setSmartDashboardType("PeriodicIO");
+            builder.addStringProperty("Intake Control State", () -> intakeControlState.name(), (x) -> {});
+            builder.addDoubleProperty("Left Intake Demand", () -> leftIntakeDemand, (x) -> {});
+            builder.addDoubleProperty("Right Intake Demand", () -> rightIntakeDemand, (x) -> {});
+            builder.addBooleanProperty("Left Intake Deploy State", () -> leftIntakeDeployStateDemand, (x) -> {});
+            builder.addBooleanProperty("Right Intake Deploy State", () -> rightIntakeDeployStateDemand, (x) -> {});
+        }
     }
 
 }
