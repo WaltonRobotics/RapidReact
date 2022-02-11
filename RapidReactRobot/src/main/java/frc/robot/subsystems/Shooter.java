@@ -54,6 +54,54 @@ public class Shooter implements SubSubsystem {
         rightAdjustableHoodServo.setSpeed(periodicIO.rightAdjustableHoodDutyCycleDemand);
     }
 
+    public ShooterControlState getShooterControlState() {
+        return periodicIO.shooterControlState;
+    }
+
+    public void setShooterControlState(ShooterControlState shooterControlState) {
+        periodicIO.shooterControlState = shooterControlState;
+    }
+
+    public ShooterProfileSlot getSelectedProfileSlot() {
+        return periodicIO.selectedProfileSlot;
+    }
+
+    public void setSelectedProfileSlot(ShooterProfileSlot selectedProfileSlot) {
+        periodicIO.selectedProfileSlot = selectedProfileSlot;
+    }
+
+    public double getFlywheelDemand() {
+        return periodicIO.flywheelDemand;
+    }
+
+    public void setFlywheelDemand(double flywheelDemand) {
+        periodicIO.flywheelDemand = flywheelDemand;
+    }
+
+    public double getLeftAdjustableHoodDutyCycleDemand() {
+        return periodicIO.leftAdjustableHoodDutyCycleDemand;
+    }
+
+    public void setLeftAdjustableHoodDutyCycleDemand(double leftAdjustableHoodDutyCycleDemand) {
+        periodicIO.leftAdjustableHoodDutyCycleDemand = leftAdjustableHoodDutyCycleDemand;
+    }
+
+    public double getRightAdjustableHoodDutyCycleDemand() {
+        return periodicIO.rightAdjustableHoodDutyCycleDemand;
+    }
+
+    public void setRightAdjustableHoodDutyCycleDemand(double rightAdjustableHoodDutyCycleDemand) {
+        periodicIO.rightAdjustableHoodDutyCycleDemand = rightAdjustableHoodDutyCycleDemand;
+    }
+
+    public double getFlywheelVelocityNU() {
+        return periodicIO.flywheelVelocityNU;
+    }
+
+    public double getFlywheelClosedLoopErrorNU() {
+        return periodicIO.flywheelClosedLoopErrorNU;
+    }
+
     public enum ShooterControlState {
         VELOCITY, OPEN_LOOP, DISABLED
     }
