@@ -7,5 +7,9 @@ public interface ClimberConfig {
     TalonFXConfiguration getPivotControllerConfig();
     TalonFXConfiguration getExtensionControllerConfig();
 
+//    EncoderConfig getPivotAngleAbsoluteEncoderConfig();
+//
+//    int getLeftExtensionLowerLimitChannel();
+//    int getRightExtensionLowerLimitChannel();
 
 }

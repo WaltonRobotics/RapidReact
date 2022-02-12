@@ -7,10 +7,14 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.config.ShooterConfig;
 
 import static frc.robot.Constants.PIDProfileSlots.kShooterDefaultIndex;
+import static frc.robot.RobotContainer.currentRobot;
 
 public class Shooter implements SubSubsystem {
+
+    private final ShooterConfig config = currentRobot.getShooterConfig();
 
     private final int kFlywheelMasterID = 1;
 

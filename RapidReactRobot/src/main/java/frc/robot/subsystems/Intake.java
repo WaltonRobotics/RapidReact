@@ -5,8 +5,14 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import frc.robot.config.ClimberConfig;
+import frc.robot.config.IntakeConfig;
+
+import static frc.robot.RobotContainer.currentRobot;
 
 public class Intake implements SubSubsystem {
+
+    private final IntakeConfig config = currentRobot.getIntakeConfig();
 
     private final Spark leftIntakeController = new Spark(1);
     private final Spark rightIntakeController = new Spark(2);

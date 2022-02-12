@@ -5,13 +5,17 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.*;
+import frc.robot.config.ClimberConfig;
 import frc.robot.util.EnhancedBoolean;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
+import static frc.robot.RobotContainer.currentRobot;
 
 public class Climber implements SubSubsystem {
+
+    private final ClimberConfig config = currentRobot.getClimberConfig();
 
     private final Encoder pivotAngleAbsoluteEncoder = new Encoder(0, 1);
 

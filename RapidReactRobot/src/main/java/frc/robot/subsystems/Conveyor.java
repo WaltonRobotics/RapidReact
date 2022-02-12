@@ -3,8 +3,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import frc.robot.config.ConveyorConfig;
+
+import static frc.robot.RobotContainer.currentRobot;
 
 public class Conveyor implements SubSubsystem {
+
+    private final ConveyorConfig config = currentRobot.getConveyorConfig();
 
     private final Spark transportController = new Spark(1);
     private final Spark feedController = new Spark(2);
