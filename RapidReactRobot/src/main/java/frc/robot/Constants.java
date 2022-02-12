@@ -95,6 +95,11 @@ public final class Constants {
         public static final String kDriverStrafeScale = "Driver/Strafe Scale";
         public static final String kDriverYawScale = "Driver/Yaw Scale";
 
+        public static final String kIntakePeriodicIOKey = "Intake/Periodic IO";
+        public static final String kConveyorPeriodicIOKey = "Conveyor/Periodic IO";
+        public static final String kShooterPeriodicIOKey = "Shooter/Periodic IO";
+        public static final String kClimberPeriodicIOKey = "Climber/Periodic IO";
+
     }
 
     public static class LiveDashboardKeys {

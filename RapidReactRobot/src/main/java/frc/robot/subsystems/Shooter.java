@@ -65,6 +65,10 @@ public class Shooter implements SubSubsystem {
         periodicIO.lastRightAdjustableHoodDutyCycleDemand = periodicIO.rightAdjustableHoodDutyCycleDemand;
     }
 
+    public Sendable getPeriodicIOSendable() {
+        return periodicIO;
+    }
+
     public ShooterControlState getShooterControlState() {
         return periodicIO.shooterControlState;
     }

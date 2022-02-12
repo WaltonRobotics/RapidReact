@@ -30,6 +30,10 @@ public class Conveyor implements SubSubsystem {
 
     }
 
+    public Sendable getPeriodicIOSendable() {
+        return periodicIO;
+    }
+
     public ConveyorControlState getConveyorControlState() {
         return periodicIO.conveyorControlState;
     }

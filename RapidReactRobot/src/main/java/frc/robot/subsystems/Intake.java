@@ -47,6 +47,10 @@ public class Intake implements SubSubsystem {
         rightIntakeSolenoid.set(periodicIO.rightIntakeDeployDemand);
     }
 
+    public Sendable getPeriodicIOSendable() {
+        return periodicIO;
+    }
+
     public IntakeControlState getIntakeControlState() {
         return periodicIO.intakeControlState;
     }

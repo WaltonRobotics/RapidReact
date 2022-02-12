@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import static frc.robot.Constants.SmartDashboardKeys.*;
 
 public class Superstructure extends SubsystemBase {
 
@@ -28,6 +31,14 @@ public class Superstructure extends SubsystemBase {
 
     public Climber getClimber() {
         return climber;
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putData(kIntakePeriodicIOKey, intake.getPeriodicIOSendable());
+        SmartDashboard.putData(kConveyorPeriodicIOKey, conveyor.getPeriodicIOSendable());
+        SmartDashboard.putData(kShooterPeriodicIOKey, shooter.getPeriodicIOSendable());
+        SmartDashboard.putData(kClimberPeriodicIOKey, climber.getPeriodicIOSendable());
     }
 
 }
