@@ -42,6 +42,8 @@ public class SwerveTestbed extends WaltRobot {
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
     // Shooter constants
+    private final TalonFXConfiguration flywheelMasterTalonConfig = new TalonFXConfiguration();
+    private final TalonFXConfiguration flywheelSlaveTalonConfig = new TalonFXConfiguration();
 
     // Climber constants
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
@@ -144,7 +146,8 @@ public class SwerveTestbed extends WaltRobot {
 
     @Override
     public void configShooter() {
-
+        flywheelMasterTalonConfig.voltageCompSaturation = 11.0;
+        flywheelSlaveTalonConfig.voltageCompSaturation = 11.0;
     }
 
     @Override
