@@ -48,12 +48,14 @@ public class Climber implements SubSubsystem {
         pivotController.setInverted(config.getPivotControllerMotorConfig().isInverted());
         pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
         pivotController.setNeutralMode(NeutralMode.Brake);
+        pivotController.enableVoltageCompensation(true);
 
         extensionController.configFactoryDefault(10);
         extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);
         extensionController.setInverted(config.getExtensionControllerMotorConfig().isInverted());
         extensionController.setSensorPhase(config.getExtensionControllerMotorConfig().isInverted());
         extensionController.setNeutralMode(NeutralMode.Brake);
+        extensionController.enableVoltageCompensation(true);
     }
 
     @Override
