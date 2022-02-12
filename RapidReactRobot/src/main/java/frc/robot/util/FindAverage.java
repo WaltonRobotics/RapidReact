@@ -9,8 +9,6 @@ public class FindAverage implements frc.robot.utils.movingAverage.MovingAverage 
     private final Queue<Double> dataset = new LinkedList<>();
     private double sum;
 
-
-
     /* function to add new data in the
        list and update the sum so that
        we get the new mean */
