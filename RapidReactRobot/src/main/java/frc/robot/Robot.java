@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.TimesliceRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -15,6 +17,7 @@ import frc.robot.subsystems.Shooter;
 
 import frc.robot.util.WaltTimesliceRobot;
 
+import static frc.robot.Constants.SwerveDriveConfig.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
 /**
@@ -72,6 +75,10 @@ public class Robot extends WaltTimesliceRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    SmartDashboard.putData("kXController", kXController);
+    SmartDashboard.putData("kYController", kYController);
+    SmartDashboard.putData("kThetaController", kThetaController);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

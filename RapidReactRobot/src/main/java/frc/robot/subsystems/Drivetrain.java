@@ -44,13 +44,13 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveModules = new WaltSwerveModule[4];
         Translation2d[] wheelLocations = getWheelLocationMeters();
 
-        boolean[] inversions = {false, true, true, false};
+        boolean[] inversions = {true, true, true, true};
 
         for (int i = 0; i < 4; i++) {
             var azimuthSparkMax = new CANSparkMax(i + 1, CANSparkMaxLowLevel.MotorType.kBrushless);
             azimuthSparkMax.restoreFactoryDefaults();
             azimuthSparkMax.enableVoltageCompensation(12.0);
-            azimuthSparkMax.setSmartCurrentLimit(80);
+            azimuthSparkMax.setSmartCurrentLimit(20);
             azimuthSparkMax.setOpenLoopRampRate(0.0);
             azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
             azimuthSparkMax.setInverted(true);
