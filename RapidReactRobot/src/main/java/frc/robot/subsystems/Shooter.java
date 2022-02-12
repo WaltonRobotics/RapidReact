@@ -105,6 +105,10 @@ public class Shooter implements SubSubsystem {
         periodicIO.rightAdjustableHoodDutyCycleDemand = rightAdjustableHoodDutyCycleDemand;
     }
 
+    public double getLastAdjustableHoodChangeFPGATime() {
+        return periodicIO.lastAdjustableHoodChangeFPGATime;
+    }
+
     public double getFlywheelVelocityNU() {
         return periodicIO.flywheelVelocityNU;
     }
