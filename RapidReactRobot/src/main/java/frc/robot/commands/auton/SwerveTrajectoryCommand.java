@@ -52,6 +52,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
         LiveDashboardHelper.putRobotData(drivetrain.getPoseMeters());
         LiveDashboardHelper.putTrajectoryData(trajectory.sample(currentTime).poseMeters);
+        
         SmartDashboard.putNumber("kX Position Error", kXController.getPositionError());
         SmartDashboard.putNumber("kY Position Error", kYController.getPositionError());
         SmartDashboard.putNumber("kTheta Position Error", kThetaController.getPositionError());

@@ -70,10 +70,6 @@ public class Robot extends WaltTimesliceRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putData("kXController", kXController);
-    SmartDashboard.putData("kYController", kYController);
-    SmartDashboard.putData("kThetaController", kThetaController);
-
 //    SmartDashboard.putNumber("kX Position Error", kXController.getPositionError());
 //    SmartDashboard.putNumber("kY Position Error", kYController.getPositionError());
 //    SmartDashboard.putNumber("kTheta Position Error", kThetaController.getPositionError());

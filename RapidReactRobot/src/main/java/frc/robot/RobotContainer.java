@@ -33,6 +33,7 @@ import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.Constants.SwerveDriveConfig.*;
 import static frc.robot.commands.auton.AutonRoutine.DO_NOTHING;
 
 /**
@@ -122,6 +123,10 @@ public class RobotContainer {
       SmartDashboard.putData(kDriverForwardScale, controllerConfig.getForwardScale());
       SmartDashboard.putData(kDriverStrafeScale, controllerConfig.getStrafeScale());
       SmartDashboard.putData(kDriverYawScale, controllerConfig.getYawScale());
+
+      SmartDashboard.putData("kXController", kXController);
+      SmartDashboard.putData("kYController", kYController);
+      SmartDashboard.putData("kThetaController", kThetaController);
     }
   }
 
