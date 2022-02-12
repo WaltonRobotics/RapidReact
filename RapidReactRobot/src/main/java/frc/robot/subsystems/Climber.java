@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -24,8 +25,8 @@ public class Climber implements SubSubsystem {
     private final DigitalInput leftExtensionLowerLimit = new DigitalInput(config.getLeftExtensionLowerLimitChannel());
     private final DigitalInput rightExtensionLowerLimit = new DigitalInput(config.getRightExtensionLowerLimitChannel());
 
-    private final TalonFX pivotController = new TalonFX(config.getPivotControllerMotorConfig().getChannel());
-    private final TalonFX extensionController = new TalonFX(config.getExtensionControllerMotorConfig().getChannel());
+    private final TalonFX pivotController = new TalonFX(config.getPivotControllerMotorConfig().getChannelOrID());
+    private final TalonFX extensionController = new TalonFX(config.getExtensionControllerMotorConfig().getChannelOrID());
 
     private final Solenoid leftClimberLock = new Solenoid(CTREPCM, config.getLeftClimberLockChannel());
     private final Solenoid rightClimberLock = new Solenoid(CTREPCM, config.getRightClimberLockChannel());
@@ -46,11 +47,13 @@ public class Climber implements SubSubsystem {
         pivotController.configAllSettings(config.getPivotControllerTalonConfig(), 10);
         pivotController.setInverted(config.getPivotControllerMotorConfig().isInverted());
         pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
+        pivotController.setNeutralMode(NeutralMode.Brake);
 
         extensionController.configFactoryDefault(10);
         extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);
         extensionController.setInverted(config.getExtensionControllerMotorConfig().isInverted());
         extensionController.setSensorPhase(config.getExtensionControllerMotorConfig().isInverted());
+        extensionController.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override

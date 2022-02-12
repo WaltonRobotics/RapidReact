@@ -11,8 +11,8 @@ public class Conveyor implements SubSubsystem {
 
     private final ConveyorConfig config = currentRobot.getConveyorConfig();
 
-    private final Spark transportController = new Spark(config.getTransportControllerConfig().getChannel());
-    private final Spark feedController = new Spark(config.getFeedControllerConfig().getChannel());
+    private final Spark transportController = new Spark(config.getTransportControllerConfig().getChannelOrID());
+    private final Spark feedController = new Spark(config.getFeedControllerConfig().getChannelOrID());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 

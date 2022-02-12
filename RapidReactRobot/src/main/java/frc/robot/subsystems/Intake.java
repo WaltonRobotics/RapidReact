@@ -5,7 +5,6 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import frc.robot.config.ClimberConfig;
 import frc.robot.config.IntakeConfig;
 
 import static frc.robot.RobotContainer.currentRobot;
@@ -14,14 +13,14 @@ public class Intake implements SubSubsystem {
 
     private final IntakeConfig config = currentRobot.getIntakeConfig();
 
-    private final Spark leftIntakeController = new Spark(config.getLeftIntakeControllerConfig().getChannel());
-    private final Spark rightIntakeController = new Spark(config.getRightIntakeControllerConfig().getChannel());
+    private final Spark leftIntakeController = new Spark(config.getLeftIntakeControllerConfig().getChannelOrID());
+    private final Spark rightIntakeController = new Spark(config.getRightIntakeControllerConfig().getChannelOrID());
 
     private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
-            config.getLeftIntakeControllerConfig().getChannel());
+            config.getLeftIntakeControllerConfig().getChannelOrID());
 
     private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
-            config.getRightIntakeControllerConfig().getChannel());
+            config.getRightIntakeControllerConfig().getChannelOrID());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 

@@ -17,14 +17,14 @@ public class Shooter implements SubSubsystem {
     private final ShooterConfig config = currentRobot.getShooterConfig();
 
     private final TalonFX flywheelMasterController = new TalonFX(
-            config.getFlywheelMasterControllerMotorConfig().getChannel());
+            config.getFlywheelMasterControllerMotorConfig().getChannelOrID());
     private final TalonFX flywheelSlaveController = new TalonFX(
-            config.getFlywheelSlaveControllerMotorConfig().getChannel());
+            config.getFlywheelSlaveControllerMotorConfig().getChannelOrID());
 
     private final Servo leftAdjustableHoodServo = new Servo(
-            config.getLeftAdjustableHoodServoConfig().getChannel());
+            config.getLeftAdjustableHoodServoConfig().getChannelOrID());
     private final Servo rightAdjustableHoodServo = new Servo(
-            config.getRightAdjustableHoodServoConfig().getChannel());
+            config.getRightAdjustableHoodServoConfig().getChannelOrID());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
@@ -57,7 +57,7 @@ public class Shooter implements SubSubsystem {
 
     @Override
     public void outputData() {
-        int masterID = config.getFlywheelMasterControllerMotorConfig().getChannel();
+        int masterID = config.getFlywheelMasterControllerMotorConfig().getChannelOrID();
 
         switch (periodicIO.shooterControlState) {
             case VELOCITY:

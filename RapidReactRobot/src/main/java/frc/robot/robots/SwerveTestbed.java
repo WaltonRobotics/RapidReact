@@ -1,5 +1,6 @@
 package frc.robot.robots;
 
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 import edu.wpi.first.math.controller.PIDController;
@@ -11,6 +12,7 @@ import frc.robot.config.*;
 
 public class SwerveTestbed extends WaltRobot {
 
+    // Drivetrain constants
     private final SmartMotionConstants[] azimuthControllerConfigs = new SmartMotionConstants[4];
     private final TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
 
@@ -38,6 +40,12 @@ public class SwerveTestbed extends WaltRobot {
                     0,
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
+
+    // Shooter constants
+
+    // Climber constants
+    private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
+    private final TalonFXConfiguration extensionControllerTalonConfig = new TalonFXConfiguration();
 
     @Override
     public void configDrivetrain() {
@@ -141,7 +149,17 @@ public class SwerveTestbed extends WaltRobot {
 
     @Override
     public void configClimber() {
+        pivotControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
+                true, 75, 80, 1);
+        pivotControllerTalonConfig.voltageCompSaturation = 12.0;
+        pivotControllerTalonConfig.forwardSoftLimitEnable = false;
+        pivotControllerTalonConfig.reverseSoftLimitEnable = false;
 
+        extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
+                true, 75, 80, 1);
+        extensionControllerTalonConfig.voltageCompSaturation = 12.0;
+        extensionControllerTalonConfig.forwardSoftLimitEnable = false;
+        extensionControllerTalonConfig.reverseSoftLimitEnable = false;
     }
 
     @Override
@@ -244,12 +262,32 @@ public class SwerveTestbed extends WaltRobot {
         return new IntakeConfig() {
             @Override
             public MotorConfig getLeftIntakeControllerConfig() {
-                return null;
+                return new MotorConfig() {
+                    @Override
+                    public int getChannelOrID() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
 
             @Override
             public MotorConfig getRightIntakeControllerConfig() {
-                return null;
+                return new MotorConfig() {
+                    @Override
+                    public int getChannelOrID() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
         };
     }
@@ -259,12 +297,32 @@ public class SwerveTestbed extends WaltRobot {
         return new ConveyorConfig() {
             @Override
             public MotorConfig getTransportControllerConfig() {
-                return null;
+                return new MotorConfig() {
+                    @Override
+                    public int getChannelOrID() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
 
             @Override
             public MotorConfig getFeedControllerConfig() {
-                return null;
+                return new MotorConfig() {
+                    @Override
+                    public int getChannelOrID() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
         };
     }
@@ -274,12 +332,32 @@ public class SwerveTestbed extends WaltRobot {
         return new ShooterConfig() {
             @Override
             public MotorConfig getFlywheelMasterControllerMotorConfig() {
-                return null;
+                return new MotorConfig() {
+                    @Override
+                    public int getChannelOrID() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
 
             @Override
             public MotorConfig getFlywheelSlaveControllerMotorConfig() {
-                return null;
+                return new MotorConfig() {
+                    @Override
+                    public int getChannelOrID() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
 
             @Override
@@ -309,22 +387,42 @@ public class SwerveTestbed extends WaltRobot {
         return new ClimberConfig() {
             @Override
             public MotorConfig getPivotControllerMotorConfig() {
-                return null;
+                return new MotorConfig() {
+                    @Override
+                    public int getChannelOrID() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
 
             @Override
             public MotorConfig getExtensionControllerMotorConfig() {
-                return null;
+                return new MotorConfig() {
+                    @Override
+                    public int getChannelOrID() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
 
             @Override
             public TalonFXConfiguration getPivotControllerTalonConfig() {
-                return null;
+                return pivotControllerTalonConfig;
             }
 
             @Override
             public TalonFXConfiguration getExtensionControllerTalonConfig() {
-                return null;
+                return extensionControllerTalonConfig;
             }
 
             @Override

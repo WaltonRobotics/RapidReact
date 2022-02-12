@@ -2,7 +2,7 @@ package frc.robot.config;
 
 public interface MotorConfig {
 
-    int getChannel();
+    int getChannelOrID();
 
     boolean isInverted();
 
