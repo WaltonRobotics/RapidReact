@@ -27,7 +27,20 @@ public class Conveyor implements SubSubsystem {
 
     @Override
     public void outputData() {
-
+        switch (periodicIO.conveyorControlState) {
+            case VOLTAGE:
+                transportController.setVoltage(periodicIO.transportDemand);
+                feedController.setVoltage(periodicIO.feedDemand);
+                break;
+            case OPEN_LOOP:
+                transportController.set(periodicIO.transportDemand);
+                feedController.set(periodicIO.feedDemand);
+                break;
+            case DISABLED:
+                transportController.set(0.0);
+                feedController.set(0.0);
+                break;
+        }
     }
 
     public Sendable getPeriodicIOSendable() {
