@@ -19,6 +19,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
     private final Timer timer = new Timer();
     private HolonomicDriveController holonomicDriveController;
 
+
     public SwerveTrajectoryCommand(PathPlannerTrajectory trajectory) {
         addRequirements(drivetrain);
         this.trajectory = trajectory;
@@ -43,6 +44,9 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
     public void execute() {
         double currentTime = timer.get();
+        double kXInstantPositionError = kXController.getPositionError();
+        double kYInstantPositionError = kYController.getPositionError();
+        double kThetaInstantPositionError = kThetaController.getPositionError();
 
         PathPlannerTrajectory.PathPlannerState state = (PathPlannerTrajectory.PathPlannerState) trajectory.sample(currentTime);
         ChassisSpeeds speeds = holonomicDriveController.calculate(drivetrain.getPoseMeters(), state, state.holonomicRotation);
@@ -56,6 +60,8 @@ public class SwerveTrajectoryCommand extends CommandBase {
         SmartDashboard.putNumber("kX Position Error", kXController.getPositionError());
         SmartDashboard.putNumber("kY Position Error", kYController.getPositionError());
         SmartDashboard.putNumber("kTheta Position Error", kThetaController.getPositionError());
+
+        //MOVING POSITION ERROR AVERAGES
     }
     @Override
     public boolean isFinished() {
