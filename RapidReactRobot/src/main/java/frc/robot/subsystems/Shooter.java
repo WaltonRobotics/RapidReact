@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.util.sendable.Sendable;
@@ -33,11 +34,13 @@ public class Shooter implements SubSubsystem {
         flywheelMasterController.configAllSettings(config.getFlywheelMasterControllerTalonConfig(), 10);
         flywheelMasterController.setInverted(config.getFlywheelMasterControllerMotorConfig().isInverted());
         flywheelMasterController.setSensorPhase(config.getFlywheelMasterControllerMotorConfig().isInverted());
+        flywheelMasterController.setNeutralMode(NeutralMode.Coast);
 
         flywheelSlaveController.configFactoryDefault(10);
         flywheelSlaveController.configAllSettings(config.getFlywheelSlaveControllerTalonConfig(), 10);
         flywheelSlaveController.setInverted(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setSensorPhase(config.getFlywheelSlaveControllerMotorConfig().isInverted());
+        flywheelSlaveController.setNeutralMode(NeutralMode.Coast);
 
         // From L16-R datasheet
         leftAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
