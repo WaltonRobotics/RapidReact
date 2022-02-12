@@ -27,7 +27,6 @@ public interface DrivetrainConfig {
     double getMaxSpeedMetersPerSecond();
     double getMaxOmega();
 
-    int getTalonConfigTimeout();
     double getDriveGearRatio();
 
     Translation2d[] getWheelLocationMeters();

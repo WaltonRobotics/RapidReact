@@ -4,14 +4,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 
 public interface ClimberConfig {
 
-    int getPivotControllerID();
-    int getExtensionControllerID();
     MotorConfig getPivotControllerMotorConfig();
     MotorConfig getExtensionControllerMotorConfig();
     TalonFXConfiguration getPivotControllerTalonConfig();
     TalonFXConfiguration getExtensionControllerTalonConfig();
 
-    EncoderConfig getPivotAngleAbsoluteEncoderConfig();
+    AbsoluteEncoderConfig getPivotAngleAbsoluteEncoderConfig();
 
     int getLeftExtensionLowerLimitChannel();
     int getRightExtensionLowerLimitChannel();

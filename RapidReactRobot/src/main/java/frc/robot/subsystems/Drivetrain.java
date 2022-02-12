@@ -85,8 +85,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             TalonFXConfiguration driveConfig = config.getDriveControllerConfigs()[i];
 
             var driveTalon = new TalonFX(config.getDriveControllerIDs()[i]);
-            driveTalon.configFactoryDefault(config.getTalonConfigTimeout());
-            driveTalon.configAllSettings(driveConfig, config.getTalonConfigTimeout());
+            driveTalon.configFactoryDefault(10);
+            driveTalon.configAllSettings(driveConfig, 10);
             driveTalon.enableVoltageCompensation(true);
             driveTalon.setNeutralMode(NeutralMode.Brake);
 

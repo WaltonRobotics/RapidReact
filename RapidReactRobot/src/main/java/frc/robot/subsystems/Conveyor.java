@@ -17,7 +17,8 @@ public class Conveyor implements SubSubsystem {
     private final PeriodicIO periodicIO = new PeriodicIO();
 
     public Conveyor() {
-
+        transportController.setInverted(config.getTransportControllerConfig().isInverted());
+        feedController.setInverted(config.getFeedControllerConfig().isInverted());
     }
 
     @Override

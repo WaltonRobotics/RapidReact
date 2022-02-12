@@ -18,15 +18,14 @@ public class Climber implements SubSubsystem {
 
     private final ClimberConfig config = currentRobot.getClimberConfig();
 
-    private final Encoder pivotAngleAbsoluteEncoder = new Encoder(
-            config.getPivotAngleAbsoluteEncoderConfig().getChannelA(),
-            config.getPivotAngleAbsoluteEncoderConfig().getChannelB());
+    private final DutyCycleEncoder pivotAngleAbsoluteEncoder = new DutyCycleEncoder(
+            config.getPivotAngleAbsoluteEncoderConfig().getChannel());
 
     private final DigitalInput leftExtensionLowerLimit = new DigitalInput(config.getLeftExtensionLowerLimitChannel());
     private final DigitalInput rightExtensionLowerLimit = new DigitalInput(config.getRightExtensionLowerLimitChannel());
 
-    private final TalonFX pivotController = new TalonFX(config.getPivotControllerID());
-    private final TalonFX extensionController = new TalonFX(config.getExtensionControllerID());
+    private final TalonFX pivotController = new TalonFX(config.getPivotControllerMotorConfig().getChannel());
+    private final TalonFX extensionController = new TalonFX(config.getExtensionControllerMotorConfig().getChannel());
 
     private final Solenoid leftClimberLock = new Solenoid(CTREPCM, config.getLeftClimberLockChannel());
     private final Solenoid rightClimberLock = new Solenoid(CTREPCM, config.getRightClimberLockChannel());
@@ -38,7 +37,20 @@ public class Climber implements SubSubsystem {
     private EnhancedBoolean isZeroed = new EnhancedBoolean();
 
     public Climber() {
+        // Duty cycle range from Rev Through Bore Encoder specs
+        pivotAngleAbsoluteEncoder.setDutyCycleRange(1.0 / 1025.0, 1024.0 / 1025.0);
+        pivotAngleAbsoluteEncoder.setDistancePerRotation(
+                config.getPivotAngleAbsoluteEncoderConfig().getDistancePerRotation());
 
+        pivotController.configFactoryDefault(10);
+        pivotController.configAllSettings(config.getPivotControllerTalonConfig(), 10);
+        pivotController.setInverted(config.getPivotControllerMotorConfig().isInverted());
+        pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
+
+        extensionController.configFactoryDefault(10);
+        extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);
+        extensionController.setInverted(config.getExtensionControllerMotorConfig().isInverted());
+        extensionController.setSensorPhase(config.getExtensionControllerMotorConfig().isInverted());
     }
 
     @Override

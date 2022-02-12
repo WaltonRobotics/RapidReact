@@ -208,11 +208,6 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public int getTalonConfigTimeout() {
-                return 10;
-            }
-
-            @Override
             public double getDriveGearRatio() {
                 final double kDriveMotorOutputGear = 12;
                 final double kDriveInputGear = 21;
@@ -313,16 +308,6 @@ public class SwerveTestbed extends WaltRobot {
     public ClimberConfig getClimberConfig() {
         return new ClimberConfig() {
             @Override
-            public int getPivotControllerID() {
-                return 0;
-            }
-
-            @Override
-            public int getExtensionControllerID() {
-                return 0;
-            }
-
-            @Override
             public MotorConfig getPivotControllerMotorConfig() {
                 return null;
             }
@@ -343,7 +328,7 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public EncoderConfig getPivotAngleAbsoluteEncoderConfig() {
+            public AbsoluteEncoderConfig getPivotAngleAbsoluteEncoderConfig() {
                 return null;
             }
 

@@ -28,6 +28,21 @@ public class Shooter implements SubSubsystem {
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
+    public Shooter() {
+        flywheelMasterController.configFactoryDefault(10);
+        flywheelMasterController.configAllSettings(config.getFlywheelMasterControllerTalonConfig(), 10);
+        flywheelMasterController.setInverted(config.getFlywheelMasterControllerMotorConfig().isInverted());
+        flywheelMasterController.setSensorPhase(config.getFlywheelMasterControllerMotorConfig().isInverted());
+
+        flywheelSlaveController.configFactoryDefault(10);
+        flywheelSlaveController.configAllSettings(config.getFlywheelSlaveControllerTalonConfig(), 10);
+        flywheelSlaveController.setInverted(config.getFlywheelSlaveControllerMotorConfig().isInverted());
+        flywheelSlaveController.setSensorPhase(config.getFlywheelSlaveControllerMotorConfig().isInverted());
+
+        leftAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
+        rightAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
+    }
+
     @Override
     public void zeroSensors() {
 

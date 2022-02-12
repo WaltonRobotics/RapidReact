@@ -25,6 +25,11 @@ public class Intake implements SubSubsystem {
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
+    public Intake() {
+        leftIntakeController.setInverted(config.getLeftIntakeControllerConfig().isInverted());
+        rightIntakeController.setInverted(config.getRightIntakeControllerConfig().isInverted());
+    }
+
     @Override
     public void zeroSensors() {
 
