@@ -6,9 +6,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Timer;
 
 import static frc.robot.Constants.PIDProfileSlots.kShooterDefaultIndex;
-
 
 public class Shooter implements SubSubsystem {
 
@@ -50,8 +50,19 @@ public class Shooter implements SubSubsystem {
                 break;
         }
 
+        double currentFPGATime = Timer.getFPGATimestamp();
+
+        if (periodicIO.lastLeftAdjustableHoodDutyCycleDemand != periodicIO.leftAdjustableHoodDutyCycleDemand) {
+            periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
+        } else if (periodicIO.lastRightAdjustableHoodDutyCycleDemand != periodicIO.rightAdjustableHoodDutyCycleDemand) {
+            periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
+        }
+
         leftAdjustableHoodServo.setSpeed(periodicIO.leftAdjustableHoodDutyCycleDemand);
         rightAdjustableHoodServo.setSpeed(periodicIO.rightAdjustableHoodDutyCycleDemand);
+
+        periodicIO.lastLeftAdjustableHoodDutyCycleDemand = periodicIO.leftAdjustableHoodDutyCycleDemand;
+        periodicIO.lastRightAdjustableHoodDutyCycleDemand = periodicIO.rightAdjustableHoodDutyCycleDemand;
     }
 
     public ShooterControlState getShooterControlState() {
@@ -128,7 +139,10 @@ public class Shooter implements SubSubsystem {
         public double flywheelDemand;
         public double leftAdjustableHoodDutyCycleDemand;
         public double rightAdjustableHoodDutyCycleDemand;
-
+        public double lastLeftAdjustableHoodDutyCycleDemand;
+        public double lastRightAdjustableHoodDutyCycleDemand;
+        public double lastAdjustableHoodChangeFPGATime;
+        
         // Inputs
         public double flywheelVelocityNU;
         public double flywheelClosedLoopErrorNU;
