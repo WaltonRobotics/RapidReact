@@ -268,7 +268,7 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public MotorConfig getFeedingControllerConfig() {
+            public MotorConfig getFeedControllerConfig() {
                 return null;
             }
         };
@@ -278,12 +278,32 @@ public class SwerveTestbed extends WaltRobot {
     public ShooterConfig getShooterConfig() {
         return new ShooterConfig() {
             @Override
-            public MotorConfig getFlywheelMasterControllerConfig() {
+            public MotorConfig getFlywheelMasterControllerMotorConfig() {
                 return null;
             }
 
             @Override
-            public MotorConfig getFlywheelSlaveControllerConfig() {
+            public MotorConfig getFlywheelSlaveControllerMotorConfig() {
+                return null;
+            }
+
+            @Override
+            public TalonFXConfiguration getFlywheelMasterControllerTalonConfig() {
+                return null;
+            }
+
+            @Override
+            public TalonFXConfiguration getFlywheelSlaveControllerTalonConfig() {
+                return null;
+            }
+
+            @Override
+            public MotorConfig getLeftAdjustableHoodServoConfig() {
+                return null;
+            }
+
+            @Override
+            public MotorConfig getRightAdjustableHoodServoConfig() {
                 return null;
             }
         };
@@ -293,13 +313,68 @@ public class SwerveTestbed extends WaltRobot {
     public ClimberConfig getClimberConfig() {
         return new ClimberConfig() {
             @Override
-            public TalonFXConfiguration getPivotControllerConfig() {
+            public int getPivotControllerID() {
+                return 0;
+            }
+
+            @Override
+            public int getExtensionControllerID() {
+                return 0;
+            }
+
+            @Override
+            public MotorConfig getPivotControllerMotorConfig() {
                 return null;
             }
 
             @Override
-            public TalonFXConfiguration getExtensionControllerConfig() {
+            public MotorConfig getExtensionControllerMotorConfig() {
                 return null;
+            }
+
+            @Override
+            public TalonFXConfiguration getPivotControllerTalonConfig() {
+                return null;
+            }
+
+            @Override
+            public TalonFXConfiguration getExtensionControllerTalonConfig() {
+                return null;
+            }
+
+            @Override
+            public EncoderConfig getPivotAngleAbsoluteEncoderConfig() {
+                return null;
+            }
+
+            @Override
+            public int getLeftExtensionLowerLimitChannel() {
+                return 0;
+            }
+
+            @Override
+            public int getRightExtensionLowerLimitChannel() {
+                return 0;
+            }
+
+            @Override
+            public int getLeftClimberLockChannel() {
+                return 0;
+            }
+
+            @Override
+            public int getRightClimberLockChannel() {
+                return 0;
+            }
+
+            @Override
+            public int getClimberDiscBrakeForwardChannel() {
+                return 0;
+            }
+
+            @Override
+            public int getClimberDiscBrakeReverseChannel() {
+                return 0;
             }
         };
     }

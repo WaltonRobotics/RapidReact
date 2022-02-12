@@ -16,13 +16,15 @@ public class Shooter implements SubSubsystem {
 
     private final ShooterConfig config = currentRobot.getShooterConfig();
 
-    private final int kFlywheelMasterID = 1;
+    private final TalonFX flywheelMasterController = new TalonFX(
+            config.getFlywheelMasterControllerMotorConfig().getChannel());
+    private final TalonFX flywheelSlaveController = new TalonFX(
+            config.getFlywheelSlaveControllerMotorConfig().getChannel());
 
-    private final TalonFX flywheelMasterController = new TalonFX(kFlywheelMasterID);
-    private final TalonFX flywheelSlaveController = new TalonFX(2);
-
-    private final Servo leftAdjustableHoodServo = new Servo(0);
-    private final Servo rightAdjustableHoodServo = new Servo(1);
+    private final Servo leftAdjustableHoodServo = new Servo(
+            config.getLeftAdjustableHoodServoConfig().getChannel());
+    private final Servo rightAdjustableHoodServo = new Servo(
+            config.getRightAdjustableHoodServoConfig().getChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
@@ -39,18 +41,20 @@ public class Shooter implements SubSubsystem {
 
     @Override
     public void outputData() {
+        int masterID = config.getFlywheelMasterControllerMotorConfig().getChannel();
+
         switch (periodicIO.shooterControlState) {
             case VELOCITY:
                 flywheelMasterController.set(ControlMode.Velocity, periodicIO.flywheelDemand);
-                flywheelSlaveController.set(TalonFXControlMode.Follower, kFlywheelMasterID);
+                flywheelSlaveController.set(TalonFXControlMode.Follower, masterID);
                 break;
             case OPEN_LOOP:
                 flywheelMasterController.set(ControlMode.PercentOutput, periodicIO.flywheelDemand);
-                flywheelSlaveController.set(TalonFXControlMode.Follower, kFlywheelMasterID);
+                flywheelSlaveController.set(TalonFXControlMode.Follower, masterID);
                 break;
             case DISABLED:
                 flywheelMasterController.set(ControlMode.Disabled, 0.0);
-                flywheelSlaveController.set(TalonFXControlMode.Follower, kFlywheelMasterID);
+                flywheelSlaveController.set(TalonFXControlMode.Follower, masterID);
                 break;
         }
 

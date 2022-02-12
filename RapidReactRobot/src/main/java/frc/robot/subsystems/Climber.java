@@ -10,6 +10,7 @@ import frc.robot.util.EnhancedBoolean;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
+import static edu.wpi.first.wpilibj.PneumaticsModuleType.CTREPCM;
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
 import static frc.robot.RobotContainer.currentRobot;
 
@@ -17,21 +18,28 @@ public class Climber implements SubSubsystem {
 
     private final ClimberConfig config = currentRobot.getClimberConfig();
 
-    private final Encoder pivotAngleAbsoluteEncoder = new Encoder(0, 1);
+    private final Encoder pivotAngleAbsoluteEncoder = new Encoder(
+            config.getPivotAngleAbsoluteEncoderConfig().getChannelA(),
+            config.getPivotAngleAbsoluteEncoderConfig().getChannelB());
 
-    private final DigitalInput leftExtensionLowerLimit = new DigitalInput(0);
-    private final DigitalInput rightExtensionLowerLimit = new DigitalInput(1);
+    private final DigitalInput leftExtensionLowerLimit = new DigitalInput(config.getLeftExtensionLowerLimitChannel());
+    private final DigitalInput rightExtensionLowerLimit = new DigitalInput(config.getRightExtensionLowerLimitChannel());
 
-    private final TalonFX pivotController = new TalonFX(0);
-    private final TalonFX extensionController = new TalonFX(1);
+    private final TalonFX pivotController = new TalonFX(config.getPivotControllerID());
+    private final TalonFX extensionController = new TalonFX(config.getExtensionControllerID());
 
-    private final Solenoid leftClimberLock = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
-    private final Solenoid rightClimberLock = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
-    private final DoubleSolenoid climberDiscBrake = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
+    private final Solenoid leftClimberLock = new Solenoid(CTREPCM, config.getLeftClimberLockChannel());
+    private final Solenoid rightClimberLock = new Solenoid(CTREPCM, config.getRightClimberLockChannel());
+    private final DoubleSolenoid climberDiscBrake = new DoubleSolenoid(CTREPCM,
+            config.getClimberDiscBrakeForwardChannel(), config.getClimberDiscBrakeReverseChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
     private EnhancedBoolean isZeroed = new EnhancedBoolean();
+
+    public Climber() {
+
+    }
 
     @Override
     public void zeroSensors() {

@@ -14,11 +14,14 @@ public class Intake implements SubSubsystem {
 
     private final IntakeConfig config = currentRobot.getIntakeConfig();
 
-    private final Spark leftIntakeController = new Spark(1);
-    private final Spark rightIntakeController = new Spark(2);
+    private final Spark leftIntakeController = new Spark(config.getLeftIntakeControllerConfig().getChannel());
+    private final Spark rightIntakeController = new Spark(config.getRightIntakeControllerConfig().getChannel());
 
-    private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
-    private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
+    private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
+            config.getLeftIntakeControllerConfig().getChannel());
+
+    private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
+            config.getRightIntakeControllerConfig().getChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 

@@ -3,6 +3,6 @@ package frc.robot.config;
 public interface ConveyorConfig {
 
     MotorConfig getTransportControllerConfig();
-    MotorConfig getFeedingControllerConfig();
+    MotorConfig getFeedControllerConfig();
 
 }
