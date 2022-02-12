@@ -53,9 +53,14 @@ public class GamepadsConfig implements ControllerConfig {
     }
 
     @Override
-    public EnhancedJoystickButton getAutoAimButton() {
+    public EnhancedJoystickButton getLimeAutoAimButton() {
         return autoAimButton;
     }
+
+//    @Override
+//    public EnhancedJoystickButton getNavAutoAimButton(){
+//        return navAutoAimButton;
+//    }
 
     @Override
     public EnhancedJoystickButton getResetDrivetrainButton() {

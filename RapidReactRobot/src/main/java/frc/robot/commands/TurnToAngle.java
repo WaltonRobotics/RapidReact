@@ -21,10 +21,8 @@ public class TurnToAngle extends CommandBase {
     private final DoubleSupplier targetHeadingSupplier;
     private double targetHeading;
 
-    private final double minOmega = 0.6;
-
     private final ProfiledPIDController controller = new ProfiledPIDController
-            (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(Math.toDegrees(kMaxOmega / 2.0), 360.0 ));
+            (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(Math.toDegrees(kMaxOmega / 1.1), 360.0 ));
 
     public TurnToAngle(DoubleSupplier targetHeadingSupplier) {
         addRequirements(drivetrain);
@@ -57,6 +55,7 @@ public class TurnToAngle extends CommandBase {
     public void execute(){
         double turnRate = controller.calculate(getHeading(), targetHeading);
 
+        double minOmega = 0.6;
         turnRate += Math.signum(turnRate) * minOmega;
 
         SmartDashboard.putNumber(kTurnToAngleErrorDegrees, controller.getPositionError());
@@ -72,7 +71,7 @@ public class TurnToAngle extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return UtilMethods.isWithinTolerance(getHeading(), targetHeading, 1.0);
+        return UtilMethods.isWithinTolerance(getHeading(), targetHeading, 0.5);
     }
 
     private double getHeading() {

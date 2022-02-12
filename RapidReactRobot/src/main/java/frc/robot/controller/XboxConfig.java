@@ -19,7 +19,8 @@ public class XboxConfig implements ControllerConfig{
     private final ExpoScale yawScale = new ExpoScale(0.1, 0.75);
 
     private final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kLeftBumper.value);
-    private final EnhancedJoystickButton autoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kRightBumper.value);
+    private final EnhancedJoystickButton limeAutoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kRightBumper.value);
+    private static final EnhancedJoystickButton navAutoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kA.value);
     private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_TRIGGER.getIndex());
     private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_BUMPER.getIndex());
 
@@ -58,8 +59,13 @@ public class XboxConfig implements ControllerConfig{
         return resetDrivetrainButton;
     }
 
-    public EnhancedJoystickButton getAutoAimButton() {
-        return autoAimButton;
+    @Override
+    public EnhancedJoystickButton getLimeAutoAimButton() {
+        return limeAutoAimButton;
+    }
+
+    public static EnhancedJoystickButton getNavAutoAimButton(){
+        return navAutoAimButton;
     }
 
     @Override

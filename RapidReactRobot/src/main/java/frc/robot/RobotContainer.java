@@ -13,13 +13,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AimCommandLime;
 import frc.robot.commands.AimCommandNav;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
 import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.RotateModulesToAngle;
 import frc.robot.controller.ControllerConfig;
-import frc.robot.controller.GamepadsConfig;
+import frc.robot.controller.XboxConfig;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Superstructure;
@@ -32,7 +33,6 @@ import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.Constants.VisionConstants.kAlignmentTimeout;
 import static frc.robot.commands.auton.AutonRoutine.DO_NOTHING;
 
 /**
@@ -55,7 +55,7 @@ public class RobotContainer {
 
     godSubsystem = new Superstructure();
 
-    controllerConfig = new GamepadsConfig();
+    controllerConfig = new XboxConfig();
 
     robotLogger.setLevel(Level.FINEST);
   }
@@ -83,7 +83,8 @@ public class RobotContainer {
             new InstantCommand(() -> System.out.println("Reset drivetrain"))
     ));
 
-    controllerConfig.getAutoAimButton().whenPressed(new AimCommandNav().withTimeout(kAlignmentTimeout));
+    controllerConfig.getLimeAutoAimButton().whenPressed(new AimCommandLime().withTimeout(2));
+    XboxConfig.getNavAutoAimButton().whenPressed(new AimCommandNav().withTimeout(2));
   }
 
   private void initShuffleboard() {
