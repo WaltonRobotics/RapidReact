@@ -19,9 +19,9 @@ public class DriveCommand extends CommandBase {
         double forward = controllerConfig.getForwardScale().apply(controllerConfig.getForward());
         double strafe = controllerConfig.getForwardScale().apply(controllerConfig.getStrafe());
         double yaw = controllerConfig.getForwardScale().apply(controllerConfig.getYaw());
-        double vx = forward * drivetrain.getConfig().kMaxSpeedMetersPerSecond;
-        double vy = strafe * drivetrain.getConfig().kMaxSpeedMetersPerSecond;
-        double omega = yaw * drivetrain.getConfig().kMaxOmega;
+        double vx = forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
+        double vy = strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
+        double omega = yaw * drivetrain.getConfig().getMaxOmega();
 
         drivetrain.move(vx, vy, omega, true);
     }

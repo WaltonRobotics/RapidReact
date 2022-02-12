@@ -1,8 +1,8 @@
 package frc.robot.config;
 
-public class ShooterConfig {
+public interface ShooterConfig {
 
-    public MotorConfig flywheelMasterControllerConfig;
-    public MotorConfig flywheelSlaveControllerConfig;
+    MotorConfig getFlywheelMasterControllerConfig();
+    MotorConfig getFlywheelSlaveControllerConfig();
 
 }

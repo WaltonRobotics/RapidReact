@@ -5,36 +5,36 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 
-public class DrivetrainConfig {
+public interface DrivetrainConfig {
 
     // Control-related constants
     // All arrays are in order of modules: left-front, right-front, left-rear, right-rear
-    public SmartMotionConstants[] azimuthControllerConfigs = new SmartMotionConstants[4];
-    public TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
+    SmartMotionConstants[] getAzimuthControllerConfigs();
+    TalonFXConfiguration[] getDriveControllerConfigs();
 
-    public int[] azimuthControllerIDs;
-    public int[] driveControllerIDs;
-    public int[] absoluteEncoderChannels;
+    int[] getAzimuthControllerIDs();
+    int[] getDriveControllerIDs();
+    int[] getAbsoluteEncoderChannels();
 
-    public boolean[] azimuthControllerInversions;
-    public boolean[] driveControllerInversions;
-    public boolean[] absoluteEncoderInversions;
+    boolean[] getAzimuthControllerInversions();
+    boolean[] getDriveControllerInversions();
+    boolean[] getAbsoluteEncoderInversions();
 
     // Kinematics-related constants
-    public double kRelativeEncoderRotationsPerTick;
-    public double kWheelDiameterInches;
+    double getRelativeEncoderRotationsPerTick();
+    double getWheelDiameterInches();
 
-    public double kMaxSpeedMetersPerSecond;
-    public double kMaxOmega;
+    double getMaxSpeedMetersPerSecond();
+    double getMaxOmega();
 
-    public int kTalonConfigTimeout;
-    public double kDriveGearRatio;
+    int getTalonConfigTimeout();
+    double getDriveGearRatio();
 
-    public Translation2d[] wheelLocationMeters;
+    Translation2d[] getWheelLocationMeters();
 
     // Pathing constants/controllers
-    public PIDController xController;
-    public PIDController yController;
-    public ProfiledPIDController thetaController;
+    PIDController getXController();
+    PIDController getYController();
+    ProfiledPIDController getThetaController();
 
 }

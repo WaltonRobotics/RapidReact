@@ -41,59 +41,59 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     public Drivetrain() {
         var moduleBuilder =
                 new WaltSwerveModule.Builder()
-                        .driveGearRatio(config.kDriveGearRatio)
-                        .wheelDiameterInches(config.kWheelDiameterInches)
-                        .driveMaximumMetersPerSecond(config.kMaxSpeedMetersPerSecond);
+                        .driveGearRatio(config.getDriveGearRatio())
+                        .wheelDiameterInches(config.getWheelDiameterInches())
+                        .driveMaximumMetersPerSecond(config.getMaxSpeedMetersPerSecond());
 
         swerveModules = new WaltSwerveModule[4];
 
         for (int i = 0; i < 4; i++) {
-            var azimuthSparkMax = new CANSparkMax(config.azimuthControllerIDs[i], CANSparkMaxLowLevel.MotorType.kBrushless);
+            var azimuthSparkMax = new CANSparkMax(config.getAzimuthControllerIDs()[i], CANSparkMaxLowLevel.MotorType.kBrushless);
             azimuthSparkMax.restoreFactoryDefaults();
             azimuthSparkMax.enableVoltageCompensation(12.0);
             azimuthSparkMax.setSmartCurrentLimit(80);
             azimuthSparkMax.setOpenLoopRampRate(0.0);
             azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
-            azimuthSparkMax.setInverted(config.azimuthControllerInversions[i]);
+            azimuthSparkMax.setInverted(config.getAzimuthControllerInversions()[i]);
 
             RelativeEncoder azimuthRelativeEncoder = azimuthSparkMax.getEncoder();
             SparkMaxPIDController azimuthPID = azimuthSparkMax.getPIDController();
 
-            azimuthRelativeEncoder.setPositionConversionFactor(config.kRelativeEncoderRotationsPerTick);
-            azimuthRelativeEncoder.setVelocityConversionFactor(config.kRelativeEncoderRotationsPerTick);
+            azimuthRelativeEncoder.setPositionConversionFactor(config.getRelativeEncoderRotationsPerTick());
+            azimuthRelativeEncoder.setVelocityConversionFactor(config.getRelativeEncoderRotationsPerTick());
 
-            SmartMotionConstants azimuthConfig = config.azimuthControllerConfigs[i];
+            SmartMotionConstants azimuthConfig = config.getAzimuthControllerConfigs()[i];
 
             // Smart Motion Configuration
-            azimuthPID.setP(azimuthConfig.velocityPID.getP());
-            azimuthPID.setI(azimuthConfig.velocityPID.getI());
-            azimuthPID.setD(azimuthConfig.velocityPID.getD());
-            azimuthPID.setIZone(azimuthConfig.iZone);
-            azimuthPID.setFF(azimuthConfig.feedforward);
-            azimuthPID.setOutputRange(azimuthConfig.minOutput, azimuthConfig.maxOutput);
+            azimuthPID.setP(azimuthConfig.getVelocityPID().getP());
+            azimuthPID.setI(azimuthConfig.getVelocityPID().getI());
+            azimuthPID.setD(azimuthConfig.getVelocityPID().getD());
+            azimuthPID.setIZone(azimuthConfig.getIZone());
+            azimuthPID.setFF(azimuthConfig.getFeedforward());
+            azimuthPID.setOutputRange(azimuthConfig.getMinOutput(), azimuthConfig.getMaxOutput());
 
             int smartMotionSlot = 0;
-            azimuthPID.setSmartMotionMaxVelocity(azimuthConfig.maxVelocity, smartMotionSlot);
-            azimuthPID.setSmartMotionMinOutputVelocity(azimuthConfig.minOutputVelocity, smartMotionSlot);
-            azimuthPID.setSmartMotionMaxAccel(azimuthConfig.maxAccel, smartMotionSlot);
-            azimuthPID.setSmartMotionAllowedClosedLoopError(azimuthConfig.allowedClosedLoopError, smartMotionSlot);
+            azimuthPID.setSmartMotionMaxVelocity(azimuthConfig.getMaxVelocity(), smartMotionSlot);
+            azimuthPID.setSmartMotionMinOutputVelocity(azimuthConfig.getMinOutputVelocity(), smartMotionSlot);
+            azimuthPID.setSmartMotionMaxAccel(azimuthConfig.getMaxAccel(), smartMotionSlot);
+            azimuthPID.setSmartMotionAllowedClosedLoopError(azimuthConfig.getAllowedClosedLoopError(), smartMotionSlot);
 
             if (kIsInCompetition) {
                 azimuthSparkMax.burnFlash();
             }
 
-            TalonFXConfiguration driveConfig = config.driveControllerConfigs[i];
+            TalonFXConfiguration driveConfig = config.getDriveControllerConfigs()[i];
 
-            var driveTalon = new TalonFX(config.driveControllerIDs[i]);
-            driveTalon.configFactoryDefault(config.kTalonConfigTimeout);
-            driveTalon.configAllSettings(driveConfig, config.kTalonConfigTimeout);
+            var driveTalon = new TalonFX(config.getDriveControllerIDs()[i]);
+            driveTalon.configFactoryDefault(config.getTalonConfigTimeout());
+            driveTalon.configAllSettings(driveConfig, config.getTalonConfigTimeout());
             driveTalon.enableVoltageCompensation(true);
             driveTalon.setNeutralMode(NeutralMode.Brake);
 
-            driveTalon.setInverted(config.driveControllerInversions[i]);
-            driveTalon.setSensorPhase(config.driveControllerInversions[i]);
+            driveTalon.setInverted(config.getDriveControllerInversions()[i]);
+            driveTalon.setSensorPhase(config.getDriveControllerInversions()[i]);
 
-            DutyCycle encoderPWM = new DutyCycle(new DigitalInput(config.absoluteEncoderChannels[i]));
+            DutyCycle encoderPWM = new DutyCycle(new DigitalInput(config.getAbsoluteEncoderChannels()[i]));
 
 //            ProfiledPIDController controller = new ProfiledPIDController(
 //                    /* 20.0 / 1023.0 */ 10.0 / 4096.0, 0.0, 0.0,
@@ -108,8 +108,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                             .azimuthSparkMax(azimuthSparkMax)
                             .driveTalon(driveTalon)
                             .azimuthAbsoluteEncoderPWM(encoderPWM)
-                            .isAzimuthAbsoluteEncoderInverted(config.absoluteEncoderInversions[i])
-                            .wheelLocationMeters(config.wheelLocationMeters[i])
+                            .isAzimuthAbsoluteEncoderInverted(config.getAbsoluteEncoderInversions()[i])
+                            .wheelLocationMeters(config.getWheelLocationMeters()[i])
                             .build();
         }
 

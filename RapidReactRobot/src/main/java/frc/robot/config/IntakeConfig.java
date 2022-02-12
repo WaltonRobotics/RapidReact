@@ -1,8 +1,8 @@
 package frc.robot.config;
 
-public class IntakeConfig {
+public interface IntakeConfig {
 
-    public MotorConfig leftIntakeControllerConfig;
-    public MotorConfig rightIntakeControllerConfig;
+    MotorConfig getLeftIntakeControllerConfig();
+    MotorConfig getRightIntakeControllerConfig();
 
 }

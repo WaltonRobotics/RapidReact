@@ -2,16 +2,16 @@ package frc.robot.config;
 
 import edu.wpi.first.math.controller.PIDController;
 
-public class SmartMotionConstants {
+public interface SmartMotionConstants {
 
-    public PIDController velocityPID;
-    public double iZone;
-    public double feedforward;
-    public double minOutput;
-    public double maxOutput;
-    public double maxVelocity;
-    public double minOutputVelocity;
-    public double maxAccel;
-    public double allowedClosedLoopError;
+    PIDController getVelocityPID();
+    double getIZone();
+    double getFeedforward();
+    double getMinOutput();
+    double getMaxOutput();
+    double getMaxVelocity();
+    double getMinOutputVelocity();
+    double getMaxAccel();
+    double getAllowedClosedLoopError();
 
 }

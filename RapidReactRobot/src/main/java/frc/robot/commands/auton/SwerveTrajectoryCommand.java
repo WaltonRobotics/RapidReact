@@ -23,11 +23,11 @@ public class SwerveTrajectoryCommand extends CommandBase {
     }
 
     public void initialize() {
-        drivetrain.getConfig().thetaController.enableContinuousInput(Math.toRadians(-180), Math.toRadians(180));
+        drivetrain.getConfig().getThetaController().enableContinuousInput(Math.toRadians(-180), Math.toRadians(180));
         holonomicDriveController = new HolonomicDriveController(
-                drivetrain.getConfig().xController,
-                drivetrain.getConfig().yController,
-                drivetrain.getConfig().thetaController);
+                drivetrain.getConfig().getXController(),
+                drivetrain.getConfig().getYController(),
+                drivetrain.getConfig().getThetaController());
 
         holonomicDriveController.setEnabled(true);
 
