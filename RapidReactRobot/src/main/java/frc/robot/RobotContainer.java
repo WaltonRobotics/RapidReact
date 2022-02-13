@@ -127,6 +127,10 @@ public class RobotContainer {
       SmartDashboard.putData("kXController", kXController);
       SmartDashboard.putData("kYController", kYController);
       SmartDashboard.putData("kThetaController", kThetaController);
+
+      SmartDashboard.putNumber("X Error Average", 0.0);
+      SmartDashboard.putNumber("Y Error Average", 0.0);
+      SmartDashboard.putNumber("Theta Error Average", 0.0);
     }
   }
 

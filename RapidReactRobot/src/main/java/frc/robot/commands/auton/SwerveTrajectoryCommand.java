@@ -20,6 +20,9 @@ public class SwerveTrajectoryCommand extends CommandBase {
     private final Timer timer = new Timer();
     private HolonomicDriveController holonomicDriveController;
 
+    private final CumulativeAverage xPositionErrorAverage = new CumulativeAverage();
+    private final CumulativeAverage yPositionErrorAverage = new CumulativeAverage();
+    private final CumulativeAverage thetaPositionErrorAverage = new CumulativeAverage();
 
     public SwerveTrajectoryCommand(PathPlannerTrajectory trajectory) {
         addRequirements(drivetrain);
@@ -58,15 +61,15 @@ public class SwerveTrajectoryCommand extends CommandBase {
         LiveDashboardHelper.putRobotData(drivetrain.getPoseMeters());
         LiveDashboardHelper.putTrajectoryData(trajectory.sample(currentTime).poseMeters);
         
-        SmartDashboard.putNumber("kX Position Error", kXController.getPositionError());
-        SmartDashboard.putNumber("kY Position Error", kYController.getPositionError());
-        SmartDashboard.putNumber("kTheta Position Error", kThetaController.getPositionError());
+        SmartDashboard.putNumber("kX Position Error", kXInstantPositionError);
+        SmartDashboard.putNumber("kY Position Error", kYInstantPositionError);
+        SmartDashboard.putNumber("kTheta Position Error", kThetaInstantPositionError);
 
-        //moving average
-        CumulativeAverage xPositionErrorAverage = new CumulativeAverage();
-        CumulativeAverage yPositionErrorAverage = new CumulativeAverage();
-        CumulativeAverage thetaPositionErrorAverage = new CumulativeAverage();
+        xPositionErrorAverage.addData(kXInstantPositionError);
+        yPositionErrorAverage.addData(kYInstantPositionError);
+        thetaPositionErrorAverage.addData(kThetaInstantPositionError);
     }
+
     @Override
     public boolean isFinished() {
         return timer.hasElapsed(trajectory.getTotalTimeSeconds());
@@ -77,6 +80,10 @@ public class SwerveTrajectoryCommand extends CommandBase {
         timer.stop();
 
         drivetrain.drive(0.0, 0.0, 0.0);
+
+        SmartDashboard.putNumber("X Error Average", xPositionErrorAverage.getMean());
+        SmartDashboard.putNumber("Y Error Average", yPositionErrorAverage.getMean());
+        SmartDashboard.putNumber("Theta Error Average", thetaPositionErrorAverage.getMean());
     }
 
 }
