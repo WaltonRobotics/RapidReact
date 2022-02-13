@@ -22,6 +22,11 @@ public class CumulativeAverage implements MovingAverage {
 
     @Override
     public double getMean() {
+        // Safeguard against divide-by-zero
+        if (count.equals(BigInteger.ZERO)) {
+            return 0.0;
+        }
+
         return sum.divide(new BigDecimal(count), RoundingMode.HALF_UP).doubleValue();
     }
 
