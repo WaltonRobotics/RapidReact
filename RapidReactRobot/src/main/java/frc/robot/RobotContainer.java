@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -72,6 +73,8 @@ public class RobotContainer {
   private void configureButtonBindings() {}
 
   private void initShuffleboard() {
+    LiveWindow.disableAllTelemetry();
+
     SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
 
     SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
