@@ -175,8 +175,8 @@ public class SwerveTestbed extends WaltRobot {
         pivotControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
                 true, 75, 80, 1);
         pivotControllerTalonConfig.voltageCompSaturation = 12.0;
-        pivotControllerTalonConfig.forwardSoftLimitEnable = false;
-        pivotControllerTalonConfig.reverseSoftLimitEnable = false;
+        pivotControllerTalonConfig.forwardSoftLimitEnable = true;
+        pivotControllerTalonConfig.reverseSoftLimitEnable = true;
 
         // Motion Magic slot
         pivotControllerTalonConfig.slot0.kF = 0.0001;
@@ -194,8 +194,8 @@ public class SwerveTestbed extends WaltRobot {
         extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
                 true, 75, 80, 1);
         extensionControllerTalonConfig.voltageCompSaturation = 12.0;
-        extensionControllerTalonConfig.forwardSoftLimitEnable = false;
-        extensionControllerTalonConfig.reverseSoftLimitEnable = false;
+        extensionControllerTalonConfig.forwardSoftLimitEnable = true;
+        extensionControllerTalonConfig.reverseSoftLimitEnable = true;
 
         // Motion Magic slot
         extensionControllerTalonConfig.slot0.kF = 0.0001;
