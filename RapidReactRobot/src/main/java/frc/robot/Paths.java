@@ -42,21 +42,38 @@ public class Paths {
                 PathPlanner.loadPath("alphaPickUpA", Units.feetToMeters(11.0), Units.feetToMeters(5.0), true);
     }
 
-    public static class RoutineFiveB{
-        public static PathPlannerTrajectory alphaPickUpA =
-                PathPlanner.loadPath("alphaPickUpA", Units.feetToMeters(11.0), Units.feetToMeters(5.0), true);
-        public static PathPlannerTrajectory ballAtoBallB=
-                PathPlanner.loadPath("ballAtoballB", Units.feetToMeters(11.0), Units.feetToMeters(5.0), true);
-        public static PathPlannerTrajectory ballBtoBallG=
-                PathPlanner.loadPath("ballBtoballG", Units.feetToMeters(11.0), Units.feetToMeters(5.0),true);
-        //MOVE IN
-    }
-
     public static class RoutineFourA{
         public static PathPlannerTrajectory betaPickUpB=
                 PathPlanner.loadPath("betaPickUpB", Units.feetToMeters(11.0), Units.feetToMeters(5.0), true);
         //TODO: Finish this routine
     }
+
+    public static class RoutineFiveA{
+        PathPlannerTrajectory alphaPickUpA;
+    }
+
+    public static class RoutineFiveB{
+        PathPlannerTrajectory alphaPickUpA;
+        public static PathPlannerTrajectory ballAtoBallB=
+                PathPlanner.loadPath("ballAtoballB", Units.feetToMeters(11.0), Units.feetToMeters(5.0), true);
+        //MOVE IN
+    }
+
+    public static class RoutineFiveC{
+        PathPlannerTrajectory alphaPickUpA;
+        PathPlannerTrajectory ballAtoBallB;
+        public static PathPlannerTrajectory ballBtoBallG=
+                PathPlanner.loadPath("ballBtoballG", Units.feetToMeters(11.0), Units.feetToMeters(5.0),true);
+    }
+
+    public static class RoutineFiveD{
+        PathPlannerTrajectory alphaPickUpA;
+        PathPlannerTrajectory ballAtoBallB;
+        //TODO: make the path for B to C
+        public static PathPlannerTrajectory ballBtoballC =
+                PathPlanner.loadPath("ballBtoballC", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+    }
+
 
     public static class RoutineSix{
         public static PathPlannerTrajectory gammaPickUpC =
