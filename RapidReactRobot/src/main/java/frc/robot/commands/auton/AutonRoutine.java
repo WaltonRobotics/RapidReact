@@ -17,14 +17,13 @@ import static frc.robot.Paths.RoutineTwo.betaBackward;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
-    //TODO: add param getInitialState() command to resetPose in autons
 
     DO_NOTHING("Doing Nothing", new SequentialCommandGroup(
     )),
 
     FIVE_FEET_FORWARD("moves forward five feet starting 1 meter (3.28084 ft) from wall", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(fiveFeetForward.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(fiveFeetForward.getInitialPose(), fiveFeetForward.getInitialState())),
             new SwerveTrajectoryCommand(fiveFeetForward)
     )),
 
@@ -37,13 +36,13 @@ public enum AutonRoutine {
     //THIS PATH IS IN PROGRESS
     S_CURVE_BACKWARD("backward curve to test PID controllers", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(sCurveBackward.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(sCurveBackward.getInitialPose(), sCurveBackward.getInitialState())),
             new SwerveTrajectoryCommand(sCurveBackward)
     )),
 
     ROUTINE_ONE("Taxi from tarmac from gamma", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(gammaMoveOffTarmac.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(gammaMoveOffTarmac.getInitialPose(), gammaMoveOffTarmac.getInitialState())),
             new SwerveTrajectoryCommand(Paths.RoutineOne.gammaMoveOffTarmac)
     )),
 
@@ -51,7 +50,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             //SHOOT 1 BALL
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(betaBackward.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(betaBackward.getInitialPose(),betaBackward.getInitialState())),
             new SwerveTrajectoryCommand(betaBackward),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //distance off is not precise
@@ -60,7 +59,7 @@ public enum AutonRoutine {
 
     ROUTINE_THREE("Start from alpha, shoot, pick up ball A, pick shoot 2 balls", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose(), alphaPickUpA.getInitialState())),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
@@ -72,12 +71,12 @@ public enum AutonRoutine {
             new SequentialCommandGroup(
                     new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
                     new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-                    new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(betaPickUpB.getInitialPose())),
+                    new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(betaPickUpB.getInitialPose(), betaPickUpB.getInitialState())),
                     new SwerveTrajectoryCommand(betaPickUpB),
                     new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0)),
                     //SHOOT 2 Balls (may have to rotate)
                     new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-                    new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballBtoBallG.getInitialPose())),
+                    new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballBtoBallG.getInitialPose(), ballBtoBallG.getInitialState())),
                     new SwerveTrajectoryCommand(ballBtoBallG),
                     new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
                     //MOVE IN AND SHOOT
@@ -88,11 +87,11 @@ public enum AutonRoutine {
             //SHOOT
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             //SHOOT
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose(), alphaPickUpA.getInitialState())),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
 
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballAtoBallB.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballAtoBallB.getInitialPose(), ballAtoBallB.getInitialState())),
             new SwerveTrajectoryCommand(ballAtoBallB),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //SHOOT (may need to move closer)
@@ -101,13 +100,13 @@ public enum AutonRoutine {
     ROUTINE_FIVE_C("Routine_FIVE_B, move to pick up ball G, move in to shoot", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             //SHOOT ONE
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose(), alphaPickUpA.getInitialState())),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballAtoBallB.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballAtoBallB.getInitialPose(), ballAtoBallB.getInitialState())),
             new SwerveTrajectoryCommand(ballAtoBallB),
             //SHOOT TWO
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballBtoBallG.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballBtoBallG.getInitialPose(), ballBtoBallG.getInitialState())),
             new SwerveTrajectoryCommand(ballBtoBallG),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //MOVE IN & SHOOT 1 or 2(moving in distance not determined, make path for that)
@@ -117,13 +116,13 @@ public enum AutonRoutine {
 
     ROUTINE_SIX("Start from gamma, pick up ball C, shoot 2, pick up ball G, move in to shoot", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(gammaPickUpC.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(gammaPickUpC.getInitialPose(), gammaPickUpC.getInitialState())),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(gammaPickUpC),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0)),
             //SHOOT 2
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballCtoBallG.getInitialPose())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(ballCtoBallG.getInitialPose(), ballCtoBallG.getInitialState())),
             new SwerveTrajectoryCommand(ballCtoBallG),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //MOVE IN & Shoot 1 or 2
