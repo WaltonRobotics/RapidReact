@@ -148,6 +148,26 @@ public class SwerveTestbed extends WaltRobot {
     public void configShooter() {
         flywheelMasterTalonConfig.voltageCompSaturation = 11.0;
         flywheelSlaveTalonConfig.voltageCompSaturation = 11.0;
+
+        // Spinning up profile
+        flywheelMasterTalonConfig.slot0.kF = 0.0001;
+        flywheelMasterTalonConfig.slot0.kP = 0.0001;
+        flywheelMasterTalonConfig.slot0.kI = 0.0001;
+        flywheelMasterTalonConfig.slot0.kD = 0.0001;
+        flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
+        flywheelMasterTalonConfig.slot0.integralZone = 100;
+        flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 0;
+        flywheelMasterTalonConfig.slot0.closedLoopPeakOutput = 1.0;
+
+        // Shooting profile
+        flywheelMasterTalonConfig.slot1.kF = 0.0001;
+        flywheelMasterTalonConfig.slot1.kP = 0.0001;
+        flywheelMasterTalonConfig.slot1.kI = 0.0001;
+        flywheelMasterTalonConfig.slot1.kD = 0.0001;
+        flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
+        flywheelMasterTalonConfig.slot1.integralZone = 100;
+        flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 0;
+        flywheelMasterTalonConfig.slot1.closedLoopPeakOutput = 1.0;
     }
 
     @Override
