@@ -244,6 +244,36 @@ public class Climber implements SubSubsystem {
         periodicIO.extensionControlState = extensionControlState;
     }
 
+    public void setPivotLimits() {
+        periodicIO.resetPivotLimits = true;
+    }
+
+    public void setExtensionLimits() {
+        periodicIO.resetExtensionLimits = true;
+    }
+
+    public void enableExtensionLowerLimit() {
+        periodicIO.releaseExtensionLowerLimit = false;
+    }
+
+    public void releaseExtensionLowerLimit() {
+        periodicIO.releaseExtensionLowerLimit = true;
+    }
+
+    public void setPivotNeutralMode(NeutralMode neutralModeDemand) {
+        if (periodicIO.pivotNeutralMode != neutralModeDemand) {
+            periodicIO.pivotNeutralMode = neutralModeDemand;
+            periodicIO.resetPivotNeutralMode = true;
+        }
+    }
+
+    public void setExtensionNeutralMode(NeutralMode neutralModeDemand) {
+        if (periodicIO.extensionNeutralMode != neutralModeDemand) {
+            periodicIO.extensionNeutralMode = neutralModeDemand;
+            periodicIO.resetExtensionNeutralMode = true;
+        }
+    }
+
     public double getPivotPercentOutputDemand() {
         return periodicIO.pivotPercentOutputDemand;
     }
