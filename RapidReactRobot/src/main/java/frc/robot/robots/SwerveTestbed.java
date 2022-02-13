@@ -178,11 +178,31 @@ public class SwerveTestbed extends WaltRobot {
         pivotControllerTalonConfig.forwardSoftLimitEnable = false;
         pivotControllerTalonConfig.reverseSoftLimitEnable = false;
 
+        // Motion Magic slot
+        pivotControllerTalonConfig.slot0.kF = 0.0001;
+        pivotControllerTalonConfig.slot0.kP = 0.0001;
+        pivotControllerTalonConfig.slot0.kI = 0;
+        pivotControllerTalonConfig.slot0.kD = 0;
+        pivotControllerTalonConfig.slot0.allowableClosedloopError = 0;
+        pivotControllerTalonConfig.slot0.integralZone = 100;
+        pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
+        pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
+
         extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
                 true, 75, 80, 1);
         extensionControllerTalonConfig.voltageCompSaturation = 12.0;
         extensionControllerTalonConfig.forwardSoftLimitEnable = false;
         extensionControllerTalonConfig.reverseSoftLimitEnable = false;
+
+        // Motion Magic slot
+        extensionControllerTalonConfig.slot0.kF = 0.0001;
+        extensionControllerTalonConfig.slot0.kP = 0.0001;
+        extensionControllerTalonConfig.slot0.kI = 0.0001;
+        extensionControllerTalonConfig.slot0.kD = 0.0001;
+        extensionControllerTalonConfig.slot0.allowableClosedloopError = 0;
+        extensionControllerTalonConfig.slot0.integralZone = 100;
+        extensionControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
+        extensionControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
     }
 
     @Override
