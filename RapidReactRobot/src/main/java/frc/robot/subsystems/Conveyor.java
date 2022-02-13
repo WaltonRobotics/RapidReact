@@ -49,6 +49,7 @@ public class Conveyor implements SubSubsystem {
         }
     }
 
+    @Override
     public Sendable getPeriodicIOSendable() {
         return periodicIO;
     }

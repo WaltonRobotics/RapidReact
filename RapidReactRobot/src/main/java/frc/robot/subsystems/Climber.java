@@ -128,6 +128,7 @@ public class Climber implements SubSubsystem {
         climberDiscBrake.set(periodicIO.climberDiscBrakeStateDemand ? kForward : kReverse);
     }
 
+    @Override
     public Sendable getPeriodicIOSendable() {
         return periodicIO;
     }

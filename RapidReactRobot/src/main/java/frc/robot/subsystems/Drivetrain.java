@@ -274,6 +274,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         }
     }
 
+    @Override
     public Sendable getPeriodicIOSendable() {
         return periodicIO;
     }

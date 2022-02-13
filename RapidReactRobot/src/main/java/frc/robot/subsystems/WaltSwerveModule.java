@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.Preferences;
 import frc.lib.strykeforce.swerve.SwerveModule;
@@ -74,6 +76,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         } else if (driveControlState == DriveControlState.VELOCITY) {
             driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand);
         }
+    }
+
+    @Override
+    public Sendable getPeriodicIOSendable() {
+        return periodicIO;
     }
 
     @Override
@@ -278,7 +285,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         OPEN_LOOP, VELOCITY
     }
 
-    public static class PeriodicIO {
+    public static class PeriodicIO implements Sendable {
         // Outputs
         public double azimuthRelativeCountsDemand;
         public double driveDemand;
@@ -287,6 +294,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         public double azimuthRelativeCounts;
         public double driveVelocityNU;
         public double closedLoopErrorNU;
+
+        @Override
+        public void initSendable(SendableBuilder builder) {
+
+        }
     }
 
     public static class Builder {

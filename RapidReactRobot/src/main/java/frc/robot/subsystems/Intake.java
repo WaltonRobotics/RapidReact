@@ -60,6 +60,7 @@ public class Intake implements SubSubsystem {
         rightIntakeSolenoid.set(periodicIO.rightIntakeDeployDemand);
     }
 
+    @Override
     public Sendable getPeriodicIOSendable() {
         return periodicIO;
     }
