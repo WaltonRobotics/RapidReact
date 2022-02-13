@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -49,6 +50,7 @@ public class Climber implements SubSubsystem {
         pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
         pivotController.setNeutralMode(NeutralMode.Brake);
         pivotController.enableVoltageCompensation(true);
+        pivotController.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 20);
 
         extensionController.configFactoryDefault(10);
         extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);
@@ -56,6 +58,7 @@ public class Climber implements SubSubsystem {
         extensionController.setSensorPhase(config.getExtensionControllerMotorConfig().isInverted());
         extensionController.setNeutralMode(NeutralMode.Brake);
         extensionController.enableVoltageCompensation(true);
+        extensionController.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 20);
     }
 
     @Override
