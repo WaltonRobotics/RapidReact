@@ -154,6 +154,10 @@ public class Climber implements SubSubsystem {
         private ClimberControlState pivotControlState;
         private ClimberControlState extensionControlState;
 
+        public boolean resetPivotLimits;
+        public boolean resetExtensionLimits;
+        public boolean releaseExtensionLowerLimit;
+
         public double pivotPercentOutputDemand;
         public double pivotPositionDemandNU;
         public double extensionPercentOutputDemand;
