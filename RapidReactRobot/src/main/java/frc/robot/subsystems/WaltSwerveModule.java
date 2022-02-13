@@ -226,7 +226,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         periodicIO.azimuthRelativeCountsDemand = countsBefore + countsDelta;
     }
 
-    private double getDriveMetersPerSecond() {
+    public double getDriveMetersPerSecond() {
         double encoderCountsPer100ms = periodicIO.driveVelocityNU;
         double motorRotationsPer100ms = encoderCountsPer100ms / driveCountsPerRev;
         double wheelRotationsPer100ms = motorRotationsPer100ms * driveGearRatio;
