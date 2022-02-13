@@ -7,10 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.util.FindAverage;
-
-import java.util.LinkedList;
-import java.util.Queue;
+import frc.robot.util.CumulativeAverage;
 
 import static frc.robot.Constants.SwerveDriveConfig.*;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -66,9 +63,9 @@ public class SwerveTrajectoryCommand extends CommandBase {
         SmartDashboard.putNumber("kTheta Position Error", kThetaController.getPositionError());
 
         //moving average
-        FindAverage xPositionErrorAverage = new FindAverage();
-        FindAverage yPositionErrorAverage = new FindAverage();
-        FindAverage thetaPositionErrorAverage = new FindAverage();
+        CumulativeAverage xPositionErrorAverage = new CumulativeAverage();
+        CumulativeAverage yPositionErrorAverage = new CumulativeAverage();
+        CumulativeAverage thetaPositionErrorAverage = new CumulativeAverage();
     }
     @Override
     public boolean isFinished() {
