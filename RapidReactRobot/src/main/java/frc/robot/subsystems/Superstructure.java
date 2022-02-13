@@ -35,6 +35,7 @@ public class Superstructure extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putData(kDrivetrainPeriodicIOKey, drivetrain.getPeriodicIOSendable());
         SmartDashboard.putData(kIntakePeriodicIOKey, intake.getPeriodicIOSendable());
         SmartDashboard.putData(kConveyorPeriodicIOKey, conveyor.getPeriodicIOSendable());
         SmartDashboard.putData(kShooterPeriodicIOKey, shooter.getPeriodicIOSendable());

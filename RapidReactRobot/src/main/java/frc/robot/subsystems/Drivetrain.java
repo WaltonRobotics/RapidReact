@@ -26,7 +26,6 @@ import frc.robot.config.DrivetrainConfig;
 import frc.robot.config.SmartMotionConstants;
 
 import static frc.robot.Constants.ContextFlags.kIsInCompetition;
-import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Drivetrain extends SubsystemBase implements SubSubsystem {
@@ -39,6 +38,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
     private final WaltSwerveModule[] swerveModules;
+
+    private final PeriodicIO periodicIO = new PeriodicIO();
 
     public Drivetrain() {
         var moduleBuilder =
@@ -271,6 +272,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         for (WaltSwerveModule module : swerveModules) {
             module.outputData();
         }
+    }
+
+    public Sendable getPeriodicIOSendable() {
+        return periodicIO;
     }
 
     public class PeriodicIO implements Sendable {
