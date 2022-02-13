@@ -12,6 +12,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.SPI;
@@ -218,10 +220,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         SmartDashboard.putNumber(kDrivetrainLeftRearAngleDegreesKey, swerveModules[2].getAzimuthRotation2d().getDegrees());
         SmartDashboard.putNumber(kDrivetrainRightRearAngleDegreesKey, swerveModules[3].getAzimuthRotation2d().getDegrees());
 
-        SmartDashboard.putNumber(kDrivetrainLeftFrontVelocityErrorKey, swerveModules[0].getDriveVelocityError());
-        SmartDashboard.putNumber(kDrivetrainRightFrontVelocityErrorKey, swerveModules[1].getDriveVelocityError());
-        SmartDashboard.putNumber(kDrivetrainLeftRearVelocityErrorKey, swerveModules[2].getDriveVelocityError());
-        SmartDashboard.putNumber(kDrivetrainRightRearVelocityErrorKey, swerveModules[3].getDriveVelocityError());
+        SmartDashboard.putNumber(kDrivetrainLeftFrontVelocityErrorKey, swerveModules[0].getDriveVelocityErrorNU());
+        SmartDashboard.putNumber(kDrivetrainRightFrontVelocityErrorKey, swerveModules[1].getDriveVelocityErrorNU());
+        SmartDashboard.putNumber(kDrivetrainLeftRearVelocityErrorKey, swerveModules[2].getDriveVelocityErrorNU());
+        SmartDashboard.putNumber(kDrivetrainRightRearVelocityErrorKey, swerveModules[3].getDriveVelocityErrorNU());
     }
 
     /**
@@ -287,6 +289,15 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     public void outputData() {
         for (WaltSwerveModule module : swerveModules) {
             module.outputData();
+        }
+    }
+
+    public class PeriodicIO implements Sendable {
+
+        @Override
+        public void initSendable(SendableBuilder builder) {
+            builder.setSmartDashboardType("PeriodicIO");
+//            builder.addDoubleProperty();
         }
     }
 

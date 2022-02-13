@@ -169,11 +169,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return driveTalon;
     }
 
-    public double getAzimuthPositionError() {
+    public double getAzimuthPositionErrorNU() {
         return getAzimuthRelativeEncoderCounts() - periodicIO.azimuthRelativeCountsDemand;
     }
 
-    public double getDriveVelocityError() {
+    public double getDriveVelocityErrorNU() {
         return periodicIO.closedLoopErrorNU;
     }
 
