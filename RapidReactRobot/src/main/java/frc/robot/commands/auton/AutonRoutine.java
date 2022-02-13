@@ -33,7 +33,7 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(sCurveForward)
     )),
 
-    //THIS PATH IS IN PROGRESS
+    //FOR REVERSAL TRAJECTORIES: add 180 to negative angles, subtract 180 from positive angles, size of heading doesn't matter
     S_CURVE_BACKWARD("backward curve to test PID controllers", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(sCurveBackward.getInitialPose(), sCurveBackward.getInitialState())),

@@ -21,7 +21,7 @@ public class Paths {
             PathPlanner.loadPath("sCurveForward", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
 
     public static PathPlannerTrajectory sCurveBackward =
-            PathPlanner.loadPath("sCurveBackward", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+            PathPlanner.loadPath("sCurveBackward", Units.feetToMeters(11.0), Units.feetToMeters(5.0), true);
 
 
     public static class RoutineOne {
