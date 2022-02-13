@@ -1,9 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -37,6 +34,7 @@ public class Shooter implements SubSubsystem {
         flywheelMasterController.setSensorPhase(config.getFlywheelMasterControllerMotorConfig().isInverted());
         flywheelMasterController.setNeutralMode(NeutralMode.Coast);
         flywheelMasterController.enableVoltageCompensation(true);
+        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 10);
 
         flywheelSlaveController.configFactoryDefault(10);
         flywheelSlaveController.configAllSettings(config.getFlywheelSlaveControllerTalonConfig(), 10);
