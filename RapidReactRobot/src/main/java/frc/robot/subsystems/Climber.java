@@ -94,6 +94,18 @@ public class Climber implements SubSubsystem {
             periodicIO.resetExtensionLimits = false;
         }
 
+        extensionController.configReverseSoftLimitEnable(!periodicIO.releaseExtensionLowerLimit);
+
+        if (periodicIO.resetPivotNeutralMode) {
+            pivotController.setNeutralMode(periodicIO.pivotNeutralMode);
+            periodicIO.resetPivotNeutralMode = false;
+        }
+
+        if (periodicIO.resetExtensionNeutralMode) {
+            pivotController.setNeutralMode(periodicIO.extensionNeutralMode);
+            periodicIO.resetExtensionNeutralMode = false;
+        }
+
         switch (periodicIO.pivotControlState) {
             case ZEROING:
                 break;
