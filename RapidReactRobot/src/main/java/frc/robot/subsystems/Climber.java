@@ -36,7 +36,7 @@ public class Climber implements SubSubsystem {
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
-    private EnhancedBoolean isZeroed = new EnhancedBoolean();
+    private final EnhancedBoolean isZeroed = new EnhancedBoolean();
 
     public Climber() {
         // Duty cycle range from Rev Through Bore Encoder specs
@@ -59,6 +59,9 @@ public class Climber implements SubSubsystem {
         extensionController.setNeutralMode(NeutralMode.Brake);
         extensionController.enableVoltageCompensation(true);
         extensionController.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10);
+
+        periodicIO.pivotNeutralMode = NeutralMode.Brake;
+        periodicIO.extensionNeutralMode = NeutralMode.Brake;
     }
 
     @Override
@@ -79,6 +82,18 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void outputData() {
+        if (periodicIO.resetPivotLimits) {
+            pivotController.configForwardSoftLimitThreshold(1);
+            pivotController.configReverseSoftLimitThreshold(0);
+            periodicIO.resetPivotLimits = false;
+        }
+
+        if (periodicIO.resetExtensionLimits) {
+            extensionController.configForwardSoftLimitThreshold(1);
+            extensionController.configReverseSoftLimitThreshold(0);
+            periodicIO.resetExtensionLimits = false;
+        }
+
         switch (periodicIO.pivotControlState) {
             case ZEROING:
                 break;
@@ -157,6 +172,11 @@ public class Climber implements SubSubsystem {
         public boolean resetPivotLimits;
         public boolean resetExtensionLimits;
         public boolean releaseExtensionLowerLimit;
+
+        private boolean resetPivotNeutralMode;
+        private NeutralMode pivotNeutralMode;
+        private boolean resetExtensionNeutralMode;
+        private NeutralMode extensionNeutralMode;
 
         public double pivotPercentOutputDemand;
         public double pivotPositionDemandNU;
