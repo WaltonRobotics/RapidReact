@@ -187,6 +187,9 @@ public class SwerveTestbed extends WaltRobot {
         pivotControllerTalonConfig.slot0.integralZone = 100;
         pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
         pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
+        pivotControllerTalonConfig.motionCruiseVelocity = 100;
+        pivotControllerTalonConfig.motionAcceleration = 100;
+        pivotControllerTalonConfig.motionCurveStrength = 3;
 
         extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
                 true, 75, 80, 1);
@@ -203,6 +206,9 @@ public class SwerveTestbed extends WaltRobot {
         extensionControllerTalonConfig.slot0.integralZone = 100;
         extensionControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
         extensionControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
+        extensionControllerTalonConfig.motionCruiseVelocity = 100;
+        extensionControllerTalonConfig.motionAcceleration = 100;
+        extensionControllerTalonConfig.motionCurveStrength = 3;
     }
 
     @Override
