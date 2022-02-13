@@ -61,26 +61,6 @@ public final class Constants {
         public static final String kDrivetrainSetpointAngleDegreesKey = "Drivetrain/Setpoint Angle Degrees";
         public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity Msec";
 
-        public static final String kDrivetrainLeftFrontAbsolutePositionKey = "Drivetrain/Left Front Absolute Counts";
-        public static final String kDrivetrainRightFrontAbsolutePositionKey = "Drivetrain/Right Front Absolute Counts";
-        public static final String kDrivetrainLeftRearAbsolutePositionKey = "Drivetrain/Left Rear Absolute Counts";
-        public static final String kDrivetrainRightRearAbsolutePositionKey = "Drivetrain/Right Rear Absolute Counts";
-
-        public static final String kDrivetrainLeftFrontRelativePositionKey = "Drivetrain/Left Front Relative Counts";
-        public static final String kDrivetrainRightFrontRelativePositionKey = "Drivetrain/Right Front Relative Counts";
-        public static final String kDrivetrainLeftRearRelativePositionKey = "Drivetrain/Left Rear Relative Counts";
-        public static final String kDrivetrainRightRearRelativePositionKey = "Drivetrain/Right Rear Relative Counts";
-
-        public static final String kDrivetrainLeftFrontAngleDegreesKey = "Drivetrain/Left Front Angle Degrees";
-        public static final String kDrivetrainRightFrontAngleDegreesKey = "Drivetrain/Right Front Angle Degrees";
-        public static final String kDrivetrainLeftRearAngleDegreesKey = "Drivetrain/Left Rear Angle Degrees";
-        public static final String kDrivetrainRightRearAngleDegreesKey = "Drivetrain/Right Rear Angle Degrees";
-
-        public static final String kDrivetrainLeftFrontVelocityErrorKey = "Drivetrain/Left Front Velocity Error";
-        public static final String kDrivetrainRightFrontVelocityErrorKey = "Drivetrain/Right Front Velocity Error";
-        public static final String kDrivetrainLeftRearVelocityErrorKey = "Drivetrain/Left Rear Velocity Error";
-        public static final String kDrivetrainRightRearVelocityErrorKey = "Drivetrain/Right Rear Velocity Error";
-
         public static final String kDrivetrainLeftFrontZeroValueKey = "Drivetrain/Left Front Azimuth Zero Value";
         public static final String kDrivetrainRightFrontZeroValueKey = "Drivetrain/Right Front Azimuth Zero Value";
         public static final String kDrivetrainLeftRearZeroValueKey = "Drivetrain/Left Rear Azimuth Zero Value";
