@@ -34,7 +34,6 @@ public class Shooter implements SubSubsystem {
         flywheelMasterController.setSensorPhase(config.getFlywheelMasterControllerMotorConfig().isInverted());
         flywheelMasterController.setNeutralMode(NeutralMode.Coast);
         flywheelMasterController.enableVoltageCompensation(true);
-        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 10);
 
         flywheelSlaveController.configFactoryDefault(10);
         flywheelSlaveController.configAllSettings(config.getFlywheelSlaveControllerTalonConfig(), 10);
