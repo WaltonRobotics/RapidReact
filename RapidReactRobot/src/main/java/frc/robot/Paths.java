@@ -18,10 +18,10 @@ public class Paths {
             PathPlanner.loadPath("fiveFeetForward", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
 
     public static PathPlannerTrajectory sCurveForward =
-            PathPlanner.loadPath("sCurveForward", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
+            PathPlanner.loadPath("sCurveForward", Units.feetToMeters(5.5), Units.feetToMeters(2.5));
 
     public static PathPlannerTrajectory sCurveBackward =
-            PathPlanner.loadPath("sCurveBackward", Units.feetToMeters(11.0), Units.feetToMeters(5.0), true);
+            PathPlanner.loadPath("sCurveBackward", Units.feetToMeters(5.5), Units.feetToMeters(2.5), true);
 
 
     public static class RoutineOne {
