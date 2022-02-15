@@ -130,8 +130,9 @@ public final class Constants {
 
     public static final class SmartDashboardKeys {
 
-        public static final String kDrivetrainRotateModulesToAngleKey = "Drivetrain/Rotate Modules To Angle";
+        public static final String kDrivetrainSetModuleStatesKey = "Drivetrain/Set Module States";
         public static final String kDrivetrainSetpointAngleDegreesKey = "Drivetrain/Setpoint Angle Degrees";
+        public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity Msec";
 
         public static final String kDrivetrainLeftFrontAbsolutePositionKey = "Drivetrain/Left Front Absolute Counts";
         public static final String kDrivetrainRightFrontAbsolutePositionKey = "Drivetrain/Right Front Absolute Counts";
