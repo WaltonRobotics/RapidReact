@@ -176,6 +176,46 @@ public class Climber implements SubSubsystem {
         ZEROING, AUTO, OPEN_LOOP, DISABLED
     }
 
+    public enum ClimberExtensionPosition {
+        STOWED_HEIGHT,
+        HOOKING_ONTO_MID_BAR_LENGTH,
+        LENGTH_TO_DISENGAGE_FROM_MID_BAR,
+        HOOKING_ONTO_HIGH_BAR_LENGTH,
+        LENGTH_TO_DISENGAGE_FROM_HIGH_BAR,
+        HOOKING_ONTO_TRAVERSAL_BAR_LENGTH,
+        LENGTH_TO_HANG_FROM_TRAVERSAL_BAR
+    }
+
+    public enum ClimberExtensionLimits {
+        STOWED,
+        EXTENSION_FULL_ROM,
+        HIGH_BAR_TRANSFER_TO_FIXED_ARM,
+    }
+
+    public enum ClimberPivotPosition {
+        // If the position begins with ANGLE, rotation is CW
+        // If the position ends with ANGLE, rotation is CCW
+
+        STOWED_ANGLE,
+        REACHING_FOR_MID_BAR_PIVOT_ANGLE,
+        ANGLE_TO_HOOK_ONTO_MID_BAR,
+        ANGLE_HOOK_THETA_FOR_MID_BAR,
+        REACHING_FOR_HIGH_BAR_PIVOT_ANGLE,
+        ANGLE_TO_HOOK_ONTO_HIGH_BAR,
+        ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER,
+        FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE,
+        REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE,
+        ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR
+    }
+
+    public enum ClimberPivotLimits {
+        PIVOT_STOWED,
+        PIVOT_FULL_ROM,
+        PIVOT_PULL_UP_TO_MID_BAR,
+        PIVOT_PULL_UP_TO_HIGH_BAR,
+        PIVOT_PULL_UP_TO_TRAVERSAL_BAR,
+    }
+
     public static class PeriodicIO implements Sendable {
         // Outputs
         private ClimberControlState pivotControlState;
