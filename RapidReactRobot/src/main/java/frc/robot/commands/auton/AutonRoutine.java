@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Paths;
+import frc.robot.commands.TurnToAngle;
 
 import static frc.robot.Paths.*;
 import static frc.robot.Paths.RoutineFiveB.ballAtoBallB;
@@ -62,7 +63,8 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(alphaPickUpA.getInitialPose(), alphaPickUpA.getInitialState())),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
-            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
+            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0)),
+            new TurnToAngle(0)
             //SHOOT 2 Balls
     )),
 
