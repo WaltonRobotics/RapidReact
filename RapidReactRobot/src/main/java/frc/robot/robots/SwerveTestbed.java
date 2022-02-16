@@ -458,6 +458,11 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
+            public double getMaxGravityFeedForward() {
+                return 0;
+            }
+
+            @Override
             public HashMap<Climber.ClimberPivotLimits, LimitPair> getClimberPivotLimits() {
                 return climberPivotLimits;
             }

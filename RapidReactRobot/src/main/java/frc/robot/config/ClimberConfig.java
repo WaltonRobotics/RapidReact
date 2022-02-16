@@ -17,6 +17,8 @@ public interface ClimberConfig {
     double getAbsoluteCountsToIntegratedCountsFactor();
     double getIntegratedCountsPerRev();
 
+    double getMaxGravityFeedForward();
+
     MotorConfig getPivotControllerMotorConfig();
     MotorConfig getExtensionControllerMotorConfig();
     TalonFXConfiguration getPivotControllerTalonConfig();

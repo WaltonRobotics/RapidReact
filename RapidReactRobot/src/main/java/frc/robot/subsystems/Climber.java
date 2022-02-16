@@ -450,4 +450,9 @@ public class Climber implements SubSubsystem {
         return Rotation2d.fromDegrees(90.0).minus(offsetFromVertical);
     }
 
+    public double getCalculatedFeedForward() {
+        double cosineScalar = getPivotAngleFromHorizontal().getCos();
+        return config.getMaxGravityFeedForward() * -cosineScalar;
+    }
+
 }
