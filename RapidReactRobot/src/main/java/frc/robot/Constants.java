@@ -71,6 +71,9 @@ public final class Constants {
         public static final String kDrivetrainSaveLeftRearZeroKey = "Drivetrain/Save Left Rear Azimuth Zero";
         public static final String kDrivetrainSaveRightRearZeroKey = "Drivetrain/Save Right Rear Azimuth Zero";
 
+        public static final String kClimberPivotAngleFromVertical = "Climber/Angle From Vertical Deg";
+        public static final String kClimberPivotAngleFromHorizontal = "Climber/Angle From Horizontal Deg";
+
         public static final String kDriverForwardScale = "Driver/Forward Scale";
         public static final String kDriverStrafeScale = "Driver/Strafe Scale";
         public static final String kDriverYawScale = "Driver/Yaw Scale";

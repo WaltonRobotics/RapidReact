@@ -40,6 +40,9 @@ public class Superstructure extends SubsystemBase {
         SmartDashboard.putData(kConveyorPeriodicIOKey, conveyor.getPeriodicIOSendable());
         SmartDashboard.putData(kShooterPeriodicIOKey, shooter.getPeriodicIOSendable());
         SmartDashboard.putData(kClimberPeriodicIOKey, climber.getPeriodicIOSendable());
+
+        SmartDashboard.putNumber(kClimberPivotAngleFromVertical, climber.getPivotAngleFromVertical().getDegrees());
+        SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, climber.getPivotAngleFromHorizontal().getDegrees());
     }
 
 }
