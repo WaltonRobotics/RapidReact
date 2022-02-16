@@ -61,6 +61,11 @@ public class JoysticksConfig implements ControllerConfig {
     public EnhancedJoystickButton getLimeAutoAimButton() {
         return null;
     }
+
+    @Override
+    public EnhancedJoystickButton getNavAutoAimButton() {
+        return null;
+    }
 //
 //    @Override
 //    public EnhancedJoystickButton getNavAutoAimButton(){

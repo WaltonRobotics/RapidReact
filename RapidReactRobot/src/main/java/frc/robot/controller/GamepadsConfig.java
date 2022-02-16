@@ -57,6 +57,11 @@ public class GamepadsConfig implements ControllerConfig {
         return autoAimButton;
     }
 
+    @Override
+    public EnhancedJoystickButton getNavAutoAimButton() {
+        return null;
+    }
+
 //    @Override
 //    public EnhancedJoystickButton getNavAutoAimButton(){
 //        return navAutoAimButton;

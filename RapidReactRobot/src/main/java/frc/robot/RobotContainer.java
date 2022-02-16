@@ -86,7 +86,7 @@ public class RobotContainer {
     ));
 
     controllerConfig.getLimeAutoAimButton().whenPressed(new AimCommandLime().withTimeout(2));
-    XboxConfig.getNavAutoAimButton().whenPressed(new AimCommandNav().withTimeout(2));
+    controllerConfig.getNavAutoAimButton().whenPressed(new AimCommandNav().withTimeout(2));
   }
 
   private void initShuffleboard() {

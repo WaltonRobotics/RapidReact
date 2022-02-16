@@ -19,7 +19,6 @@ public class AimCommandLime extends CommandBase {
 
     public AimCommandLime() {
         addRequirements(drivetrain);
-
         SmartDashboard.putData(kLimelightAlignControllerKey, controller);
     }
 

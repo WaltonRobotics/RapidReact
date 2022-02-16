@@ -15,7 +15,7 @@ public interface ControllerConfig {
 
     EnhancedJoystickButton getResetDrivetrainButton();
     EnhancedJoystickButton getLimeAutoAimButton();
-    //EnhancedJoystickButton getNavAutoAimButton();
+    EnhancedJoystickButton getNavAutoAimButton();
     EnhancedJoystickButton getIntakeButton();
     EnhancedJoystickButton getOuttakeButton();
 
