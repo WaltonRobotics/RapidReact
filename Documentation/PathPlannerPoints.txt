@@ -1,0 +1,124 @@
+PathPlanner Points
+	sCurveForward
+		Startpoint:
+			x-position: 1.05
+			y-position: 4.55
+			heading: -82.54
+			rotation: 0.00
+		Waypoint1: 
+			x-position: 3.16
+			y-position: 3.29
+			heading: 36.53
+			rotation: 90
+		Endpoint:
+			x-position: 5.14
+			y-position: 2.22
+			heading: -116.20
+			rotation: 0
+			
+	sCurveBackward (reversal path required heading changes)
+		Startpoint:
+			x-position: 5.14
+			y-position: 2.22
+			heading: 63.80
+			rotation: 0
+		Waypoint 1:
+			x-position: 3.16
+			y-position: 3.29
+			heading: -143.47
+			rotation: 90
+		Endpoint:
+			x-position: 1.05
+			y-position: 4.55
+			heading: 97.46
+			rotation: 0.00
+
+	alphaPickUpA
+		Startpoint:
+			x-position: 9.10
+			y-position: 6.29
+			heading: 85.43
+			rotation:-109.65
+		Endpoint:
+			x-position: 8.76
+			y-position: 7.51
+			heading: 159.74
+			rotation: 178.09
+	
+	ballA to ballB (reversed)
+		Startpoint:
+			x-position: 8.76
+			y-position: 7.51
+			heading: 159.74
+			rotation: 178.09
+		Endpoint: 
+			x-position: 10.99
+			y-position: 6.44
+			heading: -18.43
+			rotation: 65.15
+	
+	ballB to ballG
+		Startpoint:
+			x-position: 10.99
+			y-position: 6.44
+			heading: -18.43
+			rotation: 65.15
+		Endpoint:
+			x-position: 14.87
+			y-position: 6.75
+			heading: 8.65
+			rotation: 135.0 
+	
+	betaPickUpB
+		Startpoint:
+			x-position:9.61
+			y-position: 5.69
+			heading: 36.57
+			rotation: -135.00
+		Endpoint:
+			x-position: 10.99
+			y-position: 6.44
+			heading: 20.88
+			rotation: 65.15
+	
+	fiveFeetForward
+		Startpoint:
+			x-position: 1.00
+			y-position: 3.00
+			heading: 0.0
+			rotation: 0.0
+		Endpoint:
+			x-position: 2.52
+			y-position: 3.00
+			heading: 0.0
+			rotation: 0.0
+	
+	gammaPickUpC
+		Startpoint:
+			x-position: 10.19
+			y-position: 3.18
+			heading: -39.29
+			rotation: 137.76
+		Endpoint:
+			x-position: 11.10
+			y-position: 2.41
+			heading: -41.53
+			rotation: 50.19
+	
+	ball C to ball G
+		Startpoint:
+		Endpoint:
+		
+	betaBackward:
+		Startpoint:
+			x-position:9.61
+			y-position: 5.69
+			heading: 14.04
+			rotation: -135.00
+		Endpoint:
+			x-position: 10.94
+			y-position: 7.01
+			heading: 60.64
+			rotation: -135.00
+		
+		

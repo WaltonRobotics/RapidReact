@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
@@ -17,6 +19,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -54,7 +57,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             var azimuthSparkMax = new CANSparkMax(config.getAzimuthControllerIDs()[i], CANSparkMaxLowLevel.MotorType.kBrushless);
             azimuthSparkMax.restoreFactoryDefaults();
             azimuthSparkMax.enableVoltageCompensation(12.0);
-            azimuthSparkMax.setSmartCurrentLimit(80);
+            azimuthSparkMax.setSmartCurrentLimit(20);
             azimuthSparkMax.setOpenLoopRampRate(0.0);
             azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
             azimuthSparkMax.setInverted(config.getAzimuthControllerInversions()[i]);
@@ -181,6 +184,11 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveDrive.resetOdometry(pose);
     }
 
+    public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state){
+        Pose2d pose2 =  new Pose2d(pose.getX(), pose.getY(), state.holonomicRotation);
+        swerveDrive.resetOdometry(pose2);
+    }
+
     /**
      * Returns the position of the robot on the field.
      *
@@ -262,16 +270,30 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     @Override
     public void collectData() {
+        double startTime = Timer.getFPGATimestamp();
+
         for (WaltSwerveModule module : swerveModules) {
             module.collectData();
         }
+
+        double endTime = Timer.getFPGATimestamp();
+        double deltaTime = endTime - startTime;
+
+        SmartDashboard.putNumber("Collect Data Time", deltaTime);
     }
 
     @Override
     public void outputData() {
+        double startTime = Timer.getFPGATimestamp();
+
         for (WaltSwerveModule module : swerveModules) {
             module.outputData();
         }
+
+        double endTime = Timer.getFPGATimestamp();
+        double deltaTime = endTime - startTime;
+
+        SmartDashboard.putNumber("Output Data Time", deltaTime);
     }
 
     @Override

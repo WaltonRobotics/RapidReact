@@ -130,5 +130,4 @@ public class Intake implements SubSubsystem {
             builder.addBooleanProperty("Right Intake Deploy State Demand", () -> rightIntakeDeployDemand, (x) -> {});
         }
     }
-
 }
