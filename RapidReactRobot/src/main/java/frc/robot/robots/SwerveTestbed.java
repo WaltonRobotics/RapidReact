@@ -440,7 +440,7 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public double getZeroReferenceAbsoluteCounts() {
+            public double getVerticalReferenceAbsoluteCounts() {
                 return 0;
             }
 

@@ -69,7 +69,7 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void zeroSensors() {
-        loadPivotZeroReference();
+        loadPivotVerticalReference();
     }
 
     @Override
@@ -167,8 +167,8 @@ public class Climber implements SubSubsystem {
         return periodicIO;
     }
 
-    public void loadPivotZeroReference() {
-        double offsetAbsoluteCounts = getPivotAbsoluteEncoderPositionNU() - config.getZeroReferenceAbsoluteCounts();
+    public void loadPivotVerticalReference() {
+        double offsetAbsoluteCounts = getPivotAbsoluteEncoderPositionNU() - config.getVerticalReferenceAbsoluteCounts();
         double setpointIntegratedCounts = offsetAbsoluteCounts * config.getAbsoluteCountsToIntegratedCountsFactor();
 
         pivotController.setSelectedSensorPosition(setpointIntegratedCounts);

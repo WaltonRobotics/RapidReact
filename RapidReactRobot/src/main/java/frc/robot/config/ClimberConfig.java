@@ -13,7 +13,7 @@ public interface ClimberConfig {
     HashMap<Climber.ClimberExtensionLimits, LimitPair> getClimberExtensionLimits();
     HashMap<Climber.ClimberExtensionPosition, Target> getClimberExtensionTargets();
 
-    double getZeroReferenceAbsoluteCounts();
+    double getVerticalReferenceAbsoluteCounts();
     double getAbsoluteCountsToIntegratedCountsFactor();
     double getIntegratedCountsPerRev();
 
