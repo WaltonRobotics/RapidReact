@@ -1,5 +1,7 @@
 package frc.robot.config;
 
+import frc.robot.util.UtilMethods;
+
 public class Target {
 
     private final double target;
@@ -27,7 +29,7 @@ public class Target {
     }
 
     public boolean isWithinTolerance(double measured, double tolerance) {
-        return Math.abs(measured - target) <= tolerance;
+        return UtilMethods.isWithinTolerance(measured, target, tolerance);
     }
 
     @Override
