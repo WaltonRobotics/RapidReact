@@ -32,12 +32,12 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final double driveMaximumMetersPerSecond;
     private final Translation2d wheelLocationMeters;
 
-    private PeriodicIO periodicIO = new PeriodicIO();
+    private final PeriodicIO periodicIO = new PeriodicIO();
     private Rotation2d previousAngle = new Rotation2d();
 
     private DriveControlState driveControlState = DriveControlState.OPEN_LOOP;
 
-    public class PeriodicIO {
+    public static class PeriodicIO {
         // Outputs
         public double azimuthRelativeCountsDemand;
         public double driveDemand;
