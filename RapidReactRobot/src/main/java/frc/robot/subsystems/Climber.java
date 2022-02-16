@@ -445,7 +445,9 @@ public class Climber implements SubSubsystem {
     }
 
     public Rotation2d getPivotAngleFromHorizontal() {
-        return Rotation2d.fromDegrees(0);
+        Rotation2d offsetFromVertical = new Rotation2d(Math.abs(getPivotAngleFromVertical().getRadians()));
+
+        return Rotation2d.fromDegrees(90.0).minus(offsetFromVertical);
     }
 
 }
