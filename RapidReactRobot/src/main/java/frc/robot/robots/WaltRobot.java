@@ -12,6 +12,9 @@ public abstract class WaltRobot {
     protected ClimberConfig climberConfig;
 
     protected WaltRobot() {
+        defineLimits();
+        defineTargets();
+
         configDrivetrain();
         configIntake();
         configConveyor();
@@ -24,6 +27,9 @@ public abstract class WaltRobot {
     public abstract void configConveyor();
     public abstract void configShooter();
     public abstract void configClimber();
+
+    public abstract void defineLimits();
+    public abstract void defineTargets();
 
     public DrivetrainConfig getDrivetrainConfig() {
         return drivetrainConfig;

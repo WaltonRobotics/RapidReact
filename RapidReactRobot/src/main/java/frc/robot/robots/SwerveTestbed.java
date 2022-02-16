@@ -9,6 +9,14 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.config.*;
+import frc.robot.subsystems.Climber;
+
+import java.util.HashMap;
+
+import static frc.robot.subsystems.Climber.ClimberExtensionLimits.*;
+import static frc.robot.subsystems.Climber.ClimberExtensionPosition.*;
+import static frc.robot.subsystems.Climber.ClimberPivotLimits.*;
+import static frc.robot.subsystems.Climber.ClimberPivotPosition.*;
 
 public class SwerveTestbed extends WaltRobot {
 
@@ -48,6 +56,12 @@ public class SwerveTestbed extends WaltRobot {
     // Climber constants
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration extensionControllerTalonConfig = new TalonFXConfiguration();
+
+    private final HashMap<Climber.ClimberPivotLimits, LimitPair> climberPivotLimits = new HashMap<>(5);
+    private final HashMap<Climber.ClimberPivotPosition, Target> climberPivotTargets = new HashMap<>(10);
+
+    private final HashMap<Climber.ClimberExtensionLimits, LimitPair> climberExtensionLimits = new HashMap<>(3);
+    private final HashMap<Climber.ClimberExtensionPosition, Target> climberExtensionTargets = new HashMap<>(7);
 
     @Override
     public void configDrivetrain() {
@@ -416,6 +430,26 @@ public class SwerveTestbed extends WaltRobot {
 
         climberConfig = new ClimberConfig() {
             @Override
+            public HashMap<Climber.ClimberExtensionLimits, LimitPair> getClimberExtensionLimits() {
+                return null;
+            }
+
+            @Override
+            public HashMap<Climber.ClimberExtensionPosition, Target> getClimberExtensionTargets() {
+                return null;
+            }
+
+            @Override
+            public HashMap<Climber.ClimberPivotLimits, LimitPair> getClimberPivotLimits() {
+                return null;
+            }
+
+            @Override
+            public HashMap<Climber.ClimberPivotPosition, Target> getClimberPivotTargets() {
+                return null;
+            }
+
+            @Override
             public MotorConfig getPivotControllerMotorConfig() {
                 return new MotorConfig() {
                     @Override
@@ -490,6 +524,41 @@ public class SwerveTestbed extends WaltRobot {
                 return 0;
             }
         };
+    }
+
+    @Override
+    public void defineLimits() {
+        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(0, 0));
+        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(0, 0));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(0, 0));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(0, 0));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(0, 0));
+
+        climberExtensionLimits.put(STOWED, new LimitPair(0, 0));
+        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(0, 0));
+        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(0, 0));
+    }
+
+    @Override
+    public void defineTargets() {
+        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 0));
+        climberPivotTargets.put(REACHING_FOR_MID_BAR_PIVOT_ANGLE, new Target(0, 0));
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_MID_BAR, new Target(0, 0));
+        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(0, 0));
+        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(0, 0));
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(0, 0));
+        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(0, 0));
+        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(0, 0));
+        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(0, 0));
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(0, 0));
+
+        climberExtensionTargets.put(STOWED_HEIGHT, new Target(0, 0));
+        climberExtensionTargets.put(HOOKING_ONTO_MID_BAR_LENGTH, new Target(0, 0));
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(0, 0));
+        climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(0, 0));
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(0, 0));
+        climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(0, 0));
+        climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(0, 0));
     }
 
 }
