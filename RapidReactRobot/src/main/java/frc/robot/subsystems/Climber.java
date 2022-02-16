@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.*;
@@ -68,7 +69,7 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void zeroSensors() {
-        extensionController.setSelectedSensorPosition(0.0);
+        loadPivotZeroReference();
     }
 
     @Override
@@ -164,6 +165,14 @@ public class Climber implements SubSubsystem {
     @Override
     public Sendable getPeriodicIOSendable() {
         return periodicIO;
+    }
+
+    public void loadPivotZeroReference() {
+        double offsetAbsoluteCounts = getPivotAbsoluteEncoderPositionNU() - config.getZeroReferenceAbsoluteCounts();
+        double setpointIntegratedCounts = offsetAbsoluteCounts * config.getAbsoluteCountsToIntegratedCountsFactor();
+
+        pivotController.setSelectedSensorPosition(setpointIntegratedCounts);
+        setPivotPositionDemandNU(setpointIntegratedCounts);
     }
 
     public boolean isZeroed() {

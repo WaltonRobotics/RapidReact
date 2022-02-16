@@ -13,6 +13,9 @@ public interface ClimberConfig {
     HashMap<Climber.ClimberExtensionLimits, LimitPair> getClimberExtensionLimits();
     HashMap<Climber.ClimberExtensionPosition, Target> getClimberExtensionTargets();
 
+    double getZeroReferenceAbsoluteCounts();
+    double getAbsoluteCountsToIntegratedCountsFactor();
+
     MotorConfig getPivotControllerMotorConfig();
     MotorConfig getExtensionControllerMotorConfig();
     TalonFXConfiguration getPivotControllerTalonConfig();
