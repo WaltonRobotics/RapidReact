@@ -46,7 +46,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveModules = new WaltSwerveModule[4];
         Translation2d[] wheelLocations = getWheelLocationMeters();
 
-        boolean[] inversions = {true, true, true, true};
+        //left front, right front, left rear, right rear
+        boolean[] inversions = {true, true, false, true};
 
         for (int i = 0; i < 4; i++) {
             var azimuthSparkMax = new CANSparkMax(i + 1, CANSparkMaxLowLevel.MotorType.kBrushless);
