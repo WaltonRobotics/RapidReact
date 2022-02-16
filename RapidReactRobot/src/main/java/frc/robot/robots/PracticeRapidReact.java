@@ -30,6 +30,16 @@ public class PracticeRapidReact extends WaltRobot {
     }
 
     @Override
+    public void defineLimits() {
+
+    }
+
+    @Override
+    public void defineTargets() {
+
+    }
+
+    @Override
     public DrivetrainConfig getDrivetrainConfig() {
         return null;
     }
