@@ -88,7 +88,7 @@ public final class Constants {
         public static final PIDController kYController = new PIDController(kTranslationalP, 0.0, kTranslationalD);
         public static final ProfiledPIDController kThetaController =
                 new ProfiledPIDController(
-                        3.0,
+                        3.5,
                         0,
                         0,
                         new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
