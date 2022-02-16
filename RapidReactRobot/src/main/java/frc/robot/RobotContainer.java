@@ -80,6 +80,9 @@ public class RobotContainer {
     SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
     SmartDashboard.putNumber(kDrivetrainSetpointVelocityKey, 0.0);
 
+    SmartDashboard.putNumber(kClimberPivotAngleFromVertical, 0.0);
+    SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, 0.0);
+
     if (kIsInTuningMode) {
       SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
       SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);
