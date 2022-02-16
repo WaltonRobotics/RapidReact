@@ -5,6 +5,12 @@ import frc.robot.config.*;
 // Generic superclass for all Walton robots and their characteristics
 public abstract class WaltRobot {
 
+    protected DrivetrainConfig drivetrainConfig;
+    protected IntakeConfig intakeConfig;
+    protected ConveyorConfig conveyorConfig;
+    protected ShooterConfig shooterConfig;
+    protected ClimberConfig climberConfig;
+
     protected WaltRobot() {
         configDrivetrain();
         configIntake();
@@ -19,10 +25,24 @@ public abstract class WaltRobot {
     public abstract void configShooter();
     public abstract void configClimber();
 
-    public abstract DrivetrainConfig getDrivetrainConfig();
-    public abstract IntakeConfig getIntakeConfig();
-    public abstract ConveyorConfig getConveyorConfig();
-    public abstract ShooterConfig getShooterConfig();
-    public abstract ClimberConfig getClimberConfig();
+    public DrivetrainConfig getDrivetrainConfig() {
+        return drivetrainConfig;
+    }
+
+    public IntakeConfig getIntakeConfig() {
+        return intakeConfig;
+    }
+
+    public ConveyorConfig getConveyorConfig() {
+        return conveyorConfig;
+    }
+
+    public ShooterConfig getShooterConfig() {
+        return shooterConfig;
+    }
+
+    public ClimberConfig getClimberConfig() {
+        return climberConfig;
+    }
 
 }

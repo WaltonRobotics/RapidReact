@@ -132,88 +132,8 @@ public class SwerveTestbed extends WaltRobot {
         wheelLocationMeters[1] = new Translation2d(x, -y); // right front
         wheelLocationMeters[2] = new Translation2d(-x, y); // left rear
         wheelLocationMeters[3] = new Translation2d(-x, -y); // right rear
-    }
 
-    @Override
-    public void configIntake() {
-
-    }
-
-    @Override
-    public void configConveyor() {
-
-    }
-
-    @Override
-    public void configShooter() {
-        flywheelMasterTalonConfig.voltageCompSaturation = 11.0;
-        flywheelSlaveTalonConfig.voltageCompSaturation = 11.0;
-
-        // Spinning up profile
-        flywheelMasterTalonConfig.slot0.kF = 0.0001;
-        flywheelMasterTalonConfig.slot0.kP = 0.0001;
-        flywheelMasterTalonConfig.slot0.kI = 0.0001;
-        flywheelMasterTalonConfig.slot0.kD = 0.0001;
-        flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
-        flywheelMasterTalonConfig.slot0.integralZone = 100;
-        flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 0;
-        flywheelMasterTalonConfig.slot0.closedLoopPeakOutput = 1.0;
-
-        // Shooting profile
-        flywheelMasterTalonConfig.slot1.kF = 0.0001;
-        flywheelMasterTalonConfig.slot1.kP = 0.0001;
-        flywheelMasterTalonConfig.slot1.kI = 0.0001;
-        flywheelMasterTalonConfig.slot1.kD = 0.0001;
-        flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
-        flywheelMasterTalonConfig.slot1.integralZone = 100;
-        flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 0;
-        flywheelMasterTalonConfig.slot1.closedLoopPeakOutput = 1.0;
-    }
-
-    @Override
-    public void configClimber() {
-        pivotControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-                true, 75, 80, 1);
-        pivotControllerTalonConfig.voltageCompSaturation = 12.0;
-        pivotControllerTalonConfig.forwardSoftLimitEnable = true;
-        pivotControllerTalonConfig.reverseSoftLimitEnable = true;
-
-        // Motion Magic slot
-        pivotControllerTalonConfig.slot0.kF = 0.0001;
-        pivotControllerTalonConfig.slot0.kP = 0.0001;
-        pivotControllerTalonConfig.slot0.kI = 0;
-        pivotControllerTalonConfig.slot0.kD = 0;
-        pivotControllerTalonConfig.slot0.allowableClosedloopError = 0;
-        pivotControllerTalonConfig.slot0.integralZone = 100;
-        pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
-        pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
-        pivotControllerTalonConfig.motionCruiseVelocity = 100;
-        pivotControllerTalonConfig.motionAcceleration = 100;
-        pivotControllerTalonConfig.motionCurveStrength = 3;
-
-        extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-                true, 75, 80, 1);
-        extensionControllerTalonConfig.voltageCompSaturation = 12.0;
-        extensionControllerTalonConfig.forwardSoftLimitEnable = true;
-        extensionControllerTalonConfig.reverseSoftLimitEnable = true;
-
-        // Motion Magic slot
-        extensionControllerTalonConfig.slot0.kF = 0.0001;
-        extensionControllerTalonConfig.slot0.kP = 0.0001;
-        extensionControllerTalonConfig.slot0.kI = 0.0001;
-        extensionControllerTalonConfig.slot0.kD = 0.0001;
-        extensionControllerTalonConfig.slot0.allowableClosedloopError = 0;
-        extensionControllerTalonConfig.slot0.integralZone = 100;
-        extensionControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
-        extensionControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
-        extensionControllerTalonConfig.motionCruiseVelocity = 100;
-        extensionControllerTalonConfig.motionAcceleration = 100;
-        extensionControllerTalonConfig.motionCurveStrength = 3;
-    }
-
-    @Override
-    public DrivetrainConfig getDrivetrainConfig() {
-        return new DrivetrainConfig() {
+        drivetrainConfig = new DrivetrainConfig() {
             @Override
             public SmartMotionConstants[] getAzimuthControllerConfigs() {
                 return azimuthControllerConfigs;
@@ -307,8 +227,8 @@ public class SwerveTestbed extends WaltRobot {
     }
 
     @Override
-    public IntakeConfig getIntakeConfig() {
-        return new IntakeConfig() {
+    public void configIntake() {
+        intakeConfig = new IntakeConfig() {
             @Override
             public MotorConfig getLeftIntakeControllerConfig() {
                 return new MotorConfig() {
@@ -342,8 +262,8 @@ public class SwerveTestbed extends WaltRobot {
     }
 
     @Override
-    public ConveyorConfig getConveyorConfig() {
-        return new ConveyorConfig() {
+    public void configConveyor() {
+        conveyorConfig = new ConveyorConfig() {
             @Override
             public MotorConfig getTransportControllerConfig() {
                 return new MotorConfig() {
@@ -377,8 +297,31 @@ public class SwerveTestbed extends WaltRobot {
     }
 
     @Override
-    public ShooterConfig getShooterConfig() {
-        return new ShooterConfig() {
+    public void configShooter() {
+        flywheelMasterTalonConfig.voltageCompSaturation = 11.0;
+        flywheelSlaveTalonConfig.voltageCompSaturation = 11.0;
+
+        // Spinning up profile
+        flywheelMasterTalonConfig.slot0.kF = 0.0001;
+        flywheelMasterTalonConfig.slot0.kP = 0.0001;
+        flywheelMasterTalonConfig.slot0.kI = 0.0001;
+        flywheelMasterTalonConfig.slot0.kD = 0.0001;
+        flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
+        flywheelMasterTalonConfig.slot0.integralZone = 100;
+        flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 0;
+        flywheelMasterTalonConfig.slot0.closedLoopPeakOutput = 1.0;
+
+        // Shooting profile
+        flywheelMasterTalonConfig.slot1.kF = 0.0001;
+        flywheelMasterTalonConfig.slot1.kP = 0.0001;
+        flywheelMasterTalonConfig.slot1.kI = 0.0001;
+        flywheelMasterTalonConfig.slot1.kD = 0.0001;
+        flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
+        flywheelMasterTalonConfig.slot1.integralZone = 100;
+        flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 0;
+        flywheelMasterTalonConfig.slot1.closedLoopPeakOutput = 1.0;
+
+        shooterConfig = new ShooterConfig() {
             @Override
             public MotorConfig getFlywheelMasterControllerMotorConfig() {
                 return new MotorConfig() {
@@ -432,8 +375,46 @@ public class SwerveTestbed extends WaltRobot {
     }
 
     @Override
-    public ClimberConfig getClimberConfig() {
-        return new ClimberConfig() {
+    public void configClimber() {
+        pivotControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
+                true, 75, 80, 1);
+        pivotControllerTalonConfig.voltageCompSaturation = 12.0;
+        pivotControllerTalonConfig.forwardSoftLimitEnable = true;
+        pivotControllerTalonConfig.reverseSoftLimitEnable = true;
+
+        // Motion Magic slot
+        pivotControllerTalonConfig.slot0.kF = 0.0001;
+        pivotControllerTalonConfig.slot0.kP = 0.0001;
+        pivotControllerTalonConfig.slot0.kI = 0;
+        pivotControllerTalonConfig.slot0.kD = 0;
+        pivotControllerTalonConfig.slot0.allowableClosedloopError = 0;
+        pivotControllerTalonConfig.slot0.integralZone = 100;
+        pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
+        pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
+        pivotControllerTalonConfig.motionCruiseVelocity = 100;
+        pivotControllerTalonConfig.motionAcceleration = 100;
+        pivotControllerTalonConfig.motionCurveStrength = 3;
+
+        extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
+                true, 75, 80, 1);
+        extensionControllerTalonConfig.voltageCompSaturation = 12.0;
+        extensionControllerTalonConfig.forwardSoftLimitEnable = true;
+        extensionControllerTalonConfig.reverseSoftLimitEnable = true;
+
+        // Motion Magic slot
+        extensionControllerTalonConfig.slot0.kF = 0.0001;
+        extensionControllerTalonConfig.slot0.kP = 0.0001;
+        extensionControllerTalonConfig.slot0.kI = 0.0001;
+        extensionControllerTalonConfig.slot0.kD = 0.0001;
+        extensionControllerTalonConfig.slot0.allowableClosedloopError = 0;
+        extensionControllerTalonConfig.slot0.integralZone = 100;
+        extensionControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
+        extensionControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
+        extensionControllerTalonConfig.motionCruiseVelocity = 100;
+        extensionControllerTalonConfig.motionAcceleration = 100;
+        extensionControllerTalonConfig.motionCurveStrength = 3;
+
+        climberConfig = new ClimberConfig() {
             @Override
             public MotorConfig getPivotControllerMotorConfig() {
                 return new MotorConfig() {

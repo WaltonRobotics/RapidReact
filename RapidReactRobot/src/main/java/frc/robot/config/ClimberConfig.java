@@ -20,4 +20,6 @@ public interface ClimberConfig {
     int getClimberDiscBrakeForwardChannel();
     int getClimberDiscBrakeReverseChannel();
 
+
+
 }
