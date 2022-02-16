@@ -431,22 +431,36 @@ public class SwerveTestbed extends WaltRobot {
         climberConfig = new ClimberConfig() {
             @Override
             public HashMap<Climber.ClimberExtensionLimits, LimitPair> getClimberExtensionLimits() {
-                return null;
+                return climberExtensionLimits;
             }
 
             @Override
             public HashMap<Climber.ClimberExtensionPosition, Target> getClimberExtensionTargets() {
-                return null;
+                return climberExtensionTargets;
+            }
+
+            @Override
+            public double getZeroReferenceAbsoluteCounts() {
+                return 0;
+            }
+
+            @Override
+            public double getAbsoluteCountsToIntegratedCountsFactor() {
+                final double kPivotGearRatio = 200;
+                final double kAbsoluteCountsPerRev = 1.0;
+                final double kIntegratedCountsPerRev = 2048.0 * kPivotGearRatio;
+
+                return kIntegratedCountsPerRev / kAbsoluteCountsPerRev;
             }
 
             @Override
             public HashMap<Climber.ClimberPivotLimits, LimitPair> getClimberPivotLimits() {
-                return null;
+                return climberPivotLimits;
             }
 
             @Override
             public HashMap<Climber.ClimberPivotPosition, Target> getClimberPivotTargets() {
-                return null;
+                return climberPivotTargets;
             }
 
             @Override
