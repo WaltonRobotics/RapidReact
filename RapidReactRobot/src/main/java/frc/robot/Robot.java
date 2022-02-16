@@ -76,9 +76,9 @@ public class Robot extends WaltTimesliceRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putData("kXController", kXController);
-    SmartDashboard.putData("kYController", kYController);
-    SmartDashboard.putData("kThetaController", kThetaController);
+//    SmartDashboard.putNumber("kX Position Error", kXController.getPositionError());
+//    SmartDashboard.putNumber("kY Position Error", kYController.getPositionError());
+//    SmartDashboard.putNumber("kTheta Position Error", kThetaController.getPositionError());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -101,7 +101,8 @@ public class Robot extends WaltTimesliceRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {

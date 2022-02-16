@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
@@ -44,7 +46,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveModules = new WaltSwerveModule[4];
         Translation2d[] wheelLocations = getWheelLocationMeters();
 
-        boolean[] inversions = {true, true, true, true};
+        //left front, right front, left rear, right rear
+        boolean[] inversions = {true, true, false, true};
 
         for (int i = 0; i < 4; i++) {
             var azimuthSparkMax = new CANSparkMax(i + 1, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -122,6 +125,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
         swerveDrive = new SwerveDrive(ahrs, swerveModules);
         zeroHeading();
+        //setHeadingOffset(Rotation2d.fromDegrees(180));
 
         SmartDashboard.putData("Field", field);
     }
@@ -187,6 +191,11 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
      */
     public void resetPose(Pose2d pose) {
         swerveDrive.resetOdometry(pose);
+    }
+
+    public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state){
+        Pose2d pose2 =  new Pose2d(pose.getX(), pose.getY(), state.holonomicRotation);
+        swerveDrive.resetOdometry(pose2);
     }
 
     /**

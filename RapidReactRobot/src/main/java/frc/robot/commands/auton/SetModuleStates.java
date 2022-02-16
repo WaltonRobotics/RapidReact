@@ -8,19 +8,20 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drivetrain;
 
 import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainSetpointAngleDegreesKey;
+import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainSetpointVelocityKey;
 import static frc.robot.RobotContainer.godSubsystem;
 
-public class RotateModulesToAngle extends SequentialCommandGroup {
+public class SetModuleStates extends SequentialCommandGroup {
 
     private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
 
-    public RotateModulesToAngle() {
+    public SetModuleStates() {
         addRequirements(drivetrain);
 
         addCommands(
                 new RunCommand(() -> {
                     drivetrain.setModuleStates(new SwerveModuleState(
-                            0.0,
+                            SmartDashboard.getNumber(kDrivetrainSetpointVelocityKey, 0.0),
                             Rotation2d.fromDegrees(SmartDashboard.getNumber(kDrivetrainSetpointAngleDegreesKey, 0.0))
                     ));
                 }).withTimeout(5.0)
