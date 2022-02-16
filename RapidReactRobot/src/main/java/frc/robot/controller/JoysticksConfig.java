@@ -11,9 +11,9 @@ import static frc.robot.util.Gamepad.Button.RIGHT_TRIGGER;
 
 public class JoysticksConfig implements ControllerConfig {
 
-    private Joystick leftJoystick = new Joystick(Constants.ControllerPorts.JoysticksConfigPorts.kLeftJoystickPort);
-    private Joystick rightJoystick = new Joystick(Constants.ControllerPorts.JoysticksConfigPorts.kRightJoystickPort);
-    private Gamepad manipulationGamepad = new Gamepad(Constants.ControllerPorts.JoysticksConfigPorts.kManipulationGamepadPort);
+    private final Joystick leftJoystick = new Joystick(Constants.ControllerPorts.JoysticksConfigPorts.kLeftJoystickPort);
+    private final Joystick rightJoystick = new Joystick(Constants.ControllerPorts.JoysticksConfigPorts.kRightJoystickPort);
+    private final Gamepad manipulationGamepad = new Gamepad(Constants.ControllerPorts.JoysticksConfigPorts.kManipulationGamepadPort);
 
     private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad,RIGHT_TRIGGER.getIndex());
     private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad,RIGHT_BUMPER.getIndex());
@@ -56,6 +56,21 @@ public class JoysticksConfig implements ControllerConfig {
     public EnhancedJoystickButton getResetDrivetrainButton() {
         return null;
     }
+
+    @Override
+    public EnhancedJoystickButton getLimeAutoAimButton() {
+        return null;
+    }
+
+    @Override
+    public EnhancedJoystickButton getNavAutoAimButton() {
+        return null;
+    }
+//
+//    @Override
+//    public EnhancedJoystickButton getNavAutoAimButton(){
+//        return navAutoAimButton;
+//    }
 
     @Override
     public EnhancedJoystickButton getIntakeButton() {

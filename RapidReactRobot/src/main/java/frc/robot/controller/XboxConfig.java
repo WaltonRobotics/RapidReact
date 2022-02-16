@@ -14,14 +14,15 @@ public class XboxConfig implements ControllerConfig{
     public static XboxController gamepad = new XboxController(kDriveXboxControllerPort);
     public static Gamepad manipulationGamepad = new Gamepad(kManipulationXboxControllerPort);
 
-    private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_TRIGGER.getIndex());
-    private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_BUMPER.getIndex());
-
     private final ExpoScale forwardScale = new ExpoScale(0.1, 0.6);
     private final ExpoScale strafeScale = new ExpoScale(0.1, 0.6);
     private final ExpoScale yawScale = new ExpoScale(0.1, 0.75);
 
     private final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kLeftBumper.value);
+    private final EnhancedJoystickButton limeAutoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kRightBumper.value);
+    private final EnhancedJoystickButton navAutoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kA.value);
+    private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_TRIGGER.getIndex());
+    private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_BUMPER.getIndex());
 
     @Override
     public double getForward() {
@@ -56,6 +57,15 @@ public class XboxConfig implements ControllerConfig{
     @Override
     public EnhancedJoystickButton getResetDrivetrainButton() {
         return resetDrivetrainButton;
+    }
+
+    @Override
+    public EnhancedJoystickButton getLimeAutoAimButton() {
+        return limeAutoAimButton;
+    }
+
+    public EnhancedJoystickButton getNavAutoAimButton(){
+        return navAutoAimButton;
     }
 
     @Override

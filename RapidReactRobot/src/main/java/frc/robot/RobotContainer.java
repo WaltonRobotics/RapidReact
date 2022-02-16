@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AimCommandLime;
+import frc.robot.commands.AimCommandNav;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
 import frc.robot.commands.auton.AutonRoutine;
@@ -81,6 +83,9 @@ public class RobotContainer {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new InstantCommand(() -> System.out.println("Reset drivetrain"))
     ));
+
+    controllerConfig.getLimeAutoAimButton().whenPressed(new AimCommandLime().withTimeout(2));
+    controllerConfig.getNavAutoAimButton().whenPressed(new AimCommandNav().withTimeout(2));
   }
 
   private void initShuffleboard() {
@@ -93,9 +98,7 @@ public class RobotContainer {
 
     SmartDashboard.putNumber(kClimberPivotAngleFromVertical, 0.0);
     SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, 0.0);
-    SmartDashboard.putNumber(kIntakeVoltage, 9.5);
-
-    //auton chooser
+    // Auton chooser
     autonChooser = new SendableChooser<>();
     Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
     autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
@@ -123,9 +126,9 @@ public class RobotContainer {
               new InstantCommand(() ->
                       godSubsystem.getDrivetrain().saveRightRearZero((int)SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
 
-      SmartDashboard.putData(kDriverForwardScale, controllerConfig.getForwardScale());
-      SmartDashboard.putData(kDriverStrafeScale, controllerConfig.getStrafeScale());
-      SmartDashboard.putData(kDriverYawScale, controllerConfig.getYawScale());
+      SmartDashboard.putData(kDriverForwardScaleKey, controllerConfig.getForwardScale());
+      SmartDashboard.putData(kDriverStrafeScaleKey, controllerConfig.getStrafeScale());
+      SmartDashboard.putData(kDriverYawScaleKey, controllerConfig.getYawScale());
 
       SmartDashboard.putData("kXController", currentRobot.getDrivetrainConfig().getXController());
       SmartDashboard.putData("kYController", currentRobot.getDrivetrainConfig().getYController());

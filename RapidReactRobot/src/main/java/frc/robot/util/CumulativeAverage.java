@@ -6,8 +6,8 @@ import java.math.RoundingMode;
 
 public class CumulativeAverage implements MovingAverage {
 
-    private BigDecimal sum;
-    private BigInteger count;
+    private BigDecimal sum = BigDecimal.ZERO;
+    private BigInteger count = BigInteger.ZERO;
 
     @Override
     public void addData(double num) {

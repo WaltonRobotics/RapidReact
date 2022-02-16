@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -12,6 +13,8 @@ public class DriveCommand extends CommandBase {
 
     public DriveCommand() {
         addRequirements(drivetrain);
+
+        SmartDashboard.putNumber("Minimum omega command", 0.1);
     }
 
     @Override

@@ -60,6 +60,24 @@ public final class Constants {
 
     }
 
+    public static class VisionConstants {
+
+        public static final int kLEDsOff = 1;
+        public static final int kLEDsOn = 3;
+
+        public static final int kVisionMode = 0;
+        public static final int kDriverMode = 1;
+
+        public static final int kTxWindowSize = 1;
+        public static final int kTyWindowSize = 5;
+        public static final int kCamtranWindowSize = 5;
+
+        public static final int kAlignmentPipeline = 0;
+
+        public static final double kAlignmentTimeout = 1.5;
+
+    }
+
     public static final class SmartDashboardKeys {
 
         public static final String kDrivetrainSetModuleStatesKey = "Drivetrain/Set Module States";
@@ -79,16 +97,26 @@ public final class Constants {
         public static final String kClimberPivotAngleFromVertical = "Climber/Angle From Vertical Deg";
         public static final String kClimberPivotAngleFromHorizontal = "Climber/Angle From Horizontal Deg";
 
-        public static final String kDriverForwardScale = "Driver/Forward Scale";
-        public static final String kDriverStrafeScale = "Driver/Strafe Scale";
-        public static final String kDriverYawScale = "Driver/Yaw Scale";
+        public static final String kDriverForwardScaleKey = "Driver/Forward Scale";
+        public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
+        public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
 
         public static final String kDrivetrainPeriodicIOKey = "Drivetrain/Periodic IO";
         public static final String kIntakePeriodicIOKey = "Intake/Periodic IO";
         public static final String kConveyorPeriodicIOKey = "Conveyor/Periodic IO";
         public static final String kShooterPeriodicIOKey = "Shooter/Periodic IO";
         public static final String kClimberPeriodicIOKey = "Climber/Periodic IO";
-        public static final String kIntakeVoltage = "Intake/Voltage";
+
+        public static final String kDrivetrainAngularVelocity = "Drivetrain/Angular Velocity Dsec";
+
+        public static final String kTurnToAngleControllerKey = "Turn to Angle Controller";
+        public static final String kTurnToAngleErrorDegrees = "Turn to Angle Error Deg";
+        public static final String kTurnToAngleOmegaOutputKey = "Turn to Angle Omega Output";
+
+        public static final String kLimelightAlignControllerKey = "Limelight Align Controller";
+        public static final String kLimelightAlignErrorDegrees = "Limelight Align Error Deg";
+        public static final String kLimelightAlignOmegaOutputKey = "Limelight Align Omega Output";
+
 
     }
 

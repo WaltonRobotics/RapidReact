@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
-import static frc.robot.Constants.SmartDashboardKeys.kIntakeVoltage;
 import static frc.robot.RobotContainer.controllerConfig;
 import static frc.robot.RobotContainer.godSubsystem;
 

@@ -18,6 +18,7 @@ public class GamepadsConfig implements ControllerConfig {
     private final ExpoScale yawScale = new ExpoScale(0.01, 0.75);
 
     private final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, LEFT_BUMPER.getIndex());
+    private final EnhancedJoystickButton autoAimButton = new EnhancedJoystickButton(driveGamepad, RIGHT_BUMPER.getIndex());
     private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad,RIGHT_TRIGGER.getIndex());
     private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad,RIGHT_BUMPER.getIndex());
 
@@ -50,6 +51,21 @@ public class GamepadsConfig implements ControllerConfig {
     public ExpoScale getYawScale() {
         return yawScale;
     }
+
+    @Override
+    public EnhancedJoystickButton getLimeAutoAimButton() {
+        return autoAimButton;
+    }
+
+    @Override
+    public EnhancedJoystickButton getNavAutoAimButton() {
+        return null;
+    }
+
+//    @Override
+//    public EnhancedJoystickButton getNavAutoAimButton(){
+//        return navAutoAimButton;
+//    }
 
     @Override
     public EnhancedJoystickButton getResetDrivetrainButton() {

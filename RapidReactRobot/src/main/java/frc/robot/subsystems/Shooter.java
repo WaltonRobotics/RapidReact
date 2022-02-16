@@ -10,6 +10,7 @@ import frc.robot.config.ShooterConfig;
 
 import static frc.robot.Constants.PIDProfileSlots.kShooterDefaultIndex;
 import static frc.robot.RobotContainer.currentRobot;
+import frc.robot.vision.LimelightHelper;
 
 public class Shooter implements SubSubsystem {
 
@@ -56,6 +57,7 @@ public class Shooter implements SubSubsystem {
     public void collectData() {
         periodicIO.flywheelVelocityNU = flywheelMasterController.getSelectedSensorVelocity();
         periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
+        LimelightHelper.updateData();
     }
 
     @Override

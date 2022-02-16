@@ -270,30 +270,16 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     @Override
     public void collectData() {
-        double startTime = Timer.getFPGATimestamp();
-
         for (WaltSwerveModule module : swerveModules) {
             module.collectData();
         }
-
-        double endTime = Timer.getFPGATimestamp();
-        double deltaTime = endTime - startTime;
-
-        SmartDashboard.putNumber("Collect Data Time", deltaTime);
     }
 
     @Override
     public void outputData() {
-        double startTime = Timer.getFPGATimestamp();
-
         for (WaltSwerveModule module : swerveModules) {
             module.outputData();
         }
-
-        double endTime = Timer.getFPGATimestamp();
-        double deltaTime = endTime - startTime;
-
-        SmartDashboard.putNumber("Output Data Time", deltaTime);
     }
 
     @Override
@@ -345,4 +331,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         }
     }
 
+    public double getAngularVelocityDegreesPerSec(){
+        return -ahrs.getRate();
+    }
 }
