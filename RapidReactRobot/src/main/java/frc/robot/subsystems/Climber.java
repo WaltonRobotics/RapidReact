@@ -437,4 +437,12 @@ public class Climber implements SubSubsystem {
         return periodicIO.extensionIntegratedEncoderPosition;
     }
 
+    public Rotation2d getPivotAngleFromVertical() {
+        return Rotation2d.fromDegrees(0);
+    }
+
+    public Rotation2d getPivotAngleFromHorizontal() {
+        return Rotation2d.fromDegrees(0);
+    }
+
 }
