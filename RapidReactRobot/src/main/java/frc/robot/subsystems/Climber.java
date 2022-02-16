@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -111,7 +112,8 @@ public class Climber implements SubSubsystem {
             case ZEROING:
                 break;
             case AUTO:
-                pivotController.set(ControlMode.MotionMagic, periodicIO.pivotPositionDemandNU);
+                pivotController.set(ControlMode.MotionMagic, periodicIO.pivotPositionDemandNU,
+                        DemandType.ArbitraryFeedForward, periodicIO.pivotFeedForward);
                 periodicIO.pivotPercentOutputDemand = 0;
                 break;
             case OPEN_LOOP:
@@ -345,9 +347,18 @@ public class Climber implements SubSubsystem {
     public void setPivotPositionDemand(ClimberPivotPosition position) {
         setPivotPositionDemandNU(config.getClimberPivotTargets().get(position).getTarget());
     }
+    
+    public void setPivotPositionDemand(ClimberPivotPosition position, double feedforward) {
+        setPivotPositionDemandNU(config.getClimberPivotTargets().get(position).getTarget(), feedforward);
+    }
 
     public void setPivotPositionDemandNU(double pivotPositionDemandNU) {
+        setPivotPositionDemandNU(pivotPositionDemandNU, 0);
+    }
+
+    public void setPivotPositionDemandNU(double pivotPositionDemandNU, double feedForward) {
         periodicIO.pivotPositionDemandNU = pivotPositionDemandNU;
+        periodicIO.pivotFeedForward = feedForward;
     }
 
     public double getExtensionPercentOutputDemand() {
