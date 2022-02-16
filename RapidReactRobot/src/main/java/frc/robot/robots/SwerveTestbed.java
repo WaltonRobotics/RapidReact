@@ -446,11 +446,15 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public double getAbsoluteCountsToIntegratedCountsFactor() {
-                final double kPivotGearRatio = 200;
                 final double kAbsoluteCountsPerRev = 1.0;
-                final double kIntegratedCountsPerRev = 2048.0 * kPivotGearRatio;
 
-                return kIntegratedCountsPerRev / kAbsoluteCountsPerRev;
+                return getIntegratedCountsPerRev() / kAbsoluteCountsPerRev;
+            }
+
+            @Override
+            public double getIntegratedCountsPerRev() {
+                final double kPivotGearRatio = 200;
+                return 2048.0 * kPivotGearRatio;
             }
 
             @Override

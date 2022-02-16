@@ -15,6 +15,7 @@ public interface ClimberConfig {
 
     double getZeroReferenceAbsoluteCounts();
     double getAbsoluteCountsToIntegratedCountsFactor();
+    double getIntegratedCountsPerRev();
 
     MotorConfig getPivotControllerMotorConfig();
     MotorConfig getExtensionControllerMotorConfig();

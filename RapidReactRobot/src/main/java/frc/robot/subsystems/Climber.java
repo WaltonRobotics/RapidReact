@@ -438,7 +438,10 @@ public class Climber implements SubSubsystem {
     }
 
     public Rotation2d getPivotAngleFromVertical() {
-        return Rotation2d.fromDegrees(0);
+        double pivotPosition = getPivotIntegratedEncoderPositionNU();
+        double rotations = pivotPosition / config.getIntegratedCountsPerRev();
+
+        return Rotation2d.fromDegrees(rotations * 360.0);
     }
 
     public Rotation2d getPivotAngleFromHorizontal() {
