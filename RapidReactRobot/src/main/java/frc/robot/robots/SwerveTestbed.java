@@ -180,7 +180,7 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public boolean[] getDriveControllerInversions() {
-                return new boolean[]{ false, true, true, false };
+                return new boolean[]{ true, true, false, true };
             }
 
             @Override
