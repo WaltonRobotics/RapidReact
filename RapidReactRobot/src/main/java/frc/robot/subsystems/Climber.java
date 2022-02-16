@@ -235,6 +235,7 @@ public class Climber implements SubSubsystem {
         private NeutralMode extensionNeutralMode;
 
         public double pivotPercentOutputDemand;
+        public double pivotFeedForward;
         public double pivotPositionDemandNU;
         public double extensionPercentOutputDemand;
         public double extensionPositionDemandNU;
@@ -258,9 +259,10 @@ public class Climber implements SubSubsystem {
             builder.addStringProperty("Pivot Control State", () -> pivotControlState.name(), (x) -> {});
             builder.addStringProperty("Extension Control State", () -> extensionControlState.name(), (x) -> {});
             builder.addDoubleProperty("Pivot Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {});
-            builder.addDoubleProperty("Pivot Position Demand NU", () -> pivotPercentOutputDemand, (x) -> {});
-            builder.addDoubleProperty("Extension Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {});
-            builder.addDoubleProperty("Extension Position Demand NU", () -> pivotPercentOutputDemand, (x) -> {});
+            builder.addDoubleProperty("Pivot Feed Forward", () -> pivotFeedForward, (x) -> {});
+            builder.addDoubleProperty("Pivot Position Demand NU", () -> pivotPositionDemandNU, (x) -> {});
+            builder.addDoubleProperty("Extension Percent Output Demand", () -> extensionPercentOutputDemand, (x) -> {});
+            builder.addDoubleProperty("Extension Position Demand NU", () -> extensionPositionDemandNU, (x) -> {});
             builder.addBooleanProperty("Left Climber Lock State Demand", () -> leftClimberLockStateDemand, (x) -> {});
             builder.addBooleanProperty("Right Climber Lock State Demand", () -> rightClimberLockStateDemand, (x) -> {});
             builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {});
