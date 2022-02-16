@@ -8,6 +8,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.*;
 import frc.robot.config.ClimberConfig;
+import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
@@ -222,7 +223,10 @@ public class Climber implements SubSubsystem {
         private ClimberControlState extensionControlState;
 
         public boolean resetPivotLimits;
+        public LimitPair pivotLimits;
+
         public boolean resetExtensionLimits;
+        public LimitPair extensionLimits;
         public boolean releaseExtensionLowerLimit;
 
         private boolean resetPivotNeutralMode;
@@ -284,12 +288,22 @@ public class Climber implements SubSubsystem {
         periodicIO.extensionControlState = extensionControlState;
     }
 
-    public void setPivotLimits() {
-        periodicIO.resetPivotLimits = true;
+    public void setPivotLimits(ClimberPivotLimits limits) {
+        setPivotLimits(config.getClimberPivotLimits().get(limits));
     }
 
-    public void setExtensionLimits() {
+    public void setPivotLimits(LimitPair limits) {
+        periodicIO.resetPivotLimits = true;
+        periodicIO.pivotLimits = limits;
+    }
+
+    public void setExtensionLimits(ClimberExtensionLimits limits) {
+        setExtensionLimits(config.getClimberExtensionLimits().get(limits));
+    }
+
+    public void setExtensionLimits(LimitPair limits) {
         periodicIO.resetExtensionLimits = true;
+        periodicIO.extensionLimits = limits;
     }
 
     public void enableExtensionLowerLimit() {
@@ -326,6 +340,10 @@ public class Climber implements SubSubsystem {
         return periodicIO.pivotPositionDemandNU;
     }
 
+    public void setPivotPositionDemand(ClimberPivotPosition position) {
+        setPivotPositionDemandNU(config.getClimberPivotTargets().get(position).getTarget());
+    }
+
     public void setPivotPositionDemandNU(double pivotPositionDemandNU) {
         periodicIO.pivotPositionDemandNU = pivotPositionDemandNU;
     }
@@ -340,6 +358,10 @@ public class Climber implements SubSubsystem {
 
     public double getExtensionPositionDemandNU() {
         return periodicIO.extensionPositionDemandNU;
+    }
+
+    public void setExtensionPositionDemand(ClimberExtensionPosition position) {
+        setExtensionPositionDemandNU(config.getClimberExtensionTargets().get(position).getTarget());
     }
 
     public void setExtensionPositionDemandNU(double extensionPositionDemandNU) {
