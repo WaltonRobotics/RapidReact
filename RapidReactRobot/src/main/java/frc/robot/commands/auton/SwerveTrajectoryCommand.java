@@ -48,7 +48,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
     }
 
     public void execute() {
-        double thetaP = SmartDashboard.getNumber("thetaP", 3);
+        double thetaP = SmartDashboard.getNumber("thetaP", 3.5);
         kThetaController.setP(thetaP);
         double currentTime = timer.get();
         double kXInstantPositionError = kXController.getPositionError();
