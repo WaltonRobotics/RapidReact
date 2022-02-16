@@ -73,7 +73,10 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void collectData() {
-        periodicIO.pivotAbsoluteEncoderPositionNU = pivotAngleAbsoluteEncoder.get();
+        // Absolute encoder feedback is non-continuous
+        periodicIO.pivotAbsoluteEncoderPositionNU = Math.IEEEremainder(pivotAngleAbsoluteEncoder.get(),
+                pivotAngleAbsoluteEncoder.getDistancePerRotation());
+
         periodicIO.pivotIntegratedEncoderPositionNU = pivotController.getSelectedSensorPosition();
 
         periodicIO.isLeftExtensionLowerLimitClosed = leftExtensionLowerLimit.get();
