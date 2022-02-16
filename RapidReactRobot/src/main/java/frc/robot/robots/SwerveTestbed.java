@@ -368,22 +368,42 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public TalonFXConfiguration getFlywheelMasterControllerTalonConfig() {
-                return null;
+                return flywheelMasterTalonConfig;
             }
 
             @Override
             public TalonFXConfiguration getFlywheelSlaveControllerTalonConfig() {
-                return null;
+                return flywheelSlaveTalonConfig;
             }
 
             @Override
             public MotorConfig getLeftAdjustableHoodServoConfig() {
-                return null;
+                return new MotorConfig() {
+                    @Override
+                    public int getChannelOrID() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
 
             @Override
             public MotorConfig getRightAdjustableHoodServoConfig() {
-                return null;
+                return new MotorConfig() {
+                    @Override
+                    public int getChannelOrID() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
         };
     }
@@ -514,7 +534,22 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public AbsoluteEncoderConfig getPivotAngleAbsoluteEncoderConfig() {
-                return null;
+                return new AbsoluteEncoderConfig() {
+                    @Override
+                    public double getDistancePerRotation() {
+                        return 0;
+                    }
+
+                    @Override
+                    public int getChannel() {
+                        return 0;
+                    }
+
+                    @Override
+                    public boolean isInverted() {
+                        return false;
+                    }
+                };
             }
 
             @Override
