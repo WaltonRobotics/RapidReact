@@ -127,9 +127,9 @@ public class RobotContainer {
               new InstantCommand(() ->
                       godSubsystem.getDrivetrain().saveRightRearZero((int)SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
 
-      SmartDashboard.putData(kDriverForwardScale, controllerConfig.getForwardScale());
-      SmartDashboard.putData(kDriverStrafeScale, controllerConfig.getStrafeScale());
-      SmartDashboard.putData(kDriverYawScale, controllerConfig.getYawScale());
+      SmartDashboard.putData(kDriverForwardScaleKey, controllerConfig.getForwardScale());
+      SmartDashboard.putData(kDriverStrafeScaleKey, controllerConfig.getStrafeScale());
+      SmartDashboard.putData(kDriverYawScaleKey, controllerConfig.getYawScale());
 
       SmartDashboard.putData("kXController", kXController);
       SmartDashboard.putData("kYController", kYController);
