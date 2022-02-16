@@ -9,9 +9,8 @@ import frc.robot.util.UtilMethods;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.Constants.SwerveDriveConfig.kMaxOmega;
 import static frc.robot.RobotContainer.godSubsystem;
-//import static frc.robot.Robot.sDrivetrain;
+
 import frc.robot.subsystems.Drivetrain;
 
 public class TurnToAngle extends CommandBase {
@@ -22,7 +21,8 @@ public class TurnToAngle extends CommandBase {
     private double targetHeading;
 
     private final ProfiledPIDController controller = new ProfiledPIDController
-            (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(Math.toDegrees(kMaxOmega / 1.1), 360.0 ));
+            (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
+                    Math.toDegrees(drivetrain.getConfig().getMaxOmega() / 1.1), 360.0 ));
 
     public TurnToAngle(DoubleSupplier targetHeadingSupplier) {
         addRequirements(drivetrain);
