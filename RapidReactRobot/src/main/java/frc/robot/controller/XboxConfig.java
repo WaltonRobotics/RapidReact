@@ -18,11 +18,29 @@ public class XboxConfig implements ControllerConfig{
     private final ExpoScale strafeScale = new ExpoScale(0.1, 0.6);
     private final ExpoScale yawScale = new ExpoScale(0.1, 0.75);
 
-    private final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kLeftBumper.value);
     private final EnhancedJoystickButton limeAutoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kRightBumper.value);
     private final EnhancedJoystickButton navAutoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kA.value);
+
+    // Both modes
+    private final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kLeftBumper.value);
+
+    // Scoring mode
     private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_TRIGGER.getIndex());
     private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_BUMPER.getIndex());
+    private EnhancedJoystickButton overrideTransportConveyorButton;
+    private EnhancedJoystickButton overrideFeedConveyorButton;
+    private EnhancedJoystickButton toggleLeftIntakeButton;
+    private EnhancedJoystickButton toggleRightIntakeButton;
+    private EnhancedJoystickButton shootButtonButton;
+    private EnhancedJoystickButton barfButtonButton;
+
+    // Climbing mode
+    // Out-of-the-way buttons
+    private EnhancedJoystickButton dangerButton;
+    private EnhancedJoystickButton stopClimbButton;
+
+    private EnhancedJoystickButton toggleClimberLocksButton;
+    private EnhancedJoystickButton advanceClimbingProcessButton;
 
     @Override
     public double getForward() {
