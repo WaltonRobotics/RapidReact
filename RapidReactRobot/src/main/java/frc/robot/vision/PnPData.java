@@ -1,7 +1,7 @@
 package frc.robot.vision;
 
-import frc.robot.util.movingAverage.MovingAverage;
-import frc.robot.util.movingAverage.SimpleMovingAverage;
+import frc.robot.util.averages.MovingAverage;
+import frc.robot.util.averages.SimpleMovingAverage;
 
 public class PnPData {
 

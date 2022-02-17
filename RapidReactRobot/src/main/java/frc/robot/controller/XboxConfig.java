@@ -2,17 +2,14 @@ package frc.robot.controller;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.strykeforce.thirdcoast.util.ExpoScale;
-import frc.robot.util.EnhancedJoystickButton;
-import frc.robot.util.Gamepad;
+import frc.robot.util.buttons.EnhancedJoystickButton;
 
 import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kDriveXboxControllerPort;
 import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kManipulationXboxControllerPort;
-import static frc.robot.util.Gamepad.Button.RIGHT_BUMPER;
-import static frc.robot.util.Gamepad.Button.RIGHT_TRIGGER;
 
 public class XboxConfig implements ControllerConfig{
     public static XboxController gamepad = new XboxController(kDriveXboxControllerPort);
-    public static Gamepad manipulationGamepad = new Gamepad(kManipulationXboxControllerPort);
+    public static XboxController manipulationGamepad = new XboxController(kManipulationXboxControllerPort);
 
     private final ExpoScale forwardScale = new ExpoScale(0.1, 0.6);
     private final ExpoScale strafeScale = new ExpoScale(0.1, 0.6);
@@ -25,8 +22,8 @@ public class XboxConfig implements ControllerConfig{
     private final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kLeftBumper.value);
 
     // Scoring mode
-    private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_TRIGGER.getIndex());
-    private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_BUMPER.getIndex());
+    private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad, 0);
+    private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad, 0);
     private EnhancedJoystickButton overrideTransportConveyorButton;
     private EnhancedJoystickButton overrideFeedConveyorButton;
     private EnhancedJoystickButton toggleLeftIntakeButton;

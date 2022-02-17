@@ -1,7 +1,7 @@
 package frc.robot.controller;
 
 import frc.lib.strykeforce.thirdcoast.util.ExpoScale;
-import frc.robot.util.EnhancedJoystickButton;
+import frc.robot.util.buttons.EnhancedJoystickButton;
 
 public interface ControllerConfig {
 

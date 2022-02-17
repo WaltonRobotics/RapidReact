@@ -1,4 +1,4 @@
-package frc.robot.util.movingAverage;
+package frc.robot.util.averages;
 
 public class ExponentialMovingAverage implements MovingAverage {
 

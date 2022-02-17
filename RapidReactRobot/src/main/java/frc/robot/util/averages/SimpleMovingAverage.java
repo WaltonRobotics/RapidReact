@@ -1,4 +1,4 @@
-package frc.robot.util.movingAverage;
+package frc.robot.util.averages;
 
 import java.util.LinkedList;
 import java.util.Queue;

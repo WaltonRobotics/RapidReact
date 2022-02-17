@@ -3,7 +3,7 @@ package frc.robot.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.util.movingAverage.SimpleMovingAverage;
+import frc.robot.util.averages.SimpleMovingAverage;
 
 import static frc.robot.Constants.VisionConstants.*;
 

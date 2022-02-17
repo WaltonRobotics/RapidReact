@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.util.CumulativeAverage;
+import frc.robot.util.averages.CumulativeAverage;
 
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -48,9 +48,9 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
         drivetrain.getField().getObject("traj").setTrajectory(trajectory);
 
-        xPositionErrorAverage.reset();
-        yPositionErrorAverage.reset();
-        thetaPositionErrorAverage.reset();
+        xPositionErrorAverage.clear();
+        yPositionErrorAverage.clear();
+        thetaPositionErrorAverage.clear();
     }
 
     public void execute() {

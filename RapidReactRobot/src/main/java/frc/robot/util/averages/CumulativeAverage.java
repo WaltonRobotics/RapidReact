@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.robot.util.averages;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -9,7 +9,8 @@ public class CumulativeAverage implements MovingAverage {
     private BigDecimal sum = BigDecimal.ZERO;
     private BigInteger count = BigInteger.ZERO;
 
-    public void reset() {
+    @Override
+    public void clear() {
         sum = BigDecimal.ZERO;
         count = BigInteger.ZERO;
     }
