@@ -15,7 +15,7 @@ public class Paths {
 //            PathPlanner.loadPath("sCurveForward", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
 
     public static PathPlannerTrajectory fiveFeetForward =
-            PathPlanner.loadPath("fiveFeetForward", Units.feetToMeters(8), Units.feetToMeters(4));
+            PathPlanner.loadPath("fiveFeetForward", Units.feetToMeters(5), Units.feetToMeters(4));
 
     public static PathPlannerTrajectory sCurveForward =
             PathPlanner.loadPath("sCurveForward", Units.feetToMeters(5.5), Units.feetToMeters(2.5));
@@ -75,11 +75,17 @@ public class Paths {
     }
 
 
-    public static class RoutineSix{
+    public static class RoutineSixG{
         public static PathPlannerTrajectory gammaPickUpC =
                 PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(8), Units.feetToMeters(4),true);
-        public static PathPlannerTrajectory ballCtoBallG =
-                PathPlanner.loadPath("ballCtoballG", Units.feetToMeters(8), Units.feetToMeters(4),true);
+        public static PathPlannerTrajectory ballCtoballG =
+                PathPlanner.loadPath("ballCtoballG", Units.feetToMeters(8), Units.feetToMeters(4));
         //MOVE IN
+    }
+
+    public static class RoutineSixA{
+        public static PathPlannerTrajectory alphaPickUpA;
+        public static PathPlannerTrajectory ballAtoballG=
+                PathPlanner.loadPath("ballAtoballG", Units.feetToMeters(8), Units.feetToMeters(4),true);
     }
 }
