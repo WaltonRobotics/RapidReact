@@ -26,7 +26,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
     public SwerveTrajectoryCommand(PathPlannerTrajectory trajectory) {
         addRequirements(drivetrain);
         this.trajectory = trajectory;
-        SmartDashboard.putNumber("thetaP", 3);
+        SmartDashboard.putNumber("thetaP", 3.5);
     }
 
     public void initialize() {
@@ -50,8 +50,8 @@ public class SwerveTrajectoryCommand extends CommandBase {
     }
 
     public void execute() {
-        double thetaP = SmartDashboard.getNumber("thetaP", 3);
-        drivetrain.getConfig().getThetaController().setP(thetaP);
+        double thetaP = SmartDashboard.getNumber("thetaP", 3.5);
+        kThetaController.setP(thetaP);
         double currentTime = timer.get();
         double kXInstantPositionError = drivetrain.getConfig().getXController().getPositionError();
         double kYInstantPositionError = drivetrain.getConfig().getYController().getPositionError();
@@ -89,7 +89,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
         SmartDashboard.putNumber("X Error Average", xPositionErrorAverage.getMean());
         SmartDashboard.putNumber("Y Error Average", yPositionErrorAverage.getMean());
-        SmartDashboard.putNumber("Theta Error Average", thetaPositionErrorAverage.getMean());
+        SmartDashboard.putNumber("Theta Error Average", Math.toDegrees(thetaPositionErrorAverage.getMean()));
     }
 
 }
