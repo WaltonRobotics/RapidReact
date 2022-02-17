@@ -4,6 +4,10 @@ import frc.robot.config.*;
 
 public class PracticeRapidReact extends WaltRobot {
 
+    public PracticeRapidReact() {
+        configAll();
+    }
+
     @Override
     public void configDrivetrain() {
 

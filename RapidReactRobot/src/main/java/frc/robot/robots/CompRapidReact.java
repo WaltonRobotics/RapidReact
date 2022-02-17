@@ -4,6 +4,10 @@ import frc.robot.config.*;
 
 public class CompRapidReact extends WaltRobot {
 
+    public CompRapidReact() {
+        configAll();
+    }
+
     @Override
     public void configDrivetrain() {
 

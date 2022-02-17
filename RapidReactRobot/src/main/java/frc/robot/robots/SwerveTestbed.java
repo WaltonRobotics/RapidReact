@@ -63,6 +63,10 @@ public class SwerveTestbed extends WaltRobot {
     private final HashMap<Climber.ClimberExtensionLimits, LimitPair> climberExtensionLimits = new HashMap<>(3);
     private final HashMap<Climber.ClimberExtensionPosition, Target> climberExtensionTargets = new HashMap<>(7);
 
+    public SwerveTestbed() {
+        configAll();
+    }
+
     @Override
     public void configDrivetrain() {
         for (int i = 0; i < 4; i++) {

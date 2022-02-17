@@ -11,15 +11,15 @@ public abstract class WaltRobot {
     protected ShooterConfig shooterConfig;
     protected ClimberConfig climberConfig;
 
-    protected WaltRobot() {
-        defineLimits();
-        defineTargets();
-
+    protected void configAll() {
         configDrivetrain();
         configIntake();
         configConveyor();
         configShooter();
         configClimber();
+
+        defineLimits();
+        defineTargets();
     }
 
     public abstract void configDrivetrain();
