@@ -47,6 +47,10 @@ public class SwerveTrajectoryCommand extends CommandBase {
         LiveDashboardHelper.putTrajectoryData(trajectory.getInitialPose());
 
         drivetrain.getField().getObject("traj").setTrajectory(trajectory);
+
+        xPositionErrorAverage.reset();
+        yPositionErrorAverage.reset();
+        thetaPositionErrorAverage.reset();
     }
 
     public void execute() {

@@ -9,6 +9,11 @@ public class CumulativeAverage implements MovingAverage {
     private BigDecimal sum = BigDecimal.ZERO;
     private BigInteger count = BigInteger.ZERO;
 
+    public void reset() {
+        sum = BigDecimal.ZERO;
+        count = BigInteger.ZERO;
+    }
+
     @Override
     public void addData(double num) {
         sum = sum.add(new BigDecimal(num));
