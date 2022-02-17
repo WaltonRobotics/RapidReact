@@ -77,9 +77,9 @@ public enum AutonRoutine {
                     new SwerveTrajectoryCommand(betaPickUpB),
 //                    new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0)),
                     //SHOOT 2 Balls (may have to rotate)
-                    new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-                    new SwerveTrajectoryCommand(ballBtoBallG),
-                    new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
+//                    new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
+                    new SwerveTrajectoryCommand(ballBtoBallG)
+//                    new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
                     //MOVE IN AND SHOOT
 
             )),
@@ -100,8 +100,8 @@ public enum AutonRoutine {
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
 
-            new SwerveTrajectoryCommand(ballAtoBallB),
-            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
+            new SwerveTrajectoryCommand(ballAtoBallB)
+//            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //SHOOT (may need to move closer)
     )),
 
@@ -113,8 +113,8 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(alphaPickUpA),
             new SwerveTrajectoryCommand(ballAtoBallB),
             //SHOOT TWO
-            new SwerveTrajectoryCommand(ballBtoBallG),
-            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
+            new SwerveTrajectoryCommand(ballBtoBallG)
+//            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //MOVE IN & SHOOT 1 or 2(moving in distance not determined, make path for that)
     )),
 
@@ -126,8 +126,8 @@ public enum AutonRoutine {
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
 
-            new SwerveTrajectoryCommand(ballAtoBallB),
-            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
+            new SwerveTrajectoryCommand(ballAtoBallB)
+//            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //TODO: Pick up Ball C
             //SHOOT (may need to move closer)
     )),
@@ -149,9 +149,9 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(gammaPickUpC),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0)),
             //SHOOT 2
-            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-            new SwerveTrajectoryCommand(ballCtoballG),
-            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
+//            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
+            new SwerveTrajectoryCommand(ballCtoballG)
+//            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //MOVE IN & Shoot 1 or 2
     ));
 
