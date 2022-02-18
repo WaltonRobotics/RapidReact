@@ -14,6 +14,7 @@ import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kDriveXboxCont
 import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kManipulationXboxControllerPort;
 
 public class OI {
+    
     public static XboxController driveGamepad = new XboxController(kDriveXboxControllerPort);
     public static XboxController manipulationGamepad = new XboxController(kManipulationXboxControllerPort);
 
