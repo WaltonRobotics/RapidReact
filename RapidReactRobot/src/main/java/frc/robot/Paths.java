@@ -81,11 +81,19 @@ public class Paths {
         public static PathPlannerTrajectory ballCtoballG =
                 PathPlanner.loadPath("ballCtoballG", Units.feetToMeters(8), Units.feetToMeters(4));
         //MOVE IN
-    }
 
+}
     public static class RoutineSixA{
         public static PathPlannerTrajectory alphaPickUpA;
-        public static PathPlannerTrajectory ballAtoballG=
+        public static PathPlannerTrajectory ballAtoballG =
                 PathPlanner.loadPath("ballAtoballG", Units.feetToMeters(8), Units.feetToMeters(4),true);
+    }
+
+    public static class RoutineSeven{
+        public static PathPlannerTrajectory gammaPickUpC;
+        public static PathPlannerTrajectory ballCtoballB =
+                PathPlanner.loadPath("ballCtoballB", Units.feetToMeters(8), Units.feetToMeters(4));
+        public static PathPlannerTrajectory ballBtoballA =
+                PathPlanner.loadPath("ballBtoballA", Units.feetToMeters(8), Units.feetToMeters(4));
     }
 }

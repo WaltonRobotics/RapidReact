@@ -11,6 +11,8 @@ import static frc.robot.Paths.RoutineFiveB.ballAtoBallB;
 import static frc.robot.Paths.RoutineFiveC.ballBtoBallG;
 import static frc.robot.Paths.RoutineFourA.betaPickUpB;
 import static frc.robot.Paths.RoutineOne.gammaMoveOffTarmac;
+import static frc.robot.Paths.RoutineSeven.ballBtoballA;
+import static frc.robot.Paths.RoutineSeven.ballCtoballB;
 import static frc.robot.Paths.RoutineSixA.ballAtoballG;
 import static frc.robot.Paths.RoutineSixG.*;
 import static frc.robot.Paths.RoutineThree.alphaPickUpA;
@@ -18,7 +20,7 @@ import static frc.robot.Paths.RoutineTwo.betaBackward;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
-    
+
 
     DO_NOTHING("Doing Nothing", new SequentialCommandGroup(
     )),
@@ -154,6 +156,18 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(ballCtoballG),
             new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //MOVE IN & Shoot 1 or 2
+    )),
+
+    ROUTINE_SEVEN("Start from gamma, pick up ball C, shoot 2, pick up ball B, pick up ball A, shoot 2", new SequentialCommandGroup(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(gammaPickUpC.getInitialPose(), gammaPickUpC.getInitialState())),
+            //intake
+            new SwerveTrajectoryCommand(gammaPickUpC),
+            //shoot 2
+            new SwerveTrajectoryCommand(ballCtoballB),
+            new SwerveTrajectoryCommand(ballBtoballA),
+            new TurnToAngle(90)
+            //shoot 2
     ))
 
     ;
