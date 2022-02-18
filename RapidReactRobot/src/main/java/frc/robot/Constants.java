@@ -123,7 +123,7 @@ public final class Constants {
 
     }
 
-    public static final class FieldConstants{
+    public static final class FieldConstants {
         public static final double kTargetHeightInches = 2.68224; //meters (8.8 ft)
     }
 

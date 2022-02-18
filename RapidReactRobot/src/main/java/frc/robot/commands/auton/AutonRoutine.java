@@ -4,21 +4,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Paths;
-import frc.robot.commands.TurnToAngle;
 
-import static frc.robot.Paths.*;
 import static frc.robot.Paths.RoutineFiveB.ballAtoBallB;
 import static frc.robot.Paths.RoutineFiveC.ballBtoBallG;
 import static frc.robot.Paths.RoutineFourA.betaPickUpB;
 import static frc.robot.Paths.RoutineOne.gammaMoveOffTarmac;
 import static frc.robot.Paths.RoutineSixA.ballAtoballG;
-import static frc.robot.Paths.RoutineSixG.*;
+import static frc.robot.Paths.RoutineSixG.ballCtoballG;
+import static frc.robot.Paths.RoutineSixG.gammaPickUpC;
 import static frc.robot.Paths.RoutineThree.alphaPickUpA;
 import static frc.robot.Paths.RoutineTwo.betaBackward;
+import static frc.robot.Paths.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
-    
+
 
     DO_NOTHING("Doing Nothing", new SequentialCommandGroup(
     )),
@@ -31,7 +31,7 @@ public enum AutonRoutine {
 
     S_CURVE_FORWARD("forward curve to test PID controllers", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(sCurveForward.getInitialPose(),sCurveForward.getInitialState())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(sCurveForward.getInitialPose(), sCurveForward.getInitialState())),
             new SwerveTrajectoryCommand(sCurveForward)
     )),
 
@@ -52,7 +52,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             //SHOOT 1 BALL
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(betaBackward.getInitialPose(),betaBackward.getInitialState())),
+            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(betaBackward.getInitialPose(), betaBackward.getInitialState())),
             new SwerveTrajectoryCommand(betaBackward)
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             //distance off is not precise

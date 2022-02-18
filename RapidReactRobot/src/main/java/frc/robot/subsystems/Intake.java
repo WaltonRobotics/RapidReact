@@ -110,24 +110,26 @@ public class Intake implements SubSubsystem {
     }
 
     public static class PeriodicIO implements Sendable {
-        private IntakeControlState intakeControlState;
-
         // Outputs
         public double leftIntakeDemand;
         public double rightIntakeDemand;
-
         public boolean leftIntakeDeployDemand;
         public boolean rightIntakeDeployDemand;
-
+        private IntakeControlState intakeControlState;
 
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Intake Control State", () -> intakeControlState.name(), (x) -> {});
-            builder.addDoubleProperty("Left Intake Demand", () -> leftIntakeDemand, (x) -> {});
-            builder.addDoubleProperty("Right Intake Demand", () -> rightIntakeDemand, (x) -> {});
-            builder.addBooleanProperty("Left Intake Deploy State Demand", () -> leftIntakeDeployDemand, (x) -> {});
-            builder.addBooleanProperty("Right Intake Deploy State Demand", () -> rightIntakeDeployDemand, (x) -> {});
+            builder.addStringProperty("Intake Control State", () -> intakeControlState.name(), (x) -> {
+            });
+            builder.addDoubleProperty("Left Intake Demand", () -> leftIntakeDemand, (x) -> {
+            });
+            builder.addDoubleProperty("Right Intake Demand", () -> rightIntakeDemand, (x) -> {
+            });
+            builder.addBooleanProperty("Left Intake Deploy State Demand", () -> leftIntakeDeployDemand, (x) -> {
+            });
+            builder.addBooleanProperty("Right Intake Deploy State Demand", () -> rightIntakeDeployDemand, (x) -> {
+            });
         }
     }
 }

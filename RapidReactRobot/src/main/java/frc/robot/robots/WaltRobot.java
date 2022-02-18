@@ -23,12 +23,17 @@ public abstract class WaltRobot {
     }
 
     public abstract void configDrivetrain();
+
     public abstract void configIntake();
+
     public abstract void configConveyor();
+
     public abstract void configShooter();
+
     public abstract void configClimber();
 
     public abstract void defineLimits();
+
     public abstract void defineTargets();
 
     public DrivetrainConfig getDrivetrainConfig() {

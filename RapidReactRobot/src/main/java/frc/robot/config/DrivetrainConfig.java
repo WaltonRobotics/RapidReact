@@ -10,21 +10,28 @@ public interface DrivetrainConfig {
     // Control-related constants
     // All arrays are in order of modules: left-front, right-front, left-rear, right-rear
     SmartMotionConstants[] getAzimuthControllerConfigs();
+
     TalonFXConfiguration[] getDriveControllerConfigs();
 
     int[] getAzimuthControllerIDs();
+
     int[] getDriveControllerIDs();
+
     int[] getAbsoluteEncoderChannels();
 
     boolean[] getAzimuthControllerInversions();
+
     boolean[] getDriveControllerInversions();
+
     boolean[] getAbsoluteEncoderInversions();
 
     // Kinematics-related constants
     double getRelativeEncoderRotationsPerTick();
+
     double getWheelDiameterInches();
 
     double getMaxSpeedMetersPerSecond();
+
     double getMaxOmega();
 
     double getDriveGearRatio();
@@ -33,7 +40,9 @@ public interface DrivetrainConfig {
 
     // Pathing constants/controllers
     PIDController getXController();
+
     PIDController getYController();
+
     ProfiledPIDController getThetaController();
 
 }

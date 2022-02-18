@@ -1,9 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.UtilMethods;
 
 import java.util.function.DoubleSupplier;
@@ -11,18 +12,15 @@ import java.util.function.DoubleSupplier;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
-import frc.robot.subsystems.Drivetrain;
-
 public class TurnToAngle extends CommandBase {
 
     private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
 
     private final DoubleSupplier targetHeadingSupplier;
-    private double targetHeading;
-
     private final ProfiledPIDController controller = new ProfiledPIDController
             (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
-                    Math.toDegrees(drivetrain.getConfig().getMaxOmega() / 1.1), 360.0 ));
+                    Math.toDegrees(drivetrain.getConfig().getMaxOmega() / 1.1), 360.0));
+    private double targetHeading;
 
     public TurnToAngle(DoubleSupplier targetHeadingSupplier) {
         addRequirements(drivetrain);
@@ -40,7 +38,7 @@ public class TurnToAngle extends CommandBase {
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         targetHeading = UtilMethods.restrictAngle(targetHeadingSupplier.getAsDouble(), -180.0, 180.0);
 
         controller.reset(new TrapezoidProfile.State(getHeading(),
@@ -52,7 +50,7 @@ public class TurnToAngle extends CommandBase {
     }
 
     @Override
-    public void execute(){
+    public void execute() {
         double turnRate = controller.calculate(getHeading(), targetHeading);
 
         double minOmega = 0.6;
@@ -61,12 +59,12 @@ public class TurnToAngle extends CommandBase {
         SmartDashboard.putNumber(kTurnToAngleErrorDegrees, controller.getPositionError());
         SmartDashboard.putNumber(kTurnToAngleOmegaOutputKey, turnRate);
 
-        drivetrain.move(0,0, turnRate,false);
+        drivetrain.move(0, 0, turnRate, false);
     }
 
     @Override
-    public void end(boolean interrupted){
-        drivetrain.move(0,0,0,false);
+    public void end(boolean interrupted) {
+        drivetrain.move(0, 0, 0, false);
     }
 
     @Override
@@ -75,7 +73,7 @@ public class TurnToAngle extends CommandBase {
     }
 
     private double getHeading() {
-        return UtilMethods.restrictAngle(drivetrain.getHeading().getDegrees(),-180,180);
+        return UtilMethods.restrictAngle(drivetrain.getHeading().getDegrees(), -180, 180);
     }
 
 }

@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AimCommandLime;
 import frc.robot.commands.AimCommandNav;
@@ -20,8 +20,6 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
 import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.SetModuleStates;
-
-import frc.robot.OI.*;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Superstructure;
@@ -44,105 +42,107 @@ import static frc.robot.commands.auton.AutonRoutine.DO_NOTHING;
  */
 public class RobotContainer {
 
-  public static final WaltRobot currentRobot;
-  public static final Superstructure godSubsystem;
-  public static final Logger robotLogger = Logger.getLogger("frc.robot");
-  public static SendableChooser<AutonRoutine> autonChooser;
+    public static final WaltRobot currentRobot;
+    public static final Superstructure godSubsystem;
+    public static final Logger robotLogger = Logger.getLogger("frc.robot");
+    public static SendableChooser<AutonRoutine> autonChooser;
 
-  static {
-    currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),
-            new DigitalInput(kRobotID2).get()).getSelectedRobot();
+    static {
+        currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),
+                new DigitalInput(kRobotID2).get()).getSelectedRobot();
 
-    godSubsystem = new Superstructure();
+        godSubsystem = new Superstructure();
 
-    robotLogger.setLevel(Level.FINEST);
-  }
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    CommandScheduler.getInstance().setDefaultCommand(godSubsystem, new SuperstructureCommand());
-    CommandScheduler.getInstance().setDefaultCommand(godSubsystem.getDrivetrain(), new DriveCommand());
-
-    initShuffleboard();
-
-    // Configure the button bindings
-    configureButtonBindings();
-  }
-
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    OI.resetDrivetrainButton.whenPressed(new SequentialCommandGroup(
-            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new InstantCommand(() -> System.out.println("Reset drivetrain"))
-    ));
-
-    OI.limeAutoAimButton.whenPressed(new AimCommandLime().withTimeout(2));
-    OI.navAutoAimButton.whenPressed(new AimCommandNav().withTimeout(2));
-  }
-
-  private void initShuffleboard() {
-    LiveWindow.disableAllTelemetry();
-
-    SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
-
-    SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
-    SmartDashboard.putNumber(kDrivetrainSetpointVelocityKey, 0.0);
-
-    SmartDashboard.putNumber(kClimberPivotAngleFromVertical, 0.0);
-    SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, 0.0);
-    // Auton chooser
-    autonChooser = new SendableChooser<>();
-    Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
-    autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
-    SmartDashboard.putData("Auton Selector", autonChooser);
-
-    if (kIsInTuningMode) {
-      SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
-      SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);
-      SmartDashboard.putNumber(kDrivetrainLeftRearZeroValueKey, 0.0);
-      SmartDashboard.putNumber(kDrivetrainRightRearZeroValueKey, 0.0);
-
-      SmartDashboard.putData(kDrivetrainSaveLeftFrontZeroKey,
-              new InstantCommand(() ->
-                      godSubsystem.getDrivetrain().saveLeftFrontZero((int)SmartDashboard.getNumber(kDrivetrainLeftFrontZeroValueKey, 0.0))));
-
-      SmartDashboard.putData(kDrivetrainSaveRightFrontZeroKey,
-              new InstantCommand(() ->
-                      godSubsystem.getDrivetrain().saveRightFrontZero((int)SmartDashboard.getNumber(kDrivetrainRightFrontZeroValueKey, 0.0))));
-
-      SmartDashboard.putData(kDrivetrainSaveLeftRearZeroKey,
-              new InstantCommand(() ->
-                      godSubsystem.getDrivetrain().saveLeftRearZero((int)SmartDashboard.getNumber(kDrivetrainLeftRearZeroValueKey, 0.0))));
-
-      SmartDashboard.putData(kDrivetrainSaveRightRearZeroKey,
-              new InstantCommand(() ->
-                      godSubsystem.getDrivetrain().saveRightRearZero((int)SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
-
-      SmartDashboard.putData(kDriverForwardScaleKey, OI.forwardScale);
-      SmartDashboard.putData(kDriverStrafeScaleKey, OI.strafeScale);
-      SmartDashboard.putData(kDriverYawScaleKey, OI.yawScale);
-
-      SmartDashboard.putData("kXController", currentRobot.getDrivetrainConfig().getXController());
-      SmartDashboard.putData("kYController", currentRobot.getDrivetrainConfig().getYController());
-      SmartDashboard.putData("kThetaController", currentRobot.getDrivetrainConfig().getThetaController());
-
-      SmartDashboard.putNumber("X Error Average", 0.0);
-      SmartDashboard.putNumber("Y Error Average", 0.0);
-      SmartDashboard.putNumber("Theta Error Average", 0.0);
+        robotLogger.setLevel(Level.FINEST);
     }
-  }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    return autonChooser.getSelected().getCommandGroup();
-  }
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        CommandScheduler.getInstance().setDefaultCommand(godSubsystem, new SuperstructureCommand());
+        CommandScheduler.getInstance().setDefaultCommand(godSubsystem.getDrivetrain(), new DriveCommand());
+
+        initShuffleboard();
+
+        // Configure the button bindings
+        configureButtonBindings();
+    }
+
+    /**
+     * Use this method to define your button->command mappings. Buttons can be created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        OI.resetDrivetrainButton.whenPressed(new SequentialCommandGroup(
+                new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+                new InstantCommand(() -> System.out.println("Reset drivetrain"))
+        ));
+
+        OI.limeAutoAimButton.whenPressed(new AimCommandLime().withTimeout(2));
+        OI.navAutoAimButton.whenPressed(new AimCommandNav().withTimeout(2));
+    }
+
+    private void initShuffleboard() {
+        LiveWindow.disableAllTelemetry();
+
+        SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
+
+        SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
+        SmartDashboard.putNumber(kDrivetrainSetpointVelocityKey, 0.0);
+
+        SmartDashboard.putNumber(kClimberPivotAngleFromVertical, 0.0);
+        SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, 0.0);
+        // Auton chooser
+        autonChooser = new SendableChooser<>();
+        Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
+        autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
+        SmartDashboard.putData("Auton Selector", autonChooser);
+
+        if (kIsInTuningMode) {
+            SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
+            SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);
+            SmartDashboard.putNumber(kDrivetrainLeftRearZeroValueKey, 0.0);
+            SmartDashboard.putNumber(kDrivetrainRightRearZeroValueKey, 0.0);
+
+            SmartDashboard.putData(kDrivetrainSaveLeftFrontZeroKey,
+                    new InstantCommand(() ->
+                            godSubsystem.getDrivetrain().saveLeftFrontZero((int) SmartDashboard.getNumber(kDrivetrainLeftFrontZeroValueKey, 0.0))));
+
+            SmartDashboard.putData(kDrivetrainSaveRightFrontZeroKey,
+                    new InstantCommand(() ->
+                            godSubsystem.getDrivetrain().saveRightFrontZero((int) SmartDashboard.getNumber(kDrivetrainRightFrontZeroValueKey, 0.0))));
+
+            SmartDashboard.putData(kDrivetrainSaveLeftRearZeroKey,
+                    new InstantCommand(() ->
+                            godSubsystem.getDrivetrain().saveLeftRearZero((int) SmartDashboard.getNumber(kDrivetrainLeftRearZeroValueKey, 0.0))));
+
+            SmartDashboard.putData(kDrivetrainSaveRightRearZeroKey,
+                    new InstantCommand(() ->
+                            godSubsystem.getDrivetrain().saveRightRearZero((int) SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
+
+            SmartDashboard.putData(kDriverForwardScaleKey, OI.forwardScale);
+            SmartDashboard.putData(kDriverStrafeScaleKey, OI.strafeScale);
+            SmartDashboard.putData(kDriverYawScaleKey, OI.yawScale);
+
+            SmartDashboard.putData("kXController", currentRobot.getDrivetrainConfig().getXController());
+            SmartDashboard.putData("kYController", currentRobot.getDrivetrainConfig().getYController());
+            SmartDashboard.putData("kThetaController", currentRobot.getDrivetrainConfig().getThetaController());
+
+            SmartDashboard.putNumber("X Error Average", 0.0);
+            SmartDashboard.putNumber("Y Error Average", 0.0);
+            SmartDashboard.putNumber("Theta Error Average", 0.0);
+        }
+    }
+
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        return autonChooser.getSelected().getCommandGroup();
+    }
 }

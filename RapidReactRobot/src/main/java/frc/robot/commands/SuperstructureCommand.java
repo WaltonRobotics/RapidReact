@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.stateMachine.IState;
@@ -8,10 +7,7 @@ import frc.robot.stateMachine.StateMachine;
 import frc.robot.subsystems.*;
 import frc.robot.vision.LimelightHelper;
 
-
 import static frc.robot.RobotContainer.godSubsystem;
-import static frc.robot.subsystems.Intake.IntakeControlState.DISABLED;
-import static frc.robot.subsystems.Intake.IntakeControlState.VOLTAGE;
 
 public class SuperstructureCommand extends CommandBase {
 
@@ -20,17 +16,17 @@ public class SuperstructureCommand extends CommandBase {
     private final Conveyor conveyor;
     private final Shooter shooter;
     private final Climber climber;
-    private StateMachine stateMachine;
+    private final StateMachine stateMachine;
 
     private IState disabled;
     private IState initializing;
-    private IState idle;
-    private IState intaking;
-    private IState outtaking;
+    private final IState idle;
+    private final IState intaking;
+    private final IState outtaking;
     private IState AligningAndSpinningUp;
-    private IState shooting;
+    private final IState shooting;
     private IState spinningUp;
-    private IState adjustingHood;
+    private final IState adjustingHood;
 
 
     // State machine states:
@@ -54,7 +50,7 @@ public class SuperstructureCommand extends CommandBase {
         climber = godSubsystem.getClimber();
         stateMachine = new StateMachine("Disabled", disabled);
 
-        disabled = new IState(){
+        disabled = new IState() {
 
             @Override
             public void initialize() {
@@ -77,7 +73,7 @@ public class SuperstructureCommand extends CommandBase {
             }
         };
 
-        idle = new IState(){
+        idle = new IState() {
 
             @Override
             public void initialize() {
@@ -92,40 +88,37 @@ public class SuperstructureCommand extends CommandBase {
 
             @Override
             public IState execute() {
-                if(OI.intakeButton.getAsBoolean()){
+                if (OI.intakeButton.getAsBoolean()) {
                     return intaking;
                 }
 
-                if(OI.outtakeButton.getAsBoolean()){
+                if (OI.outtakeButton.getAsBoolean()) {
                     return outtaking;
                 }
 
                 //manual overrides
-                if(OI.toggleLeftIntakeButton.getAsBoolean()){
+                if (OI.toggleLeftIntakeButton.getAsBoolean()) {
                     intake.setLeftIntakeDeployStateDemand(true);
                 }
-                if(OI.toggleRightIntakeButton.getAsBoolean()){
+                if (OI.toggleRightIntakeButton.getAsBoolean()) {
                     intake.setRightIntakeDeployStateDemand(true);
                 }
 
-                if(OI.overrideTransportConveyorButton.getAsBoolean()){
+                if (OI.overrideTransportConveyorButton.getAsBoolean()) {
                     conveyor.setTransportDemand(8.0);   //dummy voltage value
-                }
-                else{
+                } else {
                     conveyor.setTransportDemand(0);
                 }
 
-                if(OI.overrideFeedConveyorButton.getAsBoolean()){
+                if (OI.overrideFeedConveyorButton.getAsBoolean()) {
                     conveyor.setFeedDemand(8.0);    //dummy voltage vale
-                }
-                else{
+                } else {
                     conveyor.setFeedDemand(0.0);
                 }
                 //TODO: climber manual overrides
 
                 return this;
             }
-
 
 
             @Override
@@ -139,7 +132,7 @@ public class SuperstructureCommand extends CommandBase {
             }
         };
 
-        intaking = new IState(){
+        intaking = new IState() {
             @Override
             public void initialize() {
                 conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
@@ -149,11 +142,11 @@ public class SuperstructureCommand extends CommandBase {
             @Override
             public IState execute() {
                 //dummy voltage values for the following:
-                if(intake.isLeftIntakeDeployStateDemand()){
+                if (intake.isLeftIntakeDeployStateDemand()) {
                     intake.setLeftIntakeDemand(8.0);
                 }
 
-                if(intake.isRightIntakeDeployStateDemand()){
+                if (intake.isRightIntakeDeployStateDemand()) {
                     intake.setRightIntakeDemand(8.0);
                 }
                 conveyor.setFeedDemand(8.0);
@@ -172,7 +165,7 @@ public class SuperstructureCommand extends CommandBase {
             }
         };
 
-        outtaking = new IState(){
+        outtaking = new IState() {
 
             @Override
             public void initialize() {
@@ -183,11 +176,11 @@ public class SuperstructureCommand extends CommandBase {
             @Override
             public IState execute() {
                 //dummy voltage values for the following:
-                if(intake.isLeftIntakeDeployStateDemand()){
+                if (intake.isLeftIntakeDeployStateDemand()) {
                     intake.setLeftIntakeDemand(-8.0);
                 }
 
-                if(intake.isRightIntakeDeployStateDemand()){
+                if (intake.isRightIntakeDeployStateDemand()) {
                     intake.setRightIntakeDemand(-8.0);
                 }
                 conveyor.setFeedDemand(-8.0);
@@ -206,15 +199,14 @@ public class SuperstructureCommand extends CommandBase {
             }
         };
 
-        adjustingHood = new IState(){
+        adjustingHood = new IState() {
 
             @Override
             public void initialize() {
-                if(LimelightHelper.getDistanceToTargetMeters() <= 5){ //dummy value
+                if (LimelightHelper.getDistanceToTargetMeters() <= 5) { //dummy value
                     shooter.setRightAdjustableHoodDutyCycleDemand(10);
                     shooter.setLeftAdjustableHoodDutyCycleDemand(10);
-                }
-                else{
+                } else {
                     shooter.setRightAdjustableHoodDutyCycleDemand(20);
                     shooter.setLeftAdjustableHoodDutyCycleDemand(20);
                 }
@@ -223,7 +215,7 @@ public class SuperstructureCommand extends CommandBase {
             @Override
             public IState execute() {
                 //the following are dummy values
-                if(!OI.shootButtonButton.getAsBoolean()){
+                if (!OI.shootButtonButton.getAsBoolean()) {
                     return idle;
                 }
                 return shooting;
@@ -240,7 +232,7 @@ public class SuperstructureCommand extends CommandBase {
             }
         };
 
-        shooting = new IState(){
+        shooting = new IState() {
 
             @Override
             public void initialize() {

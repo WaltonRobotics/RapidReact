@@ -8,7 +8,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
@@ -187,107 +190,6 @@ public class Climber implements SubSubsystem {
         return isZeroed.isRisingEdge();
     }
 
-    public enum ClimberControlState {
-        ZEROING, AUTO, OPEN_LOOP, DISABLED
-    }
-
-    public enum ClimberExtensionPosition {
-        STOWED_HEIGHT,
-        HOOKING_ONTO_MID_BAR_LENGTH,
-        LENGTH_TO_DISENGAGE_FROM_MID_BAR,
-        HOOKING_ONTO_HIGH_BAR_LENGTH,
-        LENGTH_TO_DISENGAGE_FROM_HIGH_BAR,
-        HOOKING_ONTO_TRAVERSAL_BAR_LENGTH,
-        LENGTH_TO_HANG_FROM_TRAVERSAL_BAR
-    }
-
-    public enum ClimberExtensionLimits {
-        STOWED,
-        EXTENSION_FULL_ROM,
-        HIGH_BAR_TRANSFER_TO_FIXED_ARM,
-    }
-
-    public enum ClimberPivotPosition {
-        // If the position begins with ANGLE, rotation is CW
-        // If the position ends with ANGLE, rotation is CCW
-
-        STOWED_ANGLE,
-        REACHING_FOR_MID_BAR_PIVOT_ANGLE,
-        ANGLE_TO_HOOK_ONTO_MID_BAR,
-        ANGLE_HOOK_THETA_FOR_MID_BAR,
-        REACHING_FOR_HIGH_BAR_PIVOT_ANGLE,
-        ANGLE_TO_HOOK_ONTO_HIGH_BAR,
-        ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER,
-        FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE,
-        REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE,
-        ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR
-    }
-
-    public enum ClimberPivotLimits {
-        PIVOT_STOWED,
-        PIVOT_FULL_ROM,
-        PIVOT_PULL_UP_TO_MID_BAR,
-        PIVOT_PULL_UP_TO_HIGH_BAR,
-        PIVOT_PULL_UP_TO_TRAVERSAL_BAR,
-    }
-
-    public static class PeriodicIO implements Sendable {
-        // Outputs
-        private ClimberControlState pivotControlState;
-        private ClimberControlState extensionControlState;
-
-        public boolean resetPivotLimits;
-        public LimitPair pivotLimits;
-
-        public boolean resetExtensionLimits;
-        public LimitPair extensionLimits;
-        public boolean releaseExtensionLowerLimit;
-
-        private boolean resetPivotNeutralMode;
-        private NeutralMode pivotNeutralMode;
-        private boolean resetExtensionNeutralMode;
-        private NeutralMode extensionNeutralMode;
-
-        public double pivotPercentOutputDemand;
-        public double pivotFeedForward;
-        public double pivotPositionDemandNU;
-        public double extensionPercentOutputDemand;
-        public double extensionPositionDemandNU;
-
-        public boolean leftClimberLockStateDemand;
-        public boolean rightClimberLockStateDemand;
-        public boolean climberDiscBrakeStateDemand;
-
-        // Inputs
-        public double pivotAbsoluteEncoderPositionNU;
-        public double pivotIntegratedEncoderPositionNU;
-
-        public boolean isLeftExtensionLowerLimitClosed;
-        public boolean isRightExtensionLowerLimitClosed;
-
-        public double extensionIntegratedEncoderPosition;
-
-        @Override
-        public void initSendable(SendableBuilder builder) {
-            builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Pivot Control State", () -> pivotControlState.name(), (x) -> {});
-            builder.addStringProperty("Extension Control State", () -> extensionControlState.name(), (x) -> {});
-            builder.addDoubleProperty("Pivot Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {});
-            builder.addDoubleProperty("Pivot Feed Forward", () -> pivotFeedForward, (x) -> {});
-            builder.addDoubleProperty("Pivot Position Demand NU", () -> pivotPositionDemandNU, (x) -> {});
-            builder.addDoubleProperty("Extension Percent Output Demand", () -> extensionPercentOutputDemand, (x) -> {});
-            builder.addDoubleProperty("Extension Position Demand NU", () -> extensionPositionDemandNU, (x) -> {});
-            builder.addBooleanProperty("Left Climber Lock State Demand", () -> leftClimberLockStateDemand, (x) -> {});
-            builder.addBooleanProperty("Right Climber Lock State Demand", () -> rightClimberLockStateDemand, (x) -> {});
-            builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {});
-            builder.addDoubleProperty("Pivot Absolute Encoder Position NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {});
-            builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {});
-            builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {});
-            builder.addBooleanProperty("Is Right Extension Lower Limit Closed", () -> isRightExtensionLowerLimitClosed, (x) -> {});
-            builder.addDoubleProperty("Extension Integrated Encoder Position", () -> extensionIntegratedEncoderPosition, (x) -> {});
-        }
-    }
-
     public ClimberControlState getPivotControlState() {
         return periodicIO.pivotControlState;
     }
@@ -356,16 +258,16 @@ public class Climber implements SubSubsystem {
         return periodicIO.pivotPositionDemandNU;
     }
 
+    public void setPivotPositionDemandNU(double pivotPositionDemandNU) {
+        setPivotPositionDemandNU(pivotPositionDemandNU, 0);
+    }
+
     public void setPivotPositionDemand(ClimberPivotPosition position) {
         setPivotPositionDemandNU(config.getClimberPivotTargets().get(position).getTarget());
     }
-    
+
     public void setPivotPositionDemand(ClimberPivotPosition position, double feedforward) {
         setPivotPositionDemandNU(config.getClimberPivotTargets().get(position).getTarget(), feedforward);
-    }
-
-    public void setPivotPositionDemandNU(double pivotPositionDemandNU) {
-        setPivotPositionDemandNU(pivotPositionDemandNU, 0);
     }
 
     public void setPivotPositionDemandNU(double pivotPositionDemandNU, double feedForward) {
@@ -385,12 +287,12 @@ public class Climber implements SubSubsystem {
         return periodicIO.extensionPositionDemandNU;
     }
 
-    public void setExtensionPositionDemand(ClimberExtensionPosition position) {
-        setExtensionPositionDemandNU(config.getClimberExtensionTargets().get(position).getTarget());
-    }
-
     public void setExtensionPositionDemandNU(double extensionPositionDemandNU) {
         periodicIO.extensionPositionDemandNU = extensionPositionDemandNU;
+    }
+
+    public void setExtensionPositionDemand(ClimberExtensionPosition position) {
+        setExtensionPositionDemandNU(config.getClimberExtensionTargets().get(position).getTarget());
     }
 
     public boolean getLeftClimberLockStateDemand() {
@@ -453,6 +355,114 @@ public class Climber implements SubSubsystem {
     public double getCalculatedFeedForward() {
         double cosineScalar = getPivotAngleFromHorizontal().getCos();
         return config.getMaxGravityFeedForward() * -cosineScalar;
+    }
+
+    public enum ClimberControlState {
+        ZEROING, AUTO, OPEN_LOOP, DISABLED
+    }
+
+    public enum ClimberExtensionPosition {
+        STOWED_HEIGHT,
+        HOOKING_ONTO_MID_BAR_LENGTH,
+        LENGTH_TO_DISENGAGE_FROM_MID_BAR,
+        HOOKING_ONTO_HIGH_BAR_LENGTH,
+        LENGTH_TO_DISENGAGE_FROM_HIGH_BAR,
+        HOOKING_ONTO_TRAVERSAL_BAR_LENGTH,
+        LENGTH_TO_HANG_FROM_TRAVERSAL_BAR
+    }
+
+    public enum ClimberExtensionLimits {
+        STOWED,
+        EXTENSION_FULL_ROM,
+        HIGH_BAR_TRANSFER_TO_FIXED_ARM,
+    }
+
+    public enum ClimberPivotPosition {
+        // If the position begins with ANGLE, rotation is CW
+        // If the position ends with ANGLE, rotation is CCW
+
+        STOWED_ANGLE,
+        REACHING_FOR_MID_BAR_PIVOT_ANGLE,
+        ANGLE_TO_HOOK_ONTO_MID_BAR,
+        ANGLE_HOOK_THETA_FOR_MID_BAR,
+        REACHING_FOR_HIGH_BAR_PIVOT_ANGLE,
+        ANGLE_TO_HOOK_ONTO_HIGH_BAR,
+        ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER,
+        FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE,
+        REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE,
+        ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR
+    }
+
+    public enum ClimberPivotLimits {
+        PIVOT_STOWED,
+        PIVOT_FULL_ROM,
+        PIVOT_PULL_UP_TO_MID_BAR,
+        PIVOT_PULL_UP_TO_HIGH_BAR,
+        PIVOT_PULL_UP_TO_TRAVERSAL_BAR,
+    }
+
+    public static class PeriodicIO implements Sendable {
+        public boolean resetPivotLimits;
+        public LimitPair pivotLimits;
+        public boolean resetExtensionLimits;
+        public LimitPair extensionLimits;
+        public boolean releaseExtensionLowerLimit;
+        public double pivotPercentOutputDemand;
+        public double pivotFeedForward;
+        public double pivotPositionDemandNU;
+        public double extensionPercentOutputDemand;
+        public double extensionPositionDemandNU;
+        public boolean leftClimberLockStateDemand;
+        public boolean rightClimberLockStateDemand;
+        public boolean climberDiscBrakeStateDemand;
+        // Inputs
+        public double pivotAbsoluteEncoderPositionNU;
+        public double pivotIntegratedEncoderPositionNU;
+        public boolean isLeftExtensionLowerLimitClosed;
+        public boolean isRightExtensionLowerLimitClosed;
+        public double extensionIntegratedEncoderPosition;
+        // Outputs
+        private ClimberControlState pivotControlState;
+        private ClimberControlState extensionControlState;
+        private boolean resetPivotNeutralMode;
+        private NeutralMode pivotNeutralMode;
+        private boolean resetExtensionNeutralMode;
+        private NeutralMode extensionNeutralMode;
+
+        @Override
+        public void initSendable(SendableBuilder builder) {
+            builder.setSmartDashboardType("PeriodicIO");
+            builder.addStringProperty("Pivot Control State", () -> pivotControlState.name(), (x) -> {
+            });
+            builder.addStringProperty("Extension Control State", () -> extensionControlState.name(), (x) -> {
+            });
+            builder.addDoubleProperty("Pivot Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {
+            });
+            builder.addDoubleProperty("Pivot Feed Forward", () -> pivotFeedForward, (x) -> {
+            });
+            builder.addDoubleProperty("Pivot Position Demand NU", () -> pivotPositionDemandNU, (x) -> {
+            });
+            builder.addDoubleProperty("Extension Percent Output Demand", () -> extensionPercentOutputDemand, (x) -> {
+            });
+            builder.addDoubleProperty("Extension Position Demand NU", () -> extensionPositionDemandNU, (x) -> {
+            });
+            builder.addBooleanProperty("Left Climber Lock State Demand", () -> leftClimberLockStateDemand, (x) -> {
+            });
+            builder.addBooleanProperty("Right Climber Lock State Demand", () -> rightClimberLockStateDemand, (x) -> {
+            });
+            builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {
+            });
+            builder.addDoubleProperty("Pivot Absolute Encoder Position NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
+            });
+            builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {
+            });
+            builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {
+            });
+            builder.addBooleanProperty("Is Right Extension Lower Limit Closed", () -> isRightExtensionLowerLimitClosed, (x) -> {
+            });
+            builder.addDoubleProperty("Extension Integrated Encoder Position", () -> extensionIntegratedEncoderPosition, (x) -> {
+            });
+        }
     }
 
 }

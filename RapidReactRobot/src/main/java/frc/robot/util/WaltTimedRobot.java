@@ -3,70 +3,22 @@ package frc.robot.util;
 import edu.wpi.first.hal.FRCNetComm;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.NotifierJNI;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 
 import java.util.PriorityQueue;
 
 public class WaltTimedRobot extends WaltIterativeRobotBase {
 
-    @SuppressWarnings("MemberName")
-    static class Callback implements Comparable<Callback> {
-        public Runnable func;
-        public double period;
-        public double expirationTime;
-
-        /**
-         * Construct a callback container.
-         *
-         * @param func The callback to run.
-         * @param startTimeSeconds The common starting point for all callback scheduling in seconds.
-         * @param periodSeconds The period at which to run the callback in seconds.
-         * @param offsetSeconds The offset from the common starting time in seconds.
-         */
-        Callback(Runnable func, double startTimeSeconds, double periodSeconds, double offsetSeconds) {
-            this.func = func;
-            this.period = periodSeconds;
-            this.expirationTime =
-                    startTimeSeconds
-                            + offsetSeconds
-                            + Math.floor((Timer.getFPGATimestamp() - startTimeSeconds) / this.period)
-                            * this.period
-                            + this.period;
-        }
-
-        @Override
-        public boolean equals(Object rhs) {
-            if (rhs instanceof Callback) {
-                return Double.compare(expirationTime, ((Callback) rhs).expirationTime) == 0;
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return Double.hashCode(expirationTime);
-        }
-
-        @Override
-        public int compareTo(Callback rhs) {
-            // Elements with sooner expiration times are sorted as lesser. The head of
-            // Java's PriorityQueue is the least element.
-            return Double.compare(expirationTime, rhs.expirationTime);
-        }
-    }
-
     public static final double kDefaultPeriod = 0.02;
-
     // The C pointer to the notifier object. We don't use it directly, it is
     // just passed to the JNI bindings.
     private final int m_notifier = NotifierJNI.initializeNotifier();
-
-    private double m_startTime;
-
     private final PriorityQueue<Callback> m_callbacks = new PriorityQueue<>();
+    private final double m_startTime;
 
-    /** Constructor for WaltTimedRobot */
+    /**
+     * Constructor for WaltTimedRobot
+     */
     protected WaltTimedRobot() {
         this(kDefaultPeriod);
     }
@@ -92,7 +44,9 @@ public class WaltTimedRobot extends WaltIterativeRobotBase {
         NotifierJNI.cleanNotifier(m_notifier);
     }
 
-    /** Provide an alternate "main loop" via startCompetition(). */
+    /**
+     * Provide an alternate "main loop" via startCompetition().
+     */
     @Override
     @SuppressWarnings("UnsafeFinalization")
     public void startCompetition() {
@@ -137,7 +91,9 @@ public class WaltTimedRobot extends WaltIterativeRobotBase {
         }
     }
 
-    /** Ends the main loop in startCompetition(). */
+    /**
+     * Ends the main loop in startCompetition().
+     */
     @Override
     public void endCompetition() {
         NotifierJNI.stopNotifier(m_notifier);
@@ -149,7 +105,7 @@ public class WaltTimedRobot extends WaltIterativeRobotBase {
      * <p>This is scheduled on TimedRobot's Notifier, so TimedRobot and the callback run
      * synchronously. Interactions between them are thread-safe.
      *
-     * @param callback The callback to run.
+     * @param callback      The callback to run.
      * @param periodSeconds The period at which to run the callback in seconds.
      */
     public void addPeriodic(Runnable callback, double periodSeconds) {
@@ -162,13 +118,59 @@ public class WaltTimedRobot extends WaltIterativeRobotBase {
      * <p>This is scheduled on TimedRobot's Notifier, so TimedRobot and the callback run
      * synchronously. Interactions between them are thread-safe.
      *
-     * @param callback The callback to run.
+     * @param callback      The callback to run.
      * @param periodSeconds The period at which to run the callback in seconds.
      * @param offsetSeconds The offset from the common starting time in seconds. This is useful for
-     *     scheduling a callback in a different timeslot relative to
+     *                      scheduling a callback in a different timeslot relative to
      */
     public void addPeriodic(Runnable callback, double periodSeconds, double offsetSeconds) {
         m_callbacks.add(new Callback(callback, m_startTime, periodSeconds, offsetSeconds));
+    }
+
+    @SuppressWarnings("MemberName")
+    static class Callback implements Comparable<Callback> {
+        public Runnable func;
+        public double period;
+        public double expirationTime;
+
+        /**
+         * Construct a callback container.
+         *
+         * @param func             The callback to run.
+         * @param startTimeSeconds The common starting point for all callback scheduling in seconds.
+         * @param periodSeconds    The period at which to run the callback in seconds.
+         * @param offsetSeconds    The offset from the common starting time in seconds.
+         */
+        Callback(Runnable func, double startTimeSeconds, double periodSeconds, double offsetSeconds) {
+            this.func = func;
+            this.period = periodSeconds;
+            this.expirationTime =
+                    startTimeSeconds
+                            + offsetSeconds
+                            + Math.floor((Timer.getFPGATimestamp() - startTimeSeconds) / this.period)
+                            * this.period
+                            + this.period;
+        }
+
+        @Override
+        public boolean equals(Object rhs) {
+            if (rhs instanceof Callback) {
+                return Double.compare(expirationTime, ((Callback) rhs).expirationTime) == 0;
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return Double.hashCode(expirationTime);
+        }
+
+        @Override
+        public int compareTo(Callback rhs) {
+            // Elements with sooner expiration times are sorted as lesser. The head of
+            // Java's PriorityQueue is the least element.
+            return Double.compare(expirationTime, rhs.expirationTime);
+        }
     }
 
 }

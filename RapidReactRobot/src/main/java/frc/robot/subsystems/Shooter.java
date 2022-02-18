@@ -1,16 +1,18 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.ShooterConfig;
+import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.PIDProfileSlots.kShooterDefaultIndex;
 import static frc.robot.RobotContainer.currentRobot;
-import frc.robot.vision.LimelightHelper;
 
 public class Shooter implements SubSubsystem {
 
@@ -158,11 +160,11 @@ public class Shooter implements SubSubsystem {
     public enum ShooterProfileSlot {
         DEFAULT_SLOT(kShooterDefaultIndex);
 
+        private final int index;
+
         ShooterProfileSlot(int idx) {
             index = idx;
         }
-
-        private final int index;
 
         public int getIndex() {
             return index;
@@ -180,7 +182,7 @@ public class Shooter implements SubSubsystem {
         public double lastLeftAdjustableHoodDutyCycleDemand;
         public double lastRightAdjustableHoodDutyCycleDemand;
         public double lastAdjustableHoodChangeFPGATime;
-        
+
         // Inputs
         public double flywheelVelocityNU;
         public double flywheelClosedLoopErrorNU;
@@ -188,13 +190,20 @@ public class Shooter implements SubSubsystem {
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Shooter Control State", () -> shooterControlState.name(), (x) -> {});
-            builder.addStringProperty("Selected Profile Slot", () -> selectedProfileSlot.name(), (x) -> {});
-            builder.addDoubleProperty("Flywheel Demand", () -> flywheelDemand, (x) -> {});
-            builder.addDoubleProperty("Left Adjustable Hood Demand", () -> leftAdjustableHoodDutyCycleDemand, (x) -> {});
-            builder.addDoubleProperty("Right Adjustable Hood Demand", () -> rightAdjustableHoodDutyCycleDemand, (x) -> {});
-            builder.addDoubleProperty("Flywheel Velocity NU", () -> rightAdjustableHoodDutyCycleDemand, (x) -> {});
-            builder.addDoubleProperty("Flywheel Closed Loop Error NU", () -> flywheelClosedLoopErrorNU, (x) -> {});
+            builder.addStringProperty("Shooter Control State", () -> shooterControlState.name(), (x) -> {
+            });
+            builder.addStringProperty("Selected Profile Slot", () -> selectedProfileSlot.name(), (x) -> {
+            });
+            builder.addDoubleProperty("Flywheel Demand", () -> flywheelDemand, (x) -> {
+            });
+            builder.addDoubleProperty("Left Adjustable Hood Demand", () -> leftAdjustableHoodDutyCycleDemand, (x) -> {
+            });
+            builder.addDoubleProperty("Right Adjustable Hood Demand", () -> rightAdjustableHoodDutyCycleDemand, (x) -> {
+            });
+            builder.addDoubleProperty("Flywheel Velocity NU", () -> rightAdjustableHoodDutyCycleDemand, (x) -> {
+            });
+            builder.addDoubleProperty("Flywheel Closed Loop Error NU", () -> flywheelClosedLoopErrorNU, (x) -> {
+            });
         }
     }
 

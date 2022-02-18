@@ -6,7 +6,6 @@ import frc.robot.OI;
 import frc.robot.subsystems.Drivetrain;
 
 import static frc.robot.OI.driveGamepad;
-
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class DriveCommand extends CommandBase {
@@ -31,13 +30,15 @@ public class DriveCommand extends CommandBase {
         drivetrain.move(vx, vy, omega, true);
     }
 
-    public double getForward(){
+    public double getForward() {
         return -driveGamepad.getLeftY();
     }
-    public double getStrafe(){
+
+    public double getStrafe() {
         return -driveGamepad.getLeftX();
     }
-    public double getYaw(){
+
+    public double getYaw() {
         return -driveGamepad.getRightX();
     }
 

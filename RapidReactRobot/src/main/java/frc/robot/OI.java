@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.strykeforce.thirdcoast.util.ExpoScale;
 import frc.robot.util.buttons.EnhancedAxisButton;
@@ -10,7 +9,6 @@ import frc.robot.util.buttons.EnhancedJoystickButton;
 import static edu.wpi.first.wpilibj.XboxController.Axis.kLeftTrigger;
 import static edu.wpi.first.wpilibj.XboxController.Axis.kRightTrigger;
 import static edu.wpi.first.wpilibj.XboxController.Button.*;
-import static edu.wpi.first.wpilibj.XboxController.Button.kLeftBumper;
 import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kDriveXboxControllerPort;
 import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kManipulationXboxControllerPort;
 
@@ -44,14 +42,11 @@ public class OI {
     public static final EnhancedAxisButton dangerButton = new EnhancedAxisButton(manipulationGamepad, kRightTrigger.value, 0.5);
     public static final EnhancedComboButton stopClimbButton = new EnhancedComboButton(dangerButton,
             new EnhancedAxisButton(manipulationGamepad, kLeftTrigger.value, 0.5));
-
-    private static final EnhancedJoystickButton yButton = new EnhancedJoystickButton(manipulationGamepad, kY.value);
-
-    public static final EnhancedComboButton toggleClimberLocksButton = new EnhancedComboButton(dangerButton, yButton);
     public static final EnhancedJoystickButton advanceClimbingProcessButton = new EnhancedJoystickButton(manipulationGamepad, kA.value);
-
     // Both modes
     public static final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, kLeftBumper.value);
+    private static final EnhancedJoystickButton yButton = new EnhancedJoystickButton(manipulationGamepad, kY.value);
+    public static final EnhancedComboButton toggleClimberLocksButton = new EnhancedComboButton(dangerButton, yButton);
     public static final EnhancedComboButton toggleBetweenScoringAndClimbingModeButton = new EnhancedComboButton(
             new EnhancedJoystickButton(manipulationGamepad, kX.value), yButton);
 

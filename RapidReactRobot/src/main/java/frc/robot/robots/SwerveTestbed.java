@@ -37,7 +37,7 @@ public class SwerveTestbed extends WaltRobot {
 
     private final double kMaxSpeedMetersPerSecond = 3.889;
     private final double kMaxOmega = (kMaxSpeedMetersPerSecond / Math.hypot(kDistanceBetweenWheelsLengthWiseMeters / 2.0,
-    kDistanceBetweenWheelsWidthWiseMeters / 2.0))
+            kDistanceBetweenWheelsWidthWiseMeters / 2.0))
             / 2.0;
 
     private final PIDController xController = new PIDController(kTranslationalP, 0.0, kTranslationalD);
@@ -165,32 +165,32 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public int[] getAzimuthControllerIDs() {
-                return new int[] { 1, 2, 3, 4 };
+                return new int[]{1, 2, 3, 4};
             }
 
             @Override
             public int[] getDriveControllerIDs() {
-                return new int[] { 11, 12, 13, 14 };
+                return new int[]{11, 12, 13, 14};
             }
 
             @Override
             public int[] getAbsoluteEncoderChannels() {
-                return new int[] { 1, 2, 3, 4 };
+                return new int[]{1, 2, 3, 4};
             }
 
             @Override
             public boolean[] getAzimuthControllerInversions() {
-                return new boolean[]{ true, true, true, true };
+                return new boolean[]{true, true, true, true};
             }
 
             @Override
             public boolean[] getDriveControllerInversions() {
-                return new boolean[]{ true, true, false, true };
+                return new boolean[]{true, true, false, true};
             }
 
             @Override
             public boolean[] getAbsoluteEncoderInversions() {
-                return new boolean[]{ true, true, true, true };
+                return new boolean[]{true, true, true, true};
             }
 
             @Override

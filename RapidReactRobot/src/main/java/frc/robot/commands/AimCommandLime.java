@@ -8,14 +8,13 @@ import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.RobotContainer.*;
+import static frc.robot.RobotContainer.godSubsystem;
 
 public class AimCommandLime extends CommandBase {
 
-    double headingError = LimelightHelper.getTX();
     private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
-
     private final PIDController controller = new PIDController(0.05, 0.015, 0.000);
+    double headingError = LimelightHelper.getTX();
 
     public AimCommandLime() {
         addRequirements(drivetrain);
@@ -38,17 +37,17 @@ public class AimCommandLime extends CommandBase {
         SmartDashboard.putNumber(kLimelightAlignErrorDegrees, controller.getPositionError());
         SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, turnRate);
 
-        drivetrain.move(0,0, turnRate,false);
+        drivetrain.move(0, 0, turnRate, false);
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.move(0,0, 0,false);
+        drivetrain.move(0, 0, 0, false);
     }
 
     @Override
     public boolean isFinished() {
-        return UtilMethods.isWithinTolerance(headingError,0, 0.5);
+        return UtilMethods.isWithinTolerance(headingError, 0, 0.5);
 
     }
 }

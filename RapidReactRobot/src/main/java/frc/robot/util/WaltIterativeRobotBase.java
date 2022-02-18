@@ -2,26 +2,28 @@ package frc.robot.util;
 
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DSControlWord;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class WaltIterativeRobotBase extends RobotBase {
 
-    private enum Mode {
-        kNone,
-        kDisabled,
-        kAutonomous,
-        kTeleop,
-        kTest
-    }
-
     private final DSControlWord m_word = new DSControlWord();
-    private Mode m_lastMode = Mode.kNone;
     private final double m_period;
     private final Watchdog m_watchdog;
+    private Mode m_lastMode = Mode.kNone;
     private boolean m_ntFlushEnabled;
+    private boolean m_rpFirstRun = true;
+    private boolean m_spFirstRun = true;
+    private boolean m_dpFirstRun = true;
+
+    /* ----------- Overridable initialization code ----------------- */
+    private boolean m_apFirstRun = true;
+    private boolean m_tpFirstRun = true;
+    private boolean m_tmpFirstRun = true;
 
     /**
      * Constructor for WaltIterativeRobotBase.
@@ -33,11 +35,11 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
         m_watchdog = new Watchdog(period, this::printLoopOverrunMessage);
     }
 
-    /** Provide an alternate "main loop" via startCompetition(). */
+    /**
+     * Provide an alternate "main loop" via startCompetition().
+     */
     @Override
     public abstract void startCompetition();
-
-    /* ----------- Overridable initialization code ----------------- */
 
     /**
      * Robot-wide initialization code should go here.
@@ -49,7 +51,10 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
      * until RobotInit() exits. Code in RobotInit() that waits for enable will cause the robot to
      * never indicate that the code is ready, causing the robot to be bypassed in a match.
      */
-    public void robotInit() {}
+    public void robotInit() {
+    }
+
+    /* ----------- Overridable periodic code ----------------- */
 
     /**
      * Robot-wide simulation initialization code should go here.
@@ -58,7 +63,8 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
      * which will be called when the robot is first started. It will be called exactly one time after
      * RobotInit is called only when the robot is in simulation.
      */
-    public void simulationInit() {}
+    public void simulationInit() {
+    }
 
     /**
      * Initialization code for disabled mode should go here.
@@ -66,7 +72,8 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
      * <p>Users should override this method for initialization code which will be called each time the
      * robot enters disabled mode.
      */
-    public void disabledInit() {}
+    public void disabledInit() {
+    }
 
     /**
      * Initialization code for autonomous mode should go here.
@@ -74,7 +81,8 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
      * <p>Users should override this method for initialization code which will be called each time the
      * robot enters autonomous mode.
      */
-    public void autonomousInit() {}
+    public void autonomousInit() {
+    }
 
     /**
      * Initialization code for teleop mode should go here.
@@ -82,7 +90,8 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
      * <p>Users should override this method for initialization code which will be called each time the
      * robot enters teleop mode.
      */
-    public void teleopInit() {}
+    public void teleopInit() {
+    }
 
     /**
      * Initialization code for test mode should go here.
@@ -91,21 +100,18 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
      * robot enters test mode.
      */
     @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
-    public void testInit() {}
+    public void testInit() {
+    }
 
-    /* ----------- Overridable periodic code ----------------- */
-
-    private boolean m_rpFirstRun = true;
-
-    /** Periodic code for all robot modes should go here. */
+    /**
+     * Periodic code for all robot modes should go here.
+     */
     public void robotPeriodic() {
         if (m_rpFirstRun) {
             System.out.println("Default robotPeriodic() method... Override me!");
             m_rpFirstRun = false;
         }
     }
-
-    private boolean m_spFirstRun = true;
 
     /**
      * Periodic simulation code should go here.
@@ -119,9 +125,9 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
         }
     }
 
-    private boolean m_dpFirstRun = true;
-
-    /** Periodic code for disabled mode should go here. */
+    /**
+     * Periodic code for disabled mode should go here.
+     */
     public void disabledPeriodic() {
         if (m_dpFirstRun) {
             System.out.println("Default disabledPeriodic() method... Override me!");
@@ -129,9 +135,9 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
         }
     }
 
-    private boolean m_apFirstRun = true;
-
-    /** Periodic code for autonomous mode should go here. */
+    /**
+     * Periodic code for autonomous mode should go here.
+     */
     public void autonomousPeriodic() {
         if (m_apFirstRun) {
             System.out.println("Default autonomousPeriodic() method... Override me!");
@@ -139,9 +145,9 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
         }
     }
 
-    private boolean m_tpFirstRun = true;
-
-    /** Periodic code for teleop mode should go here. */
+    /**
+     * Periodic code for teleop mode should go here.
+     */
     public void teleopPeriodic() {
         if (m_tpFirstRun) {
             System.out.println("Default teleopPeriodic() method... Override me!");
@@ -149,9 +155,9 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
         }
     }
 
-    private boolean m_tmpFirstRun = true;
-
-    /** Periodic code for test mode should go here. */
+    /**
+     * Periodic code for test mode should go here.
+     */
     @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
     public void testPeriodic() {
         if (m_tmpFirstRun) {
@@ -166,7 +172,8 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
      * <p>Users should override this method for code which will be called each time the robot exits
      * disabled mode.
      */
-    public void disabledExit() {}
+    public void disabledExit() {
+    }
 
     /**
      * Exit code for autonomous mode should go here.
@@ -174,7 +181,8 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
      * <p>Users should override this method for code which will be called each time the robot exits
      * autonomous mode.
      */
-    public void autonomousExit() {}
+    public void autonomousExit() {
+    }
 
     /**
      * Exit code for teleop mode should go here.
@@ -182,7 +190,8 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
      * <p>Users should override this method for code which will be called each time the robot exits
      * teleop mode.
      */
-    public void teleopExit() {}
+    public void teleopExit() {
+    }
 
     /**
      * Exit code for test mode should go here.
@@ -191,7 +200,8 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
      * test mode.
      */
     @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
-    public void testExit() {}
+    public void testExit() {
+    }
 
     /**
      * Enables or disables flushing NetworkTables every loop iteration. By default, this is disabled.
@@ -314,5 +324,13 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
     private void printLoopOverrunMessage() {
 //        DriverStation.reportWarning("Loop time of " + m_period + "s overrun\n", false);
     }
-    
+
+    private enum Mode {
+        kNone,
+        kDisabled,
+        kAutonomous,
+        kTeleop,
+        kTest
+    }
+
 }

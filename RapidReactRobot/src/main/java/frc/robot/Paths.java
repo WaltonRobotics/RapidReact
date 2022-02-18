@@ -3,7 +3,6 @@ package frc.robot;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.util.Units;
-import frc.robot.subsystems.Superstructure;
 
 public class Paths {
     //name of path, max vel, max acc
@@ -37,55 +36,55 @@ public class Paths {
                 PathPlanner.loadPath("betaBackward", Units.feetToMeters(8), Units.feetToMeters(4), true);
     }
 
-    public static class RoutineThree{
+    public static class RoutineThree {
         public static PathPlannerTrajectory alphaPickUpA =
                 PathPlanner.loadPath("alphaPickUpA", Units.feetToMeters(8), Units.feetToMeters(4), true);
     }
 
-    public static class RoutineFourA{
-        public static PathPlannerTrajectory betaPickUpB=
+    public static class RoutineFourA {
+        public static PathPlannerTrajectory betaPickUpB =
                 PathPlanner.loadPath("betaPickUpB", Units.feetToMeters(8), Units.feetToMeters(4), true);
         //TODO: Finish this routine
     }
 
-    public static class RoutineFiveA{
+    public static class RoutineFiveA {
         PathPlannerTrajectory alphaPickUpA;
     }
 
-    public static class RoutineFiveB{
-        PathPlannerTrajectory alphaPickUpA;
-        public static PathPlannerTrajectory ballAtoBallB=
+    public static class RoutineFiveB {
+        public static PathPlannerTrajectory ballAtoBallB =
                 PathPlanner.loadPath("ballAtoballB", Units.feetToMeters(8), Units.feetToMeters(4), true);
+        PathPlannerTrajectory alphaPickUpA;
         //MOVE IN
     }
 
-    public static class RoutineFiveC{
+    public static class RoutineFiveC {
+        public static PathPlannerTrajectory ballBtoBallG =
+                PathPlanner.loadPath("ballBtoballG", Units.feetToMeters(8), Units.feetToMeters(4), true);
         PathPlannerTrajectory alphaPickUpA;
         PathPlannerTrajectory ballAtoBallB;
-        public static PathPlannerTrajectory ballBtoBallG=
-                PathPlanner.loadPath("ballBtoballG", Units.feetToMeters(8), Units.feetToMeters(4),true);
     }
 
-    public static class RoutineFiveD{
-        PathPlannerTrajectory alphaPickUpA;
-        PathPlannerTrajectory ballAtoBallB;
+    public static class RoutineFiveD {
         //TODO: make the path for B to C
         public static PathPlannerTrajectory ballBtoballC =
                 PathPlanner.loadPath("ballBtoballC", Units.feetToMeters(8), Units.feetToMeters(4));
+        PathPlannerTrajectory alphaPickUpA;
+        PathPlannerTrajectory ballAtoBallB;
     }
 
 
-    public static class RoutineSixG{
+    public static class RoutineSixG {
         public static PathPlannerTrajectory gammaPickUpC =
-                PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(8), Units.feetToMeters(4),true);
+                PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(8), Units.feetToMeters(4), true);
         public static PathPlannerTrajectory ballCtoballG =
                 PathPlanner.loadPath("ballCtoballG", Units.feetToMeters(8), Units.feetToMeters(4));
         //MOVE IN
     }
 
-    public static class RoutineSixA{
+    public static class RoutineSixA {
         public static PathPlannerTrajectory alphaPickUpA;
-        public static PathPlannerTrajectory ballAtoballG=
-                PathPlanner.loadPath("ballAtoballG", Units.feetToMeters(8), Units.feetToMeters(4),true);
+        public static PathPlannerTrajectory ballAtoballG =
+                PathPlanner.loadPath("ballAtoballG", Units.feetToMeters(8), Units.feetToMeters(4), true);
     }
 }

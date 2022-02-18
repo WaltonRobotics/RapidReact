@@ -17,11 +17,10 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
     private final PathPlannerTrajectory trajectory;
     private final Timer timer = new Timer();
-    private HolonomicDriveController holonomicDriveController;
-
     private final CumulativeAverage xPositionErrorAverage = new CumulativeAverage();
     private final CumulativeAverage yPositionErrorAverage = new CumulativeAverage();
     private final CumulativeAverage thetaPositionErrorAverage = new CumulativeAverage();
+    private HolonomicDriveController holonomicDriveController;
 
     public SwerveTrajectoryCommand(PathPlannerTrajectory trajectory) {
         addRequirements(drivetrain);
@@ -69,7 +68,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
         LiveDashboardHelper.putRobotData(drivetrain.getPoseMeters());
         LiveDashboardHelper.putTrajectoryData(trajectory.sample(currentTime).poseMeters);
-        
+
         SmartDashboard.putNumber("kX Position Error", kXInstantPositionError);
         SmartDashboard.putNumber("kY Position Error", kYInstantPositionError);
         SmartDashboard.putNumber("kTheta Position Error", kThetaInstantPositionError);
