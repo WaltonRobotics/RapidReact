@@ -263,9 +263,6 @@ public class SuperstructureCommand extends CommandBase {
             }
         };
 
-
-
-
     }
 
     @Override

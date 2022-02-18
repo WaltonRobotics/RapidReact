@@ -16,6 +16,16 @@ import java.util.function.Supplier;
  */
 public class EnhancedJoystickButton extends Button {
 
+    public static final int UNBOUND = -1;
+    public static final int POV_N = -2;
+    public static final int POV_NE = -3;
+    public static final int POV_E = -4;
+    public static final int POV_SE = -5;
+    public static final int POV_S = -6;
+    public static final int POV_SW = -7;
+    public static final int POV_W = -8;
+    public static final int POV_NW = -9;
+
     private boolean isRisingEdge;
     private boolean isFallingEdge;
 

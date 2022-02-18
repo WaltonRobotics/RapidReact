@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.strykeforce.thirdcoast.util.ExpoScale;
 import frc.robot.util.buttons.EnhancedAxisButton;
@@ -14,9 +15,9 @@ import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kDriveXboxCont
 import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kManipulationXboxControllerPort;
 
 public class OI {
-    
-    public static XboxController driveGamepad = new XboxController(kDriveXboxControllerPort);
-    public static XboxController manipulationGamepad = new XboxController(kManipulationXboxControllerPort);
+
+    public static final XboxController driveGamepad = new XboxController(kDriveXboxControllerPort);
+    public static final XboxController manipulationGamepad = new XboxController(kManipulationXboxControllerPort);
 
     public static final ExpoScale forwardScale = new ExpoScale(0.1, 0.6);
     public static final ExpoScale strafeScale = new ExpoScale(0.1, 0.6);
@@ -30,24 +31,28 @@ public class OI {
             kLeftTrigger.value, 0.5);
     public static final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad,
             kLeftBumper.value);
-    public static EnhancedJoystickButton overrideTransportConveyorButton = new EnhancedJoystickButton(manipulationGamepad, 0); // Left middle
-    public static EnhancedJoystickButton overrideFeedConveyorButton = new EnhancedJoystickButton(manipulationGamepad, 0); // Right middle
-    public static EnhancedJoystickButton toggleLeftIntakeButton = new EnhancedJoystickButton(manipulationGamepad, 0); // Left dpad
-    public static EnhancedJoystickButton toggleRightIntakeButton = new EnhancedJoystickButton(manipulationGamepad, 0); // Right dpad
+    public static EnhancedJoystickButton overrideTransportConveyorButton = new EnhancedJoystickButton(manipulationGamepad, kBack.value);
+    public static EnhancedJoystickButton overrideFeedConveyorButton = new EnhancedJoystickButton(manipulationGamepad, kStart.value);
+    public static EnhancedJoystickButton toggleLeftIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_W);
+    public static EnhancedJoystickButton toggleRightIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_E);
     public static EnhancedAxisButton shootButtonButton = new EnhancedAxisButton(manipulationGamepad,
-            kRightTrigger.value, 0.5); // RT
-    public static EnhancedJoystickButton barfButtonButton = new EnhancedJoystickButton(manipulationGamepad, 0); // RB
+            kRightTrigger.value, 0.5);
+    public static EnhancedJoystickButton barfButtonButton = new EnhancedJoystickButton(manipulationGamepad, kRightBumper.value);
 
     // Climbing mode
     // Out-of-the-way buttons
-    public static EnhancedJoystickButton dangerButton = new EnhancedJoystickButton(manipulationGamepad, 0); // RT
-    public static EnhancedJoystickButton stopClimbButton = new EnhancedJoystickButton(manipulationGamepad, 0); // Center
+    public static EnhancedAxisButton dangerButton = new EnhancedAxisButton(manipulationGamepad, kRightTrigger.value, 0.5);
+    public static EnhancedComboButton stopClimbButton = new EnhancedComboButton(dangerButton,
+            new EnhancedAxisButton(manipulationGamepad, kLeftTrigger.value, 0.5));
 
-    public static EnhancedJoystickButton toggleClimberLocksButton = new EnhancedJoystickButton(manipulationGamepad, 0); // Y
-    public static EnhancedJoystickButton advanceClimbingProcessButton = new EnhancedJoystickButton(manipulationGamepad, 0); // A
+    private static EnhancedJoystickButton yButton = new EnhancedJoystickButton(manipulationGamepad, kY.value);
+
+    public static EnhancedComboButton toggleClimberLocksButton = new EnhancedComboButton(dangerButton, yButton);
+    public static EnhancedJoystickButton advanceClimbingProcessButton = new EnhancedJoystickButton(manipulationGamepad, kA.value);
 
     // Both modes
     public static final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, kLeftBumper.value);
-    public static final EnhancedComboButton toggleBetweenScoringAndClimbingModeButton = new EnhancedComboButton();
+    public static final EnhancedComboButton toggleBetweenScoringAndClimbingModeButton = new EnhancedComboButton(
+            new EnhancedJoystickButton(manipulationGamepad,kX.value), yButton);
 
 }

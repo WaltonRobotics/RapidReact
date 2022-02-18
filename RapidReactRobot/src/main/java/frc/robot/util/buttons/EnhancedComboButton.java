@@ -12,9 +12,9 @@ public class EnhancedComboButton extends Button {
     private boolean isRisingEdge;
     private boolean isFallingEdge;
 
-    public EnhancedComboButton(EnhancedJoystickButton... buttons) {
+    public EnhancedComboButton(Button... buttons) {
         super(() -> {
-            for (EnhancedJoystickButton button : buttons) {
+            for (Button button : buttons) {
                 if (!button.get()) {
                     return false;
                 }
