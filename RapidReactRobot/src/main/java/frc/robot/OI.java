@@ -35,9 +35,9 @@ public class OI {
     public static final EnhancedJoystickButton overrideFeedConveyorButton = new EnhancedJoystickButton(manipulationGamepad, kStart.value);
     public static final EnhancedJoystickButton toggleLeftIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_W);
     public static final EnhancedJoystickButton toggleRightIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_E);
-    public static final EnhancedAxisButton shootButtonButton = new EnhancedAxisButton(manipulationGamepad,
+    public static final EnhancedAxisButton shootButtonButton = new EnhancedAxisButton(driveGamepad,
             kRightTrigger.value, 0.5);
-    public static final EnhancedJoystickButton barfButtonButton = new EnhancedJoystickButton(manipulationGamepad, kRightBumper.value);
+    public static final EnhancedJoystickButton barfButtonButton = new EnhancedJoystickButton(driveGamepad, kRightBumper.value);
 
     // Climbing mode
     // Out-of-the-way buttons
@@ -53,6 +53,6 @@ public class OI {
     // Both modes
     public static final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, kLeftBumper.value);
     public static final EnhancedComboButton toggleBetweenScoringAndClimbingModeButton = new EnhancedComboButton(
-            new EnhancedJoystickButton(manipulationGamepad,kX.value), yButton);
+            new EnhancedJoystickButton(manipulationGamepad, kX.value), yButton);
 
 }
