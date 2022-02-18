@@ -14,6 +14,7 @@ package frc.robot;
  */
 public final class Constants {
 
+
     public static final class ContextFlags {
 
         public static final boolean kIsInCompetition = false;
@@ -120,6 +121,10 @@ public final class Constants {
         public static final String kPathYKey = "pathY";
         public static final String kPathHeadingKey = "pathHeading";
 
+    }
+
+    public static final class FieldConstants{
+        public static final double kTargetHeightInches = 2.68224; //meters (8.8 ft)
     }
 
 }

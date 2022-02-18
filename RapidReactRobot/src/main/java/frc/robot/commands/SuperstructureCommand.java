@@ -6,6 +6,7 @@ import frc.robot.OI;
 import frc.robot.stateMachine.IState;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.subsystems.*;
+import frc.robot.vision.LimelightHelper;
 
 
 import static frc.robot.RobotContainer.godSubsystem;
@@ -205,6 +206,40 @@ public class SuperstructureCommand extends CommandBase {
             }
         };
 
+        adjustingHood = new IState(){
+
+            @Override
+            public void initialize() {
+                if(LimelightHelper.getDistanceToTargetMeters() <= 5){ //dummy value
+                    shooter.setRightAdjustableHoodDutyCycleDemand(10);
+                    shooter.setLeftAdjustableHoodDutyCycleDemand(10);
+                }
+                else{
+                    shooter.setRightAdjustableHoodDutyCycleDemand(20);
+                    shooter.setLeftAdjustableHoodDutyCycleDemand(20);
+                }
+            }
+
+            @Override
+            public IState execute() {
+                //the following are dummy values
+                if(!OI.shootButtonButton.getAsBoolean()){
+                    return idle;
+                }
+                return shooting;
+            }
+
+            @Override
+            public void finish() {
+
+            }
+
+            @Override
+            public String getName() {
+                return "Adjusting Hood";
+            }
+        };
+
         shooting = new IState(){
 
             @Override
@@ -228,28 +263,7 @@ public class SuperstructureCommand extends CommandBase {
             }
         };
 
-        adjustingHood = new IState(){
 
-            @Override
-            public void initialize() {
-
-            }
-
-            @Override
-            public IState execute() {
-                return null;
-            }
-
-            @Override
-            public void finish() {
-
-            }
-
-            @Override
-            public String getName() {
-                return null;
-            }
-        };
 
 
     }

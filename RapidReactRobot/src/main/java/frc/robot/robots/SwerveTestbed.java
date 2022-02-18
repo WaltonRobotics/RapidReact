@@ -53,6 +53,7 @@ public class SwerveTestbed extends WaltRobot {
     private final TalonFXConfiguration flywheelMasterTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration flywheelSlaveTalonConfig = new TalonFXConfiguration();
 
+
     // Climber constants
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration extensionControllerTalonConfig = new TalonFXConfiguration();
@@ -408,6 +409,16 @@ public class SwerveTestbed extends WaltRobot {
                         return false;
                     }
                 };
+            }
+
+            @Override
+            public double getMountingHeightInches() {
+                return 32.00;
+            }
+
+            @Override
+            public double getMountingAngleDegrees() {
+                return 29;
             }
         };
     }

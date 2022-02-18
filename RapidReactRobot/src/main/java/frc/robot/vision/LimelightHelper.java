@@ -1,11 +1,15 @@
 package frc.robot.vision;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.robots.SwerveTestbed;
 import frc.robot.util.averages.SimpleMovingAverage;
 
+import static frc.robot.Constants.FieldConstants.kTargetHeightInches;
 import static frc.robot.Constants.VisionConstants.*;
+import static frc.robot.RobotContainer.currentRobot;
 
 public class LimelightHelper {
 
@@ -143,14 +147,14 @@ public class LimelightHelper {
     /**
      * @return distance The distance to the target in meters
      */
-    //public static double getDistanceToTargetMeters() {
-   //     return Units.feetToMeters(getDistanceToTargetFeet());
-    //}
+    public static double getDistanceToTargetMeters() {
+        return Units.feetToMeters(getDistanceToTargetFeet());
+    }
 
-    //public static double getDistanceToTargetFeet() {
-    //    return ((kTargetHeightInches - sShooter.getConfig().kLimelightMountingHeightInches) /
-     //           (Math.tan(Units.degreesToRadians(sShooter.getConfig().kLimelightMountingAngleDegrees + getTY()))
-     //                   * Math.cos(Units.degreesToRadians(getTX())))) / 12.0;
-   // }
+    public static double getDistanceToTargetFeet() {
+        return ((kTargetHeightInches - currentRobot.getShooterConfig().getMountingHeightInches()) /
+                (Math.tan(Units.degreesToRadians(currentRobot.getShooterConfig().getMountingAngleDegrees() + getTY()))
+                        * Math.cos(Units.degreesToRadians(getTX())))) / 12.0;
+    }
 
 }

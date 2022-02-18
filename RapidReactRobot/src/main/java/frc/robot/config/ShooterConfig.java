@@ -12,4 +12,6 @@ public interface ShooterConfig {
     MotorConfig getLeftAdjustableHoodServoConfig();
     MotorConfig getRightAdjustableHoodServoConfig();
 
+    double getMountingHeightInches();
+    double getMountingAngleDegrees();
 }
