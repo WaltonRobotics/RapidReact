@@ -1,7 +1,6 @@
 package frc.robot.util.buttons;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
@@ -17,8 +16,8 @@ import java.util.function.Supplier;
  */
 public class EnhancedJoystickButton extends Button {
 
-    private boolean mIsRisingEdge;
-    private boolean mIsFallingEdge;
+    private boolean isRisingEdge;
+    private boolean isFallingEdge;
 
     /**
      * Create a dynamic EnhancedJoystickButton with an EnhancedButtonIndex.
@@ -36,8 +35,8 @@ public class EnhancedJoystickButton extends Button {
                     public void run() {
                         boolean currentState = get();
 
-                        mIsRisingEdge = currentState && !mPreviousState;
-                        mIsFallingEdge = !currentState && mPreviousState;
+                        isRisingEdge = currentState && !mPreviousState;
+                        isFallingEdge = !currentState && mPreviousState;
 
                         mPreviousState = currentState;
                     }
@@ -56,14 +55,14 @@ public class EnhancedJoystickButton extends Button {
      * Returns true if the button has just been pressed.
      */
     public boolean isRisingEdge() {
-        return mIsRisingEdge;
+        return isRisingEdge;
     }
 
     /**
      * Returns true if the button has just been released.
      */
     public boolean isFallingEdge() {
-        return mIsFallingEdge;
+        return isFallingEdge;
     }
 
     /**

@@ -1,6 +1,7 @@
 package frc.robot.controller;
 
 import frc.lib.strykeforce.thirdcoast.util.ExpoScale;
+import frc.robot.util.buttons.EnhancedAxisButton;
 import frc.robot.util.buttons.EnhancedJoystickButton;
 
 public interface ControllerConfig {
@@ -16,7 +17,7 @@ public interface ControllerConfig {
     EnhancedJoystickButton getResetDrivetrainButton();
     EnhancedJoystickButton getLimeAutoAimButton();
     EnhancedJoystickButton getNavAutoAimButton();
-    EnhancedJoystickButton getIntakeButton();
+    EnhancedAxisButton getIntakeButton();
     EnhancedJoystickButton getOuttakeButton();
 
 }
