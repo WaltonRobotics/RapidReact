@@ -267,7 +267,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 0;
+                        return 1;
                     }
 
                     @Override
@@ -287,7 +287,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 0;
+                        return 2;
                     }
 
                     @Override
@@ -302,7 +302,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 0;
+                        return 3;
                     }
 
                     @Override
@@ -345,7 +345,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 0;
+                        return 4;
                     }
 
                     @Override
@@ -360,7 +360,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 0;
+                        return 5;
                     }
 
                     @Override
@@ -385,7 +385,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 0;
+                        return 6;
                     }
 
                     @Override
@@ -400,7 +400,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 0;
+                        return 7;
                     }
 
                     @Override
@@ -501,7 +501,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 0;
+                        return 8;
                     }
 
                     @Override
@@ -516,7 +516,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 0;
+                        return 9;
                     }
 
                     @Override
@@ -546,7 +546,7 @@ public class SwerveTestbed extends WaltRobot {
 
                     @Override
                     public int getChannel() {
-                        return 0;
+                        return 5;
                     }
 
                     @Override
@@ -558,12 +558,12 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public int getLeftExtensionLowerLimitChannel() {
-                return 0;
+                return 6;
             }
 
             @Override
             public int getRightExtensionLowerLimitChannel() {
-                return 0;
+                return 7;
             }
 
             @Override
@@ -573,17 +573,17 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public int getRightClimberLockChannel() {
-                return 0;
+                return 1;
             }
 
             @Override
             public int getClimberDiscBrakeForwardChannel() {
-                return 0;
+                return 2;
             }
 
             @Override
             public int getClimberDiscBrakeReverseChannel() {
-                return 0;
+                return 3;
             }
         };
     }
