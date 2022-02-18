@@ -42,6 +42,7 @@ public class SuperstructureCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+
     }
 
 }

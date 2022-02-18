@@ -3,6 +3,7 @@ package frc.robot.controller;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.strykeforce.thirdcoast.util.ExpoScale;
 import frc.robot.util.buttons.EnhancedJoystickButton;
+import frc.robot.util.buttons.MultiButtonCombo;
 
 import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kDriveXboxControllerPort;
 import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kManipulationXboxControllerPort;
@@ -17,9 +18,6 @@ public class XboxConfig implements ControllerConfig{
 
     private final EnhancedJoystickButton limeAutoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kRightBumper.value);
     private final EnhancedJoystickButton navAutoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kA.value);
-
-    // Both modes
-    private final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kLeftBumper.value);
 
     // Scoring mode
     private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad, 0);
@@ -38,6 +36,10 @@ public class XboxConfig implements ControllerConfig{
 
     private EnhancedJoystickButton toggleClimberLocksButton;
     private EnhancedJoystickButton advanceClimbingProcessButton;
+
+    // Both modes
+    private final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kLeftBumper.value);
+    private final MultiButtonCombo toggleBetweenScoringAndClimbingModeButton = new MultiButtonCombo();
 
     @Override
     public double getForward() {
