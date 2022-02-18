@@ -31,24 +31,24 @@ public class OI {
             kLeftTrigger.value, 0.5);
     public static final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad,
             kLeftBumper.value);
-    public static EnhancedJoystickButton overrideTransportConveyorButton = new EnhancedJoystickButton(manipulationGamepad, kBack.value);
-    public static EnhancedJoystickButton overrideFeedConveyorButton = new EnhancedJoystickButton(manipulationGamepad, kStart.value);
-    public static EnhancedJoystickButton toggleLeftIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_W);
-    public static EnhancedJoystickButton toggleRightIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_E);
-    public static EnhancedAxisButton shootButtonButton = new EnhancedAxisButton(manipulationGamepad,
+    public static final EnhancedJoystickButton overrideTransportConveyorButton = new EnhancedJoystickButton(manipulationGamepad, kBack.value);
+    public static final EnhancedJoystickButton overrideFeedConveyorButton = new EnhancedJoystickButton(manipulationGamepad, kStart.value);
+    public static final EnhancedJoystickButton toggleLeftIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_W);
+    public static final EnhancedJoystickButton toggleRightIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_E);
+    public static final EnhancedAxisButton shootButtonButton = new EnhancedAxisButton(manipulationGamepad,
             kRightTrigger.value, 0.5);
-    public static EnhancedJoystickButton barfButtonButton = new EnhancedJoystickButton(manipulationGamepad, kRightBumper.value);
+    public static final EnhancedJoystickButton barfButtonButton = new EnhancedJoystickButton(manipulationGamepad, kRightBumper.value);
 
     // Climbing mode
     // Out-of-the-way buttons
-    public static EnhancedAxisButton dangerButton = new EnhancedAxisButton(manipulationGamepad, kRightTrigger.value, 0.5);
-    public static EnhancedComboButton stopClimbButton = new EnhancedComboButton(dangerButton,
+    public static final EnhancedAxisButton dangerButton = new EnhancedAxisButton(manipulationGamepad, kRightTrigger.value, 0.5);
+    public static final EnhancedComboButton stopClimbButton = new EnhancedComboButton(dangerButton,
             new EnhancedAxisButton(manipulationGamepad, kLeftTrigger.value, 0.5));
 
-    private static EnhancedJoystickButton yButton = new EnhancedJoystickButton(manipulationGamepad, kY.value);
+    private static final EnhancedJoystickButton yButton = new EnhancedJoystickButton(manipulationGamepad, kY.value);
 
-    public static EnhancedComboButton toggleClimberLocksButton = new EnhancedComboButton(dangerButton, yButton);
-    public static EnhancedJoystickButton advanceClimbingProcessButton = new EnhancedJoystickButton(manipulationGamepad, kA.value);
+    public static final EnhancedComboButton toggleClimberLocksButton = new EnhancedComboButton(dangerButton, yButton);
+    public static final EnhancedJoystickButton advanceClimbingProcessButton = new EnhancedJoystickButton(manipulationGamepad, kA.value);
 
     // Both modes
     public static final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, kLeftBumper.value);
