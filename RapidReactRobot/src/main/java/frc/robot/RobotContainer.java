@@ -20,8 +20,8 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
 import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.SetModuleStates;
-import frc.robot.controller.ControllerConfig;
-import frc.robot.controller.XboxConfig;
+
+import frc.robot.OI.*;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Superstructure;
@@ -46,7 +46,6 @@ public class RobotContainer {
 
   public static final WaltRobot currentRobot;
   public static final Superstructure godSubsystem;
-  public static final ControllerConfig controllerConfig;
   public static final Logger robotLogger = Logger.getLogger("frc.robot");
   public static SendableChooser<AutonRoutine> autonChooser;
 
@@ -55,8 +54,6 @@ public class RobotContainer {
             new DigitalInput(kRobotID2).get()).getSelectedRobot();
 
     godSubsystem = new Superstructure();
-
-    controllerConfig = new XboxConfig();
 
     robotLogger.setLevel(Level.FINEST);
   }
@@ -79,13 +76,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controllerConfig.getResetDrivetrainButton().whenPressed(new SequentialCommandGroup(
+    OI.resetDrivetrainButton.whenPressed(new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new InstantCommand(() -> System.out.println("Reset drivetrain"))
     ));
 
-    controllerConfig.getLimeAutoAimButton().whenPressed(new AimCommandLime().withTimeout(2));
-    controllerConfig.getNavAutoAimButton().whenPressed(new AimCommandNav().withTimeout(2));
+    OI.limeAutoAimButton.whenPressed(new AimCommandLime().withTimeout(2));
+    OI.navAutoAimButton.whenPressed(new AimCommandNav().withTimeout(2));
   }
 
   private void initShuffleboard() {
@@ -126,9 +123,9 @@ public class RobotContainer {
               new InstantCommand(() ->
                       godSubsystem.getDrivetrain().saveRightRearZero((int)SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
 
-      SmartDashboard.putData(kDriverForwardScaleKey, controllerConfig.getForwardScale());
-      SmartDashboard.putData(kDriverStrafeScaleKey, controllerConfig.getStrafeScale());
-      SmartDashboard.putData(kDriverYawScaleKey, controllerConfig.getYawScale());
+      SmartDashboard.putData(kDriverForwardScaleKey, OI.forwardScale);
+      SmartDashboard.putData(kDriverStrafeScaleKey, OI.strafeScale);
+      SmartDashboard.putData(kDriverYawScaleKey, OI.yawScale);
 
       SmartDashboard.putData("kXController", currentRobot.getDrivetrainConfig().getXController());
       SmartDashboard.putData("kYController", currentRobot.getDrivetrainConfig().getYController());
