@@ -51,7 +51,7 @@ public class SuperstructureCommand extends CommandBase {
         conveyor = godSubsystem.getConveyor();
         shooter = godSubsystem.getShooter();
         climber = godSubsystem.getClimber();
-        stateMachine = new StateMachine("disabled", disabled);
+        stateMachine = new StateMachine("Disabled", disabled);
 
         disabled = new IState(){
 
@@ -72,7 +72,7 @@ public class SuperstructureCommand extends CommandBase {
 
             @Override
             public String getName() {
-                return null;
+                return "Disabled";
             }
         };
 
@@ -81,6 +81,7 @@ public class SuperstructureCommand extends CommandBase {
             @Override
             public void initialize() {
                 //TODO: set safe subsystem limits
+                //set subsystem control modes to disabled
                 intake.setIntakeControlState(Intake.IntakeControlState.DISABLED);
                 shooter.setShooterControlState(Shooter.ShooterControlState.DISABLED);
                 climber.setPivotControlState(Climber.ClimberControlState.DISABLED);
@@ -98,10 +99,30 @@ public class SuperstructureCommand extends CommandBase {
                     return outtaking;
                 }
 
+                //manual overrides
+                if(OI.toggleLeftIntakeButton.getAsBoolean()){
+                    intake.setLeftIntakeDeployStateDemand(true);
+                }
+                if(OI.toggleRightIntakeButton.getAsBoolean()){
+                    intake.setRightIntakeDeployStateDemand(true);
+                }
+
+                if(OI.overrideTransportConveyorButton.getAsBoolean()){
+                    conveyor.setTransportDemand(8.0);   //dummy voltage value
+                }
+                else{
+                    conveyor.setTransportDemand(0);
+                }
+
+                if(OI.overrideFeedConveyorButton.getAsBoolean()){
+                    conveyor.setFeedDemand(8.0);    //dummy voltage vale
+                }
+                else{
+                    conveyor.setFeedDemand(0.0);
+                }
+                //TODO: climber manual overrides
+
                 return this;
-                //TODO: handle manual overrides
-
-
             }
 
 
@@ -113,7 +134,7 @@ public class SuperstructureCommand extends CommandBase {
 
             @Override
             public String getName() {
-                return null;
+                return "Idle";
             }
         };
 
@@ -122,19 +143,21 @@ public class SuperstructureCommand extends CommandBase {
             public void initialize() {
                 conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
                 intake.setIntakeControlState(Intake.IntakeControlState.VOLTAGE);
-                intake.setLeftIntakeDeployStateDemand(true);
-                intake.setRightIntakeDeployStateDemand(true);
-
             }
 
             @Override
             public IState execute() {
                 //dummy voltage values for the following:
+                if(intake.isLeftIntakeDeployStateDemand()){
+                    intake.setLeftIntakeDemand(8.0);
+                }
+
+                if(intake.isRightIntakeDeployStateDemand()){
+                    intake.setRightIntakeDemand(8.0);
+                }
                 conveyor.setFeedDemand(8.0);
                 conveyor.setTransportDemand(8.0);
-                intake.setLeftIntakeDemand(8.0);
-                intake.setRightIntakeDemand(8.0);
-                return null;
+                return idle;
             }
 
             @Override
@@ -144,7 +167,7 @@ public class SuperstructureCommand extends CommandBase {
 
             @Override
             public String getName() {
-                return null;
+                return "Intaking";
             }
         };
 
@@ -152,12 +175,23 @@ public class SuperstructureCommand extends CommandBase {
 
             @Override
             public void initialize() {
-
+                conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+                intake.setIntakeControlState(Intake.IntakeControlState.VOLTAGE);
             }
 
             @Override
             public IState execute() {
-                return null;
+                //dummy voltage values for the following:
+                if(intake.isLeftIntakeDeployStateDemand()){
+                    intake.setLeftIntakeDemand(-8.0);
+                }
+
+                if(intake.isRightIntakeDeployStateDemand()){
+                    intake.setRightIntakeDemand(-8.0);
+                }
+                conveyor.setFeedDemand(-8.0);
+                conveyor.setTransportDemand(-8.0);
+                return idle;
             }
 
             @Override
@@ -190,7 +224,7 @@ public class SuperstructureCommand extends CommandBase {
 
             @Override
             public String getName() {
-                return null;
+                return "Shooting";
             }
         };
 
