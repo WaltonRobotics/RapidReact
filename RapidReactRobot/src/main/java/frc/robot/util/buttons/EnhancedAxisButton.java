@@ -16,11 +16,7 @@ public class EnhancedAxisButton extends Button {
         super(() -> {
             double input = hid.getRawAxis(rawAxis);
 
-            if (input < 0) {
-                return input <= pressedThreshold;
-            }
-
-            return input >= pressedThreshold;
+            return Math.abs(input) >= pressedThreshold;
         });
 
         CommandScheduler.getInstance().addButton(
