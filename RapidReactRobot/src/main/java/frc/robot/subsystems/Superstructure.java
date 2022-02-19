@@ -13,6 +13,8 @@ public class Superstructure extends SubsystemBase {
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
 
+    private boolean isEnabled = false;
+
     public Drivetrain getDrivetrain() {
         return drivetrain;
     }
@@ -31,6 +33,14 @@ public class Superstructure extends SubsystemBase {
 
     public Climber getClimber() {
         return climber;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 
     @Override
