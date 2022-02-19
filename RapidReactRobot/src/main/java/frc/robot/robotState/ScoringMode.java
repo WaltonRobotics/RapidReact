@@ -1,6 +1,8 @@
 package frc.robot.robotState;
 
 import frc.robot.OI;
+import frc.robot.robotState.scoring.Intaking;
+import frc.robot.robotState.scoring.Outtaking;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.*;
 

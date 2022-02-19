@@ -1,6 +1,8 @@
-package frc.robot.robotState;
+package frc.robot.robotState.scoring;
 
 import frc.robot.OI;
+import frc.robot.robotState.Disabled;
+import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
