@@ -16,7 +16,7 @@ public class ClimbingModeTransition implements IState {
             return new Disabled();
         }
 
-        return null;
+        return this;
     }
 
     @Override

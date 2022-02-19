@@ -16,7 +16,7 @@ public class SpinningUp implements IState {
             return new Disabled();
         }
 
-        return null;
+        return this;
     }
 
     @Override
