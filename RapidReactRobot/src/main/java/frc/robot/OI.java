@@ -33,7 +33,7 @@ public class OI {
     public static final EnhancedJoystickButton overrideFeedConveyorButton = new EnhancedJoystickButton(manipulationGamepad, kStart.value);
     public static final EnhancedJoystickButton toggleLeftIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_W);
     public static final EnhancedJoystickButton toggleRightIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_E);
-    public static final EnhancedAxisButton toggleLimelight = new EnhancedAxisButton(driveGamepad,
+    public static final EnhancedAxisButton toggleLimelightButton = new EnhancedAxisButton(driveGamepad,
             kLeftTrigger.value, 0.5);
     public static final EnhancedAxisButton shootButtonButton = new EnhancedAxisButton(driveGamepad,
             kRightTrigger.value, 0.5);

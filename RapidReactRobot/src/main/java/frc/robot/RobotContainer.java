@@ -23,6 +23,7 @@ import frc.robot.commands.auton.SetModuleStates;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Superstructure;
+import frc.robot.vision.LimelightHelper;
 
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -32,6 +33,7 @@ import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.OI.*;
 import static frc.robot.commands.auton.AutonRoutine.DO_NOTHING;
 
 /**
@@ -76,13 +78,15 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        OI.resetDrivetrainButton.whenPressed(new SequentialCommandGroup(
+        resetDrivetrainButton.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
                 new InstantCommand(() -> System.out.println("Reset drivetrain"))
         ));
 
-        OI.limeAutoAimButton.whenPressed(new AimCommandLime().withTimeout(2));
-        OI.navAutoAimButton.whenPressed(new AimCommandNav().withTimeout(2));
+        toggleLimelightButton.whenPressed(LimelightHelper::toggleLimelight);
+
+        limeAutoAimButton.whenPressed(new AimCommandLime().withTimeout(2));
+        navAutoAimButton.whenPressed(new AimCommandNav().withTimeout(2));
     }
 
     private void initShuffleboard() {
