@@ -41,7 +41,7 @@ public class SuperstructureCommand extends CommandBase {
     public SuperstructureCommand() {
         addRequirements(godSubsystem);
 
-        stateMachine = new StateMachine("Disabled", disabled);
+        stateMachine = new StateMachine("Superstructure", disabled);
 
         disabled = new IState() {
 
