@@ -72,9 +72,9 @@ public class Robot extends WaltTimesliceRobot {
 
     Trajectory trajectory = new Trajectory();
     trajectory = TrajectoryGenerator.generateTrajectory(
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-            new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
+            new Pose2d(3, 1, Rotation2d.fromDegrees(0)),
+            List.of(new Translation2d(1, 1), new Translation2d(2, 1)),
+            new Pose2d(3, 1, Rotation2d.fromDegrees(0)),
             new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
 
     Field2d field = new Field2d();
