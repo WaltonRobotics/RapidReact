@@ -11,11 +11,11 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class SuperstructureCommand extends CommandBase {
 
-    private final Drivetrain drivetrain;
-    private final Intake intake;
-    private final Conveyor conveyor;
-    private final Shooter shooter;
-    private final Climber climber;
+    private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
+    private final Intake intake = godSubsystem.getIntake();
+    private final Conveyor conveyor = godSubsystem.getConveyor();
+    private final Shooter shooter = godSubsystem.getShooter();
+    private final Climber climber = godSubsystem.getClimber();
     private final StateMachine stateMachine;
 
     private IState disabled;
@@ -27,8 +27,6 @@ public class SuperstructureCommand extends CommandBase {
     private final IState shooting;
     private IState spinningUp;
     private final IState adjustingHood;
-
-
     // State machine states:
     // Disabled
     // Initializing
@@ -43,10 +41,6 @@ public class SuperstructureCommand extends CommandBase {
     public SuperstructureCommand() {
         addRequirements(godSubsystem);
 
-        drivetrain = godSubsystem.getDrivetrain();
-        intake = godSubsystem.getIntake();
-        conveyor = godSubsystem.getConveyor();
-        shooter = godSubsystem.getShooter();
         climber = godSubsystem.getClimber();
         stateMachine = new StateMachine("Disabled", disabled);
 
