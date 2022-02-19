@@ -70,6 +70,7 @@ public class Robot extends WaltTimesliceRobot {
     schedule(godSubsystem.getClimber()::collectData, 0.0003);
     schedule(godSubsystem.getClimber()::outputData, 0.0006);
 
+    //shuffleboard
     Trajectory trajectory = new Trajectory();
     trajectory = TrajectoryGenerator.generateTrajectory(
             new Pose2d(3, 1, Rotation2d.fromDegrees(0)),
