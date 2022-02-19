@@ -35,6 +35,11 @@ public class ClimbingMode implements IState {
             return new ScoringModeTransition();
         }
 
+        if (OI.toggleClimberLocksButton.isRisingEdge()) {
+            godSubsystem.getClimber().toggleLeftClimberLock();
+            godSubsystem.getClimber().toggleRightClimberLock();
+        }
+
         return this;
     }
 
