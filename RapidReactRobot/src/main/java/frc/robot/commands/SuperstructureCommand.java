@@ -8,6 +8,7 @@ import static frc.robot.Constants.SmartDashboardKeys.kIntakeVoltageKey;
 import static frc.robot.RobotContainer.controllerConfig;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.controller.XboxConfig.gamepad;
+import static frc.robot.controller.XboxConfig.manipulationGamepad;
 
 public class SuperstructureCommand extends CommandBase {
 
@@ -29,7 +30,7 @@ public class SuperstructureCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(gamepad.getRightTriggerAxis() > 0.75) {
+        if(manipulationGamepad.getRightTriggerAxis() > 0.75) {
             intake.setVoltage(SmartDashboard.getNumber(kIntakeVoltageKey, 9.5));
         } else if(controllerConfig.getOuttakeButton().get()){
             intake.setVoltage(-SmartDashboard.getNumber(kIntakeVoltageKey, 9.5));

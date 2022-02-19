@@ -12,7 +12,7 @@ import static frc.robot.util.Gamepad.Button.RIGHT_TRIGGER;
 
 public class XboxConfig implements ControllerConfig{
     public static XboxController gamepad = new XboxController(kDriveXboxControllerPort);
-    public static Gamepad manipulationGamepad = new Gamepad(kManipulationXboxControllerPort);
+    public static XboxController manipulationGamepad = new XboxController(kManipulationXboxControllerPort);
 
     private final ExpoScale forwardScale = new ExpoScale(0.1, 0.6);
     private final ExpoScale strafeScale = new ExpoScale(0.1, 0.6);
