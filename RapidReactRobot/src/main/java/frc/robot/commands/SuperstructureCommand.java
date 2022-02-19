@@ -41,7 +41,6 @@ public class SuperstructureCommand extends CommandBase {
     public SuperstructureCommand() {
         addRequirements(godSubsystem);
 
-        climber = godSubsystem.getClimber();
         stateMachine = new StateMachine("Disabled", disabled);
 
         disabled = new IState() {

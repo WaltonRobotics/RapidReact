@@ -77,6 +77,7 @@ public class Robot extends WaltTimesliceRobot {
      */
     @Override
     public void disabledInit() {
+        godSubsystem.setEnabled(false);
     }
 
     @Override
@@ -88,6 +89,8 @@ public class Robot extends WaltTimesliceRobot {
      */
     @Override
     public void autonomousInit() {
+        godSubsystem.setEnabled(true);
+
         autonomousCommand = robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
@@ -105,6 +108,7 @@ public class Robot extends WaltTimesliceRobot {
 
     @Override
     public void teleopInit() {
+        godSubsystem.setEnabled(true);
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -123,6 +127,7 @@ public class Robot extends WaltTimesliceRobot {
 
     @Override
     public void testInit() {
+        godSubsystem.setEnabled(true);
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }
