@@ -21,7 +21,11 @@ public class Disabled implements IState {
 
     @Override
     public IState execute() {
-        return null;
+        if (godSubsystem.isEnabled()) {
+            return new Initializing();
+        }
+
+        return this;
     }
 
     @Override

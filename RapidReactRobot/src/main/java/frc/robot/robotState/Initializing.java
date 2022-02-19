@@ -2,6 +2,8 @@ package frc.robot.robotState;
 
 import frc.robot.stateMachine.IState;
 
+import static frc.robot.RobotContainer.godSubsystem;
+
 public class Initializing implements IState {
     @Override
     public void initialize() {
@@ -10,6 +12,10 @@ public class Initializing implements IState {
 
     @Override
     public IState execute() {
+        if (!godSubsystem.isEnabled()) {
+            return new Disabled();
+        }
+
         return null;
     }
 
