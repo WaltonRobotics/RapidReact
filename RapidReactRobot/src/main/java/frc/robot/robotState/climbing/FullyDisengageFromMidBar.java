@@ -38,7 +38,7 @@ public class FullyDisengageFromMidBar implements IState {
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
         if (angleTarget.isWithinTolerance(pivotAngle) && heightTarget.isWithinTolerance(extensionHeight)) {
-            return new PullUpToHighBar();
+            return new InitiateHighBarClimb();
         }
 
         return this;
