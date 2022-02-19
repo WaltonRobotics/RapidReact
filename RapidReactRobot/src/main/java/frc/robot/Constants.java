@@ -41,6 +41,8 @@ public final class Constants {
     public static final class PIDProfileSlots {
 
         public static final int kShooterDefaultIndex = 0;
+        public static final int kSpinUpIndex = 1;
+        public static final int kShooterIndex = 2;
 
     }
 

@@ -10,6 +10,8 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.config.*;
 import frc.robot.subsystems.Climber;
+import frc.robot.util.interpolation.InterpolatingDouble;
+import frc.robot.util.interpolation.InterpolatingTreeMap;
 
 import java.util.HashMap;
 
@@ -63,6 +65,7 @@ public class SwerveTestbed extends WaltRobot {
 
     private final HashMap<Climber.ClimberExtensionLimits, LimitPair> climberExtensionLimits = new HashMap<>(3);
     private final HashMap<Climber.ClimberExtensionPosition, Target> climberExtensionTargets = new HashMap<>(7);
+
 
     public SwerveTestbed() {
         configAll();
@@ -409,6 +412,16 @@ public class SwerveTestbed extends WaltRobot {
                         return false;
                     }
                 };
+            }
+
+            @Override
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterMap() {
+                return mShooterMap;
+            }
+
+            @Override
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterMap2(){
+                return mShooterMap2;
             }
 
             @Override

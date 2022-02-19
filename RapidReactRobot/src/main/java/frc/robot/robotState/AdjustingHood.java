@@ -12,7 +12,7 @@ public class AdjustingHood implements IState {
 
     @Override
     public void initialize() {
-        if (LimelightHelper.getDistanceToTargetMeters() <= 5) { //dummy value
+        if (LimelightHelper.getDistanceToTargetFeet() <= 15) { //dummy value
             shooter.setRightAdjustableHoodDutyCycleDemand(10);
             shooter.setLeftAdjustableHoodDutyCycleDemand(10);
         } else {
@@ -28,7 +28,7 @@ public class AdjustingHood implements IState {
         }
         //the following are dummy values
         if (!OI.shootButtonButton.getAsBoolean()) {
-            return new Disabled();
+            return new ScoringMode();
         }
         return new Shooting();
     }

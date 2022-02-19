@@ -8,15 +8,21 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Constants;
 import frc.robot.config.ShooterConfig;
+import frc.robot.util.interpolation.InterpolatingDouble;
+import frc.robot.util.interpolation.InterpolatingTreeMap;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.PIDProfileSlots.kShooterDefaultIndex;
+import static frc.robot.Constants.PIDProfileSlots.kSpinUpIndex;
+import static frc.robot.Constants.PIDProfileSlots.kShooterIndex;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Shooter implements SubSubsystem {
 
     private final ShooterConfig config = currentRobot.getShooterConfig();
+    private HoodState hoodState;
 
     private final TalonFX flywheelMasterController = new TalonFX(
             config.getFlywheelMasterControllerMotorConfig().getChannelOrID());
@@ -48,6 +54,7 @@ public class Shooter implements SubSubsystem {
         // From L16-R datasheet
         leftAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
         rightAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
+
     }
 
     @Override
@@ -117,6 +124,10 @@ public class Shooter implements SubSubsystem {
         periodicIO.selectedProfileSlot = selectedProfileSlot;
     }
 
+    public void setHoodState(HoodState selectedHoodState){
+        hoodState = selectedHoodState;
+    }
+
     public double getFlywheelDemand() {
         return periodicIO.flywheelDemand;
     }
@@ -157,16 +168,47 @@ public class Shooter implements SubSubsystem {
         return periodicIO.flywheelClosedLoopErrorNU;
     }
 
+    public HoodState getHoodState(){
+        return hoodState;
+    }
+
     public ShooterConfig getConfig() {
         return config;
+    }
+
+    //hood 1 is 6o degrees
+    public double getHoodOneEstimatedVelocityFromTarget(){
+
+        //may want to use minimum from absolute shooting distances
+        double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
+        InterpolatingDouble result;
+        result = getConfig().getShooterMap().getInterpolated(new InterpolatingDouble(distanceFeet));
+        return result.value;
+//        if(result != null ){
+//            return result.value;
+//        }
+//        else{
+//            return kShooterMap.getInterpolated(new InterpolatingDouble(kDefaultShootingDistanceFeet)).value;
+//        }
+    }
+
+    //hood 2 is 70 degrees
+    public double getHoodTwoEstimatedVelocityFromTarget(){
+        double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
+        InterpolatingDouble result;
+        result = getConfig().getShooterMap2().getInterpolated(new InterpolatingDouble(distanceFeet));
+        return result.value;
     }
 
     public enum ShooterControlState {
         VELOCITY, OPEN_LOOP, DISABLED
     }
 
+    //TODO: create slots for shooting and spinnningup
     public enum ShooterProfileSlot {
-        DEFAULT_SLOT(kShooterDefaultIndex);
+        DEFAULT_SLOT(kShooterDefaultIndex),
+        SHOOT_SLOT(kShooterIndex),
+        SPIN_UP_SLOT(kSpinUpIndex);
 
         private final int index;
 
@@ -177,6 +219,11 @@ public class Shooter implements SubSubsystem {
         public int getIndex() {
             return index;
         }
+    }
+
+    public enum HoodState{
+        SIXTY_DEGREES,
+        SEVENTY_DEGREES;
     }
 
     public static class PeriodicIO implements Sendable {
