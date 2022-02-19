@@ -145,6 +145,10 @@ public class Shooter implements SubSubsystem {
         return periodicIO.lastAdjustableHoodChangeFPGATime;
     }
 
+    public double getCurrentFPGATime(){
+        return Timer.getFPGATimestamp();
+    }
+
     public double getFlywheelVelocityNU() {
         return periodicIO.flywheelVelocityNU;
     }
