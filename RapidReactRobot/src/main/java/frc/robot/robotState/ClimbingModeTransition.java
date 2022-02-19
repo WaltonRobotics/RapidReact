@@ -20,6 +20,10 @@ public class ClimbingModeTransition implements IState {
         godSubsystem.getClimber().setLeftClimberLockStateDemand(true);
         godSubsystem.getClimber().setRightClimberLockStateDemand(true);
 
+        // Pull up both intakes
+        godSubsystem.getIntake().setLeftIntakeDeployStateDemand(false);
+        godSubsystem.getIntake().setRightIntakeDeployStateDemand(false);
+
         // Disable all subsystems
         godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.DISABLED);
