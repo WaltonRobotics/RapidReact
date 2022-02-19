@@ -22,7 +22,7 @@ public class XboxConfig implements ControllerConfig{
     private final EnhancedJoystickButton limeAutoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kRightBumper.value);
     private final EnhancedJoystickButton navAutoAimButton = new EnhancedJoystickButton(gamepad, XboxController.Button.kA.value);
     private final EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_TRIGGER.getIndex());
-    private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad, RIGHT_BUMPER.getIndex());
+    private final EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(manipulationGamepad, XboxController.Button.kRightBumper.value);
 
     @Override
     public double getForward() {
