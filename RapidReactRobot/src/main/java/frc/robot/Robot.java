@@ -4,9 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.TimesliceRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,6 +24,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Shooter;
 
 import frc.robot.util.WaltTimesliceRobot;
+
+import java.util.List;
 
 import static frc.robot.Constants.SwerveDriveConfig.*;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -59,6 +69,18 @@ public class Robot extends WaltTimesliceRobot {
     schedule(godSubsystem.getShooter()::outputData, 0.0006);
     schedule(godSubsystem.getClimber()::collectData, 0.0003);
     schedule(godSubsystem.getClimber()::outputData, 0.0006);
+
+    Trajectory trajectory = new Trajectory();
+    trajectory = TrajectoryGenerator.generateTrajectory(
+            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+            new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
+            new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
+
+    Field2d field = new Field2d();
+    SmartDashboard.putData(field);
+
+    field.getObject("trajectory").setTrajectory(trajectory);
   }
 
   /**
