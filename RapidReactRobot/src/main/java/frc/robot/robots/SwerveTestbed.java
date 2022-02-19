@@ -579,22 +579,22 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public int getLeftClimberLockChannel() {
-                return 0;
-            }
-
-            @Override
-            public int getRightClimberLockChannel() {
-                return 1;
-            }
-
-            @Override
-            public int getClimberDiscBrakeForwardChannel() {
                 return 2;
             }
 
             @Override
-            public int getClimberDiscBrakeReverseChannel() {
+            public int getRightClimberLockChannel() {
                 return 3;
+            }
+
+            @Override
+            public int getClimberDiscBrakeForwardChannel() {
+                return 4;
+            }
+
+            @Override
+            public int getClimberDiscBrakeReverseChannel() {
+                return 5;
             }
         };
     }

@@ -88,7 +88,7 @@ public class Conveyor implements SubSubsystem {
 
     public static class PeriodicIO implements Sendable {
         // Outputs
-        public ConveyorControlState conveyorControlState;
+        public ConveyorControlState conveyorControlState = ConveyorControlState.DISABLED;
 
         public double transportDemand;
         public double feedDemand;

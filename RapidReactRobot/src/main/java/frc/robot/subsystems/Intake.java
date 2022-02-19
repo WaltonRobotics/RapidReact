@@ -127,7 +127,7 @@ public class Intake implements SubSubsystem {
         public double rightIntakeDemand;
         public boolean leftIntakeDeployDemand;
         public boolean rightIntakeDeployDemand;
-        private IntakeControlState intakeControlState;
+        private IntakeControlState intakeControlState = IntakeControlState.DISABLED;
 
         @Override
         public void initSendable(SendableBuilder builder) {

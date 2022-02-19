@@ -57,6 +57,11 @@ public class ScoringMode implements IState {
             godSubsystem.getConveyor().setFeedDemand(0.0);
         }
 
+        if (OI.toggleClimberLocksButton.isRisingEdge()) {
+            godSubsystem.getClimber().toggleLeftClimberLock();
+            godSubsystem.getClimber().toggleRightClimberLock();
+        }
+
         return this;
     }
 

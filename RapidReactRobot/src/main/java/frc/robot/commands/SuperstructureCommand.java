@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
+import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.subsystems.*;
@@ -41,7 +42,7 @@ public class SuperstructureCommand extends CommandBase {
     public SuperstructureCommand() {
         addRequirements(godSubsystem);
 
-        stateMachine = new StateMachine("Superstructure", disabled);
+        stateMachine = new StateMachine("Superstructure", new Disabled());
 
         disabled = new IState() {
 

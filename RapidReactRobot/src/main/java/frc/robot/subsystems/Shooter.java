@@ -181,9 +181,9 @@ public class Shooter implements SubSubsystem {
 
     public static class PeriodicIO implements Sendable {
         // Outputs
-        public ShooterControlState shooterControlState;
+        public ShooterControlState shooterControlState = ShooterControlState.DISABLED;
 
-        public ShooterProfileSlot selectedProfileSlot;
+        public ShooterProfileSlot selectedProfileSlot = ShooterProfileSlot.DEFAULT_SLOT;
         public double flywheelDemand;
         public double leftAdjustableHoodDutyCycleDemand;
         public double rightAdjustableHoodDutyCycleDemand;

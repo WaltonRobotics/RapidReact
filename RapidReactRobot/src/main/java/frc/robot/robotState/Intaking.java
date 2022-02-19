@@ -7,8 +7,10 @@ import frc.robot.subsystems.Intake;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class Intaking implements IState {
+
     private final Intake intake = godSubsystem.getIntake();
     private final Conveyor conveyor = godSubsystem.getConveyor();
+
     @Override
     public void initialize() {
         conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);

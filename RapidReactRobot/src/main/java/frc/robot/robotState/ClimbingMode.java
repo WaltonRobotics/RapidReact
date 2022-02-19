@@ -1,6 +1,7 @@
 package frc.robot.robotState;
 
 import frc.robot.stateMachine.IState;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Superstructure;
 
 import static frc.robot.RobotContainer.godSubsystem;
@@ -10,6 +11,14 @@ public class ClimbingMode implements IState {
     @Override
     public void initialize() {
         godSubsystem.setCurrentMode(Superstructure.CurrentMode.CLIMBING_MODE);
+
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
+        godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
+
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
+        godSubsystem.getClimber().setExtensionPositionDemand(Climber.ClimberExtensionPosition.STOWED_HEIGHT);
+        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
     }
 
     @Override
@@ -17,8 +26,6 @@ public class ClimbingMode implements IState {
         if (!godSubsystem.isEnabled()) {
             return new Disabled();
         }
-
-
 
         return this;
     }

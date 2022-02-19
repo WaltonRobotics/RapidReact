@@ -295,7 +295,7 @@ public class Climber implements SubSubsystem {
         setExtensionPositionDemandNU(config.getClimberExtensionTargets().get(position).getTarget());
     }
 
-    public boolean getLeftClimberLockStateDemand() {
+    public boolean isLeftClimberLockUnengaged() {
         return periodicIO.leftClimberLockStateDemand;
     }
 
@@ -303,12 +303,20 @@ public class Climber implements SubSubsystem {
         periodicIO.leftClimberLockStateDemand = unengaged;
     }
 
-    public boolean getRightClimberLockStateDemand() {
+    public void toggleLeftClimberLock() {
+        setLeftClimberLockStateDemand(!isLeftClimberLockUnengaged());
+    }
+
+    public boolean isRightClimberLockUnengaged() {
         return periodicIO.rightClimberLockStateDemand;
     }
 
     public void setRightClimberLockStateDemand(boolean unengaged) {
         periodicIO.rightClimberLockStateDemand = unengaged;
+    }
+
+    public void toggleRightClimberLock() {
+        setRightClimberLockStateDemand(!isRightClimberLockUnengaged());
     }
 
     public boolean getClimberDiscBrakeStateDemand() {
@@ -426,8 +434,8 @@ public class Climber implements SubSubsystem {
         public boolean isRightExtensionLowerLimitClosed;
         public double extensionIntegratedEncoderPosition;
         // Outputs
-        private ClimberControlState pivotControlState;
-        private ClimberControlState extensionControlState;
+        private ClimberControlState pivotControlState = ClimberControlState.DISABLED;
+        private ClimberControlState extensionControlState = ClimberControlState.DISABLED;
         private boolean resetPivotNeutralMode;
         private NeutralMode pivotNeutralMode;
         private boolean resetExtensionNeutralMode;
