@@ -82,6 +82,10 @@ public class Conveyor implements SubSubsystem {
         VOLTAGE, OPEN_LOOP, DISABLED
     }
 
+    public ConveyorConfig getConfig() {
+        return config;
+    }
+
     public static class PeriodicIO implements Sendable {
         // Outputs
         public ConveyorControlState conveyorControlState;

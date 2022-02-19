@@ -357,6 +357,10 @@ public class Climber implements SubSubsystem {
         return config.getMaxGravityFeedForward() * -cosineScalar;
     }
 
+    public ClimberConfig getConfig() {
+        return config;
+    }
+
     public enum ClimberControlState {
         ZEROING, AUTO, OPEN_LOOP, DISABLED
     }

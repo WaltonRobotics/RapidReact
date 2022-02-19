@@ -153,6 +153,10 @@ public class Shooter implements SubSubsystem {
         return periodicIO.flywheelClosedLoopErrorNU;
     }
 
+    public ShooterConfig getConfig() {
+        return config;
+    }
+
     public enum ShooterControlState {
         VELOCITY, OPEN_LOOP, DISABLED
     }

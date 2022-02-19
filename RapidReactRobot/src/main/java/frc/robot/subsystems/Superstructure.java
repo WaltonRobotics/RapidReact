@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -59,6 +60,10 @@ public class Superstructure extends SubsystemBase {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public double getCurrentTime() {
+        return Timer.getFPGATimestamp();
     }
 
     @Override

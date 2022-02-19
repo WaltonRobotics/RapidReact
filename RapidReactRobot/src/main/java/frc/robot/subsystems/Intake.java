@@ -105,6 +105,10 @@ public class Intake implements SubSubsystem {
         periodicIO.rightIntakeDeployDemand = rightIntakeDeployStateDemand;
     }
 
+    public IntakeConfig getConfig() {
+        return config;
+    }
+
     public enum IntakeControlState {
         VOLTAGE, OPEN_LOOP, DISABLED
     }
