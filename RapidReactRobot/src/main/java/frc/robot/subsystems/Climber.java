@@ -375,7 +375,8 @@ public class Climber implements SubSubsystem {
 
     public enum ClimberExtensionPosition {
         STOWED_HEIGHT,
-        HOOKING_ONTO_MID_BAR_LENGTH,
+        LINING_UP_TO_MID_BAR_LENGTH,
+        PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH,
         LENGTH_TO_DISENGAGE_FROM_MID_BAR,
         HOOKING_ONTO_HIGH_BAR_LENGTH,
         LENGTH_TO_DISENGAGE_FROM_HIGH_BAR,

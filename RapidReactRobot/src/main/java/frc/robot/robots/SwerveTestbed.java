@@ -639,7 +639,7 @@ public class SwerveTestbed extends WaltRobot {
         climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(0, 0));
 
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(0, 0));
-        climberExtensionTargets.put(HOOKING_ONTO_MID_BAR_LENGTH, new Target(0, 0));
+        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(0, 0));
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(0, 0));
         climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(0, 0));
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(0, 0));
