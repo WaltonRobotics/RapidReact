@@ -8,6 +8,8 @@ import frc.robot.subsystems.Shooter;
 
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.DEFAULT_SLOT;
+import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPIN_UP_SLOT;
+import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class SpinningUp implements IState {
     private final Shooter shooter = godSubsystem.getShooter();
@@ -16,7 +18,7 @@ public class SpinningUp implements IState {
     @Override
     public void initialize() {
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
-        shooter.setSelectedProfileSlot(DEFAULT_SLOT);   //what is this?
+        shooter.setSelectedProfileSlot(SPIN_UP_SLOT);
     }
 
     @Override
@@ -24,13 +26,15 @@ public class SpinningUp implements IState {
         if (!godSubsystem.isEnabled()) {
             return new Disabled();
         }
-        shooter.setFlywheelDemand(10);  //dummy voltage
+        shooter.setFlywheelDemand(targetFlyWheelVelocity);
+
         if(shooter.getFlywheelClosedLoopErrorNU() <= 10) {  //dummy threshold
             return new Shooting();
         }
-        if(!OI.shootButtonButton.getAsBoolean()){
-            return new Disabled();
+        if(!OI.shootButton.getAsBoolean()){
+            return new ScoringMode();
         }
+
         return this;
     }
 

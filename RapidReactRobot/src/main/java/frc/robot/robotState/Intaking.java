@@ -1,5 +1,6 @@
 package frc.robot.robotState;
 
+import frc.robot.OI;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
@@ -34,6 +35,10 @@ public class Intaking implements IState {
 
         conveyor.setFeedDemand(8.0);
         conveyor.setTransportDemand(8.0);
+
+        if(!OI.intakeButton.getAsBoolean()){
+            return new ScoringMode();
+        }
 
         return new Disabled();
     }

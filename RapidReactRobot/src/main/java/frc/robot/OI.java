@@ -35,7 +35,7 @@ public class OI {
     public static final EnhancedJoystickButton toggleRightIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_E);
     public static final EnhancedAxisButton toggleLimelightButton = new EnhancedAxisButton(driveGamepad,
             kLeftTrigger.value, 0.5);
-    public static final EnhancedAxisButton shootButtonButton = new EnhancedAxisButton(driveGamepad,
+    public static final EnhancedAxisButton shootButton = new EnhancedAxisButton(driveGamepad,
             kRightTrigger.value, 0.5);
     public static final EnhancedJoystickButton barfButtonButton = new EnhancedJoystickButton(driveGamepad, kRightBumper.value);
 

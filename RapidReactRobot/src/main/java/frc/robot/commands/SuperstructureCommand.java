@@ -193,7 +193,7 @@ public class SuperstructureCommand extends CommandBase {
             @Override
             public IState execute() {
                 //the following are dummy values
-                if (!OI.shootButtonButton.getAsBoolean()) {
+                if (!OI.shootButton.getAsBoolean()) {
                     return idle;
                 }
                 return shooting;

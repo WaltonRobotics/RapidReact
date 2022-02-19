@@ -1,23 +1,29 @@
 package frc.robot.robotState;
 
+import frc.robot.OI;
 import frc.robot.commands.AimCommandLime;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Shooter;
-import frc.robot.vision.LimelightHelper;
+import frc.robot.subsystems.Superstructure;
 
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.HoodState.SEVENTY_DEGREES;
-import static frc.robot.subsystems.Shooter.HoodState.SIXTY_DEGREES;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPIN_UP_SLOT;
+import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class AligningAndSpinningUp implements IState {
     private final Shooter shooter = godSubsystem.getShooter();
-    private double targetVelocity;
 
     @Override
     public void initialize() {
-        targetVelocity = LimelightHelper.getDistanceToTargetFeet() * 1.5;   //dummy calculation
         shooter.setSelectedProfileSlot(SPIN_UP_SLOT);
+        //calculating targetVelocity
+        if(shooter.getHoodState() == SEVENTY_DEGREES){
+            targetFlyWheelVelocity = shooter.getHoodTwoEstimatedVelocityFromTarget();
+        }
+        else{
+            targetFlyWheelVelocity = shooter.getHoodOneEstimatedVelocityFromTarget();
+        }
     }
 
     @Override
@@ -26,14 +32,13 @@ public class AligningAndSpinningUp implements IState {
             return new Disabled();
         }
 
-        if(shooter.getHoodState() == SEVENTY_DEGREES){
-            shooter.setFlywheelDemand(shooter.getHoodTwoEstimatedVelocityFromTarget());
-        }
-        else{
-            shooter.setFlywheelDemand(shooter.getHoodOneEstimatedVelocityFromTarget());
-        }
+        shooter.setFlywheelDemand(targetFlyWheelVelocity);
+
         new AimCommandLime();   //isFinished() will handle tolerance
 
+        if(!OI.shootButton.getAsBoolean()){
+            return new ScoringMode();
+        }
 
         return new PreparingToShoot();
     }

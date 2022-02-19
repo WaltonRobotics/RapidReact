@@ -204,7 +204,7 @@ public class Shooter implements SubSubsystem {
         VELOCITY, OPEN_LOOP, DISABLED
     }
 
-    //TODO: create slots for shooting and spinnningup
+    //TODO: create slots for shooting and spinnning up
     public enum ShooterProfileSlot {
         DEFAULT_SLOT(kShooterDefaultIndex),
         SHOOT_SLOT(kShooterIndex),

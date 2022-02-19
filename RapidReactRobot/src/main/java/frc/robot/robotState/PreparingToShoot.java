@@ -1,13 +1,24 @@
 package frc.robot.robotState;
 
 import frc.robot.stateMachine.IState;
+import frc.robot.subsystems.Shooter;
 
 import static frc.robot.RobotContainer.godSubsystem;
+import static frc.robot.subsystems.Shooter.HoodState.SEVENTY_DEGREES;
+import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class PreparingToShoot implements IState {
+    private final Shooter shooter = godSubsystem.getShooter();
+
     @Override
     public void initialize() {
-
+        //calculating targetVelocity
+        if(shooter.getHoodState() == SEVENTY_DEGREES){
+            targetFlyWheelVelocity = shooter.getHoodTwoEstimatedVelocityFromTarget();
+        }
+        else{
+            targetFlyWheelVelocity = shooter.getHoodOneEstimatedVelocityFromTarget();
+        }
     }
 
     @Override
@@ -16,7 +27,7 @@ public class PreparingToShoot implements IState {
             return new Disabled();
         }
 
-        return this;
+        return new SpinningUp();
     }
 
     @Override

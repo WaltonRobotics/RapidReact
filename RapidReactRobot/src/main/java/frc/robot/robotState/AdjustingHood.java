@@ -15,9 +15,11 @@ public class AdjustingHood implements IState {
         if (LimelightHelper.getDistanceToTargetFeet() <= 15) { //dummy value
             shooter.setRightAdjustableHoodDutyCycleDemand(10);
             shooter.setLeftAdjustableHoodDutyCycleDemand(10);
+            shooter.setHoodState(Shooter.HoodState.SIXTY_DEGREES);
         } else {
             shooter.setRightAdjustableHoodDutyCycleDemand(20);
             shooter.setLeftAdjustableHoodDutyCycleDemand(20);
+            shooter.setHoodState(Shooter.HoodState.SEVENTY_DEGREES);
         }
     }
 
@@ -27,7 +29,7 @@ public class AdjustingHood implements IState {
             return new Disabled();
         }
         //the following are dummy values
-        if (!OI.shootButtonButton.getAsBoolean()) {
+        if (!OI.shootButton.getAsBoolean()) {
             return new ScoringMode();
         }
         return new Shooting();

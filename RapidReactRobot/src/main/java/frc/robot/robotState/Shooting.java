@@ -1,18 +1,15 @@
 package frc.robot.robotState;
 
-import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-import static frc.robot.Constants.PIDProfileSlots.kShooterDefaultIndex;
 import static frc.robot.RobotContainer.godSubsystem;
 
-import static frc.robot.RobotContainer.godSubsystem;
-import static frc.robot.subsystems.Shooter.ShooterProfileSlot.DEFAULT_SLOT;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOT_SLOT;
+import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class Shooting implements IState {
     private final Shooter shooter = godSubsystem.getShooter();
@@ -31,7 +28,7 @@ public class Shooting implements IState {
             return new Disabled();
         }
         //the following are dummy voltage values
-        shooter.setFlywheelDemand(10);
+        shooter.setFlywheelDemand(targetFlyWheelVelocity);
 
         //if closed loop error > threshold
         if(shooter.getFlywheelClosedLoopErrorNU() > 20){    //dummy threshold
@@ -40,11 +37,12 @@ public class Shooting implements IState {
 
         //if difference in time changed >= threshold
         if(shooter.getCurrentFPGATime() >= shooter.getLastAdjustableHoodChangeFPGATime()){
+            //dummy conveyor voltages
             conveyor.setFeedDemand(10);
             conveyor.setTransportDemand(10);
         }
 
-        if(!OI.shootButtonButton.getAsBoolean()){
+        if(!OI.shootButton.getAsBoolean()){
             return new ScoringMode();
         }
 

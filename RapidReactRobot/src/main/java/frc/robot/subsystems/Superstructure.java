@@ -8,6 +8,7 @@ import static frc.robot.Constants.SmartDashboardKeys.*;
 
 public class Superstructure extends SubsystemBase {
 
+    public static double targetFlyWheelVelocity;
     private final Drivetrain drivetrain = new Drivetrain();
     private final Intake intake = new Intake();
     private final Conveyor conveyor = new Conveyor();
