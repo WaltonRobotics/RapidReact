@@ -299,16 +299,16 @@ public class Climber implements SubSubsystem {
         return periodicIO.leftClimberLockStateDemand;
     }
 
-    public void setLeftClimberLockStateDemand(boolean leftClimberLockStateDemand) {
-        periodicIO.leftClimberLockStateDemand = leftClimberLockStateDemand;
+    public void setLeftClimberLockStateDemand(boolean unengaged) {
+        periodicIO.leftClimberLockStateDemand = unengaged;
     }
 
     public boolean getRightClimberLockStateDemand() {
         return periodicIO.rightClimberLockStateDemand;
     }
 
-    public void setRightClimberLockStateDemand(boolean rightClimberLockStateDemand) {
-        periodicIO.rightClimberLockStateDemand = rightClimberLockStateDemand;
+    public void setRightClimberLockStateDemand(boolean unengaged) {
+        periodicIO.rightClimberLockStateDemand = unengaged;
     }
 
     public boolean getClimberDiscBrakeStateDemand() {

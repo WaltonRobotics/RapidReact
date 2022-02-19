@@ -15,6 +15,24 @@ public class Superstructure extends SubsystemBase {
 
     private boolean isEnabled = false;
 
+    public CurrentMode getCurrentMode() {
+        return currentMode;
+    }
+
+    public void setCurrentMode(CurrentMode currentMode) {
+        this.currentMode = currentMode;
+    }
+
+    public void toggleCurrentMode() {
+        if (currentMode == CurrentMode.SCORING_MODE) {
+            setCurrentMode(CurrentMode.CLIMBING_MODE);
+        } else {
+            setCurrentMode(CurrentMode.SCORING_MODE);
+        }
+    }
+
+    private CurrentMode currentMode = CurrentMode.SCORING_MODE;
+
     public Drivetrain getDrivetrain() {
         return drivetrain;
     }
@@ -53,6 +71,10 @@ public class Superstructure extends SubsystemBase {
 
         SmartDashboard.putNumber(kClimberPivotAngleFromVertical, climber.getPivotAngleFromVertical().getDegrees());
         SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, climber.getPivotAngleFromHorizontal().getDegrees());
+    }
+
+    public enum CurrentMode {
+        SCORING_MODE, CLIMBING_MODE
     }
 
 }
