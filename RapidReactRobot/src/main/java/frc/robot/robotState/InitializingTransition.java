@@ -1,6 +1,7 @@
 package frc.robot.robotState;
 
 import frc.robot.stateMachine.IState;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -20,6 +21,8 @@ public class InitializingTransition implements IState {
         godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.DISABLED);
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
         // Unengage climber locks
         // Wait for climber lock pneumatics to finish movement

@@ -10,6 +10,7 @@ import static frc.robot.RobotContainer.godSubsystem;
 public class Outtaking implements IState {
     private final Intake intake = godSubsystem.getIntake();
     private final Conveyor conveyor = godSubsystem.getConveyor();
+
     @Override
     public void initialize() {
         conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
@@ -22,11 +23,11 @@ public class Outtaking implements IState {
             return new Disabled();
         }
         //dummy voltage values for the following:
-        if (intake.isLeftIntakeDeployStateDemand()) {
+        if (intake.isLeftIntakeDeployed()) {
             intake.setLeftIntakeDemand(-8.0);
         }
 
-        if (intake.isRightIntakeDeployStateDemand()) {
+        if (intake.isRightIntakeDeployed()) {
             intake.setRightIntakeDemand(-8.0);
         }
         conveyor.setFeedDemand(-8.0);

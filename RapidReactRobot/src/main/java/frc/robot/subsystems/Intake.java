@@ -89,7 +89,7 @@ public class Intake implements SubSubsystem {
         periodicIO.rightIntakeDemand = rightIntakeDemand;
     }
 
-    public boolean isLeftIntakeDeployStateDemand() {
+    public boolean isLeftIntakeDeployed() {
         return periodicIO.leftIntakeDeployDemand;
     }
 
@@ -97,12 +97,20 @@ public class Intake implements SubSubsystem {
         periodicIO.leftIntakeDeployDemand = leftIntakeDeployStateDemand;
     }
 
-    public boolean isRightIntakeDeployStateDemand() {
+    public void toggleLeftIntakeDeployStateDemand() {
+        setLeftIntakeDeployStateDemand(!isLeftIntakeDeployed());
+    }
+
+    public boolean isRightIntakeDeployed() {
         return periodicIO.rightIntakeDeployDemand;
     }
 
     public void setRightIntakeDeployStateDemand(boolean rightIntakeDeployStateDemand) {
         periodicIO.rightIntakeDeployDemand = rightIntakeDeployStateDemand;
+    }
+
+    public void toggleRightIntakeDeployStateDemand() {
+        setRightIntakeDeployStateDemand(!isRightIntakeDeployed());
     }
 
     public IntakeConfig getConfig() {

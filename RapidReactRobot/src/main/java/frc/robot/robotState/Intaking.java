@@ -20,16 +20,19 @@ public class Intaking implements IState {
         if (!godSubsystem.isEnabled()) {
             return new Disabled();
         }
+
         //dummy voltage values for the following:
-        if (intake.isLeftIntakeDeployStateDemand()) {
+        if (intake.isLeftIntakeDeployed()) {
             intake.setLeftIntakeDemand(8.0);
         }
 
-        if (intake.isRightIntakeDeployStateDemand()) {
+        if (intake.isRightIntakeDeployed()) {
             intake.setRightIntakeDemand(8.0);
         }
+
         conveyor.setFeedDemand(8.0);
         conveyor.setTransportDemand(8.0);
+
         return new Disabled();
     }
 

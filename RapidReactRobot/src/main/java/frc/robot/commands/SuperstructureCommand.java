@@ -127,11 +127,11 @@ public class SuperstructureCommand extends CommandBase {
             @Override
             public IState execute() {
                 //dummy voltage values for the following:
-                if (intake.isLeftIntakeDeployStateDemand()) {
+                if (intake.isLeftIntakeDeployed()) {
                     intake.setLeftIntakeDemand(8.0);
                 }
 
-                if (intake.isRightIntakeDeployStateDemand()) {
+                if (intake.isRightIntakeDeployed()) {
                     intake.setRightIntakeDemand(8.0);
                 }
                 conveyor.setFeedDemand(8.0);
@@ -157,11 +157,11 @@ public class SuperstructureCommand extends CommandBase {
             @Override
             public IState execute() {
                 //dummy voltage values for the following:
-                if (intake.isLeftIntakeDeployStateDemand()) {
+                if (intake.isLeftIntakeDeployed()) {
                     intake.setLeftIntakeDemand(-8.0);
                 }
 
-                if (intake.isRightIntakeDeployStateDemand()) {
+                if (intake.isRightIntakeDeployed()) {
                     intake.setRightIntakeDemand(-8.0);
                 }
                 conveyor.setFeedDemand(-8.0);
