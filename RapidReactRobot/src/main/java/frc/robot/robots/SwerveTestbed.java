@@ -634,4 +634,14 @@ public class SwerveTestbed extends WaltRobot {
         climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(0, 0));
     }
 
+    @Override
+    public Target getPivotTarget(Climber.ClimberPivotPosition target) {
+        return climberPivotTargets.get(target);
+    }
+
+    @Override
+    public Target getExtensionTarget(Climber.ClimberExtensionPosition target) {
+        return climberExtensionTargets.get(target);
+    }
+
 }

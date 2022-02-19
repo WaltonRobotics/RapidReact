@@ -1,6 +1,7 @@
 package frc.robot.robots;
 
 import frc.robot.config.*;
+import frc.robot.subsystems.Climber;
 
 public class CompRapidReact extends WaltRobot {
 
@@ -41,6 +42,16 @@ public class CompRapidReact extends WaltRobot {
     @Override
     public void defineTargets() {
 
+    }
+
+    @Override
+    public Target getPivotTarget(Climber.ClimberPivotPosition target) {
+        return null;
+    }
+
+    @Override
+    public Target getExtensionTarget(Climber.ClimberExtensionPosition target) {
+        return null;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package frc.robot.robots;
 
 import frc.robot.config.*;
+import frc.robot.subsystems.Climber;
 
 // Generic superclass for all Walton robots and their characteristics
 public abstract class WaltRobot {
@@ -35,6 +36,10 @@ public abstract class WaltRobot {
     public abstract void defineLimits();
 
     public abstract void defineTargets();
+
+    public abstract Target getPivotTarget(Climber.ClimberPivotPosition target);
+
+    public abstract Target getExtensionTarget(Climber.ClimberExtensionPosition target);
 
     public DrivetrainConfig getDrivetrainConfig() {
         return drivetrainConfig;
