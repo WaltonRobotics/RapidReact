@@ -99,7 +99,10 @@ public final class Constants {
         public static final String kShooterPeriodicIOKey = "Shooter/Periodic IO";
         public static final String kClimberPeriodicIOKey = "Climber/Periodic IO";
 
+        public static final String kDrivetrainHeadingDegrees = "Drivetrain/Heading Degrees";
         public static final String kDrivetrainAngularVelocity = "Drivetrain/Angular Velocity Dsec";
+        public static final String kDrivetrainPitchDegrees = "Drivetrain/Pitch Degrees";
+        public static final String kDrivetrainRollDegrees = "Drivetrain/Roll Degrees";
 
         public static final String kTurnToAngleControllerKey = "Turn to Angle Controller";
         public static final String kTurnToAngleErrorDegrees = "Turn to Angle Error Deg";
@@ -108,7 +111,6 @@ public final class Constants {
         public static final String kLimelightAlignControllerKey = "Limelight Align Controller";
         public static final String kLimelightAlignErrorDegrees = "Limelight Align Error Deg";
         public static final String kLimelightAlignOmegaOutputKey = "Limelight Align Omega Output";
-
 
     }
 
