@@ -1,11 +1,16 @@
 package frc.robot.robotState.climbing;
 
+import frc.robot.config.Target;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class DisengageFromMidBar implements IState {
+
+    private final Target heightTarget =
+            currentRobot.getExtensionTarget(Climber.ClimberExtensionPosition.LENGTH_TO_DISENGAGE_FROM_MID_BAR);
 
     @Override
     public void initialize() {
@@ -20,7 +25,13 @@ public class DisengageFromMidBar implements IState {
 
     @Override
     public IState execute() {
-        return null;
+        double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
+
+        if (heightTarget.isWithinTolerance(extensionHeight, 50)) {
+            return new FullyDisengageFromMidBar();
+        }
+
+        return this;
     }
 
     @Override
