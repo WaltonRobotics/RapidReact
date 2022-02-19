@@ -18,8 +18,4 @@ public class Intaking implements IState {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
 }

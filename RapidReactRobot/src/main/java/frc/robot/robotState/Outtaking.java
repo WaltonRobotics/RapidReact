@@ -18,8 +18,4 @@ public class Outtaking implements IState {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
 }

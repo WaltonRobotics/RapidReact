@@ -26,11 +26,8 @@ public class StateMachine {
     }
 
     public void run() {
-        if (currentState.getName() == null) {
-            robotLogger.log(Level.WARNING, currentState.getName() + " state has a null name!");
-        } else {
-            SmartDashboard.putString(joinStrings(" ", name, "Current State"), currentState.getName());
-        }
+        SmartDashboard.putString(joinStrings(" ", name, "Current State"),
+                currentState.getClass().getSimpleName());
 
         IState nextState = currentState.execute();
 

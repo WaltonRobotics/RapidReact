@@ -18,8 +18,4 @@ public class Initializing implements IState {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
 }

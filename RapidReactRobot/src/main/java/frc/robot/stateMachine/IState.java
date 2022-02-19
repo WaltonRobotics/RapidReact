@@ -8,6 +8,4 @@ public interface IState {
 
     void finish();
 
-    String getName();
-
 }

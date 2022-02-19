@@ -18,8 +18,4 @@ public class Shooting implements IState {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
 }

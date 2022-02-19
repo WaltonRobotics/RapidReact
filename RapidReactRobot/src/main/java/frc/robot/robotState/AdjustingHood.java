@@ -19,9 +19,4 @@ public class AdjustingHood implements IState {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
-    
 }

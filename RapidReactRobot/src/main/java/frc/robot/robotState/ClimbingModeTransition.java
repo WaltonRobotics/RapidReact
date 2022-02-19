@@ -18,8 +18,4 @@ public class ClimbingModeTransition implements IState {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
 }

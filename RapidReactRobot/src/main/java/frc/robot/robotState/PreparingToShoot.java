@@ -18,8 +18,4 @@ public class PreparingToShoot implements IState {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
 }

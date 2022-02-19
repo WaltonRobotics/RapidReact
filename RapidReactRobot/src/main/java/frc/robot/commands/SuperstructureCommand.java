@@ -60,10 +60,6 @@ public class SuperstructureCommand extends CommandBase {
 
             }
 
-            @Override
-            public String getName() {
-                return "Disabled";
-            }
         };
 
         idle = new IState() {
@@ -119,10 +115,6 @@ public class SuperstructureCommand extends CommandBase {
 
             }
 
-            @Override
-            public String getName() {
-                return "Idle";
-            }
         };
 
         intaking = new IState() {
@@ -152,10 +144,6 @@ public class SuperstructureCommand extends CommandBase {
 
             }
 
-            @Override
-            public String getName() {
-                return "Intaking";
-            }
         };
 
         outtaking = new IState() {
@@ -186,10 +174,6 @@ public class SuperstructureCommand extends CommandBase {
 
             }
 
-            @Override
-            public String getName() {
-                return null;
-            }
         };
 
         adjustingHood = new IState() {
@@ -219,10 +203,6 @@ public class SuperstructureCommand extends CommandBase {
 
             }
 
-            @Override
-            public String getName() {
-                return "Adjusting Hood";
-            }
         };
 
         shooting = new IState() {
@@ -242,10 +222,6 @@ public class SuperstructureCommand extends CommandBase {
 
             }
 
-            @Override
-            public String getName() {
-                return "Shooting";
-            }
         };
 
     }

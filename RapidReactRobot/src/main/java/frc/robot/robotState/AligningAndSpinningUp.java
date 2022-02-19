@@ -19,9 +19,4 @@ public class AligningAndSpinningUp implements IState {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
-
 }

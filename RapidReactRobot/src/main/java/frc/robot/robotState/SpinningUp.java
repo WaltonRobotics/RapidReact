@@ -18,8 +18,4 @@ public class SpinningUp implements IState {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
 }

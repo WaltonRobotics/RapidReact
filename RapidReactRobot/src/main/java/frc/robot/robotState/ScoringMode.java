@@ -18,8 +18,4 @@ public class ScoringMode implements IState {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
 }
