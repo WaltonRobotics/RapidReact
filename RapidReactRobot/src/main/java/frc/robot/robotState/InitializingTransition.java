@@ -10,8 +10,8 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class InitializingTransition implements IState {
 
-    private double timeWhenLocksAreEngaged;
-    private final double timeForLocksToEngageSeconds = 0.25;
+    private double timeWhenLocksAreUnengaged;
+    private final double timeForLocksToUnengageSeconds = 0.25;
 
     @Override
     public void initialize() {
@@ -26,7 +26,7 @@ public class InitializingTransition implements IState {
 
         // Unengage climber locks
         // Wait for climber lock pneumatics to finish movement
-        timeWhenLocksAreEngaged = godSubsystem.getCurrentTime() + timeForLocksToEngageSeconds;
+        timeWhenLocksAreUnengaged = godSubsystem.getCurrentTime() + timeForLocksToUnengageSeconds;
         godSubsystem.getClimber().setLeftClimberLockStateDemand(true);
         godSubsystem.getClimber().setRightClimberLockStateDemand(true);
     }
@@ -37,7 +37,7 @@ public class InitializingTransition implements IState {
             return new Disabled();
         }
 
-        if (godSubsystem.getCurrentTime() >= timeWhenLocksAreEngaged) {
+        if (godSubsystem.getCurrentTime() >= timeWhenLocksAreUnengaged) {
             return new Initializing();
         }
 

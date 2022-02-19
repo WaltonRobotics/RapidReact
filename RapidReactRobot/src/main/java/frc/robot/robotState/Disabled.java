@@ -22,7 +22,7 @@ public class Disabled implements IState {
     @Override
     public IState execute() {
         if (godSubsystem.isEnabled()) {
-            return new Initializing();
+            return new InitializingTransition();
         }
 
         return this;
