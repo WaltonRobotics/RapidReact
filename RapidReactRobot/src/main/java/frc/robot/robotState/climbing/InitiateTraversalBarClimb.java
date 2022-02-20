@@ -1,9 +1,11 @@
 package frc.robot.robotState.climbing;
 
 import frc.robot.config.Target;
+import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.OI.stopClimbButton;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -25,6 +27,14 @@ public class InitiateTraversalBarClimb implements IState {
 
     @Override
     public IState execute() {
+        if (!godSubsystem.isEnabled()) {
+            return new Disabled();
+        }
+
+        if (stopClimbButton.isRisingEdge()) {
+            return new FinalizeClimb();
+        }
+
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
         if (heightTarget.isWithinTolerance(extensionHeight, 50)) {
