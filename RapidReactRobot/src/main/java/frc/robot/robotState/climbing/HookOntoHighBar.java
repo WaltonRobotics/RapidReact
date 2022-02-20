@@ -27,7 +27,7 @@ public class HookOntoHighBar implements IState {
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
         if (angleTarget.isWithinTolerance(pivotAngle, 50)) {
-            return new PullUpToHighBar();
+            return new StartPullingUpToHighBar();
         }
 
         return this;

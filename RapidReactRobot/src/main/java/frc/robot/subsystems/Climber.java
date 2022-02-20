@@ -380,6 +380,7 @@ public class Climber implements SubSubsystem {
         LENGTH_TO_DISENGAGE_FROM_MID_BAR,
         LENGTH_TO_FULLY_DISENGAGE_FROM_MID_BAR,
         HOOKING_ONTO_HIGH_BAR_LENGTH,
+        PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH,
         LENGTH_TO_DISENGAGE_FROM_HIGH_BAR,
         HOOKING_ONTO_TRAVERSAL_BAR_LENGTH,
         LENGTH_TO_HANG_FROM_TRAVERSAL_BAR
@@ -388,7 +389,7 @@ public class Climber implements SubSubsystem {
     public enum ClimberExtensionLimits {
         STOWED,
         EXTENSION_FULL_ROM,
-        HIGH_BAR_TRANSFER_TO_FIXED_ARM,
+        HIGH_BAR_TRANSFER_TO_FIXED_ARM, // Corresponds to PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH
     }
 
     public enum ClimberPivotPosition {
