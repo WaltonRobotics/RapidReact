@@ -25,10 +25,13 @@ public class InitializingTransition implements IState {
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
         // Unengage climber locks
-        // Wait for climber lock pneumatics to finish movement
+        // Unengage climber disc brake
+        // Wait for climber pneumatics to finish movement
         timeWhenLocksAreUnengaged = godSubsystem.getCurrentTime() + timeForLocksToUnengageSeconds;
         godSubsystem.getClimber().setLeftClimberLockStateDemand(true);
         godSubsystem.getClimber().setRightClimberLockStateDemand(true);
+
+        godSubsystem.getClimber().setClimberDiscBrakeStateDemand(true);
     }
 
     @Override

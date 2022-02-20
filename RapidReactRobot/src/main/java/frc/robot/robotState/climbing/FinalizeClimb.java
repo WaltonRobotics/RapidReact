@@ -29,8 +29,10 @@ public class FinalizeClimb implements IState {
         godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
         godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Brake);
 
-        // Energize disc brake
-        godSubsystem.getClimber().setClimberDiscBrakeStateDemand(true);
+        // Energize disc brake and climber locks
+        godSubsystem.getClimber().setLeftClimberLockStateDemand(false);
+        godSubsystem.getClimber().setRightClimberLockStateDemand(false);
+        godSubsystem.getClimber().setClimberDiscBrakeStateDemand(false);
     }
 
     @Override
