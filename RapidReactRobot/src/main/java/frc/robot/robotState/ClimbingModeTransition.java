@@ -16,9 +16,12 @@ public class ClimbingModeTransition implements IState {
     @Override
     public void initialize() {
         // Unengage climber locks
+        // Unengage climber disc brake
         timeWhenLocksAreEngaged = godSubsystem.getCurrentTime() + timeForLocksToEngageSeconds;
         godSubsystem.getClimber().setLeftClimberLockStateDemand(true);
         godSubsystem.getClimber().setRightClimberLockStateDemand(true);
+
+        godSubsystem.getClimber().setClimberDiscBrakeStateDemand(true);
 
         // Pull up both intakes
         godSubsystem.getIntake().setLeftIntakeDeployStateDemand(false);

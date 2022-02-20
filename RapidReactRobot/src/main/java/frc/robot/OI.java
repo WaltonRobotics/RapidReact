@@ -45,6 +45,7 @@ public class OI {
     public static final EnhancedComboButton stopClimbButton = new EnhancedComboButton(dangerButton,
             new EnhancedAxisButton(manipulationGamepad, kLeftTrigger.value, 0.5));
     public static final EnhancedJoystickButton advanceClimbingProcessButton = new EnhancedJoystickButton(manipulationGamepad, kA.value);
+
     // Both modes
     public static final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, kLeftBumper.value);
     private static final EnhancedJoystickButton yButton = new EnhancedJoystickButton(manipulationGamepad, kY.value);

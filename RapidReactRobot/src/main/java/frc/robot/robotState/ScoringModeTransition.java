@@ -15,8 +15,11 @@ public class ScoringModeTransition implements IState {
     @Override
     public void initialize() {
         // Unengage climber locks
+        // Unengage climber disc brake
         godSubsystem.getClimber().setLeftClimberLockStateDemand(true);
         godSubsystem.getClimber().setRightClimberLockStateDemand(true);
+
+        godSubsystem.getClimber().setClimberDiscBrakeStateDemand(true);
 
         // Stow climber pivot and extension
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
