@@ -5,6 +5,7 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.OI.advanceClimbingProcessButton;
 import static frc.robot.OI.stopClimbButton;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -37,7 +38,9 @@ public class HookOntoTraversalBar implements IState {
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
         if (angleTarget.isWithinTolerance(pivotAngle, 50)) {
-            return new PullUpToTraversalBar();
+            if (advanceClimbingProcessButton.get()) {
+                return new PullUpToTraversalBar();
+            }
         }
 
         return this;

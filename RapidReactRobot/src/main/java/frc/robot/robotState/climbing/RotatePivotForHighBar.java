@@ -5,6 +5,7 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.OI.advanceClimbingProcessButton;
 import static frc.robot.OI.stopClimbButton;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -41,7 +42,9 @@ public class RotatePivotForHighBar implements IState {
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
         if (angleTarget.isWithinTolerance(pivotAngle)) {
-            return new InitiateHighBarClimb();
+            if (advanceClimbingProcessButton.get()) {
+                return new InitiateHighBarClimb();
+            }
         }
 
         return this;
