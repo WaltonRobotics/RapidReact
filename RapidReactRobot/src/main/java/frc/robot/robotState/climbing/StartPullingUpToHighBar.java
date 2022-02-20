@@ -1,11 +1,16 @@
 package frc.robot.robotState.climbing;
 
+import frc.robot.config.Target;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class StartPullingUpToHighBar implements IState {
+
+    private final Target heightTarget =
+            currentRobot.getExtensionTarget(Climber.ClimberExtensionPosition.PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH);
 
     @Override
     public void initialize() {
@@ -20,12 +25,18 @@ public class StartPullingUpToHighBar implements IState {
 
     @Override
     public IState execute() {
-        return null;
+        double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
+
+        if (heightTarget.isWithinTolerance(extensionHeight, 50)) {
+            return new PositionFixedArmForTransfer();
+        }
+
+        return this;
     }
 
     @Override
     public void finish() {
-
+        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.HIGH_BAR_TRANSFER_TO_FIXED_ARM);
     }
 
 }

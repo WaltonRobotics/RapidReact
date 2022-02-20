@@ -9,7 +9,7 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class InitiateHighBarClimb implements IState {
 
-    private Target heightTarget = currentRobot.getExtensionTarget(
+    private final Target heightTarget = currentRobot.getExtensionTarget(
             Climber.ClimberExtensionPosition.HOOKING_ONTO_HIGH_BAR_LENGTH);
 
     @Override

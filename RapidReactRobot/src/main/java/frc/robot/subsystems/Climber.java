@@ -412,7 +412,8 @@ public class Climber implements SubSubsystem {
         PIVOT_STOWED,
         PIVOT_FULL_ROM,
         PIVOT_PULL_UP_TO_MID_BAR,
-        PIVOT_PULL_UP_TO_HIGH_BAR,
+        PIVOT_PULL_UP_TO_HIGH_BAR, // Corresponds to ANGLE_TO_HOOK_ONTO_HIGH_BAR
+        PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, // Corresponds to ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER
         PIVOT_PULL_UP_TO_TRAVERSAL_BAR,
     }
 
