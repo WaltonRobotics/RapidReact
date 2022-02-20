@@ -28,7 +28,7 @@ public class StartPullingUpToHighBar implements IState {
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
         if (heightTarget.isWithinTolerance(extensionHeight, 50)) {
-            return new PositionFixedArmForTransfer();
+            return new PositionFixedArmForHighBarTransfer();
         }
 
         return this;

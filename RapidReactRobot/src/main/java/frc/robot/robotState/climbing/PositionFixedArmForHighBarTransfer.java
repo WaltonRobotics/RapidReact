@@ -7,7 +7,7 @@ import frc.robot.subsystems.Climber;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
-public class PositionFixedArmForTransfer implements IState {
+public class PositionFixedArmForHighBarTransfer implements IState {
 
     private final Target angleTarget =
             currentRobot.getPivotTarget(Climber.ClimberPivotPosition.ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER);

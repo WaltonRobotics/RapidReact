@@ -7,11 +7,12 @@ import frc.robot.subsystems.Climber;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
-public class HookOntoMidBar implements IState {
+public class PositionFixedArmForMidBarTransfer implements IState {
 
     private final Target angleTarget =
             currentRobot.getPivotTarget(Climber.ClimberPivotPosition.ANGLE_HOOK_THETA_FOR_MID_BAR);
 
+    // This state moves the fixed arm CCW so that it does not get in the way of the pivot arm retracting
     @Override
     public void initialize() {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
