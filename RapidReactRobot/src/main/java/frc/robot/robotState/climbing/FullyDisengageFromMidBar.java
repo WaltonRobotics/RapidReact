@@ -46,7 +46,7 @@ public class FullyDisengageFromMidBar implements IState {
 
     @Override
     public void finish() {
-        godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_PULL_UP_TO_HIGH_BAR);
+
     }
 
 }
