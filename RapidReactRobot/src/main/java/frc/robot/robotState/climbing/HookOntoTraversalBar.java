@@ -1,4 +1,22 @@
 package frc.robot.robotState.climbing;
 
-public class HookOntoTraversalBar {
+import frc.robot.stateMachine.IState;
+
+public class HookOntoTraversalBar implements IState {
+
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public IState execute() {
+        return null;
+    }
+
+    @Override
+    public void finish() {
+
+    }
+
 }

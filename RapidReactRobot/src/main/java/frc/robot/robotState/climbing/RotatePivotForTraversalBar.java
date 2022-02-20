@@ -7,10 +7,10 @@ import frc.robot.subsystems.Climber;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
-public class DisengageFromHighBar implements IState {
+public class RotatePivotForTraversalBar implements IState {
 
-    private final Target heightTarget =
-            currentRobot.getExtensionTarget(Climber.ClimberExtensionPosition.LENGTH_TO_DISENGAGE_FROM_HIGH_BAR);
+    private final Target angleTarget = currentRobot.getPivotTarget(
+            Climber.ClimberPivotPosition.REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE);
 
     @Override
     public void initialize() {
@@ -18,17 +18,20 @@ public class DisengageFromHighBar implements IState {
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setExtensionPositionDemand(
-                Climber.ClimberExtensionPosition.LENGTH_TO_DISENGAGE_FROM_HIGH_BAR);
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
     }
 
     @Override
     public IState execute() {
-        double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
+        double ff = godSubsystem.getClimber().getCalculatedFeedForward();
 
-        if (heightTarget.isWithinTolerance(extensionHeight, 50)) {
-            return new RotatePivotForTraversalBar();
+        godSubsystem.getClimber().setPivotPositionDemand(
+                Climber.ClimberPivotPosition.REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, ff);
+
+        double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
+
+        if (angleTarget.isWithinTolerance(pivotAngle)) {
+            return new InitiateTraversalBarClimb();
         }
 
         return this;
