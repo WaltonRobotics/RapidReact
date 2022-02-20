@@ -2,6 +2,7 @@ package frc.robot.robotState.climbing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.config.LimitPair;
+import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
@@ -34,6 +35,10 @@ public class FinalizeClimb implements IState {
 
     @Override
     public IState execute() {
+        if (!godSubsystem.isEnabled()) {
+            return new Disabled();
+        }
+
         return this;
     }
 
