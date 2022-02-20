@@ -386,7 +386,7 @@ public class Climber implements SubSubsystem {
     }
 
     public enum ClimberExtensionLimits {
-        STOWED,
+        STOWED, // Corresponds to STOWED_HEIGHT
         EXTENSION_FULL_ROM,
         HIGH_BAR_TRANSFER_TO_FIXED_ARM, // Corresponds to PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH
     }
@@ -408,12 +408,12 @@ public class Climber implements SubSubsystem {
     }
 
     public enum ClimberPivotLimits {
-        PIVOT_STOWED,
+        PIVOT_STOWED, // Corresponds to STOWED_ANGLE
         PIVOT_FULL_ROM,
-        PIVOT_PULL_UP_TO_MID_BAR,
+        PIVOT_PULL_UP_TO_MID_BAR, // Corresponds to ANGLE_HOOK_THETA_FOR_MID_BAR
         PIVOT_PULL_UP_TO_HIGH_BAR, // Corresponds to ANGLE_TO_HOOK_ONTO_HIGH_BAR
         PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, // Corresponds to ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER
-        PIVOT_PULL_UP_TO_TRAVERSAL_BAR,
+        PIVOT_PULL_UP_TO_TRAVERSAL_BAR, // Corresponds to ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR
     }
 
     public static class PeriodicIO implements Sendable {

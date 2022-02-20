@@ -5,7 +5,7 @@ public class LimitPair {
     private final double forwardsSoftLimitThreshold;
     private final double reverseSoftLimitThreshold;
 
-    public LimitPair(int forwardsSoftLimitThreshold, int reverseSoftLimitThreshold) {
+    public LimitPair(double forwardsSoftLimitThreshold, double reverseSoftLimitThreshold) {
         this.forwardsSoftLimitThreshold = forwardsSoftLimitThreshold;
         this.reverseSoftLimitThreshold = reverseSoftLimitThreshold;
     }
