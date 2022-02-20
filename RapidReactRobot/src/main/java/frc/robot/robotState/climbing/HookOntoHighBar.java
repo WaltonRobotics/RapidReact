@@ -1,11 +1,16 @@
 package frc.robot.robotState.climbing;
 
+import frc.robot.config.Target;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class HookOntoHighBar implements IState {
+
+    private final Target angleTarget =
+            currentRobot.getPivotTarget(Climber.ClimberPivotPosition.ANGLE_TO_HOOK_ONTO_HIGH_BAR);
 
     @Override
     public void initialize() {
@@ -19,7 +24,13 @@ public class HookOntoHighBar implements IState {
 
     @Override
     public IState execute() {
-        return null;
+        double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
+
+        if (angleTarget.isWithinTolerance(pivotAngle, 50)) {
+            return new PullUpToHighBar();
+        }
+
+        return this;
     }
 
     @Override
