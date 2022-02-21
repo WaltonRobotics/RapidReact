@@ -93,14 +93,14 @@ public class Climber implements SubSubsystem {
     @Override
     public void outputData() {
         if (periodicIO.resetPivotLimits) {
-            pivotController.configForwardSoftLimitThreshold(1);
-            pivotController.configReverseSoftLimitThreshold(0);
+            pivotController.configReverseSoftLimitThreshold(periodicIO.pivotLimits.getReverseSoftLimitThreshold());
+            pivotController.configForwardSoftLimitThreshold(periodicIO.pivotLimits.getForwardsSoftLimitThreshold());
             periodicIO.resetPivotLimits = false;
         }
 
         if (periodicIO.resetExtensionLimits) {
-            extensionController.configForwardSoftLimitThreshold(1);
-            extensionController.configReverseSoftLimitThreshold(0);
+            extensionController.configReverseSoftLimitThreshold(periodicIO.extensionLimits.getReverseSoftLimitThreshold());
+            extensionController.configForwardSoftLimitThreshold(periodicIO.extensionLimits.getForwardsSoftLimitThreshold());
             periodicIO.resetExtensionLimits = false;
         }
 
