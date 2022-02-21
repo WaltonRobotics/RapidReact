@@ -629,25 +629,30 @@ public class SwerveTestbed extends WaltRobot {
     @Override
     public void defineTargets() {
         // Angles in reference to fixed arm
-        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 0));
-        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(0, 0)); // -9.7 deg
-        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(0, 0)); // 23.4 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(0, 0)); // 21.5 deg
-        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(0, 0)); // -10.4 deg
-        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(0, 0)); // -1.0 deg
-        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(0, 0)); // 26.6 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(0, 0)); // 20.0 deg
+        // 200:1 GR
+        // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (200 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
+        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 0)); // 0 deg
+        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-11036, 0)); // -9.7 deg
+        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(26624, 0)); // 23.4 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(24462, 0)); // 21.5 deg
+        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-11833, 0)); // -10.4 deg
+        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(-1138, 0)); // -1.0 deg
+        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(30265, 0)); // 26.6 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(22756, 0)); // 20.0 deg
 
         // Lengths are relative to uppermost ring of outer arm
+        // 36:1 GR
+        // Output shaft: 0.5 inch diameter (may change if spool is added)
+        // Encoder counts = inches * (1 output rev / 0.5*pi inches) * (36 extension motor rev / 1 output rev) * (2048 counts / 1 extension motor rev)
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(0, 0)); // 1 in
-        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(0, 0)); // 21.467 in
-        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(0, 0)); // 11.0 in
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(0, 0)); // 3.0 in
-        climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(0, 0)); // 25 in
-        climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(0, 0)); // 13.50 in
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(0, 0)); // 3.0 in
-        climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(0, 0)); // 26.0 in
-        climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(0, 0)); // 11.6 in
+        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(960653, 0)); // 21.467 in
+        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(469367, 0)); // 11.0 in
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(93873, 0)); // 3.0 in
+        climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(1126481, 0)); // 25 in
+        climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(586709, 0)); // 13.50 in
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(93873, 0)); // 3.0 in
+        climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(1173418, 0)); // 26.0 in
+        climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(497529, 0)); // 11.6 in
     }
 
     @Override

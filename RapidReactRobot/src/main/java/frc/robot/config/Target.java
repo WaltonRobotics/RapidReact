@@ -7,12 +7,12 @@ public class Target {
     private final double target;
     private final double tolerance;
 
-    public Target(int target, int tolerance) {
+    public Target(double target, double tolerance) {
         this.target = target;
         this.tolerance = tolerance;
     }
 
-    public Target(int target) {
+    public Target(double target) {
         this(target, 0);
     }
 
