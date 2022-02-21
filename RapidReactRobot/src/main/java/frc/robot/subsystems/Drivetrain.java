@@ -251,6 +251,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return swerveDrive.getHeading();
     }
 
+    public Rotation2d getPitch() {
+        return Rotation2d.fromDegrees(ahrs.getPitch());
+    }
+
     public DrivetrainConfig getConfig() {
         return config;
     }

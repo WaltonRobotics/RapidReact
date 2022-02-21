@@ -1,6 +1,7 @@
 package frc.robot.robotState;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.OI;
 import frc.robot.config.Target;
 import frc.robot.robotState.climbing.PullUpToHookOntoMidBar;
@@ -57,9 +58,11 @@ public class ClimbingMode implements IState {
             }
         }
 
+        Rotation2d currentRobotPitch = godSubsystem.getDrivetrain().getPitch();
+        double ff = godSubsystem.getClimber().getCalculatedFeedForward(currentRobotPitch);
+
         // Pivot arm is off the hook and needs a feedforward
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE,
-                godSubsystem.getClimber().getCalculatedFeedForward());
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE, ff);
 
         godSubsystem.handleExtensionManualOverride();
 
