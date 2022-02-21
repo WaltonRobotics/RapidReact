@@ -614,16 +614,17 @@ public class SwerveTestbed extends WaltRobot {
 
     @Override
     public void defineLimits() {
-        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(0, 0));
-        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(0, 0));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(0, 0));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(0, 0));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(0, 0));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(0, 0));
+        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(-1138, 1138));
+        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(-17067, 45511));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(-12174, -9898));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(23324, 25600));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(-12971, -10695));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(21618, 23894));
 
-        climberExtensionLimits.put(STOWED, new LimitPair(0, 0));
-        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(0, 0));
-        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(0, 0));
+        climberExtensionLimits.put(STOWED, new LimitPair(-4694, 4694));
+        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(-4694, 965347));
+        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(464673, 474061));
+        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(582015, 591403));
     }
 
     @Override

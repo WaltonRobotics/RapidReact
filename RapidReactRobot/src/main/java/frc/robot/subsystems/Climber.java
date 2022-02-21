@@ -399,6 +399,7 @@ public class Climber implements SubSubsystem {
     public enum ClimberExtensionLimits {
         STOWED, // Corresponds to STOWED_HEIGHT
         EXTENSION_FULL_ROM,
+        MID_BAR_POSITION_FIXED_ARM, // Corresponds to PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH
         HIGH_BAR_TRANSFER_TO_FIXED_ARM, // Corresponds to PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH
     }
 

@@ -50,7 +50,7 @@ public class PullUpToHookOntoMidBar implements IState {
 
     @Override
     public void finish() {
-
+        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.MID_BAR_POSITION_FIXED_ARM);
     }
 
 }

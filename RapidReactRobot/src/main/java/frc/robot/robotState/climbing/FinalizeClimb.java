@@ -15,8 +15,8 @@ public class FinalizeClimb implements IState {
         double currentPivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
         double currentExtensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        LimitPair pivotLimits = new LimitPair(currentPivotAngle + 50, currentPivotAngle - 50);
-        LimitPair extensionLimits = new LimitPair(currentExtensionHeight + 50, currentExtensionHeight - 50);
+        LimitPair pivotLimits = new LimitPair(currentPivotAngle - 50, currentPivotAngle + 50);
+        LimitPair extensionLimits = new LimitPair(currentExtensionHeight - 50, currentExtensionHeight + 50);
 
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setPivotPositionDemandNU(currentPivotAngle);

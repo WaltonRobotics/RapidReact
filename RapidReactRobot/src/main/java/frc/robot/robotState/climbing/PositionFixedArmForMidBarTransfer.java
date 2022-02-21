@@ -22,7 +22,7 @@ public class PositionFixedArmForMidBarTransfer implements IState {
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.MID_BAR_POSITION_FIXED_ARM);
     }
 
     @Override
@@ -51,6 +51,7 @@ public class PositionFixedArmForMidBarTransfer implements IState {
     @Override
     public void finish() {
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_PULL_UP_TO_MID_BAR);
+        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
     }
 
 }
