@@ -36,7 +36,7 @@ public class PullUpOntoMidBar implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if ((targetLength.isWithinTolerance(extensionHeight, 50) && advanceClimbingProcessButton.get())
+        if ((targetLength.isWithinTolerance(extensionHeight) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new TransferMidBarFromPivotToFixed();
         }

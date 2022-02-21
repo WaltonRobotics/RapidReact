@@ -36,7 +36,7 @@ public class TransferHighBarFromPivotToFixed implements IState {
 
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
-        if ((angleTarget.isWithinTolerance(pivotAngle, 50) && advanceClimbingProcessButton.get())
+        if ((angleTarget.isWithinTolerance(pivotAngle) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new DisengageFromHighBar();
         }

@@ -38,7 +38,7 @@ public class PullUpToTraversalBar implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if (targetLength.isWithinTolerance(extensionHeight, 50)
+        if (targetLength.isWithinTolerance(extensionHeight)
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new FinalizeClimb();
         }

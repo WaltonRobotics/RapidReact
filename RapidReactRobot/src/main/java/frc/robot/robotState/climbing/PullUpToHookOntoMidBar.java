@@ -38,7 +38,7 @@ public class PullUpToHookOntoMidBar implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if ((pullUpLength.isWithinTolerance(extensionHeight, 50) && advanceClimbingProcessButton.get())
+        if ((pullUpLength.isWithinTolerance(extensionHeight) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new PositionFixedArmForMidBarTransfer();
         }

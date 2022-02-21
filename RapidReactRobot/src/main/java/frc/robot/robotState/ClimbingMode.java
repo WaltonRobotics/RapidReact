@@ -9,8 +9,7 @@ import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Superstructure;
 
-import static frc.robot.OI.advanceClimbingProcessButton;
-import static frc.robot.OI.manipulationGamepad;
+import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -51,11 +50,9 @@ public class ClimbingMode implements IState {
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if (stowedAngle.isWithinTolerance(pivotAngle, 100)
-                && hookingLength.isWithinTolerance(extensionHeight, 100)) {
-            if (advanceClimbingProcessButton.get()) {
-                return new PullUpToHookOntoMidBar();
-            }
+        if ((stowedAngle.isWithinTolerance(pivotAngle) && hookingLength.isWithinTolerance(extensionHeight)
+                && advanceClimbingProcessButton.get()) || overrideNextClimbStateButton.isRisingEdge()) {
+            return new PullUpToHookOntoMidBar();
         }
 
         Rotation2d currentRobotPitch = godSubsystem.getDrivetrain().getPitch();

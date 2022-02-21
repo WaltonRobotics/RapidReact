@@ -35,7 +35,7 @@ public class FullyPullUpToHighBar implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if ((heightTarget.isWithinTolerance(extensionHeight, 50) && advanceClimbingProcessButton.get())
+        if ((heightTarget.isWithinTolerance(extensionHeight) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new TransferHighBarFromPivotToFixed();
         }
