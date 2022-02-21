@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
@@ -354,14 +355,23 @@ public class Climber implements SubSubsystem {
         return Rotation2d.fromDegrees(rotations * 360.0);
     }
 
+    // Pivot arm angle from negative x-axis
     public Rotation2d getPivotAngleFromHorizontal() {
-        Rotation2d offsetFromVertical = new Rotation2d(Math.abs(getPivotAngleFromVertical().getRadians()));
-
-        return Rotation2d.fromDegrees(90.0).minus(offsetFromVertical);
+        return Rotation2d.fromDegrees(90.0).minus(getPivotAngleFromVertical());
     }
 
-    public double getCalculatedFeedForward() {
-        double cosineScalar = getPivotAngleFromHorizontal().getCos();
+    // Robot pitch angle is CCW positive (in-phase with climber)
+    public double getCalculatedFeedForward(Rotation2d robotPitchAngle) {
+        Rotation2d robotAngleFromGlobalHorizontal = getPivotAngleFromHorizontal().minus(robotPitchAngle);
+
+        if (robotAngleFromGlobalHorizontal.getDegrees() > 90.0) {
+            robotAngleFromGlobalHorizontal = Rotation2d.fromDegrees(180.0).minus(robotAngleFromGlobalHorizontal);
+
+            double cosineScalar = robotAngleFromGlobalHorizontal.getCos();
+            return config.getMaxGravityFeedForward() * cosineScalar;
+        }
+
+        double cosineScalar = robotAngleFromGlobalHorizontal.getCos();
         return config.getMaxGravityFeedForward() * -cosineScalar;
     }
 
