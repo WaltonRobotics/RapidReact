@@ -42,6 +42,9 @@ public class DisengageFromHighBar implements IState {
             return new RotatePivotForTraversalBar();
         }
 
+        godSubsystem.handlePivotManualOverride();
+        godSubsystem.handleExtensionManualOverride();
+
         return this;
     }
 

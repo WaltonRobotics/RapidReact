@@ -42,6 +42,9 @@ public class InitiateHighBarClimb implements IState {
             return new HookOntoHighBar();
         }
 
+        godSubsystem.handlePivotManualOverride();
+        godSubsystem.handleExtensionManualOverride();
+
         return this;
     }
 

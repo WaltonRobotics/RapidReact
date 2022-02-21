@@ -41,6 +41,9 @@ public class HookOntoHighBar implements IState {
             return new StartPullingUpToHighBar();
         }
 
+        godSubsystem.handlePivotManualOverride();
+        godSubsystem.handleExtensionManualOverride();
+
         return this;
     }
 

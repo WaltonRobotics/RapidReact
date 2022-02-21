@@ -41,6 +41,9 @@ public class HookOntoTraversalBar implements IState {
             return new PullUpToTraversalBar();
         }
 
+        godSubsystem.handlePivotManualOverride();
+        godSubsystem.handleExtensionManualOverride();
+
         return this;
     }
 

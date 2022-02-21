@@ -33,17 +33,19 @@ public class RotatePivotForHighBar implements IState {
             return new FinalizeClimb();
         }
 
-        double ff = godSubsystem.getClimber().getCalculatedFeedForward();
-
-        godSubsystem.getClimber().setPivotPositionDemand(
-                Climber.ClimberPivotPosition.REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, ff);
-
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
         if ((angleTarget.isWithinTolerance(pivotAngle) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new InitiateHighBarClimb();
         }
+
+        double ff = godSubsystem.getClimber().getCalculatedFeedForward();
+
+        godSubsystem.getClimber().setPivotPositionDemand(
+                Climber.ClimberPivotPosition.REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, ff);
+
+        godSubsystem.handleExtensionManualOverride();
 
         return this;
     }

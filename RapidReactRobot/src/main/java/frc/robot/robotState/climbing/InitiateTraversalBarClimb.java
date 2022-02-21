@@ -42,6 +42,9 @@ public class InitiateTraversalBarClimb implements IState {
             return new HookOntoTraversalBar();
         }
 
+        godSubsystem.handlePivotManualOverride();
+        godSubsystem.handleExtensionManualOverride();
+
         return this;
     }
 

@@ -42,6 +42,9 @@ public class DisengageFromMidBar implements IState {
             return new RotatePivotForHighBar();
         }
 
+        godSubsystem.handleExtensionManualOverride();
+        godSubsystem.handlePivotManualOverride();
+
         return this;
     }
 

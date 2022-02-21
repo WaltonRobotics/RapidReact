@@ -41,6 +41,8 @@ public class PullUpOntoMidBar implements IState {
             return new TransferMidBarFromPivotToFixed();
         }
 
+        godSubsystem.handleExtensionManualOverride();
+
         return this;
     }
 

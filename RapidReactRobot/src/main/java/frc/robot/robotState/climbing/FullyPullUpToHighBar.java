@@ -40,6 +40,8 @@ public class FullyPullUpToHighBar implements IState {
             return new TransferHighBarFromPivotToFixed();
         }
 
+        godSubsystem.handleExtensionManualOverride();
+
         return this;
     }
 

@@ -9,6 +9,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Superstructure;
 
 import static frc.robot.OI.advanceClimbingProcessButton;
+import static frc.robot.OI.manipulationGamepad;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -46,10 +47,6 @@ public class ClimbingMode implements IState {
             godSubsystem.getClimber().toggleRightClimberLock();
         }
 
-        // Pivot arm is off the hook and needs a feedforward
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE,
-                godSubsystem.getClimber().getCalculatedFeedForward());
-
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
@@ -59,6 +56,12 @@ public class ClimbingMode implements IState {
                 return new PullUpToHookOntoMidBar();
             }
         }
+
+        // Pivot arm is off the hook and needs a feedforward
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE,
+                godSubsystem.getClimber().getCalculatedFeedForward());
+
+        godSubsystem.handleExtensionManualOverride();
 
         return this;
     }

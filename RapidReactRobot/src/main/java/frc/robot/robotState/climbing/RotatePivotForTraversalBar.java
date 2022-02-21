@@ -33,17 +33,19 @@ public class RotatePivotForTraversalBar implements IState {
             return new FinalizeClimb();
         }
 
-        double ff = godSubsystem.getClimber().getCalculatedFeedForward();
-
-        godSubsystem.getClimber().setPivotPositionDemand(
-                Climber.ClimberPivotPosition.REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, ff);
-
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
         if ((angleTarget.isWithinTolerance(pivotAngle) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new InitiateTraversalBarClimb();
         }
+
+        double ff = godSubsystem.getClimber().getCalculatedFeedForward();
+
+        godSubsystem.getClimber().setPivotPositionDemand(
+                Climber.ClimberPivotPosition.REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, ff);
+
+        godSubsystem.handleExtensionManualOverride();
 
         return this;
     }

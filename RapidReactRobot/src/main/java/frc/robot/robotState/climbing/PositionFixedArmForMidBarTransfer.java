@@ -42,6 +42,9 @@ public class PositionFixedArmForMidBarTransfer implements IState {
             return new PullUpOntoMidBar();
         }
 
+        godSubsystem.handlePivotManualOverride();
+        godSubsystem.handleExtensionManualOverride();
+
         return this;
     }
 

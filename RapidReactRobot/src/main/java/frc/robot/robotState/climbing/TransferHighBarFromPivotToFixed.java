@@ -41,6 +41,8 @@ public class TransferHighBarFromPivotToFixed implements IState {
             return new DisengageFromHighBar();
         }
 
+        godSubsystem.handlePivotManualOverride();
+
         return this;
     }
 

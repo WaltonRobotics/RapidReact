@@ -42,6 +42,8 @@ public class PositionFixedArmForHighBarTransfer implements IState {
             return new FullyPullUpToHighBar();
         }
 
+        godSubsystem.handlePivotManualOverride();
+
         return this;
     }
 

@@ -43,6 +43,8 @@ public class PullUpToTraversalBar implements IState {
             return new FinalizeClimb();
         }
 
+        godSubsystem.handleExtensionManualOverride();
+
         return this;
     }
 

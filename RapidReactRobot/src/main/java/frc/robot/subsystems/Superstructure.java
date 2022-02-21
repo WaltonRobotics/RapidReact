@@ -78,6 +78,30 @@ public class Superstructure extends SubsystemBase {
         return dangerButton.get() && Math.abs(manipulationGamepad.getRightY()) > kExtensionManualOverrideDeadband;
     }
 
+    public void handlePivotManualOverride() {
+        if (isPivotManualOverride()) {
+            climber.setPivotControlState(Climber.ClimberControlState.OPEN_LOOP);
+
+            double pivotJoystick = -manipulationGamepad.getLeftX();
+
+            climber.setPivotPercentOutputDemand(pivotJoystick);
+        } else {
+            climber.setPivotControlState(Climber.ClimberControlState.AUTO);
+        }
+    }
+
+    public void handleExtensionManualOverride() {
+        if (isExtensionManualOverride()) {
+            climber.setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
+
+            double extensionJoystick = -manipulationGamepad.getRightY();
+
+            climber.setExtensionPercentOutputDemand(extensionJoystick);
+        } else {
+            climber.setExtensionControlState(Climber.ClimberControlState.AUTO);
+        }
+    }
+
     @Override
     public void periodic() {
         SmartDashboard.putData(kDrivetrainPeriodicIOKey, drivetrain.getPeriodicIOSendable());

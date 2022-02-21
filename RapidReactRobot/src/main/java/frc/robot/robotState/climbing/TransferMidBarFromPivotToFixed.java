@@ -40,6 +40,8 @@ public class TransferMidBarFromPivotToFixed implements IState {
             return new DisengageFromMidBar();
         }
 
+        godSubsystem.handlePivotManualOverride();
+
         return this;
     }
 

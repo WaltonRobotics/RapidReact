@@ -42,6 +42,8 @@ public class StartPullingUpToHighBar implements IState {
             return new PositionFixedArmForHighBarTransfer();
         }
 
+        godSubsystem.handleExtensionManualOverride();
+
         return this;
     }
 
