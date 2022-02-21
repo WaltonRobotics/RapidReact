@@ -212,8 +212,11 @@ public class Climber implements SubSubsystem {
     }
 
     public void setPivotLimits(LimitPair limits) {
-        periodicIO.resetPivotLimits = true;
-        periodicIO.pivotLimits = limits;
+        // Only reset limits if they are different from the current limits
+        if (!limits.equals(periodicIO.pivotLimits)) {
+            periodicIO.resetPivotLimits = true;
+            periodicIO.pivotLimits = limits;
+        }
     }
 
     public void setExtensionLimits(ClimberExtensionLimits limits) {
@@ -221,8 +224,11 @@ public class Climber implements SubSubsystem {
     }
 
     public void setExtensionLimits(LimitPair limits) {
-        periodicIO.resetExtensionLimits = true;
-        periodicIO.extensionLimits = limits;
+        // Only reset limits if they are different from the current limits
+        if (!limits.equals(periodicIO.extensionLimits)) {
+            periodicIO.resetExtensionLimits = true;
+            periodicIO.extensionLimits = limits;
+        }
     }
 
     public void enableExtensionLowerLimit() {

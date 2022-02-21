@@ -19,6 +19,17 @@ public class LimitPair {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof LimitPair)) return false;
+
+        LimitPair pair = (LimitPair) obj;
+        return reverseSoftLimitThreshold == pair.reverseSoftLimitThreshold
+                && forwardsSoftLimitThreshold == pair.forwardsSoftLimitThreshold;
+    }
+
+    @Override
     public String toString() {
         return "LimitPair{" +
                 "reverseSoftLimitThreshold=" + reverseSoftLimitThreshold +
