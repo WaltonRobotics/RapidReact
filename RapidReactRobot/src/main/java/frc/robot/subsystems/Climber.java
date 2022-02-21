@@ -364,14 +364,15 @@ public class Climber implements SubSubsystem {
     public double getCalculatedFeedForward(Rotation2d robotPitchAngle) {
         Rotation2d robotAngleFromGlobalHorizontal = getPivotAngleFromHorizontal().minus(robotPitchAngle);
 
+        // If pivot arm has rotated CW past the robot vertical
         if (robotAngleFromGlobalHorizontal.getDegrees() > 90.0) {
             robotAngleFromGlobalHorizontal = Rotation2d.fromDegrees(180.0).minus(robotAngleFromGlobalHorizontal);
 
-            double cosineScalar = robotAngleFromGlobalHorizontal.getCos();
+            double cosineScalar = Math.abs(robotAngleFromGlobalHorizontal.getCos());
             return config.getMaxGravityFeedForward() * cosineScalar;
         }
 
-        double cosineScalar = robotAngleFromGlobalHorizontal.getCos();
+        double cosineScalar = Math.abs(robotAngleFromGlobalHorizontal.getCos());
         return config.getMaxGravityFeedForward() * -cosineScalar;
     }
 
