@@ -618,6 +618,7 @@ public class SwerveTestbed extends WaltRobot {
         climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(0, 0));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(0, 0));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(0, 0));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(0, 0));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(0, 0));
 
         climberExtensionLimits.put(STOWED, new LimitPair(0, 0));
@@ -627,24 +628,26 @@ public class SwerveTestbed extends WaltRobot {
 
     @Override
     public void defineTargets() {
+        // Angles in reference to fixed arm
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 0));
-        climberPivotTargets.put(REACHING_FOR_MID_BAR_PIVOT_ANGLE, new Target(0, 0));
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_MID_BAR, new Target(0, 0));
-        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(0, 0));
-        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(0, 0));
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(0, 0));
-        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(0, 0));
-        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(0, 0));
-        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(0, 0));
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(0, 0));
+        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(0, 0)); // -9.7 deg
+        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(0, 0)); // 23.4 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(0, 0)); // 21.5 deg
+        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(0, 0)); // -10.4 deg
+        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(0, 0)); // -1.0 deg
+        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(0, 0)); // 26.6 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(0, 0)); // 20.0 deg
 
-        climberExtensionTargets.put(STOWED_HEIGHT, new Target(0, 0));
-        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(0, 0));
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(0, 0));
-        climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(0, 0));
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(0, 0));
-        climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(0, 0));
-        climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(0, 0));
+        // Lengths are relative to uppermost ring of outer arm
+        climberExtensionTargets.put(STOWED_HEIGHT, new Target(0, 0)); // 1 in
+        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(0, 0)); // 21.467 in
+        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(0, 0)); // 11.0 in
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(0, 0)); // 3.0 in
+        climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(0, 0)); // 25 in
+        climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(0, 0)); // 13.50 in
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(0, 0)); // 3.0 in
+        climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(0, 0)); // 26.0 in
+        climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(0, 0)); // 11.6 in
     }
 
     @Override

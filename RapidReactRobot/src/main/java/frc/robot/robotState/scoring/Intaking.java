@@ -42,7 +42,7 @@ public class Intaking implements IState {
             return new ScoringMode();
         }
 
-        return new Disabled();
+        return this;
     }
 
     @Override

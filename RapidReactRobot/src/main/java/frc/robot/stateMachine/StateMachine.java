@@ -23,6 +23,9 @@ public class StateMachine {
         }
 
         currentState.initialize();
+
+        SmartDashboard.putString(joinStrings(" ", name, "Current State"),
+                currentState.getClass().getSimpleName());
     }
 
     public void run() {

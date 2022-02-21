@@ -1,5 +1,6 @@
 package frc.robot.robotState;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.robotState.scoring.Intaking;
 import frc.robot.robotState.scoring.Outtaking;

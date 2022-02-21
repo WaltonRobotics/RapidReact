@@ -407,8 +407,6 @@ public class Climber implements SubSubsystem {
         // If the position ends with ANGLE, rotation is CCW
 
         STOWED_ANGLE,
-        REACHING_FOR_MID_BAR_PIVOT_ANGLE,
-        ANGLE_TO_HOOK_ONTO_MID_BAR,
         ANGLE_HOOK_THETA_FOR_MID_BAR,
         REACHING_FOR_HIGH_BAR_PIVOT_ANGLE,
         ANGLE_TO_HOOK_ONTO_HIGH_BAR,
