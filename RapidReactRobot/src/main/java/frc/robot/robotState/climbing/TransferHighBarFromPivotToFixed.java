@@ -5,8 +5,7 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
-import static frc.robot.OI.advanceClimbingProcessButton;
-import static frc.robot.OI.stopClimbButton;
+import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -37,10 +36,9 @@ public class TransferHighBarFromPivotToFixed implements IState {
 
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
-        if (angleTarget.isWithinTolerance(pivotAngle, 50)) {
-            if (advanceClimbingProcessButton.get()) {
+        if ((angleTarget.isWithinTolerance(pivotAngle, 50)&& advanceClimbingProcessButton.get())
+                || overrideNextClimbStateButton.isRisingEdge()) {
                 return new DisengageFromHighBar();
-            }
         }
 
         return this;

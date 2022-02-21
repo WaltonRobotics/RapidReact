@@ -5,8 +5,7 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
-import static frc.robot.OI.advanceClimbingProcessButton;
-import static frc.robot.OI.stopClimbButton;
+import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -37,10 +36,9 @@ public class PullUpOntoMidBar implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if (targetLength.isWithinTolerance(extensionHeight, 50)) {
-            if (advanceClimbingProcessButton.get()) {
-                return new TransferMidBarFromPivotToFixed();
-            }
+        if ((targetLength.isWithinTolerance(extensionHeight, 50) && advanceClimbingProcessButton.get())
+                || overrideNextClimbStateButton.isRisingEdge()) {
+            return new TransferMidBarFromPivotToFixed();
         }
 
         return this;

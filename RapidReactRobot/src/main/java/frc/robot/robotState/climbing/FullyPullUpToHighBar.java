@@ -5,8 +5,7 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
-import static frc.robot.OI.advanceClimbingProcessButton;
-import static frc.robot.OI.stopClimbButton;
+import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -36,10 +35,9 @@ public class FullyPullUpToHighBar implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if (heightTarget.isWithinTolerance(extensionHeight, 50)) {
-            if (advanceClimbingProcessButton.get()) {
+        if ((heightTarget.isWithinTolerance(extensionHeight, 50)&& advanceClimbingProcessButton.get())
+                || overrideNextClimbStateButton.isRisingEdge()) {
                 return new TransferHighBarFromPivotToFixed();
-            }
         }
 
         return this;
