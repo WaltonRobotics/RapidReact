@@ -178,7 +178,7 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public int[] getAbsoluteEncoderChannels() {
-                return new int[]{1, 2, 3, 4};
+                return new int[]{0, 1, 2, 3};
             }
 
             @Override
