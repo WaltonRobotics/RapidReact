@@ -112,7 +112,7 @@ public class Climber implements SubSubsystem {
         }
 
         if (periodicIO.resetExtensionNeutralMode) {
-            pivotController.setNeutralMode(periodicIO.extensionNeutralMode);
+            extensionController.setNeutralMode(periodicIO.extensionNeutralMode);
             periodicIO.resetExtensionNeutralMode = false;
         }
 
