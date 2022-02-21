@@ -14,10 +14,9 @@ public class PreparingToShoot implements IState {
     @Override
     public void initialize() {
         //calculating targetVelocity
-        if(shooter.getHoodState() == SEVENTY_DEGREES){
+        if (shooter.getHoodState() == SEVENTY_DEGREES) {
             targetFlyWheelVelocity = shooter.getHoodTwoEstimatedVelocityFromTarget();
-        }
-        else{
+        } else {
             targetFlyWheelVelocity = shooter.getHoodOneEstimatedVelocityFromTarget();
         }
     }

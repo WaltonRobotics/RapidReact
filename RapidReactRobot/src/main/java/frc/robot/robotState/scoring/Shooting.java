@@ -9,7 +9,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.RobotContainer.godSubsystem;
-
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOT_SLOT;
 import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
@@ -33,18 +32,18 @@ public class Shooting implements IState {
         shooter.setFlywheelDemand(targetFlyWheelVelocity);
 
         //if closed loop error > threshold
-        if(shooter.getFlywheelClosedLoopErrorNU() > 20){    //dummy threshold
+        if (shooter.getFlywheelClosedLoopErrorNU() > 20) {    //dummy threshold
             return new SpinningUp();
         }
 
         //if difference in time changed >= threshold
-        if(shooter.getCurrentFPGATime() >= shooter.getLastAdjustableHoodChangeFPGATime()){
+        if (shooter.getCurrentFPGATime() >= shooter.getLastAdjustableHoodChangeFPGATime()) {
             //dummy conveyor voltages
             conveyor.setFeedDemand(10);
             conveyor.setTransportDemand(10);
         }
 
-        if(!OI.shootButton.getAsBoolean()){
+        if (!OI.shootButton.getAsBoolean()) {
             return new ScoringMode();
         }
 

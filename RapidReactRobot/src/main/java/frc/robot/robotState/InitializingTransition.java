@@ -10,8 +10,8 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class InitializingTransition implements IState {
 
-    private double timeWhenLocksAreUnengaged;
     private final double timeForLocksToUnengageSeconds = 0.25;
+    private double timeWhenLocksAreUnengaged;
 
     @Override
     public void initialize() {

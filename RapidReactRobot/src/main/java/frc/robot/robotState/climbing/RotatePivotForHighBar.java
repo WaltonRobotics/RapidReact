@@ -42,7 +42,7 @@ public class RotatePivotForHighBar implements IState {
 
         if ((angleTarget.isWithinTolerance(pivotAngle) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
-                return new InitiateHighBarClimb();
+            return new InitiateHighBarClimb();
         }
 
         return this;

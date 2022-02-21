@@ -38,7 +38,7 @@ public class Intaking implements IState {
         conveyor.setFeedDemand(8.0);
         conveyor.setTransportDemand(8.0);
 
-        if(!OI.intakeButton.getAsBoolean()){
+        if (!OI.intakeButton.getAsBoolean()) {
             return new ScoringMode();
         }
 

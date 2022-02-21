@@ -16,6 +16,7 @@ public class Superstructure extends SubsystemBase {
     private final Climber climber = new Climber();
 
     private boolean isEnabled = false;
+    private CurrentMode currentMode = CurrentMode.SCORING_MODE;
 
     public CurrentMode getCurrentMode() {
         return currentMode;
@@ -32,8 +33,6 @@ public class Superstructure extends SubsystemBase {
             setCurrentMode(CurrentMode.SCORING_MODE);
         }
     }
-
-    private CurrentMode currentMode = CurrentMode.SCORING_MODE;
 
     public Drivetrain getDrivetrain() {
         return drivetrain;

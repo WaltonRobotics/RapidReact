@@ -16,6 +16,7 @@ public class SpinningUp implements IState {
     private final Shooter shooter = godSubsystem.getShooter();
     private final Intake intake = godSubsystem.getIntake();
     private final Conveyor conveyor = godSubsystem.getConveyor();
+
     @Override
     public void initialize() {
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
@@ -29,10 +30,10 @@ public class SpinningUp implements IState {
         }
         shooter.setFlywheelDemand(targetFlyWheelVelocity);
 
-        if(shooter.getFlywheelClosedLoopErrorNU() <= 10) {  //dummy threshold
+        if (shooter.getFlywheelClosedLoopErrorNU() <= 10) {  //dummy threshold
             return new Shooting();
         }
-        if(!OI.shootButton.getAsBoolean()){
+        if (!OI.shootButton.getAsBoolean()) {
             return new ScoringMode();
         }
 

@@ -35,7 +35,7 @@ public class Outtaking implements IState {
         conveyor.setFeedDemand(-8.0);
         conveyor.setTransportDemand(-8.0);
 
-        if(!OI.outtakeButton.getAsBoolean()){
+        if (!OI.outtakeButton.getAsBoolean()) {
             return new ScoringMode();
         }
         return this;

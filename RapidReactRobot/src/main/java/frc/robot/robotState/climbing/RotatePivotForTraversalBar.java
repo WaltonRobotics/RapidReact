@@ -40,9 +40,9 @@ public class RotatePivotForTraversalBar implements IState {
 
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
-        if ((angleTarget.isWithinTolerance(pivotAngle)&& advanceClimbingProcessButton.get())
+        if ((angleTarget.isWithinTolerance(pivotAngle) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
-                return new InitiateTraversalBarClimb();
+            return new InitiateTraversalBarClimb();
         }
 
         return this;

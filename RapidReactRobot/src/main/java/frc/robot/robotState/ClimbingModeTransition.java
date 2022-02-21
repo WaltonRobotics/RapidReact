@@ -10,8 +10,8 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class ClimbingModeTransition implements IState {
 
-    private double timeWhenLocksAreEngaged;
     private final double timeForLocksToEngageSeconds = 0.25;
+    private double timeWhenLocksAreEngaged;
 
     @Override
     public void initialize() {

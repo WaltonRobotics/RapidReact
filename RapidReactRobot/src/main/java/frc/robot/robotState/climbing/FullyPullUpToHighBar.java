@@ -11,7 +11,7 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class FullyPullUpToHighBar implements IState {
 
-    private Target heightTarget = currentRobot.getExtensionTarget(Climber.ClimberExtensionPosition.STOWED_HEIGHT);
+    private final Target heightTarget = currentRobot.getExtensionTarget(Climber.ClimberExtensionPosition.STOWED_HEIGHT);
 
     @Override
     public void initialize() {
@@ -35,9 +35,9 @@ public class FullyPullUpToHighBar implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if ((heightTarget.isWithinTolerance(extensionHeight, 50)&& advanceClimbingProcessButton.get())
+        if ((heightTarget.isWithinTolerance(extensionHeight, 50) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
-                return new TransferHighBarFromPivotToFixed();
+            return new TransferHighBarFromPivotToFixed();
         }
 
         return this;

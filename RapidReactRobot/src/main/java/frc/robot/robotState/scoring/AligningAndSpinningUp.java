@@ -19,10 +19,9 @@ public class AligningAndSpinningUp implements IState {
     public void initialize() {
         shooter.setSelectedProfileSlot(SPIN_UP_SLOT);
         //calculating targetVelocity
-        if(shooter.getHoodState() == SEVENTY_DEGREES){
+        if (shooter.getHoodState() == SEVENTY_DEGREES) {
             targetFlyWheelVelocity = shooter.getHoodTwoEstimatedVelocityFromTarget();
-        }
-        else{
+        } else {
             targetFlyWheelVelocity = shooter.getHoodOneEstimatedVelocityFromTarget();
         }
     }
@@ -37,7 +36,7 @@ public class AligningAndSpinningUp implements IState {
 
         new AimCommandLime();   //isFinished() will handle tolerance
 
-        if(!OI.shootButton.getAsBoolean()){
+        if (!OI.shootButton.getAsBoolean()) {
             return new ScoringMode();
         }
 

@@ -5,7 +5,8 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
-import static frc.robot.OI.*;
+import static frc.robot.OI.overrideNextClimbStateButton;
+import static frc.robot.OI.stopClimbButton;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
