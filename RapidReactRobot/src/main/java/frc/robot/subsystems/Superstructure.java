@@ -4,7 +4,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
+import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
 import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.OI.dangerButton;
+import static frc.robot.OI.manipulationGamepad;
 
 public class Superstructure extends SubsystemBase {
 
@@ -64,6 +68,14 @@ public class Superstructure extends SubsystemBase {
 
     public double getCurrentTime() {
         return Timer.getFPGATimestamp();
+    }
+
+    public boolean isPivotManualOverride() {
+        return dangerButton.get() && Math.abs(manipulationGamepad.getLeftX()) > kPivotManualOverrideDeadband;
+    }
+
+    public boolean isExtensionManualOverride() {
+        return dangerButton.get() && Math.abs(manipulationGamepad.getRightY()) > kExtensionManualOverrideDeadband;
     }
 
     @Override

@@ -9,8 +9,8 @@ import frc.robot.util.buttons.EnhancedJoystickButton;
 import static edu.wpi.first.wpilibj.XboxController.Axis.kLeftTrigger;
 import static edu.wpi.first.wpilibj.XboxController.Axis.kRightTrigger;
 import static edu.wpi.first.wpilibj.XboxController.Button.*;
-import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kDriveXboxControllerPort;
-import static frc.robot.Constants.ControllerPorts.XboxConfigPorts.kManipulationXboxControllerPort;
+import static frc.robot.Constants.DriverPreferences.XboxConfigPorts.kDriveXboxControllerPort;
+import static frc.robot.Constants.DriverPreferences.XboxConfigPorts.kManipulationXboxControllerPort;
 
 public class OI {
 

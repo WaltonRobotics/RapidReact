@@ -22,12 +22,15 @@ public final class Constants {
 
     }
 
-    public static final class ControllerPorts {
+    public static final class DriverPreferences {
 
         public static final class XboxConfigPorts {
             public static final int kDriveXboxControllerPort = 0;
             public static final int kManipulationXboxControllerPort = 1;
         }
+
+        public static final double kPivotManualOverrideDeadband = 0.1;
+        public static final double kExtensionManualOverrideDeadband = 0.1;
 
     }
 
@@ -49,6 +52,8 @@ public final class Constants {
     public static final class Climber {
 
         public static final double kExtensionZeroingPercentOutput = -0.2;
+        public static final double kPivotAngleToleranceNU = 50.0;
+        public static final double kExtensionLengthToleranceNU = 50.0;
 
     }
 
