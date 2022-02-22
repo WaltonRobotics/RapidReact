@@ -68,7 +68,6 @@ public class SwerveTrajectoryCommand extends CommandBase {
         SmartDashboard.putNumber("kY Position Error", kYInstantPositionError);
         SmartDashboard.putNumber("kTheta Position Error", kThetaInstantPositionError);
 
-
         xPositionErrorAverage.addData(kXInstantPositionError);
         yPositionErrorAverage.addData(kYInstantPositionError);
         thetaPositionErrorAverage.addData(kThetaInstantPositionError);
