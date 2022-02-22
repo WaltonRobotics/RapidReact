@@ -125,15 +125,9 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
         swerveDrive = new SwerveDrive(ahrs, swerveModules);
         zeroHeading();
-        //setHeadingOffset(Rotation2d.fromDegrees(180));
+//        setHeadingOffset(Rotation2d.fromDegrees(180));
 
         SmartDashboard.putData("Field", field);
-    }
-
-    public void loadAzimuthZeroReference() {
-        for (SwerveModule module : swerveModules) {
-            module.loadAndSetAzimuthZeroReference();
-        }
     }
 
     public void saveLeftFrontZero(int absoluteCounts) {
