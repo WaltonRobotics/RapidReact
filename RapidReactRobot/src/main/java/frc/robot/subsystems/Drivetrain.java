@@ -194,8 +194,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state){
-        Pose2d pose2 =  new Pose2d(pose.getX(), pose.getY(), state.holonomicRotation);
-        swerveDrive.resetOdometry(pose2);
+        Pose2d holonomicPose =  new Pose2d(pose.getX(), pose.getY(), state.holonomicRotation);
+        swerveDrive.resetOdometry(holonomicPose);
     }
 
     /**
