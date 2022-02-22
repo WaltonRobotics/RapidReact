@@ -43,6 +43,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         public double driveDemand;
 
         // Inputs
+        public int currentAzimuthAbsoluteCounts;
         public double currentAzimuthRelativeCounts;
         public double currentDriveVelocityNU;
         public double currentDriveClosedLoopErrorNU;
@@ -73,6 +74,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public void collectData() {
+        periodicIO.currentAzimuthAbsoluteCounts = getAzimuthAbsoluteEncoderMeasurement();
         periodicIO.currentAzimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
         periodicIO.currentDriveVelocityNU = driveTalon.getSelectedSensorVelocity();
         periodicIO.currentDriveClosedLoopErrorNU = driveTalon.getClosedLoopError();
@@ -191,11 +193,18 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     public int getAzimuthAbsoluteEncoderCounts() {
-        int frequency = azimuthAbsoluteEncoderPWM.getFrequency();
-        double output = azimuthAbsoluteEncoderPWM.getOutput();
+        return periodicIO.currentAzimuthAbsoluteCounts;
+    }
+
+    private int getAzimuthAbsoluteEncoderMeasurement() {
         boolean isAzimuthAbsoluteEncoderValid = false;
+        int frequency;
+        double output = 0;
 
         for (int i = 0; i < 10; i++) {
+            frequency = azimuthAbsoluteEncoderPWM.getFrequency();
+            output = azimuthAbsoluteEncoderPWM.getOutput();
+
             isAzimuthAbsoluteEncoderValid = frequency >= 208 && frequency <= 280;
 
             if (isAzimuthAbsoluteEncoderValid) {
