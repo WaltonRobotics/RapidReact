@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.StateMachine;
+import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
 import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
@@ -147,6 +148,8 @@ public class Superstructure extends SubsystemBase {
         SmartDashboard.putData(kConveyorPeriodicIOKey, conveyor.getPeriodicIOSendable());
         SmartDashboard.putData(kShooterPeriodicIOKey, shooter.getPeriodicIOSendable());
         SmartDashboard.putData(kClimberPeriodicIOKey, climber.getPeriodicIOSendable());
+
+        SmartDashboard.putNumber(kLimelightDistanceFeetKey, LimelightHelper.getDistanceToTargetFeet());
 
         SmartDashboard.putNumber(kClimberPivotAngleFromVertical, climber.getPivotAngleFromVertical().getDegrees());
         SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, climber.getPivotAngleFromHorizontal().getDegrees());
