@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.auton;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
