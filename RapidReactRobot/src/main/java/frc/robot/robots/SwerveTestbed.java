@@ -483,12 +483,12 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public HashMap<Shooter.HoodPosition, Target> getHoodTargets() {
-                return null;
+                return hoodTargets;
             }
 
             @Override
             public HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> getHoodMaps() {
-                return null;
+                return hoodMaps;
             }
         };
     }
