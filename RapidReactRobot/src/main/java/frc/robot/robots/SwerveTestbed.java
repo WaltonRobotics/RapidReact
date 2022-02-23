@@ -626,7 +626,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new AbsoluteEncoderConfig() {
                     @Override
                     public double getDistancePerRotation() {
-                        return 0;
+                        return 1;
                     }
 
                     @Override
