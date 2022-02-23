@@ -117,6 +117,8 @@ public final class Constants {
         public static final String kClimberPivotAngleFromVertical = "Climber/Angle From Vertical Deg";
         public static final String kClimberPivotAngleFromHorizontal = "Climber/Angle From Horizontal Deg";
 
+        public static final String kShooterCurrentTargetVelocity = "Shooter/Current Target Velocity";
+
         public static final String kDriverForwardScaleKey = "Driver/Forward Scale";
         public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
         public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
