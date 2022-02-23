@@ -18,7 +18,7 @@ public class ScoringMode implements IState {
         godSubsystem.setCurrentMode(Superstructure.CurrentMode.SCORING_MODE);
 
         godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
-        godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+        godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);

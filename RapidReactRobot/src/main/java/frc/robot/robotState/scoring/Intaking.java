@@ -19,8 +19,8 @@ public class Intaking implements IState {
 
     @Override
     public void initialize() {
-        intake.setIntakeControlState(Intake.IntakeControlState.VOLTAGE);
-        conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+        intake.setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
+        conveyor.setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
@@ -48,7 +48,7 @@ public class Intaking implements IState {
             intake.setRightIntakeDemand(0.0);
         }
 
-        conveyor.setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakeVoltage());
+        conveyor.setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakePercentOutput());
         conveyor.setFeedDemand(0);
 
         return this;

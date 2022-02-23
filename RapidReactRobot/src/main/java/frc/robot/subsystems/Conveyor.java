@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -11,14 +13,17 @@ public class Conveyor implements SubSubsystem {
 
     private final ConveyorConfig config = currentRobot.getConveyorConfig();
 
-    private final Spark transportController = new Spark(config.getTransportControllerConfig().getChannelOrID());
-    private final Spark feedController = new Spark(config.getFeedControllerConfig().getChannelOrID());
+    private final VictorSPX transportController = new VictorSPX(config.getTransportControllerConfig().getChannelOrID());
+    private final VictorSPX feedController = new VictorSPX(config.getFeedControllerConfig().getChannelOrID());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
     public Conveyor() {
         transportController.setInverted(config.getTransportControllerConfig().isInverted());
         feedController.setInverted(config.getFeedControllerConfig().isInverted());
+
+        transportController.enableVoltageCompensation(true);
+        feedController.enableVoltageCompensation(true);
     }
 
     @Override
@@ -34,17 +39,13 @@ public class Conveyor implements SubSubsystem {
     @Override
     public void outputData() {
         switch (periodicIO.conveyorControlState) {
-            case VOLTAGE:
-                transportController.setVoltage(periodicIO.transportDemand);
-                feedController.setVoltage(periodicIO.feedDemand);
-                break;
             case OPEN_LOOP:
-                transportController.set(periodicIO.transportDemand);
-                feedController.set(periodicIO.feedDemand);
+                transportController.set(VictorSPXControlMode.PercentOutput, periodicIO.transportDemand);
+                feedController.set(VictorSPXControlMode.PercentOutput, periodicIO.feedDemand);
                 break;
             case DISABLED:
-                transportController.set(0.0);
-                feedController.set(0.0);
+                transportController.set(VictorSPXControlMode.PercentOutput, 0.0);
+                feedController.set(VictorSPXControlMode.PercentOutput, 0.0);
                 break;
         }
     }
@@ -79,7 +80,7 @@ public class Conveyor implements SubSubsystem {
     }
 
     public enum ConveyorControlState {
-        VOLTAGE, OPEN_LOOP, DISABLED
+        OPEN_LOOP, DISABLED
     }
 
     public ConveyorConfig getConfig() {

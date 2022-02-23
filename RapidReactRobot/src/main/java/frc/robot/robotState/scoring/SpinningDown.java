@@ -28,7 +28,7 @@ public class SpinningDown implements IState {
         shooter.setSelectedProfileSlot(SHOOTING_SLOT);
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
 
-        conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+        conveyor.setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
 
         timeout = godSubsystem.getCurrentTime() + kSpinDownTimeSeconds;
     }
@@ -45,8 +45,8 @@ public class SpinningDown implements IState {
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
-        conveyor.setTransportDemand(conveyor.getConfig().getTransportShootVoltage());
-        conveyor.setFeedDemand(conveyor.getConfig().getFeedShootVoltage());
+        conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
+        conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
 
         return this;
     }

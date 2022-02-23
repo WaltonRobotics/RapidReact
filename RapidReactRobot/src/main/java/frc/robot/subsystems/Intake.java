@@ -1,10 +1,11 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.config.IntakeConfig;
 
 import static frc.robot.RobotContainer.currentRobot;
@@ -13,8 +14,8 @@ public class Intake implements SubSubsystem {
 
     private final IntakeConfig config = currentRobot.getIntakeConfig();
 
-    private final Spark leftIntakeController = new Spark(config.getLeftIntakeControllerConfig().getChannelOrID());
-    private final Spark rightIntakeController = new Spark(config.getRightIntakeControllerConfig().getChannelOrID());
+    private final VictorSPX leftIntakeController = new VictorSPX(config.getLeftIntakeControllerConfig().getChannelOrID());
+    private final VictorSPX rightIntakeController = new VictorSPX(config.getRightIntakeControllerConfig().getChannelOrID());
 
     private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
             config.getLeftIntakeControllerConfig().getChannelOrID());
@@ -27,6 +28,9 @@ public class Intake implements SubSubsystem {
     public Intake() {
         leftIntakeController.setInverted(config.getLeftIntakeControllerConfig().isInverted());
         rightIntakeController.setInverted(config.getRightIntakeControllerConfig().isInverted());
+
+        leftIntakeController.enableVoltageCompensation(true);
+        rightIntakeController.enableVoltageCompensation(true);
     }
 
     @Override
@@ -42,17 +46,13 @@ public class Intake implements SubSubsystem {
     @Override
     public void outputData() {
         switch (periodicIO.intakeControlState) {
-            case VOLTAGE:
-                leftIntakeController.setVoltage(periodicIO.leftIntakeDemand);
-                rightIntakeController.setVoltage(periodicIO.rightIntakeDemand);
-                break;
             case OPEN_LOOP:
-                leftIntakeController.set(periodicIO.leftIntakeDemand);
-                rightIntakeController.set(periodicIO.rightIntakeDemand);
+                leftIntakeController.set(VictorSPXControlMode.PercentOutput, periodicIO.leftIntakeDemand);
+                rightIntakeController.set(VictorSPXControlMode.PercentOutput, periodicIO.rightIntakeDemand);
                 break;
             case DISABLED:
-                leftIntakeController.set(0.0);
-                rightIntakeController.set(0.0);
+                leftIntakeController.set(VictorSPXControlMode.PercentOutput, 0.0);
+                rightIntakeController.set(VictorSPXControlMode.PercentOutput, 0.0);
                 break;
         }
 
@@ -118,7 +118,7 @@ public class Intake implements SubSubsystem {
     }
 
     public enum IntakeControlState {
-        VOLTAGE, OPEN_LOOP, DISABLED
+        OPEN_LOOP, DISABLED
     }
 
     public static class PeriodicIO implements Sendable {

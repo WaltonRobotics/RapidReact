@@ -102,7 +102,7 @@ public class Superstructure extends SubsystemBase {
 
     public void handleTransportConveyorManualOverride() {
         if (OI.overrideTransportConveyorButton.get()) {
-            godSubsystem.getConveyor().setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakeVoltage());
+            godSubsystem.getConveyor().setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakePercentOutput());
         } else {
             godSubsystem.getConveyor().setTransportDemand(0);
         }
@@ -110,7 +110,7 @@ public class Superstructure extends SubsystemBase {
 
     public void handleFeedConveyorManualOverride() {
         if (OI.overrideFeedConveyorButton.get()) {
-            godSubsystem.getConveyor().setFeedDemand(currentRobot.getConveyorConfig().getFeedShootVoltage());
+            godSubsystem.getConveyor().setFeedDemand(currentRobot.getConveyorConfig().getFeedShootPercentOutput());
         } else {
             godSubsystem.getConveyor().setFeedDemand(0);
         }

@@ -6,12 +6,12 @@ public interface ConveyorConfig {
 
     MotorConfig getFeedControllerConfig();
 
-    double getTransportIntakeVoltage();
+    double getTransportIntakePercentOutput();
 
-    double getTransportOuttakeVoltage();
-    double getFeedOuttakeVoltage();
+    double getTransportOuttakePercentOutput();
+    double getFeedOuttakePercentOutput();
 
-    double getTransportShootVoltage();
-    double getFeedShootVoltage();
+    double getTransportShootPercentOutput();
+    double getFeedShootPercentOutput();
 
 }

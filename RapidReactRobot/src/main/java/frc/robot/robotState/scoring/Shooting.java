@@ -27,7 +27,7 @@ public class Shooting implements IState {
         shooter.setSelectedProfileSlot(SHOOTING_SLOT);
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
 
-        conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+        conveyor.setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class Shooting implements IState {
 
         // Wait for hood to move in position
         if (godSubsystem.getCurrentTime() >= shooter.getLastAdjustableHoodChangeFPGATime() + kHoodTransitionTimeSeconds) {
-            conveyor.setTransportDemand(conveyor.getConfig().getTransportShootVoltage());
-            conveyor.setFeedDemand(conveyor.getConfig().getFeedShootVoltage());
+            conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
+            conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {
             godSubsystem.handleTransportConveyorManualOverride();
             godSubsystem.handleFeedConveyorManualOverride();
