@@ -7,6 +7,7 @@ import frc.robot.robotState.scoring.Outtaking;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.*;
 
+import static frc.robot.OI.barfButton;
 import static frc.robot.OI.shootButton;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -41,7 +42,7 @@ public class ScoringMode implements IState {
             return new Outtaking();
         }
 
-        if (shootButton.isRisingEdge()) {
+        if (shootButton.isRisingEdge() || barfButton.get()) {
             return new AdjustingHood();
         }
 
