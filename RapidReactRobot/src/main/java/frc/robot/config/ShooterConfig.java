@@ -18,10 +18,9 @@ public interface ShooterConfig {
 
     MotorConfig getRightAdjustableHoodServoConfig();
 
+    double getLimelightMountingHeightInches();
+    double getLimelightMountingAngleDegrees();
+
     InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterMap();
     InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterMap2();
-
-    double getMountingHeightInches();
-
-    double getMountingAngleDegrees();
 }

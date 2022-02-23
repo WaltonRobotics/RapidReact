@@ -6,7 +6,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.util.averages.SimpleMovingAverage;
 
-import static frc.robot.Constants.FieldConstants.kTargetHeightInches;
 import static frc.robot.Constants.VisionConstants.*;
 import static frc.robot.RobotContainer.currentRobot;
 
@@ -23,23 +22,10 @@ public class LimelightHelper {
     private static final NetworkTableEntry mPipeline = mTable.getEntry("pipeline");
     private static final SimpleMovingAverage mTxMovingAverage = new SimpleMovingAverage(kTxWindowSize);
     private static final SimpleMovingAverage mTyMovingAverage = new SimpleMovingAverage(kTyWindowSize);
-    private static final PnPData mPnPData = new PnPData(kCamtranWindowSize);
     private static boolean mIsLEDOn = false;
 
     private LimelightHelper() {
-        // Update moving averages when tx and ty change
-        // Only average in values when we see the target
-//        mTx.addListener(event -> {
-//            if (getTV() > 0) {
-//                mTxMovingAverage.addData(event.value.getDouble());
-//            }
-//        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-//
-//        mTy.addListener(event -> {
-//            if (getTV() > 0) {
-//                mTyMovingAverage.addData(event.value.getDouble());
-//            }
-//        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
     }
 
     public static void updateData() {
@@ -48,21 +34,7 @@ public class LimelightHelper {
         if (getTV() > 0) {
             mTxMovingAverage.addData(mTx.getDouble(0.0));
             mTyMovingAverage.addData(mTy.getDouble(0.0));
-
-            mPnPData.xInchesMovingAverage.addData(camtran[0]);
-            mPnPData.yInchesMovingAverage.addData(camtran[1]);
-            mPnPData.zInchesMovingAverage.addData(camtran[2]);
-            mPnPData.pitchDegreesMovingAverage.addData(camtran[3]);
-            mPnPData.yawDegreesMovingAverage.addData(camtran[4]);
-            mPnPData.rollDegreesMovingAverage.addData(camtran[5]);
         }
-
-//        SmartDashboard.putNumber(kLimelightSolvePnPXInchesKey, camtran[0]);
-//        SmartDashboard.putNumber(kLimelightSolvePnPYInchesKey, camtran[1]);
-//        SmartDashboard.putNumber(kLimelightSolvePnPZInchesKey, camtran[2]);
-//        SmartDashboard.putNumber(kLimelightSolvePnPPitchDegreesKey, camtran[3]);
-//        SmartDashboard.putNumber(kLimelightSolvePnPYawDegreesKey, camtran[4]);
-//        SmartDashboard.putNumber(kLimelightSolvePnPRollDegreesKey, camtran[5]);
     }
 
     /**
@@ -95,11 +67,6 @@ public class LimelightHelper {
 
     public static double[] getCamtran() {
         return mCamtran.getDoubleArray(new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
-    }
-
-
-    public static PnPData getPnPData() {
-        return mPnPData;
     }
 
     public static int getLEDMode() {
@@ -151,8 +118,8 @@ public class LimelightHelper {
     }
 
     public static double getDistanceToTargetFeet() {
-        return ((kTargetHeightInches - currentRobot.getShooterConfig().getMountingHeightInches()) /
-                (Math.tan(Units.degreesToRadians(currentRobot.getShooterConfig().getMountingAngleDegrees() + getTY()))
+        return ((kTargetHeightInches - currentRobot.getShooterConfig().getLimelightMountingHeightInches()) /
+                (Math.tan(Units.degreesToRadians(currentRobot.getShooterConfig().getLimelightMountingAngleDegrees() + getTY()))
                         * Math.cos(Units.degreesToRadians(getTX())))) / 12.0;
     }
 

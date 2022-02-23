@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -71,9 +73,10 @@ public final class Constants {
 
         public static final int kTxWindowSize = 1;
         public static final int kTyWindowSize = 5;
-        public static final int kCamtranWindowSize = 5;
 
         public static final int kAlignmentPipeline = 0;
+
+        public static final double kTargetHeightInches = 103.81;
 
         public static final double kAlignmentTimeout = 1.5;
 
@@ -134,10 +137,6 @@ public final class Constants {
         public static final String kPathYKey = "pathY";
         public static final String kPathHeadingKey = "pathHeading";
 
-    }
-
-    public static final class FieldConstants {
-        public static final double kTargetHeightInches = 2.68224; //meters (8.8 ft)
     }
 
 }

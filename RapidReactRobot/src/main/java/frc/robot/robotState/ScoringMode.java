@@ -1,12 +1,13 @@
 package frc.robot.robotState;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
+import frc.robot.robotState.scoring.AdjustingHood;
 import frc.robot.robotState.scoring.Intaking;
 import frc.robot.robotState.scoring.Outtaking;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.*;
 
+import static frc.robot.OI.shootButton;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -39,6 +40,10 @@ public class ScoringMode implements IState {
 
         if (OI.outtakeButton.get()) {
             return new Outtaking();
+        }
+
+        if (shootButton.get()) {
+            return new AdjustingHood();
         }
 
         if (OI.overrideTransportConveyorButton.get()) {

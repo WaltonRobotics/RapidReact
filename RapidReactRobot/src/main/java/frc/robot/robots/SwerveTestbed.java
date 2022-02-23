@@ -290,6 +290,16 @@ public class SwerveTestbed extends WaltRobot {
             public double getRightIntakeVoltage() {
                 return 0;
             }
+
+            @Override
+            public double getLeftOuttakeVoltage() {
+                return 0;
+            }
+
+            @Override
+            public double getRightOuttakeVoltage() {
+                return 0;
+            }
         };
     }
 
@@ -465,12 +475,12 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public double getMountingHeightInches() {
+            public double getLimelightMountingHeightInches() {
                 return 32.00;
             }
 
             @Override
-            public double getMountingAngleDegrees() {
+            public double getLimelightMountingAngleDegrees() {
                 return 29;
             }
         };

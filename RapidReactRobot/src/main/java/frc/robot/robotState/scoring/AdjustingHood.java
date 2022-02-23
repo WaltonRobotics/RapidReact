@@ -30,11 +30,12 @@ public class AdjustingHood implements IState {
         if (!godSubsystem.isEnabled()) {
             return new Disabled();
         }
-        //the following are dummy values
-        if (!OI.shootButton.getAsBoolean()) {
+
+        if (!OI.shootButton.get()) {
             return new ScoringMode();
         }
-        return new Shooting();
+
+        return new AligningAndSpinningUp();
     }
 
     @Override
