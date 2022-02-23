@@ -43,7 +43,7 @@ public class SpinningUp implements IState {
         godSubsystem.handleTransportConveyorManualOverride();
         godSubsystem.handleFeedConveyorManualOverride();
 
-        if (shooter.getFlywheelClosedLoopErrorNU() <= kSpinningUpToleranceRawUnits) {
+        if (Math.abs(shooter.getFlywheelClosedLoopErrorNU()) <= kSpinningUpToleranceRawUnits) {
             return new Shooting();
         }
 

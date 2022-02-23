@@ -2,7 +2,6 @@ package frc.robot.robotState.scoring;
 
 import frc.robot.OI;
 import frc.robot.robotState.Disabled;
-import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
@@ -43,7 +42,7 @@ public class Shooting implements IState {
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
-        if (shooter.getFlywheelClosedLoopErrorNU() > kShootingToleranceRawUnits) {
+        if (Math.abs(shooter.getFlywheelClosedLoopErrorNU()) > kShootingToleranceRawUnits) {
             return new SpinningUp();
         }
 
