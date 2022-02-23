@@ -60,7 +60,7 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        CommandScheduler.getInstance().setDefaultCommand(godSubsystem, new SuperstructureCommand());
+        CommandScheduler.getInstance().registerSubsystem(godSubsystem);
         CommandScheduler.getInstance().setDefaultCommand(godSubsystem.getDrivetrain(), new DriveCommand());
 
         initShuffleboard();

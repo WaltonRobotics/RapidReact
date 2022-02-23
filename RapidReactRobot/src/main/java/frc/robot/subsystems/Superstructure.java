@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
+import frc.robot.robotState.Disabled;
+import frc.robot.stateMachine.StateMachine;
 
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
 import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
@@ -25,6 +27,8 @@ public class Superstructure extends SubsystemBase {
     private CurrentMode currentMode = CurrentMode.SCORING_MODE;
 
     private double currentTargetFlywheelVelocity = 0;
+
+    private final StateMachine stateMachine = new StateMachine("Superstructure", new Disabled());
 
     public CurrentMode getCurrentMode() {
         return currentMode;
@@ -132,6 +136,8 @@ public class Superstructure extends SubsystemBase {
 
     @Override
     public void periodic() {
+        stateMachine.run();
+
         SmartDashboard.putData(kDrivetrainPeriodicIOKey, drivetrain.getPeriodicIOSendable());
         SmartDashboard.putData(kIntakePeriodicIOKey, intake.getPeriodicIOSendable());
         SmartDashboard.putData(kConveyorPeriodicIOKey, conveyor.getPeriodicIOSendable());
