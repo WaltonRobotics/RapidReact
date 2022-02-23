@@ -270,6 +270,16 @@ public class SwerveTestbed extends WaltRobot {
             public ProfiledPIDController getTurnToAngleController() {
                 return turnToAngleController;
             }
+
+            @Override
+            public double getClimbingMaxMetersPerSecond() {
+                return kMaxSpeedMetersPerSecond / 3.;
+            }
+
+            @Override
+            public double getClimbingMaxOmega() {
+                return kMaxOmega / 3.;
+            }
         };
     }
 

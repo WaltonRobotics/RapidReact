@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Superstructure;
+import frc.robot.util.UtilMethods;
 
 import static frc.robot.OI.driveGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -33,6 +35,13 @@ public class DriveCommand extends CommandBase {
             double vx = forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
             double vy = strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
             double omega = yaw * drivetrain.getConfig().getMaxOmega();
+
+            // Limit movement when climbing
+            if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
+                vx = UtilMethods.limitMagnitude(vx, drivetrain.getConfig().getClimbingMaxMetersPerSecond());
+                vy = UtilMethods.limitMagnitude(vy, drivetrain.getConfig().getClimbingMaxMetersPerSecond());
+                omega = UtilMethods.limitMagnitude(omega, drivetrain.getConfig().getClimbingMaxOmega());
+            }
 
             drivetrain.move(vx, vy, omega, true);
         }

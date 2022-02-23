@@ -9,6 +9,8 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
+import static frc.robot.Constants.Shooter.kBarfVelocityRawUnits;
+import static frc.robot.OI.barfButton;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class PreparingToShoot implements IState {
@@ -23,15 +25,19 @@ public class PreparingToShoot implements IState {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
-        // Re-adjust hood
-        if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
-            shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
+        if (barfButton.get()) {
+            godSubsystem.setCurrentTargetFlywheelVelocity(kBarfVelocityRawUnits);
         } else {
-            shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
-        }
+            // Re-adjust hood
+            if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
+                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
+            } else {
+                shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
+            }
 
-        // Recalculate target velocity
-        godSubsystem.setCurrentTargetFlywheelVelocity(shooter.getEstimatedVelocityFromTarget());
+            // Recalculate target velocity
+            godSubsystem.setCurrentTargetFlywheelVelocity(shooter.getEstimatedVelocityFromTarget());
+        }
     }
 
     @Override

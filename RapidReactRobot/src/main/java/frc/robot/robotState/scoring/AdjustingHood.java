@@ -11,7 +11,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
-import static frc.robot.RobotContainer.currentRobot;
+import static frc.robot.OI.barfButton;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class AdjustingHood implements IState {
@@ -26,7 +26,7 @@ public class AdjustingHood implements IState {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
-        if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
+        if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet || barfButton.get()) {
             shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
         } else {
             shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
@@ -39,12 +39,16 @@ public class AdjustingHood implements IState {
             return new Disabled();
         }
 
-        if (!OI.shootButton.get() && !OI.barfButtonButton.get()) {
+        if (!OI.shootButton.get() && !barfButton.get()) {
             return new ScoringMode();
         }
 
         godSubsystem.handleTransportConveyorManualOverride();
         godSubsystem.handleFeedConveyorManualOverride();
+
+        if (barfButton.get()) {
+            return new PreparingToShoot();
+        }
 
         return new AligningAndSpinningUp();
     }

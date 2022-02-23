@@ -36,7 +36,7 @@ public class Shooting implements IState {
             return new Disabled();
         }
 
-        if (!OI.shootButton.get() && !OI.barfButtonButton.get()) {
+        if (!OI.shootButton.get() && !OI.barfButton.get()) {
             return new SpinningDown();
         }
 

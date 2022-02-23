@@ -53,4 +53,8 @@ public interface DrivetrainConfig {
 
     ProfiledPIDController getTurnToAngleController();
 
+    // Climbing-related constants
+    double getClimbingMaxMetersPerSecond();
+    double getClimbingMaxOmega();
+
 }
