@@ -21,9 +21,6 @@ public class OI {
     public static final ExpoScale strafeScale = new ExpoScale(0.1, 0.6);
     public static final ExpoScale yawScale = new ExpoScale(0.1, 0.75);
 
-    public static final EnhancedJoystickButton limeAutoAimButton = new EnhancedJoystickButton(driveGamepad, kRightBumper.value);
-    public static final EnhancedJoystickButton navAutoAimButton = new EnhancedJoystickButton(driveGamepad, kA.value);
-
     // Scoring mode
     public static final EnhancedAxisButton intakeButton = new EnhancedAxisButton(manipulationGamepad,
             kLeftTrigger.value, 0.5);

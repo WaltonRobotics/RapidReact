@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.AimCommandLime;
-import frc.robot.commands.AimCommandNav;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SuperstructureCommand;
 import frc.robot.commands.auton.AutonRoutine;
@@ -84,9 +82,6 @@ public class RobotContainer {
         ));
 
         toggleLimelightButton.whenPressed(LimelightHelper::toggleLimelight);
-
-        limeAutoAimButton.whenPressed(new AimCommandLime().withTimeout(2));
-        navAutoAimButton.whenPressed(new AimCommandNav().withTimeout(2));
 
         // Manual overrides
         toggleLeftIntakeButton.whenPressed(new InstantCommand(

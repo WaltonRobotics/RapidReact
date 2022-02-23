@@ -249,7 +249,7 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public PIDController getAutoAlignController() {
-                return null;
+                return new PIDController(0.05, 0.015, 0.000);
             }
 
             @Override
