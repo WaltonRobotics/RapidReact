@@ -45,4 +45,7 @@ public interface ClimberConfig {
 
     int getClimberDiscBrakeReverseChannel();
 
+    double getPivotManualPercentOutputLimit();
+    double getExtensionManualPercentOutputLimit();
+
 }

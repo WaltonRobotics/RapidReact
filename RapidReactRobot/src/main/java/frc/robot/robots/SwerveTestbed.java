@@ -689,6 +689,16 @@ public class SwerveTestbed extends WaltRobot {
             public int getClimberDiscBrakeReverseChannel() {
                 return 5;
             }
+
+            @Override
+            public double getPivotManualPercentOutputLimit() {
+                return 0.3;
+            }
+
+            @Override
+            public double getExtensionManualPercentOutputLimit() {
+                return 0.3;
+            }
         };
     }
 

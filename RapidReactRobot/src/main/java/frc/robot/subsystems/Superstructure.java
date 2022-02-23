@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.StateMachine;
+import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
@@ -121,6 +122,9 @@ public class Superstructure extends SubsystemBase {
 
             double pivotJoystick = -manipulationGamepad.getLeftX();
 
+            pivotJoystick = UtilMethods.limitMagnitude(pivotJoystick,
+                    climber.getConfig().getPivotManualPercentOutputLimit());
+
             climber.setPivotPercentOutputDemand(pivotJoystick);
         } else {
             climber.setPivotControlState(Climber.ClimberControlState.AUTO);
@@ -132,6 +136,9 @@ public class Superstructure extends SubsystemBase {
             climber.setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
 
             double extensionJoystick = -manipulationGamepad.getRightY();
+
+            extensionJoystick = UtilMethods.limitMagnitude(extensionJoystick,
+                    climber.getConfig().getExtensionManualPercentOutputLimit());
 
             climber.setExtensionPercentOutputDemand(extensionJoystick);
         } else {
