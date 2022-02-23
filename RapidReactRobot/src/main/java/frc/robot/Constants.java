@@ -139,6 +139,7 @@ public final class Constants {
         public static final String kLimelightAlignControllerKey = "Limelight Align Controller";
         public static final String kLimelightAlignErrorDegrees = "Limelight Align Error Deg";
         public static final String kLimelightAlignOmegaOutputKey = "Limelight Align Omega Output";
+        public static final String kLimelightDistanceFeetKey = "Limelight Distance Feet";
 
     }
 
