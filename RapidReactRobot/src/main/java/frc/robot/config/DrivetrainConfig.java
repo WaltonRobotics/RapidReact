@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public interface DrivetrainConfig {
 
@@ -48,6 +49,8 @@ public interface DrivetrainConfig {
     // Turn to angle and auto align constants
 
     PIDController getAutoAlignController();
-    double getMinAutoAlignOmega();
+    double getMinTurnOmega();
+
+    ProfiledPIDController getTurnToAngleController();
 
 }

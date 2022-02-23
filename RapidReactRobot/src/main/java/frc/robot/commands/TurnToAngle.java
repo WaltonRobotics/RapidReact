@@ -16,21 +16,15 @@ public class TurnToAngle extends CommandBase {
 
     private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
 
+    private final ProfiledPIDController controller = drivetrain.getConfig().getTurnToAngleController();
+
     private final DoubleSupplier targetHeadingSupplier;
-    private final ProfiledPIDController controller = new ProfiledPIDController
-            (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
-                    Math.toDegrees(drivetrain.getConfig().getMaxOmega() / 1.1), 360.0));
     private double targetHeading;
 
     public TurnToAngle(DoubleSupplier targetHeadingSupplier) {
         addRequirements(drivetrain);
 
         this.targetHeadingSupplier = targetHeadingSupplier;
-
-        controller.enableContinuousInput(-180.0, 180.0);
-        controller.setTolerance(1.5, 1.0);
-
-        SmartDashboard.putData(kTurnToAngleControllerKey, controller);
     }
 
     public TurnToAngle(double targetHeading) {
@@ -53,8 +47,7 @@ public class TurnToAngle extends CommandBase {
     public void execute() {
         double turnRate = controller.calculate(getHeading(), targetHeading);
 
-        double minOmega = 0.6;
-        turnRate += Math.signum(turnRate) * minOmega;
+        turnRate += Math.signum(turnRate) * drivetrain.getConfig().getMinTurnOmega();
 
         SmartDashboard.putNumber(kTurnToAngleErrorDegrees, controller.getPositionError());
         SmartDashboard.putNumber(kTurnToAngleOmegaOutputKey, turnRate);

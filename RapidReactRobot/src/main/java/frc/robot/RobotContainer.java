@@ -159,6 +159,7 @@ public class RobotContainer {
             SmartDashboard.putNumber("Theta Error Average", 0.0);
 
             SmartDashboard.putData(kLimelightAlignControllerKey, currentRobot.getDrivetrainConfig().getAutoAlignController());
+            SmartDashboard.putData(kTurnToAngleControllerKey, currentRobot.getDrivetrainConfig().getTurnToAngleController());
         }
     }
 

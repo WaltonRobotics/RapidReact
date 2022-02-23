@@ -52,6 +52,11 @@ public class SwerveTestbed extends WaltRobot {
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
+    private final PIDController autoAlignController = new PIDController(0.05, 0.015, 0.000);
+    private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
+            (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
+                    Math.toDegrees(kMaxOmega / 1.1), 360.0));
+
     // Shooter constants
     private final TalonFXConfiguration flywheelMasterTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration flywheelSlaveTalonConfig = new TalonFXConfiguration();
@@ -157,6 +162,9 @@ public class SwerveTestbed extends WaltRobot {
         wheelLocationMeters[2] = new Translation2d(-x, y); // left rear
         wheelLocationMeters[3] = new Translation2d(-x, -y); // right rear
 
+        turnToAngleController.enableContinuousInput(-180.0, 180.0);
+        turnToAngleController.setTolerance(1.5, 1.0);
+
         drivetrainConfig = new DrivetrainConfig() {
             @Override
             public SmartMotionConstants[] getAzimuthControllerConfigs() {
@@ -250,12 +258,17 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public PIDController getAutoAlignController() {
-                return new PIDController(0.05, 0.015, 0.000);
+                return autoAlignController;
             }
 
             @Override
-            public double getMinAutoAlignOmega() {
+            public double getMinTurnOmega() {
                 return 0.6;
+            }
+
+            @Override
+            public ProfiledPIDController getTurnToAngleController() {
+                return turnToAngleController;
             }
         };
     }
