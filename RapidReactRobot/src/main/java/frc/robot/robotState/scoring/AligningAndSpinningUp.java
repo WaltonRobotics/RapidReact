@@ -13,6 +13,7 @@ import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignErrorDegrees;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignOmegaOutputKey;
+import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
 
@@ -24,6 +25,9 @@ public class AligningAndSpinningUp implements IState {
 
     @Override
     public void initialize() {
+        LimelightHelper.setLEDMode(true);
+        LimelightHelper.setPipeline(kAlignmentPipeline);
+
         shooter.setSelectedProfileSlot(SPINNING_UP_SLOT);
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
 

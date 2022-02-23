@@ -7,7 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.util.WaltTimesliceRobot;
+import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
+import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.RobotContainer.godSubsystem;
 
 /**
@@ -50,6 +53,8 @@ public class Robot extends WaltTimesliceRobot {
         schedule(godSubsystem.getShooter()::outputData, 0.0006);
         schedule(godSubsystem.getClimber()::collectData, 0.0003);
         schedule(godSubsystem.getClimber()::outputData, 0.0006);
+
+        LimelightHelper.setLEDMode(kIsInTuningMode);
     }
 
     /**
@@ -91,6 +96,9 @@ public class Robot extends WaltTimesliceRobot {
     public void autonomousInit() {
         godSubsystem.setEnabled(true);
 
+        LimelightHelper.setPipeline(kAlignmentPipeline);
+        LimelightHelper.setLEDMode(kIsInTuningMode);
+
         autonomousCommand = robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
@@ -109,6 +117,10 @@ public class Robot extends WaltTimesliceRobot {
     @Override
     public void teleopInit() {
         godSubsystem.setEnabled(true);
+
+        LimelightHelper.setPipeline(kAlignmentPipeline);
+        LimelightHelper.setLEDMode(true);
+
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
