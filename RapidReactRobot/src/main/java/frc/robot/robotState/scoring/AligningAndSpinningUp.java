@@ -54,7 +54,7 @@ public class AligningAndSpinningUp implements IState {
             return new Disabled();
         }
 
-        if (!OI.shootButton.get()) {
+        if (!OI.shootButton.get()&& !OI.barfButtonButton.get()) {
             return new ScoringMode();
         }
 
