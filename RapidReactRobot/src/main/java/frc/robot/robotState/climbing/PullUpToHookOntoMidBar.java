@@ -1,5 +1,6 @@
 package frc.robot.robotState.climbing;
 
+import frc.robot.commands.DriveCommand;
 import frc.robot.config.Target;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
@@ -16,6 +17,8 @@ public class PullUpToHookOntoMidBar implements IState {
 
     @Override
     public void initialize() {
+        DriveCommand.setIsEnabled(false);
+        
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_STOWED);

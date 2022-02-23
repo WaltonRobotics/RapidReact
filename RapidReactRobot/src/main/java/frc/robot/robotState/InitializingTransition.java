@@ -1,5 +1,6 @@
 package frc.robot.robotState;
 
+import frc.robot.commands.DriveCommand;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
@@ -15,6 +16,9 @@ public class InitializingTransition implements IState {
 
     @Override
     public void initialize() {
+        // Enable drive
+        DriveCommand.setIsEnabled(true);
+
         // Load pivot reference
         godSubsystem.getClimber().zeroSensors();
 
