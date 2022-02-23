@@ -12,22 +12,30 @@ public class DriveCommand extends CommandBase {
 
     private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
 
+    private static boolean enabled = true;
+
     public DriveCommand() {
         addRequirements(drivetrain);
 
         SmartDashboard.putNumber("Minimum omega command", 0.1);
     }
 
+    public static void setIsEnabled(boolean isEnabled) {
+        enabled = isEnabled;
+    }
+
     @Override
     public void execute() {
-        double forward = OI.forwardScale.apply(getForward());
-        double strafe = OI.strafeScale.apply(getStrafe());
-        double yaw = OI.yawScale.apply(getYaw());
-        double vx = forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
-        double vy = strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
-        double omega = yaw * drivetrain.getConfig().getMaxOmega();
+        if (enabled) {
+            double forward = OI.forwardScale.apply(getForward());
+            double strafe = OI.strafeScale.apply(getStrafe());
+            double yaw = OI.yawScale.apply(getYaw());
+            double vx = forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
+            double vy = strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
+            double omega = yaw * drivetrain.getConfig().getMaxOmega();
 
-        drivetrain.move(vx, vy, omega, true);
+            drivetrain.move(vx, vy, omega, true);
+        }
     }
 
     public double getForward() {

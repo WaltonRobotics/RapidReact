@@ -10,9 +10,9 @@ import frc.robot.subsystems.Shooter;
 
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
-import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class SpinningUp implements IState {
+
     private final Shooter shooter = godSubsystem.getShooter();
     private final Intake intake = godSubsystem.getIntake();
     private final Conveyor conveyor = godSubsystem.getConveyor();
@@ -28,7 +28,7 @@ public class SpinningUp implements IState {
         if (!godSubsystem.isEnabled()) {
             return new Disabled();
         }
-        shooter.setFlywheelDemand(targetFlyWheelVelocity);
+        shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
         if (shooter.getFlywheelClosedLoopErrorNU() <= 10) {  //dummy threshold
             return new Shooting();

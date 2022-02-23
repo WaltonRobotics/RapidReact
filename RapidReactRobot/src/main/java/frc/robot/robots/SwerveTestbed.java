@@ -246,6 +246,16 @@ public class SwerveTestbed extends WaltRobot {
             public ProfiledPIDController getThetaController() {
                 return thetaController;
             }
+
+            @Override
+            public PIDController getAutoAlignController() {
+                return null;
+            }
+
+            @Override
+            public double getMinAutoAlignOmega() {
+                return 0.6;
+            }
         };
     }
 

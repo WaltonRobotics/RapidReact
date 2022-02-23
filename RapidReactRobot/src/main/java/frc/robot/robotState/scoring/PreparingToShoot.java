@@ -5,8 +5,6 @@ import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.RobotContainer.godSubsystem;
-import static frc.robot.subsystems.Shooter.HoodPosition.SEVENTY_DEGREES;
-import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class PreparingToShoot implements IState {
 
@@ -14,7 +12,7 @@ public class PreparingToShoot implements IState {
 
     @Override
     public void initialize() {
-        targetFlyWheelVelocity = shooter.getEstimatedVelocityFromTarget();
+        godSubsystem.setCurrentTargetFlywheelVelocity(shooter.getEstimatedVelocityFromTarget());
     }
 
     @Override

@@ -12,7 +12,6 @@ import static frc.robot.OI.manipulationGamepad;
 
 public class Superstructure extends SubsystemBase {
 
-    public static double targetFlyWheelVelocity;
     private final Drivetrain drivetrain = new Drivetrain();
     private final Intake intake = new Intake();
     private final Conveyor conveyor = new Conveyor();
@@ -21,6 +20,8 @@ public class Superstructure extends SubsystemBase {
 
     private boolean isEnabled = false;
     private CurrentMode currentMode = CurrentMode.SCORING_MODE;
+
+    private double currentTargetFlywheelVelocity = 0;
 
     public CurrentMode getCurrentMode() {
         return currentMode;
@@ -64,6 +65,14 @@ public class Superstructure extends SubsystemBase {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public double getCurrentTargetFlywheelVelocity() {
+        return currentTargetFlywheelVelocity;
+    }
+
+    public void setCurrentTargetFlywheelVelocity(double currentTargetFlywheelVelocity) {
+        this.currentTargetFlywheelVelocity = currentTargetFlywheelVelocity;
     }
 
     public double getCurrentTime() {

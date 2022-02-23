@@ -10,7 +10,6 @@ import frc.robot.subsystems.Shooter;
 
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOTING_SLOT;
-import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class Shooting implements IState {
     private final Shooter shooter = godSubsystem.getShooter();
@@ -29,7 +28,7 @@ public class Shooting implements IState {
             return new Disabled();
         }
         //the following are dummy voltage values
-        shooter.setFlywheelDemand(targetFlyWheelVelocity);
+        shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
         //if closed loop error > threshold
         if (shooter.getFlywheelClosedLoopErrorNU() > 20) {    //dummy threshold

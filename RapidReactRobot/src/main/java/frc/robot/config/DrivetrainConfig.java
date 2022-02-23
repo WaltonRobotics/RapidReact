@@ -45,4 +45,9 @@ public interface DrivetrainConfig {
 
     ProfiledPIDController getThetaController();
 
+    // Turn to angle and auto align constants
+
+    PIDController getAutoAlignController();
+    double getMinAutoAlignOmega();
+
 }
