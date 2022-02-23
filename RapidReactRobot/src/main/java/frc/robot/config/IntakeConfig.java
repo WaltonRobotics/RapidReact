@@ -9,4 +9,7 @@ public interface IntakeConfig {
     double getLeftIntakeVoltage();
     double getRightIntakeVoltage();
 
+    double getLeftOuttakeVoltage();
+    double getRightOuttakeVoltage();
+
 }
