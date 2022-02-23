@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.util.Units;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -58,11 +56,21 @@ public final class Constants {
 
         public static final double kAbsoluteShootingDistanceFloorFeet = 42.0 / 12.0;
         public static final double kAbsoluteShootingDistanceCeilingFeet = 216.0 / 12.0;
+
         public static final double kDefaultVelocityRawUnits = 11500;
         public static final double kBarfVelocityRawUnits = 6000;
 
-        public static final double kAbsoluteShootingDistanceFloorFeet = 42.0 / 12.0;
-        public static final double kAbsoluteShootingDistanceCeilingFeet = 216.0 / 12.0;
+        // The tolerance to exit the spinning up state and enter the shooting state
+        public static final double kSpinningUpToleranceRawUnits = 150;
+        // The tolerance to maintain the shooting state
+        public static final double kShootingToleranceRawUnits = 200;
+
+        // Short period of time after the shoot button is released where the flywheels
+        // continue rotating to ensure last few shots don't go amiss
+        public static final double kSpinDownTimeSeconds = 0.25;
+
+        // Time it takes for the hood to change positions
+        public static final double kHoodTransitionTimeSeconds = 0.25;
 
     }
 
