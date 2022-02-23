@@ -280,6 +280,16 @@ public class SwerveTestbed extends WaltRobot {
                     }
                 };
             }
+
+            @Override
+            public double getLeftIntakeVoltage() {
+                return 0;
+            }
+
+            @Override
+            public double getRightIntakeVoltage() {
+                return 0;
+            }
         };
     }
 
@@ -314,6 +324,36 @@ public class SwerveTestbed extends WaltRobot {
                         return false;
                     }
                 };
+            }
+
+            @Override
+            public double getTransportIntakeVoltage() {
+                return 0;
+            }
+
+            @Override
+            public double getFeedIntakeVoltage() {
+                return 0;
+            }
+
+            @Override
+            public double getTransportOuttakeVoltage() {
+                return 0;
+            }
+
+            @Override
+            public double getFeedOuttakeVoltage() {
+                return 0;
+            }
+
+            @Override
+            public double getTransportShootVoltage() {
+                return 0;
+            }
+
+            @Override
+            public double getFeedShootVoltage() {
+                return 0;
             }
         };
     }

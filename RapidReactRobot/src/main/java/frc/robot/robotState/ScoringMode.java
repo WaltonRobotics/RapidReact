@@ -7,6 +7,7 @@ import frc.robot.robotState.scoring.Outtaking;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.*;
 
+import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class ScoringMode implements IState {
@@ -15,7 +16,7 @@ public class ScoringMode implements IState {
     public void initialize() {
         godSubsystem.setCurrentMode(Superstructure.CurrentMode.SCORING_MODE);
 
-        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.VOLTAGE);
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
@@ -48,21 +49,16 @@ public class ScoringMode implements IState {
             godSubsystem.getIntake().toggleRightIntakeDeployStateDemand();
         }
 
-        if (OI.overrideTransportConveyorButton.getAsBoolean()) {
-            godSubsystem.getConveyor().setTransportDemand(8.0);
+        if (OI.overrideTransportConveyorButton.get()) {
+            godSubsystem.getConveyor().setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakeVoltage());
         } else {
             godSubsystem.getConveyor().setTransportDemand(0);
         }
 
-        if (OI.overrideFeedConveyorButton.getAsBoolean()) {
-            godSubsystem.getConveyor().setFeedDemand(8.0);
+        if (OI.overrideFeedConveyorButton.get()) {
+            godSubsystem.getConveyor().setFeedDemand(currentRobot.getConveyorConfig().getFeedIntakeVoltage());
         } else {
-            godSubsystem.getConveyor().setFeedDemand(0.0);
-        }
-
-        if (OI.toggleClimberLocksButton.isRisingEdge()) {
-            godSubsystem.getClimber().toggleLeftClimberLock();
-            godSubsystem.getClimber().toggleRightClimberLock();
+            godSubsystem.getConveyor().setFeedDemand(0);
         }
 
         return this;

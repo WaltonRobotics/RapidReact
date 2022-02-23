@@ -7,6 +7,7 @@ import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 
+import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class Intaking implements IState {
@@ -16,8 +17,8 @@ public class Intaking implements IState {
 
     @Override
     public void initialize() {
-        conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
         intake.setIntakeControlState(Intake.IntakeControlState.VOLTAGE);
+        conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
     }
 
     @Override
@@ -26,21 +27,24 @@ public class Intaking implements IState {
             return new Disabled();
         }
 
-        //dummy voltage values for the following:
+        if (!OI.intakeButton.get()) {
+            return new ScoringMode();
+        }
+
         if (intake.isLeftIntakeDeployed()) {
-            intake.setLeftIntakeDemand(8.0);
+            intake.setLeftIntakeDemand(currentRobot.getIntakeConfig().getLeftIntakeVoltage());
+        } else {
+            intake.setLeftIntakeDemand(0);
         }
 
         if (intake.isRightIntakeDeployed()) {
-            intake.setRightIntakeDemand(8.0);
+            intake.setLeftIntakeDemand(currentRobot.getIntakeConfig().getRightIntakeVoltage());
+        } else {
+            intake.setRightIntakeDemand(0.0);
         }
 
-        conveyor.setFeedDemand(8.0);
-        conveyor.setTransportDemand(8.0);
-
-        if (!OI.intakeButton.getAsBoolean()) {
-            return new ScoringMode();
-        }
+        conveyor.setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakeVoltage());
+        conveyor.setFeedDemand(currentRobot.getConveyorConfig().getFeedIntakeVoltage());
 
         return this;
     }

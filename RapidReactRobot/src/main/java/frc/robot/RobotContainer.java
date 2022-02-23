@@ -87,6 +87,13 @@ public class RobotContainer {
 
         limeAutoAimButton.whenPressed(new AimCommandLime().withTimeout(2));
         navAutoAimButton.whenPressed(new AimCommandNav().withTimeout(2));
+
+        toggleClimberLocksButton.whenPressed(new InstantCommand(
+                () -> {
+                    godSubsystem.getClimber().toggleLeftClimberLock();
+                    godSubsystem.getClimber().toggleRightClimberLock();
+                }
+        ));
     }
 
     private void initShuffleboard() {

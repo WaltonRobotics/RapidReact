@@ -6,4 +6,7 @@ public interface IntakeConfig {
 
     MotorConfig getRightIntakeControllerConfig();
 
+    double getLeftIntakeVoltage();
+    double getRightIntakeVoltage();
+
 }
