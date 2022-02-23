@@ -5,21 +5,24 @@ import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Conveyor;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+import static frc.robot.Constants.Shooter.kHoodTransitionTimeSeconds;
+import static frc.robot.Constants.Shooter.kShootingToleranceRawUnits;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOTING_SLOT;
 
 public class Shooting implements IState {
+
     private final Shooter shooter = godSubsystem.getShooter();
-    private final Intake intake = godSubsystem.getIntake();
     private final Conveyor conveyor = godSubsystem.getConveyor();
 
     @Override
     public void initialize() {
+        shooter.setSelectedProfileSlot(SHOOTING_SLOT);
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
-        shooter.setSelectedProfileSlot(SHOOTING_SLOT);   //what is this?
+
+        conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
     }
 
     @Override
@@ -27,23 +30,24 @@ public class Shooting implements IState {
         if (!godSubsystem.isEnabled()) {
             return new Disabled();
         }
-        //the following are dummy voltage values
+
+        if (!OI.shootButton.get()) {
+            return new ScoringMode();
+        }
+
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
-        //if closed loop error > threshold
-        if (shooter.getFlywheelClosedLoopErrorNU() > 20) {    //dummy threshold
+        if (shooter.getFlywheelClosedLoopErrorNU() > kShootingToleranceRawUnits) {
             return new SpinningUp();
         }
 
-        //if difference in time changed >= threshold
-        if (godSubsystem.getCurrentTime() >= shooter.getLastAdjustableHoodChangeFPGATime()) {
-            //dummy conveyor voltages
-            conveyor.setFeedDemand(10);
-            conveyor.setTransportDemand(10);
-        }
-
-        if (!OI.shootButton.getAsBoolean()) {
-            return new ScoringMode();
+        // Wait for hood to move in position
+        if (godSubsystem.getCurrentTime() >= shooter.getLastAdjustableHoodChangeFPGATime() + kHoodTransitionTimeSeconds) {
+            conveyor.setTransportDemand(conveyor.getConfig().getTransportShootVoltage());
+            conveyor.setFeedDemand(conveyor.getConfig().getFeedShootVoltage());
+        } else {
+            conveyor.setTransportDemand(0);
+            conveyor.setFeedDemand(0);
         }
 
         return this;

@@ -4,23 +4,20 @@ import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
-import frc.robot.subsystems.Conveyor;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+import static frc.robot.Constants.Shooter.kSpinningUpToleranceRawUnits;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
 
 public class SpinningUp implements IState {
 
     private final Shooter shooter = godSubsystem.getShooter();
-    private final Intake intake = godSubsystem.getIntake();
-    private final Conveyor conveyor = godSubsystem.getConveyor();
 
     @Override
     public void initialize() {
-        shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
         shooter.setSelectedProfileSlot(SPINNING_UP_SLOT);
+        shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
     }
 
     @Override
@@ -28,13 +25,15 @@ public class SpinningUp implements IState {
         if (!godSubsystem.isEnabled()) {
             return new Disabled();
         }
+
+        if (!OI.shootButton.get()) {
+            return new ScoringMode();
+        }
+
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
-        if (shooter.getFlywheelClosedLoopErrorNU() <= 10) {  //dummy threshold
+        if (shooter.getFlywheelClosedLoopErrorNU() <= kSpinningUpToleranceRawUnits) {
             return new Shooting();
-        }
-        if (!OI.shootButton.getAsBoolean()) {
-            return new ScoringMode();
         }
 
         return this;

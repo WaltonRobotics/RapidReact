@@ -31,6 +31,8 @@ public class PreparingToShoot implements IState {
             return new Disabled();
         }
 
+        shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+
         return new SpinningUp();
     }
 
