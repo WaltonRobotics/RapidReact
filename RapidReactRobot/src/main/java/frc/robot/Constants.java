@@ -58,12 +58,10 @@ public final class Constants {
     public static final class Climber {
 
         public static final double kExtensionZeroingPercentOutput = -0.2;
-        public static final double kPivotAngleToleranceNU = 50.0;
-        public static final double kExtensionLengthToleranceNU = 50.0;
 
     }
 
-    public static class VisionConstants {
+    public static final class VisionConstants {
 
         public static final int kLEDsOff = 1;
         public static final int kLEDsOn = 3;
@@ -75,8 +73,6 @@ public final class Constants {
         public static final int kTyWindowSize = 5;
 
         public static final int kAlignmentPipeline = 0;
-
-        public static final double kTargetHeightInches = 103.81;
 
         public static final double kAlignmentTimeout = 1.5;
 
@@ -126,7 +122,7 @@ public final class Constants {
 
     }
 
-    public static class LiveDashboardKeys {
+    public static final class LiveDashboardKeys {
 
         public static final String kLiveDashboardTableName = "Live_Dashboard";
         public static final String kRobotXKey = "robotX";
@@ -136,6 +132,13 @@ public final class Constants {
         public static final String kPathXKey = "pathX";
         public static final String kPathYKey = "pathY";
         public static final String kPathHeadingKey = "pathHeading";
+
+    }
+
+    public static final class FieldConstants {
+
+        public static final double kTargetHeightInches = 103.81;
+        public static final double kHoodCloseUpDistanceFeet = 15;
 
     }
 

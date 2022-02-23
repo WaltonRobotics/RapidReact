@@ -9,7 +9,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.RobotContainer.godSubsystem;
-import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOT_SLOT;
+import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOTING_SLOT;
 import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class Shooting implements IState {
@@ -20,7 +20,7 @@ public class Shooting implements IState {
     @Override
     public void initialize() {
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
-        shooter.setSelectedProfileSlot(SHOOT_SLOT);   //what is this?
+        shooter.setSelectedProfileSlot(SHOOTING_SLOT);   //what is this?
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Shooting implements IState {
         }
 
         //if difference in time changed >= threshold
-        if (shooter.getCurrentFPGATime() >= shooter.getLastAdjustableHoodChangeFPGATime()) {
+        if (godSubsystem.getCurrentTime() >= shooter.getLastAdjustableHoodChangeFPGATime()) {
             //dummy conveyor voltages
             conveyor.setFeedDemand(10);
             conveyor.setTransportDemand(10);

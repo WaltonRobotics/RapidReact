@@ -9,7 +9,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.RobotContainer.godSubsystem;
-import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPIN_UP_SLOT;
+import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
 import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class SpinningUp implements IState {
@@ -20,7 +20,7 @@ public class SpinningUp implements IState {
     @Override
     public void initialize() {
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
-        shooter.setSelectedProfileSlot(SPIN_UP_SLOT);
+        shooter.setSelectedProfileSlot(SPINNING_UP_SLOT);
     }
 
     @Override

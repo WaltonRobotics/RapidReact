@@ -9,16 +9,17 @@ import frc.robot.subsystems.Shooter;
 
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.HoodPosition.SEVENTY_DEGREES;
-import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPIN_UP_SLOT;
+import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
 import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class AligningAndSpinningUp implements IState {
+
     private final Shooter shooter = godSubsystem.getShooter();
 
     @Override
     public void initialize() {
-        shooter.setSelectedProfileSlot(SPIN_UP_SLOT);
-        //calculating targetVelocity
+        shooter.setSelectedProfileSlot(SPINNING_UP_SLOT);
+
         if (shooter.getHoodPosition() == SEVENTY_DEGREES) {
             targetFlyWheelVelocity = shooter.getHoodTwoEstimatedVelocityFromTarget();
         } else {

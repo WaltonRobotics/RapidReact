@@ -7,20 +7,18 @@ import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class AdjustingHood implements IState {
+
     private final Shooter shooter = godSubsystem.getShooter();
 
     @Override
     public void initialize() {
-        if (LimelightHelper.getDistanceToTargetFeet() <= 15) {
-            shooter.setRightAdjustableHoodDutyCycleDemand(10);
-            shooter.setLeftAdjustableHoodDutyCycleDemand(10);
+        if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
             shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
         } else {
-            shooter.setRightAdjustableHoodDutyCycleDemand(20);
-            shooter.setLeftAdjustableHoodDutyCycleDemand(20);
             shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
         }
     }

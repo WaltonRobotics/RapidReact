@@ -20,7 +20,6 @@ import static frc.robot.RobotContainer.currentRobot;
 public class Shooter implements SubSubsystem {
 
     private final ShooterConfig config = currentRobot.getShooterConfig();
-    private HoodPosition hoodPosition;
 
     private final TalonFX flywheelMasterController = new TalonFX(
             config.getFlywheelMasterControllerMotorConfig().getChannelOrID());
@@ -52,6 +51,8 @@ public class Shooter implements SubSubsystem {
         // From L16-R datasheet
         leftAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
         rightAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
+
+        setHoodPosition(HoodPosition.SIXTY_DEGREES);
     }
 
     @Override
@@ -123,8 +124,17 @@ public class Shooter implements SubSubsystem {
         periodicIO.selectedProfileSlot = selectedProfileSlot;
     }
 
-    public void setHoodPosition(HoodPosition selectedHoodPosition){
-        hoodPosition = selectedHoodPosition;
+    public HoodPosition getHoodPosition() {
+        return periodicIO.hoodPosition;
+    }
+
+    public void setHoodPosition(HoodPosition selectedHoodPosition) {
+        periodicIO.hoodPosition = selectedHoodPosition;
+
+        double targetDutyCycle = currentRobot.getShooterConfig().getHoodTargets().get(selectedHoodPosition).getTarget();
+
+        setLeftAdjustableHoodDutyCycleDemand(targetDutyCycle);
+        setRightAdjustableHoodDutyCycleDemand(targetDutyCycle);
     }
 
     public double getFlywheelDemand() {
@@ -155,20 +165,12 @@ public class Shooter implements SubSubsystem {
         return periodicIO.lastAdjustableHoodChangeFPGATime;
     }
 
-    public double getCurrentFPGATime(){
-        return Timer.getFPGATimestamp();
-    }
-
     public double getFlywheelVelocityNU() {
         return periodicIO.flywheelVelocityNU;
     }
 
     public double getFlywheelClosedLoopErrorNU() {
         return periodicIO.flywheelClosedLoopErrorNU;
-    }
-
-    public HoodPosition getHoodPosition(){
-        return hoodPosition;
     }
 
     public ShooterConfig getConfig() {
@@ -204,9 +206,8 @@ public class Shooter implements SubSubsystem {
     }
 
     public enum ShooterProfileSlot {
-        DEFAULT_SLOT(kShooterDefaultIndex),
-        SHOOT_SLOT(kShooterIndex),
-        SPIN_UP_SLOT(kSpinUpIndex);
+        SPINNING_UP_SLOT(kSpinUpIndex),
+        SHOOTING_SLOT(kShooterIndex);
 
         private final int index;
 
@@ -228,7 +229,8 @@ public class Shooter implements SubSubsystem {
         // Outputs
         public ShooterControlState shooterControlState = ShooterControlState.DISABLED;
 
-        public ShooterProfileSlot selectedProfileSlot = ShooterProfileSlot.DEFAULT_SLOT;
+        public ShooterProfileSlot selectedProfileSlot = ShooterProfileSlot.SPINNING_UP_SLOT;
+        public HoodPosition hoodPosition = HoodPosition.SIXTY_DEGREES;
         public double flywheelDemand;
         public double leftAdjustableHoodDutyCycleDemand;
         public double rightAdjustableHoodDutyCycleDemand;

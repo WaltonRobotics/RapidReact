@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.util.averages.SimpleMovingAverage;
 
+import static frc.robot.Constants.FieldConstants.kTargetHeightInches;
 import static frc.robot.Constants.VisionConstants.*;
 import static frc.robot.RobotContainer.currentRobot;
 

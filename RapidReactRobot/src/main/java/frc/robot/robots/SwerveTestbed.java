@@ -10,6 +10,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.config.*;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Shooter;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.util.interpolation.InterpolatingTreeMap;
 
@@ -482,6 +483,11 @@ public class SwerveTestbed extends WaltRobot {
             @Override
             public double getLimelightMountingAngleDegrees() {
                 return 29;
+            }
+
+            @Override
+            public HashMap<Shooter.HoodPosition, Target> getHoodTargets() {
+                return null;
             }
         };
     }
