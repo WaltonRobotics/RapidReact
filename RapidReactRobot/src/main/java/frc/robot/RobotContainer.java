@@ -88,6 +88,23 @@ public class RobotContainer {
         limeAutoAimButton.whenPressed(new AimCommandLime().withTimeout(2));
         navAutoAimButton.whenPressed(new AimCommandNav().withTimeout(2));
 
+        // Manual overrides
+        toggleLeftIntakeButton.whenPressed(new InstantCommand(
+                () -> {
+                    if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
+                        godSubsystem.getIntake().toggleLeftIntakeDeployStateDemand();
+                    }
+                }
+        ));
+
+        toggleRightIntakeButton.whenPressed(new InstantCommand(
+                () -> {
+                    if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
+                        godSubsystem.getIntake().toggleRightIntakeDeployStateDemand();
+                    }
+                }
+        ));
+
         toggleClimberLocksButton.whenPressed(new InstantCommand(
                 () -> {
                     godSubsystem.getClimber().toggleLeftClimberLock();

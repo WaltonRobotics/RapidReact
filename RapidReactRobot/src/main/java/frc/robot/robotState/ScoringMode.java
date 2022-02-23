@@ -41,14 +41,6 @@ public class ScoringMode implements IState {
             return new Outtaking();
         }
 
-        if (OI.toggleLeftIntakeButton.isRisingEdge()) {
-            godSubsystem.getIntake().toggleLeftIntakeDeployStateDemand();
-        }
-
-        if (OI.toggleRightIntakeButton.isRisingEdge()) {
-            godSubsystem.getIntake().toggleRightIntakeDeployStateDemand();
-        }
-
         if (OI.overrideTransportConveyorButton.get()) {
             godSubsystem.getConveyor().setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakeVoltage());
         } else {
