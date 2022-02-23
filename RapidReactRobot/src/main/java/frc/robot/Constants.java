@@ -49,9 +49,18 @@ public final class Constants {
 
     public static final class PIDProfileSlots {
 
-        public static final int kShooterDefaultIndex = 0;
-        public static final int kSpinUpIndex = 1;
-        public static final int kShooterIndex = 2;
+        public static final int kSpinningUpIndex = 0;
+        public static final int kShootingIndex = 1;
+
+    }
+
+    public static final class Shooter {
+
+        public static final double kDefaultVelocityRawUnits = 11500;
+        public static final double kBarfVelocityRawUnits = 6000;
+
+        public static final double kAbsoluteShootingDistanceFloorFeet = 42.0 / 12.0;
+        public static final double kAbsoluteShootingDistanceCeilingFeet = 216.0 / 12.0;
 
     }
 

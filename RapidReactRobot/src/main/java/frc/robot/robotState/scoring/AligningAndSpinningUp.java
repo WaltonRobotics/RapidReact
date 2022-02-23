@@ -20,11 +20,9 @@ public class AligningAndSpinningUp implements IState {
     public void initialize() {
         shooter.setSelectedProfileSlot(SPINNING_UP_SLOT);
 
-        if (shooter.getHoodPosition() == SEVENTY_DEGREES) {
-            targetFlyWheelVelocity = shooter.getHoodTwoEstimatedVelocityFromTarget();
-        } else {
-            targetFlyWheelVelocity = shooter.getHoodOneEstimatedVelocityFromTarget();
-        }
+        Shooter.HoodPosition currentHoodPosition = shooter.getHoodPosition();
+
+        targetFlyWheelVelocity = shooter.getEstimatedVelocityFromTarget();
     }
 
     @Override

@@ -1,11 +1,12 @@
 package frc.robot.util.regression;
 
-import frc.robot.util.DebuggingLog;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.factory.LinearSolverFactory_DDRM;
 import org.ejml.dense.row.linsol.AdjustableLinearSolver_DDRM;
 
 import java.util.logging.Level;
+
+import static frc.robot.RobotContainer.robotLogger;
 
 public class PolynomialRegression {
 
@@ -152,8 +153,7 @@ public class PolynomialRegression {
         if (worstIndex == -1)
             return;
 
-        DebuggingLog.getInstance().getLogger().log(Level.FINE,
-                "Removing observation index " + worstIndex + " from PolynomialRegression");
+        robotLogger.log(Level.FINE, "Removing observation index " + worstIndex + " from PolynomialRegression");
 
         // remove that observation
         removeObservation(worstIndex);

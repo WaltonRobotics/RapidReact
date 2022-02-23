@@ -9,13 +9,17 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.ShooterConfig;
+import frc.robot.util.UtilMethods;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.vision.LimelightHelper;
 
-import static frc.robot.Constants.PIDProfileSlots.kShooterDefaultIndex;
-import static frc.robot.Constants.PIDProfileSlots.kSpinUpIndex;
-import static frc.robot.Constants.PIDProfileSlots.kShooterIndex;
+import java.util.logging.Level;
+
+import static frc.robot.Constants.PIDProfileSlots.kSpinningUpIndex;
+import static frc.robot.Constants.PIDProfileSlots.kShootingIndex;
+import static frc.robot.Constants.Shooter.*;
 import static frc.robot.RobotContainer.currentRobot;
+import static frc.robot.RobotContainer.robotLogger;
 
 public class Shooter implements SubSubsystem {
 
@@ -177,28 +181,29 @@ public class Shooter implements SubSubsystem {
         return config;
     }
 
-    //hood 1 is 6o degrees
-    public double getHoodOneEstimatedVelocityFromTarget(){
+    public double getEstimatedVelocityFromTarget() {
+        // If the limelight does not see a target, we use the last known "ty" value since
+        // LimelightHelper uses a MovingAverage to keep track of it at all times
 
-        //may want to use minimum from absolute shooting distances
-        double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
-        InterpolatingDouble result;
-        result = getConfig().getShooterMap().getInterpolated(new InterpolatingDouble(distanceFeet));
-        return result.value;
-//        if(result != null ){
-//            return result.value;
-//        }
-//        else{
-//            return kShooterMap.getInterpolated(new InterpolatingDouble(kDefaultShootingDistanceFeet)).value;
-//        }
-    }
+        if (LimelightHelper.getTV() <= 0) {
+            robotLogger.log(Level.WARNING, "No target found for shooter. Using last known information");
+        }
 
-    //hood 2 is 70 degrees
-    public double getHoodTwoEstimatedVelocityFromTarget(){
         double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
+        HoodPosition currentHoodPosition = getHoodPosition();
+
+        distanceFeet = UtilMethods.limitRange(distanceFeet, kAbsoluteShootingDistanceFloorFeet,
+                kAbsoluteShootingDistanceCeilingFeet);
+
         InterpolatingDouble result;
-        result = getConfig().getShooterMap2().getInterpolated(new InterpolatingDouble(distanceFeet));
-        return result.value;
+
+        result = config.getHoodMaps().get(currentHoodPosition).getInterpolated(new InterpolatingDouble(distanceFeet));
+
+        if (result != null) {
+            return result.value;
+        } else {
+            return kDefaultVelocityRawUnits;
+        }
     }
 
     public enum ShooterControlState {
@@ -206,8 +211,8 @@ public class Shooter implements SubSubsystem {
     }
 
     public enum ShooterProfileSlot {
-        SPINNING_UP_SLOT(kSpinUpIndex),
-        SHOOTING_SLOT(kShooterIndex);
+        SPINNING_UP_SLOT(kSpinningUpIndex),
+        SHOOTING_SLOT(kShootingIndex);
 
         private final int index;
 

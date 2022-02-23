@@ -466,16 +466,6 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterMap() {
-                return mShooterMap;
-            }
-
-            @Override
-            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterMap2(){
-                return mShooterMap2;
-            }
-
-            @Override
             public double getLimelightMountingHeightInches() {
                 return 32.00;
             }
@@ -487,6 +477,11 @@ public class SwerveTestbed extends WaltRobot {
 
             @Override
             public HashMap<Shooter.HoodPosition, Target> getHoodTargets() {
+                return null;
+            }
+
+            @Override
+            public HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> getHoodMaps() {
                 return null;
             }
         };

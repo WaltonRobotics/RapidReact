@@ -9,16 +9,12 @@ import static frc.robot.subsystems.Shooter.HoodPosition.SEVENTY_DEGREES;
 import static frc.robot.subsystems.Superstructure.targetFlyWheelVelocity;
 
 public class PreparingToShoot implements IState {
+
     private final Shooter shooter = godSubsystem.getShooter();
 
     @Override
     public void initialize() {
-        //calculating targetVelocity
-        if (shooter.getHoodPosition() == SEVENTY_DEGREES) {
-            targetFlyWheelVelocity = shooter.getHoodTwoEstimatedVelocityFromTarget();
-        } else {
-            targetFlyWheelVelocity = shooter.getHoodOneEstimatedVelocityFromTarget();
-        }
+        targetFlyWheelVelocity = shooter.getEstimatedVelocityFromTarget();
     }
 
     @Override
