@@ -1,6 +1,5 @@
 package frc.robot.robotState.scoring;
 
-import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
@@ -9,15 +8,16 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-import static frc.robot.Constants.Shooter.kHoodTransitionTimeSeconds;
-import static frc.robot.Constants.Shooter.kShootingToleranceRawUnits;
+import static frc.robot.Constants.Shooter.kSpinDownTimeSeconds;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOTING_SLOT;
 
-public class Shooting implements IState {
+public class SpinningDown implements IState {
 
     private final Shooter shooter = godSubsystem.getShooter();
     private final Conveyor conveyor = godSubsystem.getConveyor();
+
+    private double timeout;
 
     @Override
     public void initialize() {
@@ -29,6 +29,8 @@ public class Shooting implements IState {
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
 
         conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+
+        timeout = godSubsystem.getCurrentTime() + kSpinDownTimeSeconds;
     }
 
     @Override
@@ -37,24 +39,14 @@ public class Shooting implements IState {
             return new Disabled();
         }
 
-        if (!OI.shootButton.get()) {
-            return new SpinningDown();
+        if (godSubsystem.getCurrentTime() >= timeout) {
+            return new ScoringMode();
         }
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
-        if (shooter.getFlywheelClosedLoopErrorNU() > kShootingToleranceRawUnits) {
-            return new SpinningUp();
-        }
-
-        // Wait for hood to move in position
-        if (godSubsystem.getCurrentTime() >= shooter.getLastAdjustableHoodChangeFPGATime() + kHoodTransitionTimeSeconds) {
-            conveyor.setTransportDemand(conveyor.getConfig().getTransportShootVoltage());
-            conveyor.setFeedDemand(conveyor.getConfig().getFeedShootVoltage());
-        } else {
-            godSubsystem.handleTransportConveyorManualOverride();
-            godSubsystem.handleFeedConveyorManualOverride();
-        }
+        conveyor.setTransportDemand(conveyor.getConfig().getTransportShootVoltage());
+        conveyor.setFeedDemand(conveyor.getConfig().getFeedShootVoltage());
 
         return this;
     }
