@@ -14,7 +14,6 @@ import frc.robot.vision.LimelightHelper;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignErrorDegrees;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignOmegaOutputKey;
 import static frc.robot.Constants.VisionConstants.*;
-import static frc.robot.OI.overrideShootButton;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
 
@@ -75,8 +74,7 @@ public class AligningAndSpinningUp implements IState {
         godSubsystem.handleFeedConveyorManualOverride();
 
         if (UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
-                || godSubsystem.getCurrentTime() >= timeout
-                || overrideShootButton.get()) {
+                || godSubsystem.getCurrentTime() >= timeout) {
             return new PreparingToShoot();
         }
 

@@ -34,8 +34,6 @@ public class OI {
             kLeftTrigger.value, 0.5);
     public static final EnhancedAxisButton shootButton = new EnhancedAxisButton(driveGamepad,
             kRightTrigger.value, 0.5);
-    public static final EnhancedAxisButton overrideShootButton = new EnhancedAxisButton(driveGamepad,
-            kLeftTrigger.value, 0.5);
     public static final EnhancedJoystickButton barfButtonButton = new EnhancedJoystickButton(driveGamepad, kRightBumper.value);
 
     // Climbing mode
@@ -49,9 +47,9 @@ public class OI {
 
     // Both modes
     public static final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, kLeftBumper.value);
-    private static final EnhancedJoystickButton yButton = new EnhancedJoystickButton(manipulationGamepad, kY.value);
-    public static final EnhancedComboButton toggleClimberLocksButton = new EnhancedComboButton(dangerButton, yButton);
+    public static final EnhancedComboButton toggleClimberLocksButton = new EnhancedComboButton(dangerButton,
+            new EnhancedJoystickButton(manipulationGamepad, kY.value));
     public static final EnhancedComboButton toggleBetweenScoringAndClimbingModeButton = new EnhancedComboButton(
-            new EnhancedJoystickButton(manipulationGamepad, kX.value), yButton);
+            new EnhancedJoystickButton(driveGamepad, kStart.value), new EnhancedJoystickButton(driveGamepad, kBack.value));
 
 }
