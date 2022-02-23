@@ -75,6 +75,11 @@ public class Shooter implements SubSubsystem {
     public void outputData() {
         int masterID = config.getFlywheelMasterControllerMotorConfig().getChannelOrID();
 
+        if (periodicIO.resetSelectedProfileSlot) {
+            flywheelMasterController.selectProfileSlot(periodicIO.selectedProfileSlot.index, 0);
+            periodicIO.resetSelectedProfileSlot = false;
+        }
+
         switch (periodicIO.shooterControlState) {
             case VELOCITY:
                 flywheelMasterController.set(ControlMode.Velocity, periodicIO.flywheelDemand);
@@ -125,7 +130,10 @@ public class Shooter implements SubSubsystem {
     }
 
     public void setSelectedProfileSlot(ShooterProfileSlot selectedProfileSlot) {
-        periodicIO.selectedProfileSlot = selectedProfileSlot;
+        if (periodicIO.selectedProfileSlot != selectedProfileSlot) {
+            periodicIO.selectedProfileSlot = selectedProfileSlot;
+            periodicIO.resetSelectedProfileSlot = true;
+        }
     }
 
     public HoodPosition getHoodPosition() {
@@ -235,6 +243,7 @@ public class Shooter implements SubSubsystem {
         public ShooterControlState shooterControlState = ShooterControlState.DISABLED;
 
         public ShooterProfileSlot selectedProfileSlot = ShooterProfileSlot.SPINNING_UP_SLOT;
+        public boolean resetSelectedProfileSlot = false;
         public HoodPosition hoodPosition = HoodPosition.SIXTY_DEGREES;
         public double flywheelDemand;
         public double leftAdjustableHoodDutyCycleDemand;
