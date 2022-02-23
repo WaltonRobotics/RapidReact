@@ -28,7 +28,11 @@ public class Superstructure extends SubsystemBase {
 
     private double currentTargetFlywheelVelocity = 0;
 
-    private final StateMachine stateMachine = new StateMachine("Superstructure", new Disabled());
+    private final StateMachine stateMachine;
+
+    public Superstructure() {
+        stateMachine = new StateMachine("Superstructure", new Disabled());
+    }
 
     public CurrentMode getCurrentMode() {
         return currentMode;

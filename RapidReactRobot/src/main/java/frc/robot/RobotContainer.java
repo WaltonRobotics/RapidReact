@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.SuperstructureCommand;
 import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.SetModuleStates;
 import frc.robot.robots.RobotIdentifier;

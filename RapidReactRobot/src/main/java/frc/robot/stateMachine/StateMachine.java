@@ -10,6 +10,8 @@ import static frc.robot.util.UtilMethods.joinStrings;
 
 public class StateMachine {
 
+    private boolean hasFirstStateInitialized;
+
     private final String name;
     private IState currentState;
 
@@ -22,7 +24,7 @@ public class StateMachine {
             throw new IllegalArgumentException("Initial state must not be null!");
         }
 
-        currentState.initialize();
+        hasFirstStateInitialized = false;
 
         SmartDashboard.putString(joinStrings(" ", name, "Current State"),
                 currentState.getClass().getSimpleName());
@@ -31,6 +33,11 @@ public class StateMachine {
     public void run() {
         SmartDashboard.putString(joinStrings(" ", name, "Current State"),
                 currentState.getClass().getSimpleName());
+
+        if (!hasFirstStateInitialized) {
+            currentState.initialize();
+            hasFirstStateInitialized = true;
+        }
 
         IState nextState = currentState.execute();
 
