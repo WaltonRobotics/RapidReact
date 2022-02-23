@@ -14,14 +14,14 @@ public class AdjustingHood implements IState {
 
     @Override
     public void initialize() {
-        if (LimelightHelper.getDistanceToTargetFeet() <= 15) { //dummy value
+        if (LimelightHelper.getDistanceToTargetFeet() <= 15) {
             shooter.setRightAdjustableHoodDutyCycleDemand(10);
             shooter.setLeftAdjustableHoodDutyCycleDemand(10);
-            shooter.setHoodState(Shooter.HoodState.SIXTY_DEGREES);
+            shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
         } else {
             shooter.setRightAdjustableHoodDutyCycleDemand(20);
             shooter.setLeftAdjustableHoodDutyCycleDemand(20);
-            shooter.setHoodState(Shooter.HoodState.SEVENTY_DEGREES);
+            shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
         }
     }
 

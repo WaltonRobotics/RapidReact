@@ -8,10 +8,8 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Constants;
 import frc.robot.config.ShooterConfig;
 import frc.robot.util.interpolation.InterpolatingDouble;
-import frc.robot.util.interpolation.InterpolatingTreeMap;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.PIDProfileSlots.kShooterDefaultIndex;
@@ -22,7 +20,7 @@ import static frc.robot.RobotContainer.currentRobot;
 public class Shooter implements SubSubsystem {
 
     private final ShooterConfig config = currentRobot.getShooterConfig();
-    private HoodState hoodState;
+    private HoodPosition hoodPosition;
 
     private final TalonFX flywheelMasterController = new TalonFX(
             config.getFlywheelMasterControllerMotorConfig().getChannelOrID());
@@ -54,7 +52,6 @@ public class Shooter implements SubSubsystem {
         // From L16-R datasheet
         leftAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
         rightAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
-
     }
 
     @Override
@@ -92,7 +89,9 @@ public class Shooter implements SubSubsystem {
 
         if (periodicIO.lastLeftAdjustableHoodDutyCycleDemand != periodicIO.leftAdjustableHoodDutyCycleDemand) {
             periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
-        } else if (periodicIO.lastRightAdjustableHoodDutyCycleDemand != periodicIO.rightAdjustableHoodDutyCycleDemand) {
+        }
+
+        if (periodicIO.lastRightAdjustableHoodDutyCycleDemand != periodicIO.rightAdjustableHoodDutyCycleDemand) {
             periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
         }
 
@@ -124,8 +123,8 @@ public class Shooter implements SubSubsystem {
         periodicIO.selectedProfileSlot = selectedProfileSlot;
     }
 
-    public void setHoodState(HoodState selectedHoodState){
-        hoodState = selectedHoodState;
+    public void setHoodPosition(HoodPosition selectedHoodPosition){
+        hoodPosition = selectedHoodPosition;
     }
 
     public double getFlywheelDemand() {
@@ -168,8 +167,8 @@ public class Shooter implements SubSubsystem {
         return periodicIO.flywheelClosedLoopErrorNU;
     }
 
-    public HoodState getHoodState(){
-        return hoodState;
+    public HoodPosition getHoodPosition(){
+        return hoodPosition;
     }
 
     public ShooterConfig getConfig() {
@@ -204,7 +203,6 @@ public class Shooter implements SubSubsystem {
         VELOCITY, OPEN_LOOP, DISABLED
     }
 
-    //TODO: create slots for shooting and spinnning up
     public enum ShooterProfileSlot {
         DEFAULT_SLOT(kShooterDefaultIndex),
         SHOOT_SLOT(kShooterIndex),
@@ -221,7 +219,7 @@ public class Shooter implements SubSubsystem {
         }
     }
 
-    public enum HoodState{
+    public enum HoodPosition {
         SIXTY_DEGREES,
         SEVENTY_DEGREES;
     }
