@@ -145,9 +145,19 @@ public class RobotContainer {
                     new InstantCommand(() ->
                             godSubsystem.getDrivetrain().saveRightRearZero((int) SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
 
+            SmartDashboard.putNumber(kDrivetrainHeadingDegrees, 0.0);
+            SmartDashboard.putNumber(kDrivetrainAngularVelocity, 0.0);
+            SmartDashboard.putNumber(kDrivetrainPitchDegrees, 0.0);
+            SmartDashboard.putNumber(kDrivetrainRollDegrees, 0.0);
+
             SmartDashboard.putData(kDriverForwardScaleKey, OI.forwardScale);
             SmartDashboard.putData(kDriverStrafeScaleKey, OI.strafeScale);
             SmartDashboard.putData(kDriverYawScaleKey, OI.yawScale);
+
+            SmartDashboard.putNumber(kClimberPivotAngleFromVertical, 0.0);
+            SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, 0.0);
+
+            SmartDashboard.putNumber(kShooterCurrentTargetVelocity, 0.0);
 
             SmartDashboard.putData("kXController", currentRobot.getDrivetrainConfig().getXController());
             SmartDashboard.putData("kYController", currentRobot.getDrivetrainConfig().getYController());
@@ -158,7 +168,13 @@ public class RobotContainer {
             SmartDashboard.putNumber("Theta Error Average", 0.0);
 
             SmartDashboard.putData(kLimelightAlignControllerKey, currentRobot.getDrivetrainConfig().getAutoAlignController());
+            SmartDashboard.putNumber(kLimelightAlignErrorDegrees, 0.0);
+            SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, 0.0);
+            SmartDashboard.putNumber(kLimelightDistanceFeetKey, 0.0);
+
             SmartDashboard.putData(kTurnToAngleControllerKey, currentRobot.getDrivetrainConfig().getTurnToAngleController());
+            SmartDashboard.putNumber(kTurnToAngleErrorDegrees, 0.0);
+            SmartDashboard.putNumber(kTurnToAngleOmegaOutputKey, 0.0);
         }
     }
 
