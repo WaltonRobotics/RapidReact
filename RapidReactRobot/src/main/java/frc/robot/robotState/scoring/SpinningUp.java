@@ -4,6 +4,9 @@ import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.Shooter.kSpinningUpToleranceRawUnits;
@@ -16,6 +19,11 @@ public class SpinningUp implements IState {
 
     @Override
     public void initialize() {
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
+
         shooter.setSelectedProfileSlot(SPINNING_UP_SLOT);
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
     }
@@ -31,6 +39,9 @@ public class SpinningUp implements IState {
         }
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+
+        godSubsystem.handleTransportConveyorManualOverride();
+        godSubsystem.handleFeedConveyorManualOverride();
 
         if (shooter.getFlywheelClosedLoopErrorNU() <= kSpinningUpToleranceRawUnits) {
             return new Shooting();

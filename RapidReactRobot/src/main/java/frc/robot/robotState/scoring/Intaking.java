@@ -4,8 +4,10 @@ import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -19,6 +21,9 @@ public class Intaking implements IState {
     public void initialize() {
         intake.setIntakeControlState(Intake.IntakeControlState.VOLTAGE);
         conveyor.setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+        godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
     }
 
     @Override
@@ -44,7 +49,7 @@ public class Intaking implements IState {
         }
 
         conveyor.setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakeVoltage());
-        conveyor.setFeedDemand(currentRobot.getConveyorConfig().getFeedIntakeVoltage());
+        conveyor.setFeedDemand(0);
 
         return this;
     }

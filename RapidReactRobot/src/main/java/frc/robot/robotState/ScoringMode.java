@@ -8,7 +8,6 @@ import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.*;
 
 import static frc.robot.OI.shootButton;
-import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class ScoringMode implements IState {
@@ -34,29 +33,20 @@ public class ScoringMode implements IState {
             return new ClimbingModeTransition();
         }
 
-        if (OI.intakeButton.get()) {
+        if (OI.intakeButton.isRisingEdge()) {
             return new Intaking();
         }
 
-        if (OI.outtakeButton.get()) {
+        if (OI.outtakeButton.isRisingEdge()) {
             return new Outtaking();
         }
 
-        if (shootButton.get()) {
+        if (shootButton.isRisingEdge()) {
             return new AdjustingHood();
         }
 
-        if (OI.overrideTransportConveyorButton.get()) {
-            godSubsystem.getConveyor().setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakeVoltage());
-        } else {
-            godSubsystem.getConveyor().setTransportDemand(0);
-        }
-
-        if (OI.overrideFeedConveyorButton.get()) {
-            godSubsystem.getConveyor().setFeedDemand(currentRobot.getConveyorConfig().getFeedIntakeVoltage());
-        } else {
-            godSubsystem.getConveyor().setFeedDemand(0);
-        }
+        godSubsystem.handleTransportConveyorManualOverride();
+        godSubsystem.handleFeedConveyorManualOverride();
 
         return this;
     }

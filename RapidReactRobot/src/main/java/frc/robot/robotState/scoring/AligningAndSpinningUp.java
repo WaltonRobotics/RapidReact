@@ -7,8 +7,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.*;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
@@ -29,6 +28,11 @@ public class AligningAndSpinningUp implements IState {
 
     @Override
     public void initialize() {
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
+
         LimelightHelper.setLEDMode(true);
         LimelightHelper.setPipeline(kAlignmentPipeline);
 
@@ -66,6 +70,9 @@ public class AligningAndSpinningUp implements IState {
         SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, turnRate);
 
         drivetrain.move(0, 0, turnRate, false);
+
+        godSubsystem.handleTransportConveyorManualOverride();
+        godSubsystem.handleFeedConveyorManualOverride();
 
         if (UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
                 || godSubsystem.getCurrentTime() >= timeout

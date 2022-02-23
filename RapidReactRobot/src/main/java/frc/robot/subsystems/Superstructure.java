@@ -3,12 +3,15 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OI;
 
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
 import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.OI.dangerButton;
 import static frc.robot.OI.manipulationGamepad;
+import static frc.robot.RobotContainer.currentRobot;
+import static frc.robot.RobotContainer.godSubsystem;
 
 public class Superstructure extends SubsystemBase {
 
@@ -85,6 +88,22 @@ public class Superstructure extends SubsystemBase {
 
     public boolean isExtensionManualOverride() {
         return dangerButton.get() && Math.abs(manipulationGamepad.getRightY()) > kExtensionManualOverrideDeadband;
+    }
+
+    public void handleTransportConveyorManualOverride() {
+        if (OI.overrideTransportConveyorButton.get()) {
+            godSubsystem.getConveyor().setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakeVoltage());
+        } else {
+            godSubsystem.getConveyor().setTransportDemand(0);
+        }
+    }
+
+    public void handleFeedConveyorManualOverride() {
+        if (OI.overrideFeedConveyorButton.get()) {
+            godSubsystem.getConveyor().setFeedDemand(currentRobot.getConveyorConfig().getFeedShootVoltage());
+        } else {
+            godSubsystem.getConveyor().setFeedDemand(0);
+        }
     }
 
     public void handlePivotManualOverride() {

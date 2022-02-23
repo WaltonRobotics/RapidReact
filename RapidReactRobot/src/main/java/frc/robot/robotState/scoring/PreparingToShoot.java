@@ -2,6 +2,9 @@ package frc.robot.robotState.scoring;
 
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
 
@@ -14,6 +17,12 @@ public class PreparingToShoot implements IState {
 
     @Override
     public void initialize() {
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+        godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.VELOCITY);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
+
         // Re-adjust hood
         if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
             shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
@@ -32,6 +41,9 @@ public class PreparingToShoot implements IState {
         }
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+
+        godSubsystem.handleTransportConveyorManualOverride();
+        godSubsystem.handleFeedConveyorManualOverride();
 
         return new SpinningUp();
     }

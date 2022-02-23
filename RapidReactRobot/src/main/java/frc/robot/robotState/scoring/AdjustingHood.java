@@ -4,10 +4,14 @@ import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
+import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class AdjustingHood implements IState {
@@ -16,6 +20,12 @@ public class AdjustingHood implements IState {
 
     @Override
     public void initialize() {
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.VOLTAGE);
+        godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
+
         if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
             shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
         } else {
@@ -32,6 +42,9 @@ public class AdjustingHood implements IState {
         if (!OI.shootButton.get()) {
             return new ScoringMode();
         }
+
+        godSubsystem.handleTransportConveyorManualOverride();
+        godSubsystem.handleFeedConveyorManualOverride();
 
         return new AligningAndSpinningUp();
     }

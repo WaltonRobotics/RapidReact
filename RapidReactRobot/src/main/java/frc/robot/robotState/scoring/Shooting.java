@@ -4,7 +4,9 @@ import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.Shooter.kHoodTransitionTimeSeconds;
@@ -19,6 +21,10 @@ public class Shooting implements IState {
 
     @Override
     public void initialize() {
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
+
         shooter.setSelectedProfileSlot(SHOOTING_SLOT);
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
 
@@ -46,8 +52,8 @@ public class Shooting implements IState {
             conveyor.setTransportDemand(conveyor.getConfig().getTransportShootVoltage());
             conveyor.setFeedDemand(conveyor.getConfig().getFeedShootVoltage());
         } else {
-            conveyor.setTransportDemand(0);
-            conveyor.setFeedDemand(0);
+            godSubsystem.handleTransportConveyorManualOverride();
+            godSubsystem.handleFeedConveyorManualOverride();
         }
 
         return this;

@@ -353,11 +353,6 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public double getFeedIntakeVoltage() {
-                return 0;
-            }
-
-            @Override
             public double getTransportOuttakeVoltage() {
                 return 0;
             }

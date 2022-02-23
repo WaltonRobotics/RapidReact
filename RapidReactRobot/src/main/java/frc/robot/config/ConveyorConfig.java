@@ -7,7 +7,6 @@ public interface ConveyorConfig {
     MotorConfig getFeedControllerConfig();
 
     double getTransportIntakeVoltage();
-    double getFeedIntakeVoltage();
 
     double getTransportOuttakeVoltage();
     double getFeedOuttakeVoltage();
