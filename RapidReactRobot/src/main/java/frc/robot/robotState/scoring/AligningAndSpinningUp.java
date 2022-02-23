@@ -9,11 +9,13 @@ import frc.robot.robotState.ScoringMode;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
+import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignErrorDegrees;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignOmegaOutputKey;
-import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
+import static frc.robot.Constants.VisionConstants.*;
+import static frc.robot.OI.overrideShootButton;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
 
@@ -22,6 +24,8 @@ public class AligningAndSpinningUp implements IState {
     private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
     private final PIDController controller = drivetrain.getConfig().getAutoAlignController();
     private final Shooter shooter = godSubsystem.getShooter();
+
+    private double timeout;
 
     @Override
     public void initialize() {
@@ -37,6 +41,8 @@ public class AligningAndSpinningUp implements IState {
         DriveCommand.setIsEnabled(false);
 
         controller.reset();
+
+        timeout = godSubsystem.getCurrentTime() + kAlignmentTimeoutSeconds;
     }
 
     @Override
@@ -61,7 +67,13 @@ public class AligningAndSpinningUp implements IState {
 
         drivetrain.move(0, 0, turnRate, false);
 
-        return new PreparingToShoot();
+        if (UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
+                || godSubsystem.getCurrentTime() >= timeout
+                || overrideShootButton.get()) {
+            return new PreparingToShoot();
+        }
+
+        return this;
     }
 
     @Override

@@ -34,7 +34,7 @@ public class Initializing implements IState {
                 || godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) {
             godSubsystem.getClimber().setZeroed(true);
         } else {
-            timeout = godSubsystem.getCurrentTime() + 0.25;
+            timeout = godSubsystem.getCurrentTime() + 0.02;
         }
 
         if (godSubsystem.getClimber().isZeroed()) {

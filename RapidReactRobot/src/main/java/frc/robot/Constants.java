@@ -83,7 +83,8 @@ public final class Constants {
 
         public static final int kAlignmentPipeline = 0;
 
-        public static final double kAlignmentTimeout = 1.5;
+        public static final double kAlignmentToleranceDegrees = 0.75;
+        public static final double kAlignmentTimeoutSeconds = 1.5;
 
     }
 

@@ -3,7 +3,9 @@ package frc.robot.robotState.scoring;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Shooter;
+import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class PreparingToShoot implements IState {
@@ -12,6 +14,14 @@ public class PreparingToShoot implements IState {
 
     @Override
     public void initialize() {
+        // Re-adjust hood
+        if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
+            shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
+        } else {
+            shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
+        }
+
+        // Recalculate target velocity
         godSubsystem.setCurrentTargetFlywheelVelocity(shooter.getEstimatedVelocityFromTarget());
     }
 
