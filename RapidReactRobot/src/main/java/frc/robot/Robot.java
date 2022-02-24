@@ -84,6 +84,7 @@ public class Robot extends WaltTimesliceRobot {
     public void disabledInit() {
         godSubsystem.setEnabled(false);
 
+        godSubsystem.setInAuton(false);
     }
 
     @Override
@@ -96,6 +97,10 @@ public class Robot extends WaltTimesliceRobot {
     @Override
     public void autonomousInit() {
         godSubsystem.setEnabled(true);
+
+        godSubsystem.setInAuton(true);
+        godSubsystem.setDoesAutonNeedToIntake(false);
+        godSubsystem.setDoesAutonNeedToShoot(false);
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(kIsInTuningMode);
@@ -119,6 +124,8 @@ public class Robot extends WaltTimesliceRobot {
     public void teleopInit() {
         godSubsystem.setEnabled(true);
 
+        godSubsystem.setInAuton(false);
+
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(true);
 
@@ -141,6 +148,9 @@ public class Robot extends WaltTimesliceRobot {
     @Override
     public void testInit() {
         godSubsystem.setEnabled(true);
+
+        godSubsystem.setInAuton(false);
+
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }
