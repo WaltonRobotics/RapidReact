@@ -31,10 +31,10 @@ public class PracticeRapidReact extends WaltRobot {
     private final TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
 
     private final double kDistanceBetweenWheelsWidthWiseMeters =
-            Units.inchesToMeters(14.340006);
+            Units.inchesToMeters(13.173279);
 
     private final double kDistanceBetweenWheelsLengthWiseMeters =
-            Units.inchesToMeters(21.340006);
+            Units.inchesToMeters(20.173279);
 
     private final Translation2d[] wheelLocationMeters = new Translation2d[4];
 
@@ -714,10 +714,10 @@ public class PracticeRapidReact extends WaltRobot {
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(-12971, -10695));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(21618, 23894));
 
-        climberExtensionLimits.put(STOWED, new LimitPair(-4694, 4694));
-        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(-4694, 965347));
-        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(464673, 474061));
-        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(582015, 591403));
+        climberExtensionLimits.put(STOWED, new LimitPair(-1877.0, 1877.0));
+        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(-1877.0, 471244.0));
+        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(185870.0, 189624.0));
+        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(232807.0, 236561.0));
     }
 
     @Override
@@ -766,15 +766,15 @@ public class PracticeRapidReact extends WaltRobot {
         // Output shaft: 0.5 inch diameter (may change if spool is added)
         // Encoder counts = inches * (1 output rev / 0.5*pi inches) * (36 extension motor rev / 1 output rev) * (2048 counts / 1 extension motor rev)
         // Tolerance: 0.1 in
-        climberExtensionTargets.put(STOWED_HEIGHT, new Target(0, 4694)); // 1 in
-        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(960653, 4694)); // 21.467 in
-        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(469367, 4694)); // 11.0 in
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(93873, 4694)); // 3.0 in
-        climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(1126481, 4694)); // 25 in
-        climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(586709, 4694)); // 13.50 in
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(93873, 4694)); // 3.0 in
-        climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(1173418, 4694)); // 26.0 in
-        climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(497529, 4694)); // 11.6 in
+        climberExtensionTargets.put(STOWED_HEIGHT, new Target(0, 1877)); // 1 in
+        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
+        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(187747, 1877)); // 11.0 in
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(37549, 1877)); // 3.0 in
+        climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(450592, 1877)); // 25 in
+        climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(234684, 1877)); // 13.50 in
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(37549, 1877)); // 3.0 in
+        climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(469367, 1877)); // 26.0 in
+        climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(199012, 1877)); // 11.6 in
     }
 
     @Override
