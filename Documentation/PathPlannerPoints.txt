@@ -1,4 +1,15 @@
 PathPlanner Points
+	gammaMoveOffTarmac
+		Startpoint:
+			x-position:10.41
+			y-position:3.34
+			heading:-39.29
+			rotation:159.65
+		Endpoint:
+			x-position:12.34
+			y-position:1.92
+			heading:-35.40
+			rotation:159.65
 	sCurveForward
 		Startpoint:
 			x-position: 1.05
@@ -35,7 +46,7 @@ PathPlanner Points
 
 	alphaPickUpA
 		Startpoint:
-			x-position: 9.10
+			x-position: 9.12
 			y-position: 6.29
 			heading: 85.43
 			rotation:-109.65
@@ -45,7 +56,7 @@ PathPlanner Points
 			heading: 159.74
 			rotation: 178.09
 	
-	ballA to ballB (reversed)
+	ballA to ballB
 		Startpoint:
 			x-position: 8.76
 			y-position: 7.51
@@ -56,6 +67,17 @@ PathPlanner Points
 			y-position: 6.44
 			heading: -18.43
 			rotation: 65.15
+	ballA to ballG
+		Startpoint:
+			x-position: 8.76
+			y-position: 7.51
+			heading: 159.74
+			rotation: 178.09
+		Endpoint: 
+			x-position: 14.93
+			y-position: 6.67
+			heading: -7.55
+			rotation: 137.33
 	
 	ballB to ballG
 		Startpoint:
@@ -64,8 +86,8 @@ PathPlanner Points
 			heading: -18.43
 			rotation: 65.15
 		Endpoint:
-			x-position: 14.87
-			y-position: 6.75
+			x-position: 15.00
+			y-position: 6.57
 			heading: 8.65
 			rotation: 135.0 
 	
@@ -95,10 +117,10 @@ PathPlanner Points
 	
 	gammaPickUpC
 		Startpoint:
-			x-position: 10.19
-			y-position: 3.18
+			x-position: 10.41
+			y-position: 3.34
 			heading: -39.29
-			rotation: 137.76
+			rotation: 159.65
 		Endpoint:
 			x-position: 11.10
 			y-position: 2.41
@@ -107,7 +129,15 @@ PathPlanner Points
 	
 	ball C to ball G
 		Startpoint:
+			x-position: 11.10
+			y-position: 2.41
+			heading: -41.53
+			rotation: 50.19
 		Endpoint:
+			x-position: 14.85
+			y-position: 6.66
+			heading:38.30
+			rotation:135.00
 		
 	betaBackward:
 		Startpoint:
@@ -120,5 +150,16 @@ PathPlanner Points
 			y-position: 7.01
 			heading: 60.64
 			rotation: -135.00
+	sideways:
+		Startpoint:
+			x-position: 1.00
+			y-position: 3.00
+			heading: 0.00
+			rotation: 90.00
+		Endpoint:
+			x-position: 2.52
+			y-position: 3
+			heading: 180.00
+			rotation: 90.00
 		
 		
