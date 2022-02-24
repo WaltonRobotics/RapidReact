@@ -40,16 +40,21 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     private DriveControlState driveControlState = DriveControlState.OPEN_LOOP;
 
-    public static class PeriodicIO {
+    public static class PeriodicIO implements Sendable {
         // Outputs
         public double azimuthRelativeCountsDemand;
         public double driveDemand;
 
         // Inputs
-        public int currentAzimuthAbsoluteCounts;
-        public double currentAzimuthRelativeCounts;
-        public double currentDriveVelocityNU;
-        public double currentDriveClosedLoopErrorNU;
+        public int azimuthAbsoluteCounts;
+        public double azimuthRelativeCounts;
+        public double driveVelocityNU;
+        public double driveClosedLoopErrorNU;
+
+        @Override
+        public void initSendable(SendableBuilder builder) {
+
+        }
     }
 
     private enum DriveControlState {
@@ -78,10 +83,10 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public void collectData() {
-        periodicIO.currentAzimuthAbsoluteCounts = getAzimuthAbsoluteEncoderMeasurement();
-        periodicIO.currentAzimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
-        periodicIO.currentDriveVelocityNU = driveTalon.getSelectedSensorVelocity();
-        periodicIO.currentDriveClosedLoopErrorNU = driveTalon.getClosedLoopError();
+        periodicIO.azimuthAbsoluteCounts = getAzimuthAbsoluteEncoderMeasurement();
+        periodicIO.azimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
+        periodicIO.driveVelocityNU = driveTalon.getSelectedSensorVelocity();
+        periodicIO.driveClosedLoopErrorNU = driveTalon.getClosedLoopError();
     }
 
     @Override
@@ -198,11 +203,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     public double getDriveVelocityErrorNU() {
-        return periodicIO.closedLoopErrorNU;
+        return periodicIO.driveClosedLoopErrorNU;
     }
 
     public int getAzimuthAbsoluteEncoderCounts() {
-        return periodicIO.currentAzimuthAbsoluteCounts;
+        return periodicIO.azimuthAbsoluteCounts;
     }
 
     private int getAzimuthAbsoluteEncoderMeasurement() {

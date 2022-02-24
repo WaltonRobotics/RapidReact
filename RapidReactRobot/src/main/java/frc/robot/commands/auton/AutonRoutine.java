@@ -150,19 +150,20 @@ public enum AutonRoutine {
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(ballCtoballG),
         //     new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
-            //MOVE IN & Shoot 1 or 2
+            new ShootCargo(3.0)
     )),
 
     ROUTINE_SEVEN("Start from gamma, pick up ball C, shoot 2, pick up ball B, pick up ball A, shoot 2", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new ResetPose(gammaPickUpC),
             new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(gammaPickUpC.getInitialPose(), gammaPickUpC.getInitialState())),
             //intake
             new SwerveTrajectoryCommand(gammaPickUpC),
-            //shoot 2
+            new ShootCargo(3.0),
             new SwerveTrajectoryCommand(ballCtoballB),
             new SwerveTrajectoryCommand(ballBtoballA),
-            new TurnToAngle(90)
-            //shoot 2
+            new TurnToAngle(90),
+            new ShootCargo(3.0)
     ))
 
     ;
