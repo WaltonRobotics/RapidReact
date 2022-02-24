@@ -39,7 +39,8 @@ public class AdjustingHood implements IState {
             return new Disabled();
         }
 
-        if (!OI.shootButton.get() && !barfButton.get()) {
+        if (!OI.shootButton.get() && !barfButton.get()
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))) {
             return new ScoringMode();
         }
 

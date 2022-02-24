@@ -20,7 +20,6 @@ import static frc.robot.RobotContainer.godSubsystem;
  * project.
  */
 
-
 public class Robot extends WaltTimesliceRobot {
 
     private Command autonomousCommand;
@@ -98,6 +97,7 @@ public class Robot extends WaltTimesliceRobot {
     public void autonomousInit() {
         godSubsystem.setEnabled(true);
 
+        // Clear auton flags
         godSubsystem.setInAuton(true);
         godSubsystem.setDoesAutonNeedToIntake(false);
         godSubsystem.setDoesAutonNeedToShoot(false);

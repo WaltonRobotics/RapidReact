@@ -34,7 +34,8 @@ public class ScoringMode implements IState {
             return new ClimbingModeTransition();
         }
 
-        if (OI.intakeButton.isRisingEdge()) {
+        if (OI.intakeButton.isRisingEdge()
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToIntake())) {
             return new Intaking();
         }
 
@@ -42,7 +43,8 @@ public class ScoringMode implements IState {
             return new Outtaking();
         }
 
-        if (shootButton.isRisingEdge() || barfButton.get()) {
+        if (shootButton.isRisingEdge() || barfButton.isRisingEdge()
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())) {
             return new AdjustingHood();
         }
 

@@ -32,7 +32,7 @@ public class Intaking implements IState {
             return new Disabled();
         }
 
-        if (!OI.intakeButton.get()) {
+        if (!OI.intakeButton.get() && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToIntake()))) {
             return new ScoringMode();
         }
 
