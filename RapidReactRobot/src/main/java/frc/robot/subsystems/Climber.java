@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
