@@ -50,7 +50,7 @@ public class Shooter implements SubSubsystem {
         flywheelSlaveController.setInverted(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setSensorPhase(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setNeutralMode(NeutralMode.Coast);
-        flywheelMasterController.enableVoltageCompensation(false);
+        flywheelSlaveController.enableVoltageCompensation(false);
 
         // From L16-R datasheet
         leftAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
