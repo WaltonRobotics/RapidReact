@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.util.WaltTimesliceRobot;
@@ -11,6 +12,7 @@ import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
+import static frc.robot.OI.driveGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
 
 /**
@@ -83,6 +85,7 @@ public class Robot extends WaltTimesliceRobot {
     @Override
     public void disabledInit() {
         godSubsystem.setEnabled(false);
+
     }
 
     @Override

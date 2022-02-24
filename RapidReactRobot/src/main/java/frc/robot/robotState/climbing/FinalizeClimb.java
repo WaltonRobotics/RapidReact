@@ -1,11 +1,16 @@
 package frc.robot.robotState.climbing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.config.LimitPair;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static edu.wpi.first.wpilibj.GenericHID.RumbleType.kLeftRumble;
+import static edu.wpi.first.wpilibj.GenericHID.RumbleType.kRightRumble;
+import static frc.robot.OI.driveGamepad;
+import static frc.robot.OI.manipulationGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class FinalizeClimb implements IState {
@@ -33,6 +38,12 @@ public class FinalizeClimb implements IState {
         godSubsystem.getClimber().setLeftClimberLockStateDemand(false);
         godSubsystem.getClimber().setRightClimberLockStateDemand(false);
         godSubsystem.getClimber().setClimberDiscBrakeStateDemand(false);
+
+        driveGamepad.setRumble(kLeftRumble, 1); //left and right rumble types, 0 to 1 value
+        driveGamepad.setRumble(kRightRumble, 1);
+        manipulationGamepad.setRumble(kLeftRumble,1);
+        manipulationGamepad.setRumble(kRightRumble, 1);
+
     }
 
     @Override
@@ -40,12 +51,20 @@ public class FinalizeClimb implements IState {
         if (!godSubsystem.isEnabled()) {
             return new Disabled();
         }
+        driveGamepad.setRumble(kLeftRumble, 0.5); //left and right rumble types, 0 to 1 value
+        driveGamepad.setRumble(kRightRumble, 0.5 );
+        manipulationGamepad.setRumble(kLeftRumble,0.5);
+        manipulationGamepad.setRumble(kRightRumble, 0.5);
 
         return this;
     }
 
     @Override
     public void finish() {
+        driveGamepad.setRumble(kLeftRumble, 0); //left and right rumble types, 0 to 1 value
+        driveGamepad.setRumble(kRightRumble, 0 );
+        manipulationGamepad.setRumble(kLeftRumble,0);
+        manipulationGamepad.setRumble(kRightRumble, 0);
 
     }
 
