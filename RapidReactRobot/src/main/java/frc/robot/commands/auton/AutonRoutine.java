@@ -5,18 +5,17 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Paths;
 
-import static frc.robot.Paths.RoutineFiveB.ballAtoBallB;
-import static frc.robot.Paths.RoutineFiveC.ballBtoBallG;
+import static frc.robot.Paths.RoutineFiveB.ballAToBallB;
+import static frc.robot.Paths.RoutineFiveC.ballBToBallG;
 import static frc.robot.Paths.RoutineFourA.betaPickUpB;
-import static frc.robot.Paths.RoutineOne.gammaMoveOffTarmac;
-import static frc.robot.Paths.RoutineSeven.ballBtoballA;
-import static frc.robot.Paths.RoutineSeven.ballCtoballB;
-import static frc.robot.Paths.RoutineSixA.ballAtoballG;
-import static frc.robot.Paths.RoutineSixG.ballCtoballG;
+import static frc.robot.Paths.RoutineOne.backwards;
+import static frc.robot.Paths.RoutineSeven.ballBToBallA;
+import static frc.robot.Paths.RoutineSeven.ballCToBallB;
+import static frc.robot.Paths.RoutineSixA.ballAToBallG;
+import static frc.robot.Paths.RoutineSixG.ballCToBallG;
 import static frc.robot.Paths.RoutineSixG.gammaPickUpC;
 import static frc.robot.Paths.RoutineThree.alphaPickUpA;
-import static frc.robot.Paths.RoutineTwo.betaBackward;
-import static frc.robot.Paths.*;
+import static frc.robot.Paths.TestTrajectories.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
@@ -45,16 +44,16 @@ public enum AutonRoutine {
 
     ROUTINE_ONE("Taxi from tarmac from gamma", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new ResetPose(gammaMoveOffTarmac),
-            new SwerveTrajectoryCommand(Paths.RoutineOne.gammaMoveOffTarmac)
+            new ResetPose(backwards),
+            new SwerveTrajectoryCommand(Paths.RoutineOne.backwards)
     )),
 
     ROUTINE_TWO("Start from beta, shoot 1 ball, move backward off tarmac", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new ResetPose(betaBackward),
+            new ResetPose(backwards),
             new ShootCargo(3.0),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-            new SwerveTrajectoryCommand(betaBackward)
+            new SwerveTrajectoryCommand(backwards)
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
     )),
 
@@ -77,7 +76,7 @@ public enum AutonRoutine {
 //                    new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0)),
                     new ShootCargo(3.0),
 //                    new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-                    new SwerveTrajectoryCommand(ballBtoBallG),
+                    new SwerveTrajectoryCommand(ballBToBallG),
 //                    new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
                     // Move in and shoot
                     new ShootCargo(3.0)
@@ -100,7 +99,7 @@ public enum AutonRoutine {
             new ShootCargo(3.0),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
-            new SwerveTrajectoryCommand(ballAtoBallB),
+            new SwerveTrajectoryCommand(ballAToBallB),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             new ShootCargo(3.0)
             //SHOOT (may need to move closer)
@@ -112,9 +111,9 @@ public enum AutonRoutine {
             new ShootCargo(3.0),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
-            new SwerveTrajectoryCommand(ballAtoBallB),
+            new SwerveTrajectoryCommand(ballAToBallB),
             new ShootCargo(3.0),
-            new SwerveTrajectoryCommand(ballBtoBallG),
+            new SwerveTrajectoryCommand(ballBToBallG),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             new ShootCargo(3.0)
     )),
@@ -125,7 +124,7 @@ public enum AutonRoutine {
             new ShootCargo(3.0),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
-            new SwerveTrajectoryCommand(ballAtoBallB),
+            new SwerveTrajectoryCommand(ballAToBallB),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             // TODO: Pick up Ball C
             new ShootCargo(3.0)
@@ -136,7 +135,7 @@ public enum AutonRoutine {
             new ResetPose(alphaPickUpA),
             new SwerveTrajectoryCommand(alphaPickUpA),
             new ShootCargo(3.0),
-            new SwerveTrajectoryCommand(ballAtoballG),
+            new SwerveTrajectoryCommand(ballAToBallG),
             new ShootCargo(3.0)
     )),
 
@@ -148,7 +147,7 @@ public enum AutonRoutine {
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0)),
             new ShootCargo(3.0),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-            new SwerveTrajectoryCommand(ballCtoballG),
+            new SwerveTrajectoryCommand(ballCToBallG),
         //     new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
             new ShootCargo(3.0)
     )),
@@ -159,8 +158,8 @@ public enum AutonRoutine {
             //intake
             new SwerveTrajectoryCommand(gammaPickUpC),
             new ShootCargo(3.0),
-            new SwerveTrajectoryCommand(ballCtoballB),
-            new SwerveTrajectoryCommand(ballBtoballA),
+            new SwerveTrajectoryCommand(ballCToBallB),
+            new SwerveTrajectoryCommand(ballBToBallA),
             new TurnToAngle(90),
             new ShootCargo(3.0)
     ));

@@ -5,7 +5,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.util.Units;
 
 public class Paths {
-    //name of path, max vel, max acc
+    // Name of path, max vel, max acc
 
 //    public static PathPlannerTrajectory grabLowBlue2 =
 //            PathPlanner.loadPath("grabLowBlue2", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
@@ -13,84 +13,97 @@ public class Paths {
 //    public static PathPlannerTrajectory sCurveForward =
 //            PathPlanner.loadPath("sCurveForward", Units.feetToMeters(11.0), Units.feetToMeters(5.0));
 
-    public static PathPlannerTrajectory fiveFeetForward =
-            PathPlanner.loadPath("fiveFeetForward", Units.feetToMeters(5), Units.feetToMeters(4));
+    public static final class TestTrajectories {
 
-    public static PathPlannerTrajectory sCurveForward =
-            PathPlanner.loadPath("sCurveForward", Units.feetToMeters(5.5), Units.feetToMeters(2.5));
+        public static final PathPlannerTrajectory fiveFeetForward =
+                PathPlanner.loadPath("fiveFeetForward", Units.feetToMeters(5), Units.feetToMeters(4));
 
-    public static PathPlannerTrajectory sCurveBackward =
-            PathPlanner.loadPath("sCurveBackward", Units.feetToMeters(5.5), Units.feetToMeters(2.5), true);
+        public static final PathPlannerTrajectory sCurveForward =
+                PathPlanner.loadPath("sCurveForward", Units.feetToMeters(5.5), Units.feetToMeters(2.5));
 
-
-    public static class RoutineOne {
-        // Move approximately 5m diagonal off of tarmac
-        // start at gamma with shooter facing the hub
-        public static PathPlannerTrajectory gammaMoveOffTarmac =
-                PathPlanner.loadPath("gammaMoveOffTarmac", Units.feetToMeters(8), Units.feetToMeters(4), true);
+        public static final PathPlannerTrajectory sCurveBackward =
+                PathPlanner.loadPath("sCurveBackward", Units.feetToMeters(5.5), Units.feetToMeters(2.5), true);
 
     }
 
-    public static class RoutineTwo {
-        public static PathPlannerTrajectory betaBackward =
+    public static final class RoutineOne {
+
+        // Move approximately five feet off of tarmac
+        public static final PathPlannerTrajectory backwards =
+                PathPlanner.loadPath("backwards", Units.feetToMeters(8), Units.feetToMeters(4), true);
+
+    }
+
+    public static final class RoutineTwo {
+
+        public static final PathPlannerTrajectory betaBackward =
                 PathPlanner.loadPath("betaBackward", Units.feetToMeters(8), Units.feetToMeters(4), true);
+
     }
 
-    public static class RoutineThree {
-        public static PathPlannerTrajectory alphaPickUpA =
+    public static final class RoutineThree {
+
+        public static final PathPlannerTrajectory alphaPickUpA =
                 PathPlanner.loadPath("alphaPickUpA", Units.feetToMeters(8), Units.feetToMeters(4), true);
+
     }
 
-    public static class RoutineFourA {
-        public static PathPlannerTrajectory betaPickUpB =
+    public static final class RoutineFourA {
+
+        public static final PathPlannerTrajectory betaPickUpB =
                 PathPlanner.loadPath("betaPickUpB", Units.feetToMeters(8), Units.feetToMeters(4), true);
         //TODO: Finish this routine
+
     }
 
-    public static class RoutineFiveA {
-        PathPlannerTrajectory alphaPickUpA;
+    public static final class RoutineFiveA {
+
     }
 
-    public static class RoutineFiveB {
-        public static PathPlannerTrajectory ballAtoBallB =
-                PathPlanner.loadPath("ballAtoballB", Units.feetToMeters(8), Units.feetToMeters(4), true);
-        PathPlannerTrajectory alphaPickUpA;
-        //MOVE IN
+    public static final class RoutineFiveB {
+
+        public static final PathPlannerTrajectory ballAToBallB =
+                PathPlanner.loadPath("ballAToBallB", Units.feetToMeters(8), Units.feetToMeters(4), true);
+
     }
 
-    public static class RoutineFiveC {
-        public static PathPlannerTrajectory ballBtoBallG =
-                PathPlanner.loadPath("ballBtoballG", Units.feetToMeters(8), Units.feetToMeters(4), true);
-        PathPlannerTrajectory alphaPickUpA;
-        PathPlannerTrajectory ballAtoBallB;
+    public static final class RoutineFiveC {
+
+        public static final PathPlannerTrajectory ballBToBallG =
+                PathPlanner.loadPath("ballBToBallG", Units.feetToMeters(8), Units.feetToMeters(4), true);
+
     }
 
-    public static class RoutineFiveD {
-        //TODO: make the path for B to C
-        public static PathPlannerTrajectory ballBtoballC =
-                PathPlanner.loadPath("ballBtoballC", Units.feetToMeters(8), Units.feetToMeters(4));
-        PathPlannerTrajectory alphaPickUpA;
-        PathPlannerTrajectory ballAtoBallB;
+    public static final class RoutineFiveD {
+
+        public static final PathPlannerTrajectory ballBToBallC =
+                PathPlanner.loadPath("ballBToBallC", Units.feetToMeters(8), Units.feetToMeters(4));
+
     }
 
-    public static class RoutineSixG {
-        public static PathPlannerTrajectory gammaPickUpC =
+    public static final class RoutineSixG {
+
+        public static final PathPlannerTrajectory gammaPickUpC =
                 PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(8), Units.feetToMeters(4), true);
-        public static PathPlannerTrajectory ballCtoballG =
-                PathPlanner.loadPath("ballCtoballG", Units.feetToMeters(8), Units.feetToMeters(4));
-        //MOVE IN
+        public static final PathPlannerTrajectory ballCToBallG =
+                PathPlanner.loadPath("ballCToBallG", Units.feetToMeters(8), Units.feetToMeters(4));
+
     }
 
-    public static class RoutineSixA {
-        public static PathPlannerTrajectory ballAtoballG =
-                PathPlanner.loadPath("ballAtoballG", Units.feetToMeters(8), Units.feetToMeters(4), true);
+    public static final class RoutineSixA {
+
+        public static final PathPlannerTrajectory ballAToBallG =
+                PathPlanner.loadPath("ballAToBallG", Units.feetToMeters(8), Units.feetToMeters(4), true);
+
     }
 
-    public static class RoutineSeven {
-        public static PathPlannerTrajectory ballCtoballB =
-                PathPlanner.loadPath("ballCtoballB", Units.feetToMeters(8), Units.feetToMeters(4));
-        public static PathPlannerTrajectory ballBtoballA =
-                PathPlanner.loadPath("ballBtoballA", Units.feetToMeters(8), Units.feetToMeters(4));
+    public static final class RoutineSeven {
+
+        public static final PathPlannerTrajectory ballCToBallB =
+                PathPlanner.loadPath("ballCToBallB", Units.feetToMeters(8), Units.feetToMeters(4));
+        public static final PathPlannerTrajectory ballBToBallA =
+                PathPlanner.loadPath("ballBToBallA", Units.feetToMeters(8), Units.feetToMeters(4));
+
     }
 
 }
