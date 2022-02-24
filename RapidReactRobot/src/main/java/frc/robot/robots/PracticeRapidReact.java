@@ -31,10 +31,10 @@ public class PracticeRapidReact extends WaltRobot {
     private final TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
 
     private final double kDistanceBetweenWheelsWidthWiseMeters =
-            Units.inchesToMeters(15.0 + 1.0 / 16.0 + 1.761652 * 2.0); // 18.586 in
+            Units.inchesToMeters(14.340006);
 
     private final double kDistanceBetweenWheelsLengthWiseMeters =
-            Units.inchesToMeters(16.0 + 17.0 / 32.0 + 1.761652 * 2.0); // 20.055 in
+            Units.inchesToMeters(21.340006);
 
     private final Translation2d[] wheelLocationMeters = new Translation2d[4];
 
