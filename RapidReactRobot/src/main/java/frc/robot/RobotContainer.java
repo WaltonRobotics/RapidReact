@@ -184,6 +184,11 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return autonChooser.getSelected().getCommandGroup();
+        AutonRoutine routine = autonChooser.getSelected();
+
+        robotLogger.log(Level.INFO, "Selected autonomous description: " + routine.getDescription());
+
+        return routine.getCommandGroup();
     }
+    
 }

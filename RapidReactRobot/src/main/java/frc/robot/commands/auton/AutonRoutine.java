@@ -21,7 +21,7 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
 
-    DO_NOTHING("Doing Nothing", new SequentialCommandGroup(
+    DO_NOTHING("Do Nothing", new SequentialCommandGroup(
     )),
 
     FIVE_FEET_FORWARD("Moves forward five feet", new SequentialCommandGroup(
@@ -156,7 +156,6 @@ public enum AutonRoutine {
     ROUTINE_SEVEN("Start from gamma, pick up ball C, shoot 2, pick up ball B, pick up ball A, shoot 2", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(gammaPickUpC),
-            new InstantCommand(() -> godSubsystem.getDrivetrain().resetPose(gammaPickUpC.getInitialPose(), gammaPickUpC.getInitialState())),
             //intake
             new SwerveTrajectoryCommand(gammaPickUpC),
             new ShootCargo(3.0),
@@ -164,9 +163,7 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(ballBtoballA),
             new TurnToAngle(90),
             new ShootCargo(3.0)
-    ))
-
-    ;
+    ));
 
     private final String description;
     private final CommandBase commandGroup;
