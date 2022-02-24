@@ -2,16 +2,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Superstructure;
+import frc.robot.util.UtilMethods;
 
-import static frc.robot.Constants.SwerveDriveConfig.kMaxOmega;
-import static frc.robot.Constants.SwerveDriveConfig.kMaxSpeedMetersPerSecond;
-import static frc.robot.RobotContainer.controllerConfig;
+import static frc.robot.OI.driveGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class DriveCommand extends CommandBase {
 
     private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
+
+    private static boolean enabled = true;
 
     public DriveCommand() {
         addRequirements(drivetrain);
@@ -19,16 +22,41 @@ public class DriveCommand extends CommandBase {
         SmartDashboard.putNumber("Minimum omega command", 0.1);
     }
 
+    public static void setIsEnabled(boolean isEnabled) {
+        enabled = isEnabled;
+    }
+
     @Override
     public void execute() {
-        double forward = controllerConfig.getForwardScale().apply(controllerConfig.getForward());
-        double strafe = controllerConfig.getForwardScale().apply(controllerConfig.getStrafe());
-        double yaw = controllerConfig.getForwardScale().apply(controllerConfig.getYaw());
-        double vx = forward * kMaxSpeedMetersPerSecond;
-        double vy = strafe * kMaxSpeedMetersPerSecond;
-        double omega = yaw * kMaxOmega;
+        if (enabled) {
+            double forward = OI.forwardScale.apply(getForward());
+            double strafe = OI.strafeScale.apply(getStrafe());
+            double yaw = OI.yawScale.apply(getYaw());
+            double vx = forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
+            double vy = strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
+            double omega = yaw * drivetrain.getConfig().getMaxOmega();
 
-        drivetrain.move(vx, vy, omega, true);
+            // Limit movement when climbing
+            if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
+                vx = UtilMethods.limitMagnitude(vx, drivetrain.getConfig().getClimbingMaxMetersPerSecond());
+                vy = UtilMethods.limitMagnitude(vy, drivetrain.getConfig().getClimbingMaxMetersPerSecond());
+                omega = UtilMethods.limitMagnitude(omega, drivetrain.getConfig().getClimbingMaxOmega());
+            }
+
+            drivetrain.move(vx, vy, omega, true);
+        }
+    }
+
+    public double getForward() {
+        return -driveGamepad.getLeftY();
+    }
+
+    public double getStrafe() {
+        return -driveGamepad.getLeftX();
+    }
+
+    public double getYaw() {
+        return -driveGamepad.getRightX();
     }
 
 }

@@ -7,9 +7,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.util.CumulativeAverage;
+import frc.robot.util.averages.CumulativeAverage;
 
-import static frc.robot.Constants.SwerveDriveConfig.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class SwerveTrajectoryCommand extends CommandBase {
@@ -18,11 +17,10 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
     private final PathPlannerTrajectory trajectory;
     private final Timer timer = new Timer();
-    private HolonomicDriveController holonomicDriveController;
-
     private final CumulativeAverage xPositionErrorAverage = new CumulativeAverage();
     private final CumulativeAverage yPositionErrorAverage = new CumulativeAverage();
     private final CumulativeAverage thetaPositionErrorAverage = new CumulativeAverage();
+    private HolonomicDriveController holonomicDriveController;
 
     public SwerveTrajectoryCommand(PathPlannerTrajectory trajectory) {
         addRequirements(drivetrain);
@@ -31,8 +29,11 @@ public class SwerveTrajectoryCommand extends CommandBase {
     }
 
     public void initialize() {
-        kThetaController.enableContinuousInput(Math.toRadians(-180), Math.toRadians(180));
-        holonomicDriveController = new HolonomicDriveController(kXController, kYController, kThetaController);
+        drivetrain.getConfig().getThetaController().enableContinuousInput(Math.toRadians(-180), Math.toRadians(180));
+        holonomicDriveController = new HolonomicDriveController(
+                drivetrain.getConfig().getXController(),
+                drivetrain.getConfig().getYController(),
+                drivetrain.getConfig().getThetaController());
 
         holonomicDriveController.setEnabled(true);
 
@@ -45,15 +46,19 @@ public class SwerveTrajectoryCommand extends CommandBase {
         LiveDashboardHelper.putTrajectoryData(trajectory.getInitialPose());
 
         drivetrain.getField().getObject("traj").setTrajectory(trajectory);
+
+        xPositionErrorAverage.clear();
+        yPositionErrorAverage.clear();
+        thetaPositionErrorAverage.clear();
     }
 
     public void execute() {
         double thetaP = SmartDashboard.getNumber("thetaP", 3.5);
-        kThetaController.setP(thetaP);
+        drivetrain.getConfig().getThetaController().setP(thetaP);
         double currentTime = timer.get();
-        double kXInstantPositionError = kXController.getPositionError();
-        double kYInstantPositionError = kYController.getPositionError();
-        double kThetaInstantPositionError = kThetaController.getPositionError();
+        double kXInstantPositionError = drivetrain.getConfig().getXController().getPositionError();
+        double kYInstantPositionError = drivetrain.getConfig().getYController().getPositionError();
+        double kThetaInstantPositionError = drivetrain.getConfig().getThetaController().getPositionError();
 
         PathPlannerTrajectory.PathPlannerState state = (PathPlannerTrajectory.PathPlannerState) trajectory.sample(currentTime);
         ChassisSpeeds speeds = holonomicDriveController.calculate(drivetrain.getPoseMeters(), state, state.holonomicRotation);
@@ -63,7 +68,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
         LiveDashboardHelper.putRobotData(drivetrain.getPoseMeters());
         LiveDashboardHelper.putTrajectoryData(trajectory.sample(currentTime).poseMeters);
-        
+
         SmartDashboard.putNumber("kX Position Error", kXInstantPositionError);
         SmartDashboard.putNumber("kY Position Error", kYInstantPositionError);
         SmartDashboard.putNumber("kTheta Position Error", kThetaInstantPositionError);

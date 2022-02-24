@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.Preferences;
 import frc.lib.strykeforce.swerve.SwerveModule;
@@ -24,6 +26,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final CANSparkMax azimuthSparkMax;
     private final BaseTalon driveTalon;
     private final DutyCycle azimuthAbsoluteEncoderPWM;
+    private final boolean isAzimuthAbsoluteEncoderInverted;
     private final double azimuthAbsoluteCountsPerRev;
     private final double driveCountsPerRev;
     private final double driveGearRatio;
@@ -57,6 +60,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         azimuthSparkMax = builder.azimuthSparkMax;
         driveTalon = builder.driveTalon;
         azimuthAbsoluteEncoderPWM = builder.azimuthAbsoluteEncoderPWM;
+        isAzimuthAbsoluteEncoderInverted = builder.isAzimuthAbsoluteEncoderInverted;
         azimuthAbsoluteCountsPerRev = builder.azimuthAbsoluteCountsPerRev;
         driveCountsPerRev = builder.driveCountsPerRev;
         driveGearRatio = builder.driveGearRatio;
@@ -89,6 +93,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         } else if (driveControlState == DriveControlState.VELOCITY) {
             driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand);
         }
+    }
+
+    @Override
+    public Sendable getPeriodicIOSendable() {
+        return periodicIO;
     }
 
     @Override
@@ -184,12 +193,12 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return driveTalon;
     }
 
-    public double getAzimuthPositionError() {
+    public double getAzimuthPositionErrorNU() {
         return getAzimuthRelativeEncoderCounts() - periodicIO.azimuthRelativeCountsDemand;
     }
 
-    public double getDriveVelocityError() {
-        return periodicIO.currentDriveClosedLoopErrorNU;
+    public double getDriveVelocityErrorNU() {
+        return periodicIO.closedLoopErrorNU;
     }
 
     public int getAzimuthAbsoluteEncoderCounts() {
@@ -216,7 +225,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             robotLogger.log(Level.SEVERE, "Absolute encoder data not valid!");
         }
 
-        int position = (int)(Math.round(output * 4098.0) - 1);
+        int position = (int) (Math.round(output * 4098.0) - 1);
 
         if (position < 0) {
             position = 0;
@@ -224,11 +233,15 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             position = 4095;
         }
 
-        return 4095 - position;
+        if (isAzimuthAbsoluteEncoderInverted) {
+            return 4095 - position;
+        }
+
+        return position;
     }
 
     public double getAzimuthRelativeEncoderCounts() {
-        return periodicIO.currentAzimuthRelativeCounts;
+        return periodicIO.azimuthRelativeCounts;
     }
 
     public Rotation2d getAzimuthRotation2d() {
@@ -244,8 +257,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         periodicIO.azimuthRelativeCountsDemand = countsBefore + countsDelta;
     }
 
-    private double getDriveMetersPerSecond() {
-        double encoderCountsPer100ms = periodicIO.currentDriveVelocityNU;
+    public double getDriveMetersPerSecond() {
+        double encoderCountsPer100ms = periodicIO.driveVelocityNU;
         double motorRotationsPer100ms = encoderCountsPer100ms / driveCountsPerRev;
         double wheelRotationsPer100ms = motorRotationsPer100ms * driveGearRatio;
         double metersPer100ms = wheelRotationsPer100ms * wheelCircumferenceMeters;
@@ -254,7 +267,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     private void setDriveOpenLoopMetersPerSecond(double metersPerSecond) {
         if (driveControlState != DriveControlState.OPEN_LOOP) {
-            robotLogger.log(Level.FINEST, "Switching swerve module index {0} to open loop", new Object[]{ getWheelIndex() });
+            robotLogger.log(Level.FINEST, "Switching swerve module index {0} to open loop", new Object[]{getWheelIndex()});
             driveControlState = DriveControlState.OPEN_LOOP;
         }
 
@@ -263,7 +276,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     public void setDriveClosedLoopMetersPerSecond(double metersPerSecond) {
         if (driveControlState != DriveControlState.VELOCITY) {
-            robotLogger.log(Level.FINEST, "Switching swerve module index {0} to velocity", new Object[]{ getWheelIndex() });
+            robotLogger.log(Level.FINEST, "Switching swerve module index {0} to velocity", new Object[]{getWheelIndex()});
             driveControlState = DriveControlState.VELOCITY;
         }
 
@@ -300,6 +313,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         private CANSparkMax azimuthSparkMax;
         private BaseTalon driveTalon;
         private DutyCycle azimuthAbsoluteEncoderPWM;
+        private boolean isAzimuthAbsoluteEncoderInverted;
         private double driveGearRatio;
         private double wheelDiameterInches;
         private int driveCountsPerRev = kDefaultTalonFXCountsPerRev;
@@ -307,7 +321,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         private double driveMaximumMetersPerSecond;
         private Translation2d wheelLocationMeters;
 
-        public Builder() {}
+        public Builder() {
+        }
 
         public Builder azimuthSparkMax(CANSparkMax azimuthSparkMax) {
             this.azimuthSparkMax = azimuthSparkMax;
@@ -331,6 +346,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
         public Builder azimuthAbsoluteEncoderPWM(DutyCycle encoderPWM) {
             azimuthAbsoluteEncoderPWM = encoderPWM;
+            return this;
+        }
+
+        public Builder isAzimuthAbsoluteEncoderInverted(boolean isInverted) {
+            isAzimuthAbsoluteEncoderInverted = isInverted;
             return this;
         }
 

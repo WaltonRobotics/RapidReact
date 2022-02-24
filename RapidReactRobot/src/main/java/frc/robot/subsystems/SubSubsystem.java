@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.Sendable;
+
 public interface SubSubsystem {
 
     void zeroSensors();
@@ -7,5 +9,7 @@ public interface SubSubsystem {
     void collectData();
 
     void outputData();
+
+    Sendable getPeriodicIOSendable();
 
 }
