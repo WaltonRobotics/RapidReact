@@ -25,6 +25,16 @@ public class Superstructure extends SubsystemBase {
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
 
+    private boolean isInAuton = false;
+    private boolean doesAutonNeedToIntake = false;
+    private boolean doesAutonNeedToOuttake = false;
+    private boolean doesAutonNeedToShoot = false;
+    private boolean doesAutonNeedToAlign = false;
+    private boolean doesAutonNeedToAdjustHood = false;
+    private boolean isAutonSpinningUp = false;
+    private boolean isAutonSpinningDown = false;
+
+
     private boolean isEnabled = false;
     private CurrentMode currentMode = CurrentMode.SCORING_MODE;
 
