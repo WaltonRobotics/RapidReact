@@ -1,4 +1,15 @@
 PathPlanner Points
+	gammaMoveOffTarmac
+		Startpoint:
+			x-position:10.41
+			y-position:3.34
+			heading:-39.29
+			rotation:159.65
+		Endpoint:
+			x-position:12.34
+			y-position:1.92
+			heading:-35.40
+			rotation:159.65
 	sCurveForward
 		Startpoint:
 			x-position: 1.05
