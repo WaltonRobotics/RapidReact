@@ -60,6 +60,7 @@ public enum AutonRoutine {
     ROUTINE_THREE("Start from alpha, shoot, pick up ball A, pick shoot 2 balls", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(alphaPickUpA),
+            new ShootCargo(3.0),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
             new SwerveTrajectoryCommand(alphaPickUpA),
 //            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
