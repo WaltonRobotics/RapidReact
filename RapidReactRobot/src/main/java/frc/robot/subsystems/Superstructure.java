@@ -25,20 +25,14 @@ public class Superstructure extends SubsystemBase {
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
 
-    private boolean isInAuton = false;
-    private boolean doesAutonNeedToIntake = false;
-    private boolean doesAutonNeedToOuttake = false;
-    private boolean doesAutonNeedToShoot = false;
-    private boolean doesAutonNeedToAlign = false;
-    private boolean doesAutonNeedToAdjustHood = false;
-    private boolean isAutonSpinningUp = false;
-    private boolean isAutonSpinningDown = false;
-
-
     private boolean isEnabled = false;
     private CurrentMode currentMode = CurrentMode.SCORING_MODE;
 
     private double currentTargetFlywheelVelocity = 0;
+
+    private boolean isInAuton = false;
+    private boolean doesAutonNeedToIntake = false;
+    private boolean doesAutonNeedToShoot = false;
 
     private final StateMachine stateMachine;
 
@@ -96,6 +90,30 @@ public class Superstructure extends SubsystemBase {
 
     public void setCurrentTargetFlywheelVelocity(double currentTargetFlywheelVelocity) {
         this.currentTargetFlywheelVelocity = currentTargetFlywheelVelocity;
+    }
+
+    public boolean isInAuton() {
+        return isInAuton;
+    }
+
+    public void setInAuton(boolean inAuton) {
+        isInAuton = inAuton;
+    }
+
+    public boolean doesAutonNeedToIntake() {
+        return doesAutonNeedToIntake;
+    }
+
+    public void setDoesAutonNeedToIntake(boolean needsToIntake) {
+        this.doesAutonNeedToIntake = needsToIntake;
+    }
+
+    public boolean doesAutonNeedToShoot() {
+        return doesAutonNeedToShoot;
+    }
+
+    public void setDoesAutonNeedToShoot(boolean needsToShoot) {
+        this.doesAutonNeedToShoot = needsToShoot;
     }
 
     public double getCurrentTime() {
