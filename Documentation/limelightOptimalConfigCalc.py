@@ -18,14 +18,14 @@ max_d = 192.4 + 9.75
 # Minimum mounting height to test
 min_h = 26
 # Maximum mounting height to test
-max_h = 40
+max_h = 45
 # Step size for range of heights
 h_step = 0.5
 
 # Minimum mounting angle to test
-min_theta = 25
+min_theta = 10
 # Maximum mounting angle to test
-max_theta = 70
+max_theta = 45
 # Step size for range of angles
 theta_step = 0.5
 

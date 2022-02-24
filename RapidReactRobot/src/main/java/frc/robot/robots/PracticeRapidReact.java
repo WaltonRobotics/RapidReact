@@ -30,6 +30,8 @@ public class PracticeRapidReact extends WaltRobot {
     private final SmartMotionConstants[] azimuthControllerConfigs = new SmartMotionConstants[4];
     private final TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
 
+    // Bumper-bumper length: 33.489 in
+    // Bumper-bumper width: 26.458 in
     private final double kDistanceBetweenWheelsWidthWiseMeters =
             Units.inchesToMeters(13.173279);
 
