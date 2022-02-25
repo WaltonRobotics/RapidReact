@@ -2,11 +2,10 @@ package frc.robot.robotState;
 
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Superstructure;
 
 import static frc.robot.RobotContainer.godSubsystem;
 
-public class Initializing implements IState {
+public class ClimbingModeZeroing implements IState {
 
     private double timeout;
 
@@ -30,6 +29,10 @@ public class Initializing implements IState {
 
     @Override
     public IState execute() {
+        if (!godSubsystem.isEnabled()) {
+            return new Disabled();
+        }
+        
         if (godSubsystem.getClimber().isLeftExtensionLowerLimitClosed()
                 || godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) {
             godSubsystem.getClimber().setZeroed(true);
@@ -39,11 +42,7 @@ public class Initializing implements IState {
 
         if (godSubsystem.getClimber().isZeroed()) {
             if (godSubsystem.getCurrentTime() >= timeout) {
-                if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
-                    return new ScoringModeTransition();
-                } else if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
-                    return new ClimbingModeTransition();
-                }
+                return new ClimbingMode();
             }
         }
 
@@ -53,7 +52,7 @@ public class Initializing implements IState {
     @Override
     public void finish() {
         godSubsystem.getClimber().enableExtensionLowerLimit();
-        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.STOWED);
+        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
     }
 
 }

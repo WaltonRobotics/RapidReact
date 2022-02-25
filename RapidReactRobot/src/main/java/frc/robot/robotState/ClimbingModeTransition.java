@@ -10,14 +10,17 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class ClimbingModeTransition implements IState {
 
-    private final double timeForLocksToEngageSeconds = 0.25;
-    private double timeWhenLocksAreEngaged;
+    private final double timeForLocksToUnengageSeconds = 0.25;
+    private double timeWhenLocksAreUnengaged;
 
     @Override
     public void initialize() {
+        // Reload pivot reference
+        godSubsystem.getClimber().zeroSensors();
+
         // Unengage climber locks
         // Unengage climber disc brake
-        timeWhenLocksAreEngaged = godSubsystem.getCurrentTime() + timeForLocksToEngageSeconds;
+        timeWhenLocksAreUnengaged = godSubsystem.getCurrentTime() + timeForLocksToUnengageSeconds;
         godSubsystem.getClimber().setLeftClimberLockStateDemand(true);
         godSubsystem.getClimber().setRightClimberLockStateDemand(true);
 
@@ -41,8 +44,8 @@ public class ClimbingModeTransition implements IState {
             return new Disabled();
         }
 
-        if (godSubsystem.getCurrentTime() >= timeWhenLocksAreEngaged) {
-            return new ClimbingMode();
+        if (godSubsystem.getCurrentTime() >= timeWhenLocksAreUnengaged) {
+            return new ClimbingModeZeroing();
         }
 
         return this;

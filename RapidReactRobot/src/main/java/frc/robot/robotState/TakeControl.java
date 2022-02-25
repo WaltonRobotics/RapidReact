@@ -2,17 +2,11 @@ package frc.robot.robotState;
 
 import frc.robot.commands.DriveCommand;
 import frc.robot.stateMachine.IState;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Conveyor;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.*;
 
 import static frc.robot.RobotContainer.godSubsystem;
 
-public class InitializingTransition implements IState {
-
-    private final double timeForLocksToUnengageSeconds = 0.25;
-    private double timeWhenLocksAreUnengaged;
+public class TakeControl implements IState {
 
     @Override
     public void initialize() {
@@ -27,15 +21,6 @@ public class InitializingTransition implements IState {
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
-
-        // Unengage climber locks
-        // Unengage climber disc brake
-        // Wait for climber pneumatics to finish movement
-        timeWhenLocksAreUnengaged = godSubsystem.getCurrentTime() + timeForLocksToUnengageSeconds;
-        godSubsystem.getClimber().setLeftClimberLockStateDemand(true);
-        godSubsystem.getClimber().setRightClimberLockStateDemand(true);
-
-        godSubsystem.getClimber().setClimberDiscBrakeStateDemand(true);
     }
 
     @Override
@@ -44,8 +29,10 @@ public class InitializingTransition implements IState {
             return new Disabled();
         }
 
-        if (godSubsystem.getCurrentTime() >= timeWhenLocksAreUnengaged) {
-            return new Initializing();
+        if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
+            return new ScoringModeTransition();
+        } else if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
+            return new ClimbingModeTransition();
         }
 
         return this;
