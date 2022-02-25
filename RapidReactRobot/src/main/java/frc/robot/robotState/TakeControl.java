@@ -1,12 +1,16 @@
 package frc.robot.robotState;
 
 import frc.robot.commands.DriveCommand;
+import frc.robot.config.Target;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.*;
 
+import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class TakeControl implements IState {
+
+    private final Target angleTarget = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.STOWED_ANGLE);
 
     @Override
     public void initialize() {
@@ -29,7 +33,11 @@ public class TakeControl implements IState {
             return new Disabled();
         }
 
-        if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
+        double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
+
+        if (
+//                angleTarget.isWithinTolerance(pivotAngle, 100) &&
+                godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
             return new ScoringModeTransition();
         } else if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
             return new ClimbingModeTransition();
