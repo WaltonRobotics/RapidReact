@@ -55,7 +55,7 @@ public class AligningAndSpinningUp implements IState {
         }
 
         if (!OI.shootButton.get() && !OI.barfButton.get()
-                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))) {
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
             return new ScoringMode();
         }
 

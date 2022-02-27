@@ -101,6 +101,7 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setInAuton(true);
         godSubsystem.setDoesAutonNeedToIntake(false);
         godSubsystem.setDoesAutonNeedToShoot(false);
+        godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(kIsInTuningMode);

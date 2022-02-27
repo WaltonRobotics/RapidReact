@@ -39,7 +39,8 @@ public class Shooting implements IState {
         }
 
         if (!OI.shootButton.get() && !OI.barfButton.get()
-                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))) {
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
             return new SpinningDown();
         }
 

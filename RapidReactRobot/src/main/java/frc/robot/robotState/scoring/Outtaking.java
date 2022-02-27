@@ -38,7 +38,8 @@ public class Outtaking implements IState {
         }
 
         if (shootButton.isRisingEdge() || barfButton.isRisingEdge()
-                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())) {
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot())) {
             return new AdjustingHood();
         }
 
