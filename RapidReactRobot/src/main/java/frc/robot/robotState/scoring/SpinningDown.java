@@ -9,6 +9,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.Shooter.kSpinDownTimeSeconds;
+import static frc.robot.OI.intakeButton;
+import static frc.robot.OI.outtakeButton;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOTING_SLOT;
 
@@ -21,7 +23,7 @@ public class SpinningDown implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
@@ -44,6 +46,12 @@ public class SpinningDown implements IState {
         }
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+
+        if (intakeButton.get()) {
+            godSubsystem.handleIntaking();
+        } else if (outtakeButton.get()) {
+            godSubsystem.handleOuttaking();
+        }
 
         conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
         conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());

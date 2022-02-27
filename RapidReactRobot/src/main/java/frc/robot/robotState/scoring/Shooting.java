@@ -10,6 +10,8 @@ import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.Shooter.kHoodTransitionTimeSeconds;
 import static frc.robot.Constants.Shooter.kShootingToleranceRawUnits;
+import static frc.robot.OI.intakeButton;
+import static frc.robot.OI.outtakeButton;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOTING_SLOT;
 
@@ -20,7 +22,7 @@ public class Shooting implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
@@ -45,6 +47,12 @@ public class Shooting implements IState {
 
         if (Math.abs(shooter.getFlywheelClosedLoopErrorNU()) > kShootingToleranceRawUnits) {
             return new SpinningUp();
+        }
+
+        if (intakeButton.get()) {
+            godSubsystem.handleIntaking();
+        } else if (outtakeButton.get()) {
+            godSubsystem.handleOuttaking();
         }
 
         // Wait for hood to move in position

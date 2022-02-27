@@ -19,7 +19,7 @@ public class PreparingToShoot implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.VELOCITY);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
@@ -48,8 +48,7 @@ public class PreparingToShoot implements IState {
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
-        godSubsystem.handleTransportConveyorManualOverride();
-        godSubsystem.handleFeedConveyorManualOverride();
+        godSubsystem.handleIntakingAndOuttaking();
 
         return new SpinningUp();
     }

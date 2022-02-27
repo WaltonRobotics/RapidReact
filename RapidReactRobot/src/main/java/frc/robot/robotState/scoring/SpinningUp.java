@@ -19,7 +19,7 @@ public class SpinningUp implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
@@ -41,8 +41,7 @@ public class SpinningUp implements IState {
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
-        godSubsystem.handleTransportConveyorManualOverride();
-        godSubsystem.handleFeedConveyorManualOverride();
+        godSubsystem.handleIntakingAndOuttaking();
 
         if (Math.abs(shooter.getFlywheelClosedLoopErrorNU()) <= kSpinningUpToleranceRawUnits) {
             return new Shooting();

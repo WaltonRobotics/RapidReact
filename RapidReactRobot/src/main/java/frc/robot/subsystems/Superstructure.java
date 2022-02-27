@@ -130,7 +130,7 @@ public class Superstructure extends SubsystemBase {
 
     public void handleTransportConveyorManualOverride() {
         if (OI.overrideTransportConveyorButton.get()) {
-            godSubsystem.getConveyor().setTransportDemand(currentRobot.getConveyorConfig().getTransportIntakePercentOutput());
+            godSubsystem.getConveyor().setTransportDemand(conveyor.getConfig().getTransportIntakePercentOutput());
         } else {
             godSubsystem.getConveyor().setTransportDemand(0);
         }
@@ -138,9 +138,66 @@ public class Superstructure extends SubsystemBase {
 
     public void handleFeedConveyorManualOverride() {
         if (OI.overrideFeedConveyorButton.get()) {
-            godSubsystem.getConveyor().setFeedDemand(currentRobot.getConveyorConfig().getFeedShootPercentOutput());
+            godSubsystem.getConveyor().setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {
             godSubsystem.getConveyor().setFeedDemand(0);
+        }
+    }
+
+    public void handleIntaking() {
+        if (intake.isLeftIntakeDeployed()) {
+            intake.setLeftIntakeDemand(intake.getConfig().getLeftIntakePercentOutput());
+        } else {
+            intake.setLeftIntakeDemand(0);
+        }
+
+        if (intake.isRightIntakeDeployed()) {
+            intake.setRightIntakeDemand(intake.getConfig().getRightIntakePercentOutput());
+        } else {
+            intake.setRightIntakeDemand(0.0);
+        }
+    }
+
+    public void handleIntakingWithConveyor() {
+        handleIntaking();
+
+        conveyor.setTransportDemand(conveyor.getConfig().getTransportIntakePercentOutput());
+        conveyor.setFeedDemand(0);
+    }
+
+    public void handleOuttaking() {
+        if (intake.isLeftIntakeDeployed()) {
+            intake.setLeftIntakeDemand(intake.getConfig().getLeftOuttakePercentOutput());
+        } else {
+            intake.setLeftIntakeDemand(0);
+        }
+
+        if (intake.isRightIntakeDeployed()) {
+            intake.setRightIntakeDemand(intake.getConfig().getRightOuttakePercentOutput());
+        } else {
+            intake.setRightIntakeDemand(0);
+        }
+    }
+
+    public void handleOuttakingWithConveyor() {
+        handleOuttaking();
+
+        conveyor.setTransportDemand(currentRobot.getConveyorConfig().getTransportOuttakePercentOutput());
+        conveyor.setFeedDemand(currentRobot.getConveyorConfig().getFeedOuttakePercentOutput());
+    }
+
+    public void handleIntakingAndOuttaking() {
+        if (OI.intakeButton.get()
+                || (isInAuton() && doesAutonNeedToIntake())) {
+            handleIntakingWithConveyor();
+        } else if (OI.outtakeButton.get()) {
+            handleOuttakingWithConveyor();
+        } else {
+            intake.setLeftIntakeDemand(0.0);
+            intake.setRightIntakeDemand(0.0);
+
+            handleTransportConveyorManualOverride();
+            handleFeedConveyorManualOverride();
         }
     }
 

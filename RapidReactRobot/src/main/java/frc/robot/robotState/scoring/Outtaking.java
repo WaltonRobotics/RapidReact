@@ -9,7 +9,8 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-import static frc.robot.RobotContainer.currentRobot;
+import static frc.robot.OI.barfButton;
+import static frc.robot.OI.shootButton;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class Outtaking implements IState {
@@ -36,20 +37,12 @@ public class Outtaking implements IState {
             return new ScoringMode();
         }
 
-        if (intake.isLeftIntakeDeployed()) {
-            intake.setLeftIntakeDemand(currentRobot.getIntakeConfig().getLeftOuttakePercentOutput());
-        } else {
-            intake.setLeftIntakeDemand(0);
+        if (shootButton.isRisingEdge() || barfButton.isRisingEdge()
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())) {
+            return new AdjustingHood();
         }
 
-        if (intake.isRightIntakeDeployed()) {
-            intake.setRightIntakeDemand(currentRobot.getIntakeConfig().getRightOuttakePercentOutput());
-        } else {
-            intake.setRightIntakeDemand(0);
-        }
-
-        conveyor.setTransportDemand(currentRobot.getConveyorConfig().getTransportOuttakePercentOutput());
-        conveyor.setFeedDemand(currentRobot.getConveyorConfig().getFeedOuttakePercentOutput());
+        godSubsystem.handleOuttakingWithConveyor();
 
         return this;
     }

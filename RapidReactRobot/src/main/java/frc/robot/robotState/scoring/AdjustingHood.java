@@ -20,7 +20,7 @@ public class AdjustingHood implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
@@ -44,8 +44,7 @@ public class AdjustingHood implements IState {
             return new ScoringMode();
         }
 
-        godSubsystem.handleTransportConveyorManualOverride();
-        godSubsystem.handleFeedConveyorManualOverride();
+        godSubsystem.handleIntakingAndOuttaking();
 
         if (barfButton.get()) {
             return new PreparingToShoot();

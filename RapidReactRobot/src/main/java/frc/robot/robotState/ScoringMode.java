@@ -35,12 +35,12 @@ public class ScoringMode implements IState {
             return new ClimbingModeTransition();
         }
 
-        if (OI.intakeButton.isRisingEdge()
+        if (OI.intakeButton.get()
                 || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToIntake())) {
             return new Intaking();
         }
 
-        if (OI.outtakeButton.isRisingEdge()) {
+        if (OI.outtakeButton.get()) {
             return new Outtaking();
         }
 

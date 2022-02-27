@@ -27,7 +27,7 @@ public class AligningAndSpinningUp implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
+        godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
@@ -71,8 +71,7 @@ public class AligningAndSpinningUp implements IState {
 
         drivetrain.move(0, 0, turnRate, false);
 
-        godSubsystem.handleTransportConveyorManualOverride();
-        godSubsystem.handleFeedConveyorManualOverride();
+        godSubsystem.handleIntakingAndOuttaking();
 
         if (UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
                 || godSubsystem.getCurrentTime() >= timeout) {
