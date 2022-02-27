@@ -145,6 +145,9 @@ public class RobotContainer {
                     new InstantCommand(() ->
                             godSubsystem.getDrivetrain().saveRightRearZero((int) SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
 
+            SmartDashboard.putNumber(kLeftIntakePercentOutputKey, godSubsystem.getIntake().getConfig().getLeftIntakePercentOutput());
+            SmartDashboard.putNumber(kRightIntakePercentOutputKey, godSubsystem.getIntake().getConfig().getRightIntakePercentOutput());
+
             SmartDashboard.putNumber(kDrivetrainHeadingDegrees, 0.0);
             SmartDashboard.putNumber(kDrivetrainAngularVelocity, 0.0);
             SmartDashboard.putNumber(kDrivetrainPitchDegrees, 0.0);

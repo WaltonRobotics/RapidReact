@@ -9,6 +9,7 @@ import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
 import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
 import static frc.robot.Constants.SmartDashboardKeys.*;
@@ -155,13 +156,25 @@ public class Superstructure extends SubsystemBase {
 
     public void handleIntaking() {
         if (intake.isLeftIntakeDeployed()) {
-            intake.setLeftIntakeDemand(intake.getConfig().getLeftIntakePercentOutput());
+            double configOutput = intake.getConfig().getLeftIntakePercentOutput();
+
+            if (kIsInTuningMode) {
+                intake.setLeftIntakeDemand(SmartDashboard.getNumber(kLeftIntakePercentOutputKey, configOutput));
+            } else {
+                intake.setLeftIntakeDemand(configOutput);
+            }
         } else {
             intake.setLeftIntakeDemand(0);
         }
 
         if (intake.isRightIntakeDeployed()) {
-            intake.setRightIntakeDemand(intake.getConfig().getRightIntakePercentOutput());
+            double configOutput = intake.getConfig().getRightIntakePercentOutput();
+
+            if (kIsInTuningMode) {
+                intake.setRightIntakeDemand(SmartDashboard.getNumber(kRightIntakePercentOutputKey, configOutput));
+            } else {
+                intake.setRightIntakeDemand(configOutput);
+            }
         } else {
             intake.setRightIntakeDemand(0);
         }

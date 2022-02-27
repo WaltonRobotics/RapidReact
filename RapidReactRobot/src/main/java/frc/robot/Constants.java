@@ -145,6 +145,8 @@ public final class Constants {
         public static final String kTurnToAngleErrorDegrees = "Turn to Angle Error Deg";
         public static final String kTurnToAngleOmegaOutputKey = "Turn to Angle Omega Output";
 
+        public static final String kLeftIntakePercentOutputKey = "Left Intake Percent Output";
+        public static final String kRightIntakePercentOutputKey = "Right Intake Percent Output";
 
     }
 
