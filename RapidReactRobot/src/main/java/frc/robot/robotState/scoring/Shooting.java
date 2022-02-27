@@ -49,7 +49,7 @@ public class Shooting implements IState {
             return new SpinningUp();
         }
 
-        if (intakeButton.get()) {
+        if (intakeButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToIntake())) {
             godSubsystem.handleIntaking();
         } else if (outtakeButton.get()) {
             godSubsystem.handleOuttaking();

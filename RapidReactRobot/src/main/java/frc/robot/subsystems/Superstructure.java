@@ -154,7 +154,7 @@ public class Superstructure extends SubsystemBase {
         if (intake.isRightIntakeDeployed()) {
             intake.setRightIntakeDemand(intake.getConfig().getRightIntakePercentOutput());
         } else {
-            intake.setRightIntakeDemand(0.0);
+            intake.setRightIntakeDemand(0);
         }
     }
 
@@ -193,8 +193,8 @@ public class Superstructure extends SubsystemBase {
         } else if (OI.outtakeButton.get()) {
             handleOuttakingWithConveyor();
         } else {
-            intake.setLeftIntakeDemand(0.0);
-            intake.setRightIntakeDemand(0.0);
+            intake.setLeftIntakeDemand(0);
+            intake.setRightIntakeDemand(0);
 
             handleTransportConveyorManualOverride();
             handleFeedConveyorManualOverride();
