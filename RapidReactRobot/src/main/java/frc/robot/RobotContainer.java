@@ -50,6 +50,8 @@ public class RobotContainer {
         currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),
                 new DigitalInput(kRobotID2).get()).getSelectedRobot();
 
+        robotLogger.log(Level.INFO, "Current robot: " + currentRobot.getClass().getSimpleName());
+
         godSubsystem = new Superstructure();
 
         robotLogger.setLevel(Level.FINEST);
