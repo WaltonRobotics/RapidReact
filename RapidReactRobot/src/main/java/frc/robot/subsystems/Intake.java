@@ -6,8 +6,11 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.IntakeConfig;
+import frc.robot.util.EnhancedBoolean;
 
+import static frc.robot.Constants.Intake.rollUpTimeoutSeconds;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Intake implements SubSubsystem {
@@ -43,29 +46,69 @@ public class Intake implements SubSubsystem {
 
     @Override
     public void collectData() {
+        double currentTime = Timer.getFPGATimestamp();
 
+        leftIntakeSolenoid.set(periodicIO.leftIntakeDeployDemand);
+        rightIntakeSolenoid.set(periodicIO.rightIntakeDeployDemand);
+
+        boolean leftIntakeNeedsToRollUp = periodicIO.leftIntakeDeployBoolean.isFallingEdge();
+        boolean rightIntakeNeedsToRollUp = periodicIO.rightIntakeDeployBoolean.isFallingEdge();
+
+        if (leftIntakeNeedsToRollUp) {
+            periodicIO.leftIntakeRollUpTimeout = currentTime + rollUpTimeoutSeconds;
+        }
+
+        if (rightIntakeNeedsToRollUp) {
+            periodicIO.rightIntakeRollUpTimeout = currentTime + rollUpTimeoutSeconds;
+        }
     }
 
     @Override
     public void outputData() {
         switch (periodicIO.intakeControlState) {
             case OPEN_LOOP:
-                leftIntakeController.set(VictorSPXControlMode.PercentOutput, periodicIO.leftIntakeDemand);
-                rightIntakeController.set(VictorSPXControlMode.PercentOutput, periodicIO.rightIntakeDemand);
+                if (isLeftIntakeRollUpNeeded()) {
+                    leftIntakeController.set(VictorSPXControlMode.PercentOutput, config.getLeftOuttakePercentOutput());
+                } else {
+                    leftIntakeController.set(VictorSPXControlMode.PercentOutput, periodicIO.leftIntakeDemand);
+                }
+
+                if (isRightIntakeRollUpNeeded()) {
+                    rightIntakeController.set(VictorSPXControlMode.PercentOutput, config.getRightOuttakePercentOutput());
+                } else {
+                    rightIntakeController.set(VictorSPXControlMode.PercentOutput, periodicIO.rightIntakeDemand);
+                }
                 break;
             case DISABLED:
-                leftIntakeController.set(VictorSPXControlMode.PercentOutput, 0.0);
-                rightIntakeController.set(VictorSPXControlMode.PercentOutput, 0.0);
+                if (isLeftIntakeRollUpNeeded()) {
+                    leftIntakeController.set(VictorSPXControlMode.PercentOutput, config.getLeftOuttakePercentOutput());
+                } else {
+                    leftIntakeController.set(VictorSPXControlMode.PercentOutput, 0.0);
+                }
+
+                if (isRightIntakeRollUpNeeded()) {
+                    rightIntakeController.set(VictorSPXControlMode.PercentOutput, config.getRightOuttakePercentOutput());
+                } else {
+                    rightIntakeController.set(VictorSPXControlMode.PercentOutput, 0.0);
+                }
                 break;
         }
 
-        leftIntakeSolenoid.set(periodicIO.leftIntakeDeployDemand);
-        rightIntakeSolenoid.set(periodicIO.rightIntakeDeployDemand);
+        periodicIO.leftIntakeDeployBoolean.set(periodicIO.leftIntakeDeployDemand);
+        periodicIO.rightIntakeDeployBoolean.set(periodicIO.rightIntakeDeployDemand);
     }
 
     @Override
     public Sendable getPeriodicIOSendable() {
         return periodicIO;
+    }
+
+    private boolean isLeftIntakeRollUpNeeded() {
+        return !periodicIO.leftIntakeDeployDemand && Timer.getFPGATimestamp() < periodicIO.leftIntakeRollUpTimeout;
+    }
+
+    private boolean isRightIntakeRollUpNeeded() {
+        return !periodicIO.rightIntakeDeployDemand && Timer.getFPGATimestamp() < periodicIO.rightIntakeRollUpTimeout;
     }
 
     public IntakeControlState getIntakeControlState() {
@@ -129,8 +172,12 @@ public class Intake implements SubSubsystem {
         public double leftIntakeDemand;
         public double rightIntakeDemand;
         public boolean leftIntakeDeployDemand;
+        public EnhancedBoolean leftIntakeDeployBoolean = new EnhancedBoolean();
         public boolean rightIntakeDeployDemand;
-        private IntakeControlState intakeControlState = IntakeControlState.DISABLED;
+        public EnhancedBoolean rightIntakeDeployBoolean = new EnhancedBoolean();
+        public IntakeControlState intakeControlState = IntakeControlState.DISABLED;
+        public double leftIntakeRollUpTimeout;
+        public double rightIntakeRollUpTimeout;
 
         @Override
         public void initSendable(SendableBuilder builder) {

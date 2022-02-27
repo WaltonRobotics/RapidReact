@@ -54,6 +54,12 @@ public final class Constants {
 
     }
 
+    public static final class Intake {
+
+        public static final double rollUpTimeoutSeconds = 0.25;
+
+    }
+
     public static final class Shooter {
 
         public static final double kAbsoluteShootingDistanceFloorFeet = 42.0 / 12.0;
