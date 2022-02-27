@@ -172,22 +172,22 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public void loadAndSetAzimuthZeroReference() {
-//        int index = getWheelIndex();
-//        String key = String.format("SwerveDrive/wheel.%d", index);
-//        int reference = Preferences.getInt(key, Integer.MIN_VALUE);
-//        if (reference == Integer.MIN_VALUE) {
-//            robotLogger.log(Level.WARNING, "no saved azimuth zero reference for swerve module {0}", index);
-//            throw new IllegalStateException();
-//        }
-//        robotLogger.log(Level.INFO, "swerve module {0}: loaded azimuth zero reference = {1}", new Object[]{index, reference});
-//
-//        double azimuthAbsoluteCounts = getAzimuthAbsoluteEncoderCounts();
-//
-//        double azimuthSetpoint = (azimuthAbsoluteCounts - reference) / azimuthAbsoluteCountsPerRev;
-//
-//        azimuthSparkMax.getEncoder().setPosition(azimuthSetpoint);
-//
-//        periodicIO.azimuthRelativeCountsDemand = azimuthSetpoint;
+        int index = getWheelIndex();
+        String key = String.format("SwerveDrive/wheel.%d", index);
+        int reference = Preferences.getInt(key, Integer.MIN_VALUE);
+        if (reference == Integer.MIN_VALUE) {
+            robotLogger.log(Level.WARNING, "no saved azimuth zero reference for swerve module {0}", index);
+            throw new IllegalStateException();
+        }
+        robotLogger.log(Level.INFO, "swerve module {0}: loaded azimuth zero reference = {1}", new Object[]{index, reference});
+
+        double azimuthAbsoluteCounts = getAzimuthAbsoluteEncoderCounts();
+
+        double azimuthSetpoint = (azimuthAbsoluteCounts - reference) / azimuthAbsoluteCountsPerRev;
+
+        azimuthSparkMax.getEncoder().setPosition(azimuthSetpoint);
+
+        periodicIO.azimuthRelativeCountsDemand = azimuthSetpoint;
     }
 
     public CANSparkMax getAzimuthSparkMax() {
