@@ -37,13 +37,13 @@ public class Outtaking implements IState {
         }
 
         if (intake.isLeftIntakeDeployed()) {
-            intake.setLeftIntakeDemand(currentRobot.getIntakeConfig().getLeftOuttakeVoltage());
+            intake.setLeftIntakeDemand(currentRobot.getIntakeConfig().getLeftOuttakePercentOutput());
         } else {
             intake.setLeftIntakeDemand(0);
         }
 
         if (intake.isRightIntakeDeployed()) {
-            intake.setRightIntakeDemand(currentRobot.getIntakeConfig().getRightOuttakeVoltage());
+            intake.setRightIntakeDemand(currentRobot.getIntakeConfig().getRightOuttakePercentOutput());
         } else {
             intake.setRightIntakeDemand(0);
         }

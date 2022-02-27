@@ -317,22 +317,32 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public double getLeftIntakeVoltage() {
+            public int getLeftSolenoidChannel() {
+                return 10;
+            }
+
+            @Override
+            public int getRightSolenoidChannel() {
+                return 11;
+            }
+
+            @Override
+            public double getLeftIntakePercentOutput() {
                 return 0.8;
             }
 
             @Override
-            public double getRightIntakeVoltage() {
+            public double getRightIntakePercentOutput() {
                 return 0.8;
             }
 
             @Override
-            public double getLeftOuttakeVoltage() {
+            public double getLeftOuttakePercentOutput() {
                 return -0.8;
             }
 
             @Override
-            public double getRightOuttakeVoltage() {
+            public double getRightOuttakePercentOutput() {
                 return -0.8;
             }
         };
@@ -465,26 +475,11 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public MotorConfig getLeftAdjustableHoodServoConfig() {
+            public MotorConfig getAdjustableHoodServoConfig() {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
                         return 6;
-                    }
-
-                    @Override
-                    public boolean isInverted() {
-                        return false;
-                    }
-                };
-            }
-
-            @Override
-            public MotorConfig getRightAdjustableHoodServoConfig() {
-                return new MotorConfig() {
-                    @Override
-                    public int getChannelOrID() {
-                        return 7;
                     }
 
                     @Override

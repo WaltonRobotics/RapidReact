@@ -18,10 +18,10 @@ public class Intake implements SubSubsystem {
     private final VictorSPX rightIntakeController = new VictorSPX(config.getRightIntakeControllerConfig().getChannelOrID());
 
     private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
-            config.getLeftIntakeControllerConfig().getChannelOrID());
+            config.getLeftSolenoidChannel());
 
     private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
-            config.getRightIntakeControllerConfig().getChannelOrID());
+            config.getRightSolenoidChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
@@ -30,7 +30,10 @@ public class Intake implements SubSubsystem {
         rightIntakeController.setInverted(config.getRightIntakeControllerConfig().isInverted());
 
         leftIntakeController.enableVoltageCompensation(true);
+        leftIntakeController.configVoltageCompSaturation(12.0);
+
         rightIntakeController.enableVoltageCompensation(true);
+        rightIntakeController.configVoltageCompSaturation(12.0);
     }
 
     @Override

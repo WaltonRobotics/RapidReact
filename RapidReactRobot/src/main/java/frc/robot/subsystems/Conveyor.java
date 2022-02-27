@@ -23,7 +23,10 @@ public class Conveyor implements SubSubsystem {
         feedController.setInverted(config.getFeedControllerConfig().isInverted());
 
         transportController.enableVoltageCompensation(true);
+        transportController.configVoltageCompSaturation(12.0);
+
         feedController.enableVoltageCompensation(true);
+        feedController.configVoltageCompSaturation(12.0);
     }
 
     @Override

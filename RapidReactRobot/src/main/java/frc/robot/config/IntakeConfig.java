@@ -6,10 +6,13 @@ public interface IntakeConfig {
 
     MotorConfig getRightIntakeControllerConfig();
 
-    double getLeftIntakeVoltage();
-    double getRightIntakeVoltage();
+    int getLeftSolenoidChannel();
+    int getRightSolenoidChannel();
 
-    double getLeftOuttakeVoltage();
-    double getRightOuttakeVoltage();
+    double getLeftIntakePercentOutput();
+    double getRightIntakePercentOutput();
+
+    double getLeftOuttakePercentOutput();
+    double getRightOuttakePercentOutput();
 
 }

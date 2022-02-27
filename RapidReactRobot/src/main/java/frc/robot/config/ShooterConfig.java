@@ -17,9 +17,7 @@ public interface ShooterConfig {
 
     TalonFXConfiguration getFlywheelSlaveControllerTalonConfig();
 
-    MotorConfig getLeftAdjustableHoodServoConfig();
-
-    MotorConfig getRightAdjustableHoodServoConfig();
+    MotorConfig getAdjustableHoodServoConfig();
 
     double getLimelightMountingHeightInches();
     double getLimelightMountingAngleDegrees();

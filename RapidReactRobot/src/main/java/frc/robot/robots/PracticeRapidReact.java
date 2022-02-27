@@ -26,6 +26,24 @@ import static frc.robot.subsystems.Climber.ClimberPivotPosition.ANGLE_TO_HOOK_ON
 
 public class PracticeRapidReact extends WaltRobot {
 
+    // CAN IDs
+    // 1: Steer front-left
+    // 2: Steer front-right
+    // 3: Steer rear-left
+    // 4: Steer rear-right
+    // 5: Left intake rollers
+    // 6: Right intake rollers
+    // 7: Transport conveyor
+    // 8: Feed conveyor
+    // 9: Flywheel master
+    // 10: Flywheel slave
+    // 11: Drive front-left
+    // 12: Drive front-right
+    // 13: Drive rear-left
+    // 14: Drive rear-right
+    // 15: Climber pivot
+    // 16: Climber extension
+
     // Drivetrain constants
     private final SmartMotionConstants[] azimuthControllerConfigs = new SmartMotionConstants[4];
     private final TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
@@ -87,7 +105,7 @@ public class PracticeRapidReact extends WaltRobot {
     public void configDrivetrain() {
         for (int i = 0; i < 4; i++) {
             SmartMotionConstants azimuthConfig = new SmartMotionConstants() {
-                private final PIDController velocityPID = new PIDController(0.003198, 0.00006396, 0.0);
+                private final PIDController velocityPID = new PIDController(0.00013, 0.0000017, 0.0);
 
                 @Override
                 public PIDController getVelocityPID() {
@@ -96,12 +114,12 @@ public class PracticeRapidReact extends WaltRobot {
 
                 @Override
                 public double getIZone() {
-                    return 0.0;
+                    return 10.0;
                 }
 
                 @Override
                 public double getFeedforward() {
-                    return 0.00997776;
+                    return 0.00559;
                 }
 
                 @Override
@@ -116,7 +134,7 @@ public class PracticeRapidReact extends WaltRobot {
 
                 @Override
                 public double getMaxVelocity() {
-                    return 120;
+                    return 145;
                 }
 
                 @Override
@@ -126,7 +144,7 @@ public class PracticeRapidReact extends WaltRobot {
 
                 @Override
                 public double getMaxAccel() {
-                    return 100;
+                    return 120;
                 }
 
                 @Override
@@ -140,15 +158,15 @@ public class PracticeRapidReact extends WaltRobot {
             driveConfig.supplyCurrLimit.triggerThresholdCurrent = 45;
             driveConfig.supplyCurrLimit.triggerThresholdTime = 40;
             driveConfig.supplyCurrLimit.enable = true;
-            driveConfig.slot0.kP = 0.0051;
-            driveConfig.slot0.kI = 3.01E-05;
+            driveConfig.slot0.kP = 0.00075;
+            driveConfig.slot0.kI = 0.00019;
             driveConfig.slot0.kD = 0.000;
-            driveConfig.slot0.kF = 0.0455603184323331;
+            driveConfig.slot0.kF = 0.04538598;
 //            driveConfig.slot0.kP = 0.045;
 //            driveConfig.slot0.kI = 0.0005;
 //            driveConfig.slot0.kD = 0.000;
 //            driveConfig.slot0.kF = 0.047;
-            driveConfig.slot0.integralZone = 500;
+            driveConfig.slot0.integralZone = 750;
             driveConfig.slot0.maxIntegralAccumulator = 75_000;
             driveConfig.slot0.allowableClosedloopError = 0;
             driveConfig.velocityMeasurementPeriod = SensorVelocityMeasPeriod.Period_100Ms;
@@ -296,12 +314,12 @@ public class PracticeRapidReact extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 0;
+                        return 5;
                     }
 
                     @Override
                     public boolean isInverted() {
-                        return false;
+                        return true;
                     }
                 };
             }
@@ -311,34 +329,44 @@ public class PracticeRapidReact extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 1;
+                        return 6;
                     }
 
                     @Override
                     public boolean isInverted() {
-                        return false;
+                        return true;
                     }
                 };
             }
 
             @Override
-            public double getLeftIntakeVoltage() {
-                return 0.8;
+            public int getLeftSolenoidChannel() {
+                return 0;
             }
 
             @Override
-            public double getRightIntakeVoltage() {
-                return 0.8;
+            public int getRightSolenoidChannel() {
+                return 1;
             }
 
             @Override
-            public double getLeftOuttakeVoltage() {
-                return -0.8;
+            public double getLeftIntakePercentOutput() {
+                return 0.35;
             }
 
             @Override
-            public double getRightOuttakeVoltage() {
-                return -0.8;
+            public double getRightIntakePercentOutput() {
+                return 0.6;
+            }
+
+            @Override
+            public double getLeftOuttakePercentOutput() {
+                return -0.5;
+            }
+
+            @Override
+            public double getRightOuttakePercentOutput() {
+                return -0.5;
             }
         };
     }
@@ -351,12 +379,12 @@ public class PracticeRapidReact extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 2;
+                        return 7;
                     }
 
                     @Override
                     public boolean isInverted() {
-                        return false;
+                        return true;
                     }
                 };
             }
@@ -366,7 +394,7 @@ public class PracticeRapidReact extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 3;
+                        return 8;
                     }
 
                     @Override
@@ -405,27 +433,27 @@ public class PracticeRapidReact extends WaltRobot {
 
     @Override
     public void configShooter() {
-        flywheelMasterTalonConfig.voltageCompSaturation = 11.0;
-        flywheelSlaveTalonConfig.voltageCompSaturation = 11.0;
+        flywheelMasterTalonConfig.voltageCompSaturation = 12.0;
+        flywheelSlaveTalonConfig.voltageCompSaturation = 12.0;
 
         // Spinning up profile
-        flywheelMasterTalonConfig.slot0.kF = 0.0001;
-        flywheelMasterTalonConfig.slot0.kP = 0.0001;
-        flywheelMasterTalonConfig.slot0.kI = 0.0001;
-        flywheelMasterTalonConfig.slot0.kD = 0.0001;
+        flywheelMasterTalonConfig.slot0.kF = 0.0471003;
+        flywheelMasterTalonConfig.slot0.kP = 0.0153;
+        flywheelMasterTalonConfig.slot0.kI = 0.000153;
+        flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot0.integralZone = 100;
-        flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 0;
+        flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 75000;
         flywheelMasterTalonConfig.slot0.closedLoopPeakOutput = 1.0;
 
         // Shooting profile
-        flywheelMasterTalonConfig.slot1.kF = 0.0001;
-        flywheelMasterTalonConfig.slot1.kP = 0.0001;
-        flywheelMasterTalonConfig.slot1.kI = 0.0001;
-        flywheelMasterTalonConfig.slot1.kD = 0.0001;
+        flywheelMasterTalonConfig.slot1.kF = 0.0471003;
+        flywheelMasterTalonConfig.slot1.kP = 0.0153;
+        flywheelMasterTalonConfig.slot1.kI = 0.000153;
+        flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot1.integralZone = 100;
-        flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 0;
+        flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 75000;
         flywheelMasterTalonConfig.slot1.closedLoopPeakOutput = 1.0;
 
         shooterConfig = new ShooterConfig() {
@@ -434,12 +462,12 @@ public class PracticeRapidReact extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 4;
+                        return 9;
                     }
 
                     @Override
                     public boolean isInverted() {
-                        return false;
+                        return true;
                     }
                 };
             }
@@ -449,7 +477,7 @@ public class PracticeRapidReact extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 5;
+                        return 10;
                     }
 
                     @Override
@@ -470,26 +498,11 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public MotorConfig getLeftAdjustableHoodServoConfig() {
+            public MotorConfig getAdjustableHoodServoConfig() {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 6;
-                    }
-
-                    @Override
-                    public boolean isInverted() {
-                        return false;
-                    }
-                };
-            }
-
-            @Override
-            public MotorConfig getRightAdjustableHoodServoConfig() {
-                return new MotorConfig() {
-                    @Override
-                    public int getChannelOrID() {
-                        return 7;
+                        return 2;
                     }
 
                     @Override
@@ -524,7 +537,7 @@ public class PracticeRapidReact extends WaltRobot {
     @Override
     public void configClimber() {
         pivotControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-                true, 75, 80, 1);
+                true, 10, 15, 1);
         pivotControllerTalonConfig.voltageCompSaturation = 12.0;
         pivotControllerTalonConfig.forwardSoftLimitEnable = true;
         pivotControllerTalonConfig.reverseSoftLimitEnable = true;
@@ -543,7 +556,7 @@ public class PracticeRapidReact extends WaltRobot {
         pivotControllerTalonConfig.motionCurveStrength = 3;
 
         extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-                true, 75, 80, 1);
+                true, 10, 15, 1);
         extensionControllerTalonConfig.voltageCompSaturation = 12.0;
         extensionControllerTalonConfig.forwardSoftLimitEnable = true;
         extensionControllerTalonConfig.reverseSoftLimitEnable = true;
@@ -610,7 +623,7 @@ public class PracticeRapidReact extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 8;
+                        return 15;
                     }
 
                     @Override
@@ -625,7 +638,7 @@ public class PracticeRapidReact extends WaltRobot {
                 return new MotorConfig() {
                     @Override
                     public int getChannelOrID() {
-                        return 9;
+                        return 16;
                     }
 
                     @Override
@@ -724,8 +737,8 @@ public class PracticeRapidReact extends WaltRobot {
 
     @Override
     public void defineTargets() {
-        hoodTargets.put(Shooter.HoodPosition.SIXTY_DEGREES, new Target(0, 0));
-        hoodTargets.put(Shooter.HoodPosition.SEVENTY_DEGREES, new Target(0.5, 0));
+        hoodTargets.put(Shooter.HoodPosition.SIXTY_DEGREES, new Target(1.0, 0));
+        hoodTargets.put(Shooter.HoodPosition.SEVENTY_DEGREES, new Target(-1.0, 0));
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 

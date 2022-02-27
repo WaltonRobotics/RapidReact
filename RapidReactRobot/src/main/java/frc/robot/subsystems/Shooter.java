@@ -30,10 +30,8 @@ public class Shooter implements SubSubsystem {
     private final TalonFX flywheelSlaveController = new TalonFX(
             config.getFlywheelSlaveControllerMotorConfig().getChannelOrID());
 
-    private final Servo leftAdjustableHoodServo = new Servo(
-            config.getLeftAdjustableHoodServoConfig().getChannelOrID());
-    private final Servo rightAdjustableHoodServo = new Servo(
-            config.getRightAdjustableHoodServoConfig().getChannelOrID());
+    private final Servo adjustableHoodServo = new Servo(
+            config.getAdjustableHoodServoConfig().getChannelOrID());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
@@ -51,10 +49,10 @@ public class Shooter implements SubSubsystem {
         flywheelSlaveController.setSensorPhase(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setNeutralMode(NeutralMode.Coast);
         flywheelSlaveController.enableVoltageCompensation(false);
+        flywheelSlaveController.follow(flywheelMasterController);
 
         // From L16-R datasheet
-        leftAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
-        rightAdjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
+        adjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 
         setHoodPosition(HoodPosition.SIXTY_DEGREES);
     }
@@ -97,19 +95,13 @@ public class Shooter implements SubSubsystem {
 
         double currentFPGATime = Timer.getFPGATimestamp();
 
-        if (periodicIO.lastLeftAdjustableHoodDutyCycleDemand != periodicIO.leftAdjustableHoodDutyCycleDemand) {
+        if (periodicIO.lastAdjustableHoodDutyCycleDemand != periodicIO.adjustableHoodDutyCycleDemand) {
             periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
         }
 
-        if (periodicIO.lastRightAdjustableHoodDutyCycleDemand != periodicIO.rightAdjustableHoodDutyCycleDemand) {
-            periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
-        }
+        adjustableHoodServo.setSpeed(periodicIO.adjustableHoodDutyCycleDemand);
 
-        leftAdjustableHoodServo.setSpeed(periodicIO.leftAdjustableHoodDutyCycleDemand);
-        rightAdjustableHoodServo.setSpeed(periodicIO.rightAdjustableHoodDutyCycleDemand);
-
-        periodicIO.lastLeftAdjustableHoodDutyCycleDemand = periodicIO.leftAdjustableHoodDutyCycleDemand;
-        periodicIO.lastRightAdjustableHoodDutyCycleDemand = periodicIO.rightAdjustableHoodDutyCycleDemand;
+        periodicIO.lastAdjustableHoodDutyCycleDemand = periodicIO.adjustableHoodDutyCycleDemand;
     }
 
     @Override
@@ -145,8 +137,7 @@ public class Shooter implements SubSubsystem {
 
         double targetDutyCycle = currentRobot.getShooterConfig().getHoodTargets().get(selectedHoodPosition).getTarget();
 
-        setLeftAdjustableHoodDutyCycleDemand(targetDutyCycle);
-        setRightAdjustableHoodDutyCycleDemand(targetDutyCycle);
+        setAdjustableHoodDutyCycleDemand(targetDutyCycle);
     }
 
     public double getFlywheelDemand() {
@@ -157,20 +148,12 @@ public class Shooter implements SubSubsystem {
         periodicIO.flywheelDemand = flywheelDemand;
     }
 
-    public double getLeftAdjustableHoodDutyCycleDemand() {
-        return periodicIO.leftAdjustableHoodDutyCycleDemand;
+    public double getAdjustableHoodDutyCycleDemand() {
+        return periodicIO.adjustableHoodDutyCycleDemand;
     }
 
-    public void setLeftAdjustableHoodDutyCycleDemand(double leftAdjustableHoodDutyCycleDemand) {
-        periodicIO.leftAdjustableHoodDutyCycleDemand = leftAdjustableHoodDutyCycleDemand;
-    }
-
-    public double getRightAdjustableHoodDutyCycleDemand() {
-        return periodicIO.rightAdjustableHoodDutyCycleDemand;
-    }
-
-    public void setRightAdjustableHoodDutyCycleDemand(double rightAdjustableHoodDutyCycleDemand) {
-        periodicIO.rightAdjustableHoodDutyCycleDemand = rightAdjustableHoodDutyCycleDemand;
+    public void setAdjustableHoodDutyCycleDemand(double leftAdjustableHoodDutyCycleDemand) {
+        periodicIO.adjustableHoodDutyCycleDemand = leftAdjustableHoodDutyCycleDemand;
     }
 
     public double getLastAdjustableHoodChangeFPGATime() {
@@ -246,10 +229,8 @@ public class Shooter implements SubSubsystem {
         public boolean resetSelectedProfileSlot = false;
         public HoodPosition hoodPosition = HoodPosition.SIXTY_DEGREES;
         public double flywheelDemand;
-        public double leftAdjustableHoodDutyCycleDemand;
-        public double rightAdjustableHoodDutyCycleDemand;
-        public double lastLeftAdjustableHoodDutyCycleDemand;
-        public double lastRightAdjustableHoodDutyCycleDemand;
+        public double adjustableHoodDutyCycleDemand;
+        public double lastAdjustableHoodDutyCycleDemand;
         public double lastAdjustableHoodChangeFPGATime;
 
         // Inputs
@@ -265,11 +246,9 @@ public class Shooter implements SubSubsystem {
             });
             builder.addDoubleProperty("Flywheel Demand", () -> flywheelDemand, (x) -> {
             });
-            builder.addDoubleProperty("Left Adjustable Hood Demand", () -> leftAdjustableHoodDutyCycleDemand, (x) -> {
+            builder.addDoubleProperty("Left Adjustable Hood Demand", () -> adjustableHoodDutyCycleDemand, (x) -> {
             });
-            builder.addDoubleProperty("Right Adjustable Hood Demand", () -> rightAdjustableHoodDutyCycleDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Flywheel Velocity NU", () -> rightAdjustableHoodDutyCycleDemand, (x) -> {
+            builder.addDoubleProperty("Flywheel Velocity NU", () -> flywheelVelocityNU, (x) -> {
             });
             builder.addDoubleProperty("Flywheel Closed Loop Error NU", () -> flywheelClosedLoopErrorNU, (x) -> {
             });

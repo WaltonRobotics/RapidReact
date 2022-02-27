@@ -6,8 +6,8 @@ package frc.robot.robots;
 
 public enum RobotIdentifier {
 
-    SWERVE_TESTBED(true, true, new SwerveTestbed()),
-    PRACTICE_RAPID_REACT(false, true, new PracticeRapidReact()),
+    PRACTICE_RAPID_REACT(true, true, new PracticeRapidReact()),
+    SWERVE_TESTBED(false, true, new SwerveTestbed()),
     COMP_RAPID_REACT(false, false, new CompRapidReact());
 
     private final boolean input1;

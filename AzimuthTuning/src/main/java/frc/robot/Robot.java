@@ -104,11 +104,11 @@ public class Robot extends TimedRobot {
     maxAcc = 100;
 
     // set PID coefficients
-    m_pidController.setP(kP);
-    m_pidController.setI(kI);
-    m_pidController.setD(kD);
-    m_pidController.setIZone(kIz);
-    m_pidController.setFF(kFF);
+    m_pidController.setP(kP); // 0.00013
+    m_pidController.setI(kI); // 0.0000017
+    m_pidController.setD(kD); // 0
+    m_pidController.setIZone(kIz); // 10
+    m_pidController.setFF(kFF); // 0.00559
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
 
     /**

@@ -36,14 +36,14 @@ public class Intaking implements IState {
             return new ScoringMode();
         }
 
-        if (intake.isLeftIntakeDeployed()) {
-            intake.setLeftIntakeDemand(currentRobot.getIntakeConfig().getLeftIntakeVoltage());
+        if (intake.isLeftIntakeDeployed() || true) {
+            intake.setLeftIntakeDemand(currentRobot.getIntakeConfig().getLeftIntakePercentOutput());
         } else {
             intake.setLeftIntakeDemand(0);
         }
 
-        if (intake.isRightIntakeDeployed()) {
-            intake.setLeftIntakeDemand(currentRobot.getIntakeConfig().getRightIntakeVoltage());
+        if (intake.isRightIntakeDeployed() || true) {
+            intake.setRightIntakeDemand(currentRobot.getIntakeConfig().getRightIntakePercentOutput());
         } else {
             intake.setRightIntakeDemand(0.0);
         }
