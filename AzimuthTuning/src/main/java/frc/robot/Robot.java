@@ -90,18 +90,19 @@ public class Robot extends TimedRobot {
     m_encoder.setVelocityConversionFactor(relativeEncoderDegreesPerTick);
 
     // PID coefficients
-    kP = 5e-5 * inverseEncoderConstant;
-    kI = 1e-6 * inverseEncoderConstant;
+    kP = 0.00013;
+    kI = 0.0000017;
     kD = 0;
-    kIz = 0;
-    kFF = 0.000156 * inverseEncoderConstant;
+    kIz = 10;
+    kFF = 0.00559;
     kMaxOutput = 1;
     kMinOutput = -1;
     maxRPM = 5700.0 * inverseEncoderConstant;
 
     // Smart Motion Coefficients
-    maxVel = 120; // rpm
-    maxAcc = 100;
+    maxVel = 145; // rpm
+    maxAcc = 120;
+    minVel = -145;
 
     // set PID coefficients
     m_pidController.setP(kP); // 0.00013
@@ -216,6 +217,7 @@ public class Robot extends TimedRobot {
     if(mode) {
       setPoint = SmartDashboard.getNumber("Set Velocity", 0);
       m_pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+      //m_motor.set(0.85);
       processVariable = m_encoder.getVelocity();
     } else {
       setPoint = SmartDashboard.getNumber("Set Position", 0);
