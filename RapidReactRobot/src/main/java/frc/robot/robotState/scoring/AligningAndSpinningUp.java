@@ -69,7 +69,9 @@ public class AligningAndSpinningUp implements IState {
         SmartDashboard.putNumber(kLimelightAlignErrorDegrees, controller.getPositionError());
         SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, turnRate);
 
-        drivetrain.move(0, 0, turnRate, false);
+        if (LimelightHelper.getTV() >= 1) {
+            drivetrain.move(0, 0, turnRate, false);
+        }
 
         godSubsystem.handleIntakingAndOuttaking();
 
