@@ -51,7 +51,7 @@ public class Robot extends WaltTimesliceRobot {
         schedule(godSubsystem.getShooter()::collectData, 0.0003);
         schedule(godSubsystem.getShooter()::outputData, 0.0006);
         schedule(godSubsystem.getClimber()::collectData, 0.0003);
-        schedule(godSubsystem.getClimber()::outputData, 0.0006);
+//        schedule(godSubsystem.getClimber()::outputData, 0.0006);
 
         LimelightHelper.setLEDMode(kIsInTuningMode);
     }
