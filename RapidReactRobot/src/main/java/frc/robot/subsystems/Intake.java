@@ -29,11 +29,11 @@ public class Intake implements SubSubsystem {
         leftIntakeController.setInverted(config.getLeftIntakeControllerConfig().isInverted());
         rightIntakeController.setInverted(config.getRightIntakeControllerConfig().isInverted());
 
-        leftIntakeController.enableVoltageCompensation(true);
         leftIntakeController.configVoltageCompSaturation(12.0);
+        leftIntakeController.enableVoltageCompensation(true);
 
-        rightIntakeController.enableVoltageCompensation(true);
         rightIntakeController.configVoltageCompSaturation(12.0);
+        rightIntakeController.enableVoltageCompensation(true);
     }
 
     @Override

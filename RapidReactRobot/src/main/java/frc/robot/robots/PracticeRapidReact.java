@@ -27,10 +27,10 @@ import static frc.robot.subsystems.Climber.ClimberPivotPosition.ANGLE_TO_HOOK_ON
 public class PracticeRapidReact extends WaltRobot {
 
     // CAN IDs
-    // 1: Steer front-left
-    // 2: Steer front-right
-    // 3: Steer rear-left
-    // 4: Steer rear-right
+    // 1: Azimuth front-left
+    // 2: Azimuth front-right
+    // 3: Azimuth rear-left
+    // 4: Azimuth rear-right
     // 5: Left intake rollers
     // 6: Right intake rollers
     // 7: Transport conveyor
