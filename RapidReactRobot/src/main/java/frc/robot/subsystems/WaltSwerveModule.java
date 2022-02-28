@@ -47,7 +47,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         public double driveDemand;
 
         // Inputs
-        public int azimuthAbsoluteCounts;
+        public int azimuthAbsoluteFrequency;
+        public double azimuthAbsoluteOutput;
         public double azimuthRelativeCounts;
         public double driveVelocityNU;
         public double driveClosedLoopErrorNU;
@@ -84,7 +85,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public void collectData() {
-        periodicIO.azimuthAbsoluteCounts = getAzimuthAbsoluteEncoderMeasurement();
+        periodicIO.azimuthAbsoluteFrequency = azimuthAbsoluteEncoderPWM.getFrequency();
+        periodicIO.azimuthAbsoluteOutput = azimuthAbsoluteEncoderPWM.getOutput();
         periodicIO.azimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
         periodicIO.driveVelocityNU = driveTalon.getSelectedSensorVelocity();
         periodicIO.driveClosedLoopErrorNU = driveTalon.getClosedLoopError();
@@ -184,11 +186,15 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
         double azimuthAbsoluteCounts = getAzimuthAbsoluteEncoderCounts();
 
-        double azimuthSetpoint = (azimuthAbsoluteCounts - reference) / azimuthAbsoluteCountsPerRev;
+        if (isAzimuthAbsoluteEncoderValid()) {
+            double azimuthSetpoint = (azimuthAbsoluteCounts - reference) / azimuthAbsoluteCountsPerRev;
 
-        azimuthSparkMax.getEncoder().setPosition(azimuthSetpoint);
+            azimuthSparkMax.getEncoder().setPosition(azimuthSetpoint);
 
-        periodicIO.azimuthRelativeCountsDemand = azimuthSetpoint;
+            periodicIO.azimuthRelativeCountsDemand = azimuthSetpoint;
+        } else {
+            robotLogger.log(Level.SEVERE, "failed to zero swerve module {0} due to invalid absolute encoder data", index);
+        }
     }
 
     public CANSparkMax getAzimuthSparkMax() {
@@ -207,27 +213,14 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return periodicIO.driveClosedLoopErrorNU;
     }
 
-    public int getAzimuthAbsoluteEncoderCounts() {
-        return periodicIO.azimuthAbsoluteCounts;
+    public boolean isAzimuthAbsoluteEncoderValid() {
+        return periodicIO.azimuthAbsoluteFrequency >= 208 && periodicIO.azimuthAbsoluteFrequency <= 280;
     }
 
-    private int getAzimuthAbsoluteEncoderMeasurement() {
-        boolean isAzimuthAbsoluteEncoderValid = false;
-        int frequency;
-        double output = 0;
+    public int getAzimuthAbsoluteEncoderCounts() {
+        double output = periodicIO.azimuthAbsoluteOutput;
 
-        for (int i = 0; i < 10; i++) {
-            frequency = azimuthAbsoluteEncoderPWM.getFrequency();
-            output = azimuthAbsoluteEncoderPWM.getOutput();
-
-            isAzimuthAbsoluteEncoderValid = frequency >= 208 && frequency <= 280;
-
-            if (isAzimuthAbsoluteEncoderValid) {
-                break;
-            }
-        }
-
-        if (!isAzimuthAbsoluteEncoderValid) {
+        if (!isAzimuthAbsoluteEncoderValid()) {
             robotLogger.log(Level.SEVERE, "Absolute encoder data not valid!");
         }
 
