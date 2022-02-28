@@ -114,6 +114,8 @@ public class RobotContainer {
 
         SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
 
+        SmartDashboard.putData("Reset drivetrain", new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()));
+
         SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
         SmartDashboard.putNumber(kDrivetrainSetpointVelocityKey, 0.0);
 

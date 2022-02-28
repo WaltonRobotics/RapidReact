@@ -120,8 +120,6 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveDrive = new SwerveDrive(ahrs, swerveModules);
 
         SmartDashboard.putData("Field", field);
-
-        zeroSensors();
     }
 
     public void saveLeftFrontZero(int absoluteCounts) {
