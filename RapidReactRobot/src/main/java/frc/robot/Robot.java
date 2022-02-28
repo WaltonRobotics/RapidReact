@@ -103,6 +103,8 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setDoesAutonNeedToShoot(false);
         godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
 
+        godSubsystem.getDrivetrain().setBrakeNeutralMode();
+
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(kIsInTuningMode);
 
@@ -126,6 +128,8 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setEnabled(true);
 
         godSubsystem.setInAuton(false);
+
+        godSubsystem.getDrivetrain().setBrakeNeutralMode();
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(true);

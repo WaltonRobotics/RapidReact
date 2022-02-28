@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
-import frc.lib.strykeforce.swerve.SwerveModule;
 import frc.robot.config.DrivetrainConfig;
 import frc.robot.config.SmartMotionConstants;
 
@@ -57,7 +56,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             azimuthSparkMax.enableVoltageCompensation(12.0);
             azimuthSparkMax.setSmartCurrentLimit(20);
             azimuthSparkMax.setOpenLoopRampRate(0.0);
-            azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+            azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
             azimuthSparkMax.setInverted(config.getAzimuthControllerInversions()[i]);
 
             // 1.0 reported by the azimuth relative encoder should correspond to 1 full rotation of the wheel
@@ -93,7 +92,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             driveTalon.configFactoryDefault(10);
             driveTalon.configAllSettings(driveConfig, 10);
             driveTalon.enableVoltageCompensation(true);
-            driveTalon.setNeutralMode(NeutralMode.Brake);
+            driveTalon.setNeutralMode(NeutralMode.Coast);
 
             driveTalon.setInverted(config.getDriveControllerInversions()[i]);
             driveTalon.setSensorPhase(config.getDriveControllerInversions()[i]);
@@ -196,13 +195,6 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return swerveDrive.getPoseMeters();
     }
 
-    public void setVelocityAndRotation(double velocity, double rotationAngleDegrees) {
-        for (WaltSwerveModule module : swerveModules) {
-            module.setDriveClosedLoopMetersPerSecond(velocity);
-            module.setAzimuthRotation2d(Rotation2d.fromDegrees(rotationAngleDegrees));
-        }
-    }
-
     /**
      * Perform periodic swerve drive odometry update.
      */
@@ -237,9 +229,9 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public void setModuleStates(SwerveModuleState state) {
-        for (SwerveModule module : getSwerveModules()) {
-            ((WaltSwerveModule) module).setDriveClosedLoopMetersPerSecond(state.speedMetersPerSecond);
-            ((WaltSwerveModule) module).setAzimuthRotation2d(state.angle);
+        for (WaltSwerveModule module : swerveModules) {
+            module.setDriveClosedLoopMetersPerSecond(state.speedMetersPerSecond);
+            module.setAzimuthRotation2d(state.angle);
         }
     }
 
@@ -253,6 +245,18 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     public Rotation2d getPitch() {
         return Rotation2d.fromDegrees(ahrs.getPitch());
+    }
+
+    public void setBrakeNeutralMode() {
+        for (WaltSwerveModule module : swerveModules) {
+            module.setBrakeNeutralMode();
+        }
+    }
+
+    public void setCoastNeutralMode() {
+        for (WaltSwerveModule module : swerveModules) {
+            module.setCoastNeutralMode();
+        }
     }
 
     public DrivetrainConfig getConfig() {

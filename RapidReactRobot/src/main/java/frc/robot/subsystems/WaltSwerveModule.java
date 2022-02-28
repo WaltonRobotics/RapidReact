@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -290,6 +291,16 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         double encoderCountsPerSecond = motorRotationsPerSecond * driveCountsPerRev;
 
         periodicIO.driveDemand = encoderCountsPerSecond / k100msPerSecond;
+    }
+
+    public void setBrakeNeutralMode() {
+        azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        driveTalon.setNeutralMode(NeutralMode.Brake);
+    }
+
+    public void setCoastNeutralMode() {
+        azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        driveTalon.setNeutralMode(NeutralMode.Coast);
     }
 
     private int getWheelIndex() {
