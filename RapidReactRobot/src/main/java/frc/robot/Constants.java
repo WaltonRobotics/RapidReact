@@ -56,7 +56,7 @@ public final class Constants {
 
     public static final class Intake {
 
-        public static final double rollUpTimeoutSeconds = 0.25;
+        public static final double rollUpTimeoutSeconds = 1.0;
 
     }
 
