@@ -514,7 +514,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLimelightMountingHeightInches() {
-                return 32.00;
+                return 43.00;
             }
 
             @Override
