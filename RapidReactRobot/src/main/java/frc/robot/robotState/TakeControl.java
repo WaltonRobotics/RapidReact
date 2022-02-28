@@ -17,6 +17,8 @@ public class TakeControl implements IState {
         // Enable drive
         DriveCommand.setIsEnabled(true);
 
+        godSubsystem.getDrivetrain().zeroSensors();
+
         // Load pivot reference
         godSubsystem.getClimber().zeroSensors();
 

@@ -50,6 +50,8 @@ public class RobotContainer {
         currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),
                 new DigitalInput(kRobotID2).get()).getSelectedRobot();
 
+        robotLogger.log(Level.INFO, "Current robot: " + currentRobot.getClass().getSimpleName());
+
         godSubsystem = new Superstructure();
 
         robotLogger.setLevel(Level.FINEST);
@@ -112,6 +114,8 @@ public class RobotContainer {
 
         SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
 
+        SmartDashboard.putData("Reset drivetrain", new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()));
+
         SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
         SmartDashboard.putNumber(kDrivetrainSetpointVelocityKey, 0.0);
 
@@ -144,6 +148,9 @@ public class RobotContainer {
             SmartDashboard.putData(kDrivetrainSaveRightRearZeroKey,
                     new InstantCommand(() ->
                             godSubsystem.getDrivetrain().saveRightRearZero((int) SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
+
+            SmartDashboard.putNumber(kLeftIntakePercentOutputKey, godSubsystem.getIntake().getConfig().getLeftIntakePercentOutput());
+            SmartDashboard.putNumber(kRightIntakePercentOutputKey, godSubsystem.getIntake().getConfig().getRightIntakePercentOutput());
 
             SmartDashboard.putNumber(kDrivetrainHeadingDegrees, 0.0);
             SmartDashboard.putNumber(kDrivetrainAngularVelocity, 0.0);

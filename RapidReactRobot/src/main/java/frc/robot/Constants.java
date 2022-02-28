@@ -54,6 +54,12 @@ public final class Constants {
 
     }
 
+    public static final class Intake {
+
+        public static final double rollUpTimeoutSeconds = 1.0;
+
+    }
+
     public static final class Shooter {
 
         public static final double kAbsoluteShootingDistanceFloorFeet = 42.0 / 12.0;
@@ -145,6 +151,8 @@ public final class Constants {
         public static final String kTurnToAngleErrorDegrees = "Turn to Angle Error Deg";
         public static final String kTurnToAngleOmegaOutputKey = "Turn to Angle Omega Output";
 
+        public static final String kLeftIntakePercentOutputKey = "Left Intake Percent Output";
+        public static final String kRightIntakePercentOutputKey = "Right Intake Percent Output";
 
     }
 

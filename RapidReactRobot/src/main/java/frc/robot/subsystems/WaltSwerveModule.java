@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -46,7 +47,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         public double driveDemand;
 
         // Inputs
-        public int azimuthAbsoluteCounts;
+        public int azimuthAbsoluteFrequency;
+        public double azimuthAbsoluteOutput;
         public double azimuthRelativeCounts;
         public double driveVelocityNU;
         public double driveClosedLoopErrorNU;
@@ -83,7 +85,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public void collectData() {
-        periodicIO.azimuthAbsoluteCounts = getAzimuthAbsoluteEncoderMeasurement();
+        periodicIO.azimuthAbsoluteFrequency = azimuthAbsoluteEncoderPWM.getFrequency();
+        periodicIO.azimuthAbsoluteOutput = azimuthAbsoluteEncoderPWM.getOutput();
         periodicIO.azimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
         periodicIO.driveVelocityNU = driveTalon.getSelectedSensorVelocity();
         periodicIO.driveClosedLoopErrorNU = driveTalon.getClosedLoopError();
@@ -172,22 +175,26 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public void loadAndSetAzimuthZeroReference() {
-//        int index = getWheelIndex();
-//        String key = String.format("SwerveDrive/wheel.%d", index);
-//        int reference = Preferences.getInt(key, Integer.MIN_VALUE);
-//        if (reference == Integer.MIN_VALUE) {
-//            robotLogger.log(Level.WARNING, "no saved azimuth zero reference for swerve module {0}", index);
-//            throw new IllegalStateException();
-//        }
-//        robotLogger.log(Level.INFO, "swerve module {0}: loaded azimuth zero reference = {1}", new Object[]{index, reference});
-//
-//        double azimuthAbsoluteCounts = getAzimuthAbsoluteEncoderCounts();
-//
-//        double azimuthSetpoint = (azimuthAbsoluteCounts - reference) / azimuthAbsoluteCountsPerRev;
-//
-//        azimuthSparkMax.getEncoder().setPosition(azimuthSetpoint);
-//
-//        periodicIO.azimuthRelativeCountsDemand = azimuthSetpoint;
+        int index = getWheelIndex();
+        String key = String.format("SwerveDrive/wheel.%d", index);
+        int reference = Preferences.getInt(key, Integer.MIN_VALUE);
+        if (reference == Integer.MIN_VALUE) {
+            robotLogger.log(Level.WARNING, "no saved azimuth zero reference for swerve module {0}", index);
+            throw new IllegalStateException();
+        }
+        robotLogger.log(Level.INFO, "swerve module {0}: loaded azimuth zero reference = {1}", new Object[]{index, reference});
+
+        double azimuthAbsoluteCounts = getAzimuthAbsoluteEncoderCounts();
+
+        if (isAzimuthAbsoluteEncoderValid()) {
+            double azimuthSetpoint = (azimuthAbsoluteCounts - reference) / azimuthAbsoluteCountsPerRev;
+
+            azimuthSparkMax.getEncoder().setPosition(azimuthSetpoint);
+
+            periodicIO.azimuthRelativeCountsDemand = azimuthSetpoint;
+        } else {
+            robotLogger.log(Level.SEVERE, "failed to zero swerve module {0} due to invalid absolute encoder data", index);
+        }
     }
 
     public CANSparkMax getAzimuthSparkMax() {
@@ -206,27 +213,14 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return periodicIO.driveClosedLoopErrorNU;
     }
 
-    public int getAzimuthAbsoluteEncoderCounts() {
-        return periodicIO.azimuthAbsoluteCounts;
+    public boolean isAzimuthAbsoluteEncoderValid() {
+        return periodicIO.azimuthAbsoluteFrequency >= 208 && periodicIO.azimuthAbsoluteFrequency <= 280;
     }
 
-    private int getAzimuthAbsoluteEncoderMeasurement() {
-        boolean isAzimuthAbsoluteEncoderValid = false;
-        int frequency;
-        double output = 0;
+    public int getAzimuthAbsoluteEncoderCounts() {
+        double output = periodicIO.azimuthAbsoluteOutput;
 
-        for (int i = 0; i < 10; i++) {
-            frequency = azimuthAbsoluteEncoderPWM.getFrequency();
-            output = azimuthAbsoluteEncoderPWM.getOutput();
-
-            isAzimuthAbsoluteEncoderValid = frequency >= 208 && frequency <= 280;
-
-            if (isAzimuthAbsoluteEncoderValid) {
-                break;
-            }
-        }
-
-        if (!isAzimuthAbsoluteEncoderValid) {
+        if (!isAzimuthAbsoluteEncoderValid()) {
             robotLogger.log(Level.SEVERE, "Absolute encoder data not valid!");
         }
 
@@ -290,6 +284,16 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         double encoderCountsPerSecond = motorRotationsPerSecond * driveCountsPerRev;
 
         periodicIO.driveDemand = encoderCountsPerSecond / k100msPerSecond;
+    }
+
+    public void setBrakeNeutralMode() {
+        azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        driveTalon.setNeutralMode(NeutralMode.Brake);
+    }
+
+    public void setCoastNeutralMode() {
+        azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        driveTalon.setNeutralMode(NeutralMode.Coast);
     }
 
     private int getWheelIndex() {

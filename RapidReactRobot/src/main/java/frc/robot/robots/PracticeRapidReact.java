@@ -105,7 +105,7 @@ public class PracticeRapidReact extends WaltRobot {
     public void configDrivetrain() {
         for (int i = 0; i < 4; i++) {
             SmartMotionConstants azimuthConfig = new SmartMotionConstants() {
-                private final PIDController velocityPID = new PIDController(0.00013, 0.0000017, 0.0);
+                private final PIDController velocityPID = new PIDController(0.00015, 0.0000017, 0.0);
 
                 @Override
                 public PIDController getVelocityPID() {
@@ -221,7 +221,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public boolean[] getDriveControllerInversions() {
-                return new boolean[]{true, true, false, true};
+                return new boolean[]{true, true, true, true};
             }
 
             @Override
@@ -356,17 +356,17 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getRightIntakePercentOutput() {
-                return 0.6;
+                return 0.7;
             }
 
             @Override
             public double getLeftOuttakePercentOutput() {
-                return -0.5;
+                return -0.35;
             }
 
             @Override
             public double getRightOuttakePercentOutput() {
-                return -0.5;
+                return -0.7;
             }
         };
     }
@@ -514,7 +514,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLimelightMountingHeightInches() {
-                return 32.00;
+                return 43.00;
             }
 
             @Override
@@ -668,7 +668,7 @@ public class PracticeRapidReact extends WaltRobot {
 
                     @Override
                     public int getChannel() {
-                        return 5;
+                        return 4;
                     }
 
                     @Override

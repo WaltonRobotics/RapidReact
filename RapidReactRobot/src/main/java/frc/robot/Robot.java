@@ -51,7 +51,7 @@ public class Robot extends WaltTimesliceRobot {
         schedule(godSubsystem.getShooter()::collectData, 0.0003);
         schedule(godSubsystem.getShooter()::outputData, 0.0006);
         schedule(godSubsystem.getClimber()::collectData, 0.0003);
-        schedule(godSubsystem.getClimber()::outputData, 0.0006);
+//        schedule(godSubsystem.getClimber()::outputData, 0.0006);
 
         LimelightHelper.setLEDMode(kIsInTuningMode);
     }
@@ -103,6 +103,8 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setDoesAutonNeedToShoot(false);
         godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
 
+        godSubsystem.getDrivetrain().setBrakeNeutralMode();
+
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(kIsInTuningMode);
 
@@ -126,6 +128,8 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setEnabled(true);
 
         godSubsystem.setInAuton(false);
+
+        godSubsystem.getDrivetrain().setBrakeNeutralMode();
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(true);
