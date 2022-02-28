@@ -29,15 +29,15 @@ public class Paths {
     public static final class RoutineOne {
 
         // Move approximately five feet off of tarmac
-        public static final PathPlannerTrajectory backwards =
-                PathPlanner.loadPath("backwards", Units.feetToMeters(8), Units.feetToMeters(4), true);
+        public static final PathPlannerTrajectory gammaBackwards =
+                PathPlanner.loadPath("gammaBackwards", Units.feetToMeters(8), Units.feetToMeters(4), true);
 
     }
 
     public static final class RoutineTwo {
 
-        public static final PathPlannerTrajectory betaBackward =
-                PathPlanner.loadPath("betaBackward", Units.feetToMeters(8), Units.feetToMeters(4), true);
+        public static final PathPlannerTrajectory betaBackwards =
+                PathPlanner.loadPath("betaBackwards", Units.feetToMeters(8), Units.feetToMeters(4), true);
 
     }
 
@@ -52,7 +52,10 @@ public class Paths {
 
         public static final PathPlannerTrajectory betaPickUpB =
                 PathPlanner.loadPath("betaPickUpB", Units.feetToMeters(8), Units.feetToMeters(4), true);
-        //TODO: Finish this routine
+        public static final PathPlannerTrajectory ballBShoottoballG =
+                PathPlanner.loadPath("ballBShoottoballG", Units.feetToMeters(8), Units.feetToMeters(4), true);
+        public static final PathPlannerTrajectory ballGtoShoot =
+                PathPlanner.loadPath("ballGtoShoot", Units.feetToMeters(8), Units.feetToMeters(4), false);
 
     }
 
@@ -64,6 +67,8 @@ public class Paths {
 
         public static final PathPlannerTrajectory ballAToBallB =
                 PathPlanner.loadPath("ballAToBallB", Units.feetToMeters(8), Units.feetToMeters(4), true);
+        public static final PathPlannerTrajectory ballBtoShoot =
+                PathPlanner.loadPath("ballBtoShoot", Units.feetToMeters(8), Units.feetToMeters(4), false);
 
     }
 
@@ -71,6 +76,8 @@ public class Paths {
 
         public static final PathPlannerTrajectory ballBToBallG =
                 PathPlanner.loadPath("ballBToBallG", Units.feetToMeters(8), Units.feetToMeters(4), true);
+        public static final PathPlannerTrajectory ballGtoShoottoballC =
+                PathPlanner.loadPath("ballGtoShoottoballC", Units.feetToMeters(8), Units.feetToMeters(4),true);
 
     }
 
@@ -104,6 +111,11 @@ public class Paths {
         public static final PathPlannerTrajectory ballBToBallA =
                 PathPlanner.loadPath("ballBToBallA", Units.feetToMeters(8), Units.feetToMeters(4));
 
+    }
+
+    public static final class RoutineFiveFull {
+        public static final PathPlannerTrajectory routineFiveBFull =
+                PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(8), Units.feetToMeters(4));
     }
 
 }
