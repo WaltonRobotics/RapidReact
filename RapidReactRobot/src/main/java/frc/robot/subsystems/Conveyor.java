@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.util.sendable.Sendable;
@@ -27,6 +28,28 @@ public class Conveyor implements SubSubsystem {
 
         feedController.configVoltageCompSaturation(12.0);
         feedController.enableVoltageCompensation(true);
+
+        transportController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
+        transportController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
+        transportController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+
+        feedController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
+        feedController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
+        feedController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
     }
 
     @Override
