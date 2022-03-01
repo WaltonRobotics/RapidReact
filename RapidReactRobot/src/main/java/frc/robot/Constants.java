@@ -35,9 +35,6 @@ public final class Constants {
         public static final double kPivotManualOverrideDeadband = 0.1;
         public static final double kExtensionManualOverrideDeadband = 0.1;
 
-        public static final double kMaxExtensionPercentOutput = 0.35;
-        public static final double kMaxPivotPercentOutput = 0.35;
-
         public static final double kFinishedClimbingRumbleValue = 1.0;
 
     }
