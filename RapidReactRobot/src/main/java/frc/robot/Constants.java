@@ -29,6 +29,8 @@ public final class Constants {
             public static final int kManipulationXboxControllerPort = 1;
         }
 
+        public static final double kMaxTranslationalAccelerationMsecSquared = 3.5; // m/s per second
+
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;
         public static final double kExtensionManualOverrideDeadband = 0.1;
