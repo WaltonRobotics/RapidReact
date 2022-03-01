@@ -19,6 +19,7 @@ import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.SetModuleStates;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.vision.LimelightHelper;
 
@@ -26,9 +27,11 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
+import static frc.robot.Constants.Shooter.kDefaultVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.OI.*;
 import static frc.robot.commands.auton.AutonRoutine.DO_NOTHING;
@@ -44,7 +47,8 @@ public class RobotContainer {
     public static final WaltRobot currentRobot;
     public static final Superstructure godSubsystem;
     public static final Logger robotLogger = Logger.getLogger("frc.robot");
-    public static SendableChooser<AutonRoutine> autonChooser;
+    public static final SendableChooser<AutonRoutine> autonChooser = new SendableChooser<>();
+    public static final SendableChooser<Shooter.HoodPosition> hoodPositionSetpoints = new SendableChooser<>();
 
     static {
         currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),
@@ -114,15 +118,22 @@ public class RobotContainer {
 
         SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
 
-        SmartDashboard.putData("Reset drivetrain", new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()));
+        SmartDashboard.putData(kDrivetrainResetKey, new InstantCommand(godSubsystem.getDrivetrain()::zeroSensors));
 
         SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
         SmartDashboard.putNumber(kDrivetrainSetpointVelocityKey, 0.0);
 
-        SmartDashboard.putNumber(kClimberPivotAngleFromVertical, 0.0);
-        SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, 0.0);
+        SmartDashboard.putNumber(kDrivetrainHeadingDegrees, 0.0);
+        SmartDashboard.putNumber(kDrivetrainAngularVelocity, 0.0);
+        SmartDashboard.putNumber(kDrivetrainPitchDegrees, 0.0);
+        SmartDashboard.putNumber(kDrivetrainRollDegrees, 0.0);
+
+        SmartDashboard.putNumber(kClimberPivotAngleFromVerticalKey, 0.0);
+        SmartDashboard.putNumber(kClimberPivotAngleFromHorizontalKey, 0.0);
+
+        SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, 0.0);
+
         // Auton chooser
-        autonChooser = new SendableChooser<>();
         Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
         autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
         SmartDashboard.putData("Auton Selector", autonChooser);
@@ -149,22 +160,9 @@ public class RobotContainer {
                     new InstantCommand(() ->
                             godSubsystem.getDrivetrain().saveRightRearZero((int) SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
 
-            SmartDashboard.putNumber(kLeftIntakePercentOutputKey, godSubsystem.getIntake().getConfig().getLeftIntakePercentOutput());
-            SmartDashboard.putNumber(kRightIntakePercentOutputKey, godSubsystem.getIntake().getConfig().getRightIntakePercentOutput());
-
-            SmartDashboard.putNumber(kDrivetrainHeadingDegrees, 0.0);
-            SmartDashboard.putNumber(kDrivetrainAngularVelocity, 0.0);
-            SmartDashboard.putNumber(kDrivetrainPitchDegrees, 0.0);
-            SmartDashboard.putNumber(kDrivetrainRollDegrees, 0.0);
-
             SmartDashboard.putData(kDriverForwardScaleKey, OI.forwardScale);
             SmartDashboard.putData(kDriverStrafeScaleKey, OI.strafeScale);
             SmartDashboard.putData(kDriverYawScaleKey, OI.yawScale);
-
-            SmartDashboard.putNumber(kClimberPivotAngleFromVertical, 0.0);
-            SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, 0.0);
-
-            SmartDashboard.putNumber(kShooterCurrentTargetVelocity, 0.0);
 
             SmartDashboard.putData("kXController", currentRobot.getDrivetrainConfig().getXController());
             SmartDashboard.putData("kYController", currentRobot.getDrivetrainConfig().getYController());
@@ -180,8 +178,19 @@ public class RobotContainer {
             SmartDashboard.putNumber(kLimelightDistanceFeetKey, 0.0);
 
             SmartDashboard.putData(kTurnToAngleControllerKey, currentRobot.getDrivetrainConfig().getTurnToAngleController());
-            SmartDashboard.putNumber(kTurnToAngleErrorDegrees, 0.0);
+            SmartDashboard.putNumber(kTurnToAngleErrorDegreesKey, 0.0);
             SmartDashboard.putNumber(kTurnToAngleOmegaOutputKey, 0.0);
+
+            SmartDashboard.putNumber(kLeftIntakePercentOutputKey, godSubsystem.getIntake().getConfig().getLeftIntakePercentOutput());
+            SmartDashboard.putNumber(kRightIntakePercentOutputKey, godSubsystem.getIntake().getConfig().getRightIntakePercentOutput());
+        }
+
+        if (kIsInShooterTuningMode) {
+            SmartDashboard.putNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits);
+
+            Arrays.stream(Shooter.HoodPosition.values()).forEach(n -> hoodPositionSetpoints.addOption(n.name(), n));
+
+            SmartDashboard.putData(kShooterHoodPositionSetpointKey, hoodPositionSetpoints);
         }
     }
 

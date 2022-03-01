@@ -1,5 +1,6 @@
 package frc.robot.robotState.scoring;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
@@ -8,8 +9,11 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
 import static frc.robot.Constants.Shooter.kBarfVelocityRawUnits;
+import static frc.robot.Constants.Shooter.kDefaultVelocityRawUnits;
+import static frc.robot.Constants.SmartDashboardKeys.kShooterTuningSetpointVelocityNUKey;
 import static frc.robot.OI.barfButton;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -27,6 +31,9 @@ public class PreparingToShoot implements IState {
 
         if (barfButton.get()) {
             godSubsystem.setCurrentTargetFlywheelVelocity(kBarfVelocityRawUnits);
+        } else if (kIsInShooterTuningMode) {
+            godSubsystem.setCurrentTargetFlywheelVelocity(
+                    SmartDashboard.getNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits));
         } else {
             // Re-adjust hood
             if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
