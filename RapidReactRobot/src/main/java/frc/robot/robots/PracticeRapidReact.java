@@ -340,13 +340,13 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public int getLeftSolenoidChannel() {
+            public int getLeftIntakeSolenoidChannel() {
                 return 0;
             }
 
             @Override
-            public int getRightSolenoidChannel() {
-                return 1;
+            public int getRightIntakeSolenoidChannel() {
+                return 3;
             }
 
             @Override
@@ -690,12 +690,12 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public int getLeftClimberLockChannel() {
-                return 2;
+                return 1;
             }
 
             @Override
             public int getRightClimberLockChannel() {
-                return 3;
+                return 2;
             }
 
             @Override
@@ -752,8 +752,8 @@ public class PracticeRapidReact extends WaltRobot {
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> seventyDegreeMap = new InterpolatingTreeMap<>();
 
-        seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
-        seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
+        seventyDegreeMap.put(new InterpolatingDouble(6.17), new InterpolatingDouble(11800.0));
+        seventyDegreeMap.put(new InterpolatingDouble(8.17), new InterpolatingDouble(11500.0)); // where we left off
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));

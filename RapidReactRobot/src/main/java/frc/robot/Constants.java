@@ -19,6 +19,7 @@ public final class Constants {
 
         public static final boolean kIsInCompetition = false;
         public static final boolean kIsInTuningMode = true;
+        public static final boolean kIsInShooterTuningMode = true;
 
     }
 
@@ -34,9 +35,6 @@ public final class Constants {
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;
         public static final double kExtensionManualOverrideDeadband = 0.1;
-
-        public static final double kMaxExtensionPercentOutput = 0.35;
-        public static final double kMaxPivotPercentOutput = 0.35;
 
         public static final double kFinishedClimbingRumbleValue = 1.0;
 
@@ -71,16 +69,16 @@ public final class Constants {
         public static final double kBarfVelocityRawUnits = 4500;
 
         // The tolerance to exit the spinning up state and enter the shooting state
-        public static final double kSpinningUpToleranceRawUnits = 150;
+        public static final double kSpinningUpToleranceRawUnits = 100;
         // The tolerance to maintain the shooting state
-        public static final double kShootingToleranceRawUnits = 200;
+        public static final double kShootingToleranceRawUnits = 150;
 
         // Short period of time after the shoot button is released where the flywheels
         // continue rotating to ensure last few shots don't go amiss
         public static final double kSpinDownTimeSeconds = 0.25;
 
         // Time it takes for the hood to change positions
-        public static final double kHoodTransitionTimeSeconds = 0.25;
+        public static final double kHoodTransitionTimeSeconds = 2.3;
 
     }
 
@@ -114,6 +112,8 @@ public final class Constants {
         public static final String kDrivetrainSetpointAngleDegreesKey = "Drivetrain/Setpoint Angle Degrees";
         public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity Msec";
 
+        public static final String kDrivetrainResetKey = "Drivetrain/Reset";
+
         public static final String kDrivetrainLeftFrontZeroValueKey = "Drivetrain/Left Front Azimuth Zero Value";
         public static final String kDrivetrainRightFrontZeroValueKey = "Drivetrain/Right Front Azimuth Zero Value";
         public static final String kDrivetrainLeftRearZeroValueKey = "Drivetrain/Left Rear Azimuth Zero Value";
@@ -133,10 +133,12 @@ public final class Constants {
         public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
         public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
 
-        public static final String kClimberPivotAngleFromVertical = "Climber/Angle From Vertical Deg";
-        public static final String kClimberPivotAngleFromHorizontal = "Climber/Angle From Horizontal Deg";
+        public static final String kClimberPivotAngleFromVerticalKey = "Climber/Angle From Vertical Deg";
+        public static final String kClimberPivotAngleFromHorizontalKey = "Climber/Angle From Horizontal Deg";
 
-        public static final String kShooterCurrentTargetVelocity = "Shooter/Current Target Velocity NU";
+        public static final String kShooterCurrentTargetVelocityKey = "Shooter/Current Target Velocity NU";
+        public static final String kShooterTuningSetpointVelocityNUKey = "Shooter/Tuning Setpoint Velocity NU";
+        public static final String kShooterHoodPositionSetpointKey = "Shooter/Hood Position Setpoint";
 
         public static final String kDrivetrainPeriodicIOKey = "Drivetrain/Periodic IO";
         public static final String kIntakePeriodicIOKey = "Intake/Periodic IO";
@@ -150,7 +152,7 @@ public final class Constants {
         public static final String kLimelightDistanceFeetKey = "Limelight Distance Feet";
 
         public static final String kTurnToAngleControllerKey = "Turn to Angle Controller";
-        public static final String kTurnToAngleErrorDegrees = "Turn to Angle Error Deg";
+        public static final String kTurnToAngleErrorDegreesKey = "Turn to Angle Error Deg";
         public static final String kTurnToAngleOmegaOutputKey = "Turn to Angle Omega Output";
 
         public static final String kLeftIntakePercentOutputKey = "Left Intake Percent Output";

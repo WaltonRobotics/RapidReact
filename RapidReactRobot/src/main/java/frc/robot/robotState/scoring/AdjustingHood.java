@@ -10,9 +10,12 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
+import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
 import static frc.robot.OI.barfButton;
 import static frc.robot.RobotContainer.godSubsystem;
+import static frc.robot.RobotContainer.hoodPositionSetpoints;
 
 public class AdjustingHood implements IState {
 
@@ -26,10 +29,14 @@ public class AdjustingHood implements IState {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
-        if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet || barfButton.get()) {
-            shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
+        if (!kIsInShooterTuningMode) {
+            if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet || barfButton.get()) {
+                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
+            } else {
+                shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
+            }
         } else {
-            shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
+            shooter.setHoodPosition(hoodPositionSetpoints.getSelected());
         }
     }
 
@@ -47,7 +54,9 @@ public class AdjustingHood implements IState {
 
         godSubsystem.handleIntakingAndOuttaking();
 
-        if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())) {
+        if (barfButton.get()
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
+                || (!godSubsystem.isInAuton() && kIsInShooterTuningMode)) {
             return new PreparingToShoot();
         }
 

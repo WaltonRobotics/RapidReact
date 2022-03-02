@@ -49,7 +49,7 @@ public class TurnToAngle extends CommandBase {
 
         turnRate += Math.signum(turnRate) * drivetrain.getConfig().getMinTurnOmega();
 
-        SmartDashboard.putNumber(kTurnToAngleErrorDegrees, controller.getPositionError());
+        SmartDashboard.putNumber(kTurnToAngleErrorDegreesKey, controller.getPositionError());
         SmartDashboard.putNumber(kTurnToAngleOmegaOutputKey, turnRate);
 
         drivetrain.move(0, 0, turnRate, false);

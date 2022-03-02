@@ -317,12 +317,12 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public int getLeftSolenoidChannel() {
+            public int getLeftIntakeSolenoidChannel() {
                 return 0;
             }
 
             @Override
-            public int getRightSolenoidChannel() {
+            public int getRightIntakeSolenoidChannel() {
                 return 1;
             }
 

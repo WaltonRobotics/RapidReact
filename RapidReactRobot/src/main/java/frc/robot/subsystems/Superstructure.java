@@ -263,11 +263,11 @@ public class Superstructure extends SubsystemBase {
         SmartDashboard.putData(kShooterPeriodicIOKey, shooter.getPeriodicIOSendable());
         SmartDashboard.putData(kClimberPeriodicIOKey, climber.getPeriodicIOSendable());
 
-        SmartDashboard.putNumber(kShooterCurrentTargetVelocity, getCurrentTargetFlywheelVelocity());
+        SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, getCurrentTargetFlywheelVelocity());
         SmartDashboard.putNumber(kLimelightDistanceFeetKey, LimelightHelper.getDistanceToTargetFeet());
 
-        SmartDashboard.putNumber(kClimberPivotAngleFromVertical, climber.getPivotAngleFromVertical().getDegrees());
-        SmartDashboard.putNumber(kClimberPivotAngleFromHorizontal, climber.getPivotAngleFromHorizontal().getDegrees());
+        SmartDashboard.putNumber(kClimberPivotAngleFromVerticalKey, climber.getPivotAngleFromVertical().getDegrees());
+        SmartDashboard.putNumber(kClimberPivotAngleFromHorizontalKey, climber.getPivotAngleFromHorizontal().getDegrees());
     }
 
     public enum CurrentMode {
