@@ -66,12 +66,12 @@ public final class Constants {
         public static final double kAbsoluteShootingDistanceCeilingFeet = 216.0 / 12.0;
 
         public static final double kDefaultVelocityRawUnits = 11500;
-        public static final double kBarfVelocityRawUnits = 4500;
+        public static final double kBarfVelocityRawUnits = 5000;
 
         // The tolerance to exit the spinning up state and enter the shooting state
-        public static final double kSpinningUpToleranceRawUnits = 100;
+        public static final double kSpinningUpToleranceRawUnits = 150;
         // The tolerance to maintain the shooting state
-        public static final double kShootingToleranceRawUnits = 150;
+        public static final double kShootingToleranceRawUnits = 200;
 
         // Short period of time after the shoot button is released where the flywheels
         // continue rotating to ensure last few shots don't go amiss
@@ -176,7 +176,7 @@ public final class Constants {
     public static final class FieldConstants {
 
         public static final double kTargetHeightInches = 103.81;
-        public static final double kHoodCloseUpDistanceFeet = 15;
+        public static final double kHoodCloseUpDistanceFeet = 4.741;
 
     }
 
