@@ -58,8 +58,8 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final Translation2d[] wheelLocationMeters = new Translation2d[4];
 
-    private final double kTranslationalP = 6.0;
-    private final double kTranslationalD = kTranslationalP / 100.0;
+    private final double kTranslationalP = 9.25;
+    private final double kTranslationalD = 0.06;
 
     private final double kMaxSpeedMetersPerSecond = 3.889;
     private final double kMaxOmega = (kMaxSpeedMetersPerSecond / Math.hypot(kDistanceBetweenWheelsLengthWiseMeters / 2.0,
@@ -70,7 +70,7 @@ public class PracticeRapidReact extends WaltRobot {
     private final PIDController yController = new PIDController(kTranslationalP, 0.0, kTranslationalD);
     private final ProfiledPIDController thetaController =
             new ProfiledPIDController(
-                    3.5,
+                    8,
                     0,
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
@@ -742,18 +742,17 @@ public class PracticeRapidReact extends WaltRobot {
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
-        sixtyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(8.179), new InterpolatingDouble(11250.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(7.628), new InterpolatingDouble(10000.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(7.184), new InterpolatingDouble(10000.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(6.314), new InterpolatingDouble(10000.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(5.706), new InterpolatingDouble(9500.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(5.243), new InterpolatingDouble(8800.0));
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> seventyDegreeMap = new InterpolatingTreeMap<>();
 
-        seventyDegreeMap.put(new InterpolatingDouble(6.17), new InterpolatingDouble(11800.0));
-        seventyDegreeMap.put(new InterpolatingDouble(8.17), new InterpolatingDouble(11500.0)); // where we left off
+        seventyDegreeMap.put(new InterpolatingDouble(7.741), new InterpolatingDouble(8800.0));
+        seventyDegreeMap.put(new InterpolatingDouble(8.17), new InterpolatingDouble(11500.0));
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
