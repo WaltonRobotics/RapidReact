@@ -22,10 +22,10 @@ public class Intake implements SubSubsystem {
     private final VictorSPX rightIntakeController = new VictorSPX(config.getRightIntakeControllerConfig().getChannelOrID());
 
     private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
-            config.getLeftSolenoidChannel());
+            config.getLeftIntakeSolenoidChannel());
 
     private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
-            config.getRightSolenoidChannel());
+            config.getRightIntakeSolenoidChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 

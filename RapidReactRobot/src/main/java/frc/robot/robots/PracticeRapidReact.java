@@ -340,13 +340,13 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public int getLeftSolenoidChannel() {
+            public int getLeftIntakeSolenoidChannel() {
                 return 0;
             }
 
             @Override
-            public int getRightSolenoidChannel() {
-                return 1;
+            public int getRightIntakeSolenoidChannel() {
+                return 3;
             }
 
             @Override
@@ -690,12 +690,12 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public int getLeftClimberLockChannel() {
-                return 2;
+                return 1;
             }
 
             @Override
             public int getRightClimberLockChannel() {
-                return 3;
+                return 2;
             }
 
             @Override
