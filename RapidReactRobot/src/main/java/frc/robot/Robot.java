@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.util.WaltTimesliceRobot;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -103,7 +104,11 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setDoesAutonNeedToShoot(false);
         godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
 
-        godSubsystem.getDrivetrain().setCoastNeutralMode();
+        if (kIsInShooterTuningMode) {
+            godSubsystem.getDrivetrain().setCoastNeutralMode();
+        } else {
+            godSubsystem.getDrivetrain().setBrakeNeutralMode();
+        }
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(kIsInTuningMode);
@@ -129,7 +134,11 @@ public class Robot extends WaltTimesliceRobot {
 
         godSubsystem.setInAuton(false);
 
-        godSubsystem.getDrivetrain().setCoastNeutralMode();
+        if (kIsInShooterTuningMode) {
+            godSubsystem.getDrivetrain().setCoastNeutralMode();
+        } else {
+            godSubsystem.getDrivetrain().setBrakeNeutralMode();
+        }
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(true);
