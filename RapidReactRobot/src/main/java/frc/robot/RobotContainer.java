@@ -188,6 +188,7 @@ public class RobotContainer {
         if (kIsInShooterTuningMode) {
             SmartDashboard.putNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits);
 
+            hoodPositionSetpoints.setDefaultOption(Shooter.HoodPosition.SEVENTY_DEGREES.name(), Shooter.HoodPosition.SEVENTY_DEGREES);
             Arrays.stream(Shooter.HoodPosition.values()).forEach(n -> hoodPositionSetpoints.addOption(n.name(), n));
 
             SmartDashboard.putData(kShooterHoodPositionSetpointKey, hoodPositionSetpoints);
