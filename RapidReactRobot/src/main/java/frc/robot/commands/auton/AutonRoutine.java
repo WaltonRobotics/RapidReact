@@ -23,6 +23,11 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
 //Completed: 1,2,3,4a,5a,5b,5c,5d, 5bfull
+    HALF_FOOT_BACKWARDS("Moves backwards 6 inches (it'll be off by .12 inches)", new SequentialCommandGroup(
+        new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+        new ResetPose(halfFootBackwards),
+        new SwerveTrajectoryCommand(halfFootBackwards)
+)),
     DO_NOTHING("Do Nothing", new SequentialCommandGroup(
     )),
 
