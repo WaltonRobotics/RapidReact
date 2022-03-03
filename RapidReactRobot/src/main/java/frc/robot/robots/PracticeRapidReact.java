@@ -519,7 +519,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLimelightMountingAngleDegrees() {
-                return 29;
+                return 33;
             }
 
             @Override
