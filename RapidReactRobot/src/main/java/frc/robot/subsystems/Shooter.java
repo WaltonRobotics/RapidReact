@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.util.sendable.Sendable;
@@ -51,6 +52,9 @@ public class Shooter implements SubSubsystem {
         flywheelSlaveController.enableVoltageCompensation(false);
         flywheelSlaveController.follow(flywheelMasterController);
 
+        configFlywheelMasterStatusFrames();
+        configFlywheelSlaveStatusFrames();
+
         // From L16-R datasheet
         adjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 
@@ -72,6 +76,14 @@ public class Shooter implements SubSubsystem {
     @Override
     public void outputData() {
         int masterID = config.getFlywheelMasterControllerMotorConfig().getChannelOrID();
+
+        if (periodicIO.hasFlywheelMasterControllerResetOccurred) {
+            configFlywheelMasterStatusFrames();
+        }
+
+        if (periodicIO.hasFlywheelSlaveControllerResetOccurred) {
+            configFlywheelSlaveStatusFrames();
+        }
 
         if (periodicIO.resetSelectedProfileSlot) {
             flywheelMasterController.selectProfileSlot(periodicIO.selectedProfileSlot.index, 0);
@@ -197,6 +209,30 @@ public class Shooter implements SubSubsystem {
         }
     }
 
+    private void configFlywheelMasterStatusFrames() {
+        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
+        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 1000);
+        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 100);
+        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        flywheelMasterController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+    }
+
+    private void configFlywheelSlaveStatusFrames() {
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+    }
+
     public enum ShooterControlState {
         VELOCITY, OPEN_LOOP, DISABLED
     }
@@ -222,6 +258,12 @@ public class Shooter implements SubSubsystem {
     }
 
     public static class PeriodicIO implements Sendable {
+        // Inputs
+        public boolean hasFlywheelMasterControllerResetOccurred;
+        public boolean hasFlywheelSlaveControllerResetOccurred;
+        public double flywheelVelocityNU;
+        public double flywheelClosedLoopErrorNU;
+
         // Outputs
         public ShooterControlState shooterControlState = ShooterControlState.DISABLED;
 
@@ -232,10 +274,6 @@ public class Shooter implements SubSubsystem {
         public double adjustableHoodDutyCycleDemand;
         public double lastAdjustableHoodDutyCycleDemand;
         public double lastAdjustableHoodChangeFPGATime;
-
-        // Inputs
-        public double flywheelVelocityNU;
-        public double flywheelClosedLoopErrorNU;
 
         @Override
         public void initSendable(SendableBuilder builder) {

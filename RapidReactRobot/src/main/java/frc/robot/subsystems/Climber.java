@@ -465,6 +465,15 @@ public class Climber implements SubSubsystem {
     }
 
     public static class PeriodicIO implements Sendable {
+        // Inputs
+        public boolean hasPivotControllerResetOccurred;
+        public boolean hasExtensionControllerResetOccurred;
+        public double pivotAbsoluteEncoderPositionNU;
+        public double pivotIntegratedEncoderPositionNU;
+        public boolean isLeftExtensionLowerLimitClosed;
+        public boolean isRightExtensionLowerLimitClosed;
+        public double extensionIntegratedEncoderPosition;
+        // Outputs
         public boolean resetPivotLimits;
         public LimitPair pivotLimits;
         public boolean resetExtensionLimits;
@@ -478,15 +487,6 @@ public class Climber implements SubSubsystem {
         public boolean leftClimberLockStateDemand;
         public boolean rightClimberLockStateDemand;
         public boolean climberDiscBrakeStateDemand;
-        // Inputs
-        public boolean hasPivotControllerResetOccurred;
-        public boolean hasExtensionControllerResetOccurred;
-        public double pivotAbsoluteEncoderPositionNU;
-        public double pivotIntegratedEncoderPositionNU;
-        public boolean isLeftExtensionLowerLimitClosed;
-        public boolean isRightExtensionLowerLimitClosed;
-        public double extensionIntegratedEncoderPosition;
-        // Outputs
         private ClimberControlState pivotControlState = ClimberControlState.DISABLED;
         private ClimberControlState extensionControlState = ClimberControlState.DISABLED;
         private boolean resetPivotNeutralMode;

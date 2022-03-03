@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -47,6 +48,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         public double driveDemand;
 
         // Inputs
+        public boolean hasDriveControllerReset;
         public int azimuthAbsoluteFrequency;
         public double azimuthAbsoluteOutput;
         public double azimuthRelativeCounts;
@@ -85,6 +87,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public void collectData() {
+        periodicIO.hasDriveControllerReset = driveTalon.hasResetOccurred();
         periodicIO.azimuthAbsoluteFrequency = azimuthAbsoluteEncoderPWM.getFrequency();
         periodicIO.azimuthAbsoluteOutput = azimuthAbsoluteEncoderPWM.getOutput();
         periodicIO.azimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
@@ -94,6 +97,10 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public void outputData() {
+        if (periodicIO.hasDriveControllerReset) {
+            configDriveStatusFrames();
+        }
+
         azimuthSparkMax.getPIDController().setReference(periodicIO.azimuthRelativeCountsDemand, CANSparkMax.ControlType.kSmartMotion);
 
         if (driveControlState == DriveControlState.OPEN_LOOP) {
@@ -307,6 +314,18 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             return 2;
         }
         return 3;
+    }
+
+    private void configDriveStatusFrames() {
+        driveTalon.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
+        driveTalon.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        driveTalon.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 1000);
+        driveTalon.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        driveTalon.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        driveTalon.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 100);
+        driveTalon.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        driveTalon.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        driveTalon.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
     }
 
     @Override
