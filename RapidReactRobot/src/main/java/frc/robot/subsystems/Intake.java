@@ -39,27 +39,8 @@ public class Intake implements SubSubsystem {
         rightIntakeController.configVoltageCompSaturation(12.0);
         rightIntakeController.enableVoltageCompensation(true);
 
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
-
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+        configLeftIntakeStatusFrames();
+        configRightIntakeStatusFrames();
     }
 
     @Override
@@ -70,6 +51,9 @@ public class Intake implements SubSubsystem {
     @Override
     public void collectData() {
         double currentTime = Timer.getFPGATimestamp();
+
+        periodicIO.hasLeftIntakeControllerResetOccurred = leftIntakeController.hasResetOccurred();
+        periodicIO.hasRightIntakeControllerResetOccurred = rightIntakeController.hasResetOccurred();
 
         leftIntakeSolenoid.set(periodicIO.leftIntakeDeployDemand);
         rightIntakeSolenoid.set(periodicIO.rightIntakeDeployDemand);
@@ -88,6 +72,15 @@ public class Intake implements SubSubsystem {
 
     @Override
     public void outputData() {
+        // Reconfigure status frames when controllers reset
+        if (periodicIO.hasLeftIntakeControllerResetOccurred) {
+            configLeftIntakeStatusFrames();
+        }
+
+        if (periodicIO.hasRightIntakeControllerResetOccurred) {
+            configRightIntakeStatusFrames();
+        }
+
         switch (periodicIO.intakeControlState) {
             case OPEN_LOOP:
                 if (isLeftIntakeRollUpNeeded()) {
@@ -186,11 +179,41 @@ public class Intake implements SubSubsystem {
         return config;
     }
 
+    private void configLeftIntakeStatusFrames() {
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+    }
+
+    private void configRightIntakeStatusFrames() {
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+    }
+
     public enum IntakeControlState {
         OPEN_LOOP, DISABLED
     }
 
     public static class PeriodicIO implements Sendable {
+        // Inputs
+        public boolean hasLeftIntakeControllerResetOccurred;
+        public boolean hasRightIntakeControllerResetOccurred;
+
         // Outputs
         public double leftIntakeDemand;
         public double rightIntakeDemand;
