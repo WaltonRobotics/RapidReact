@@ -58,10 +58,10 @@ public class Paths {
 
         public static final PathPlannerTrajectory betaPickUpB =
                 PathPlanner.loadPath("betaPickUpB", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
-        public static final PathPlannerTrajectory ballBShoottoballG =
-                PathPlanner.loadPath("ballBShoottoballG", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
-        public static final PathPlannerTrajectory ballGtoShoot =
-                PathPlanner.loadPath("ballGtoShoot", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), false);
+        public static final PathPlannerTrajectory ballBShootToBallG =
+                PathPlanner.loadPath("ballBShootToBallG", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
+        public static final PathPlannerTrajectory ballGToShoot =
+                PathPlanner.loadPath("ballGToShoot", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), false);
 
     }
 
@@ -73,8 +73,8 @@ public class Paths {
 
         public static final PathPlannerTrajectory ballAToBallB =
                 PathPlanner.loadPath("ballAToBallB", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
-        public static final PathPlannerTrajectory ballBtoShoot =
-                PathPlanner.loadPath("ballBtoShoot", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), false);
+        public static final PathPlannerTrajectory ballBToShoot =
+                PathPlanner.loadPath("ballBToShoot", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), false);
 
     }
 
@@ -82,8 +82,8 @@ public class Paths {
 
         public static final PathPlannerTrajectory ballBToBallG =
                 PathPlanner.loadPath("ballBToBallG", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
-        public static final PathPlannerTrajectory ballGtoShoottoballC =
-                PathPlanner.loadPath("ballGtoShoottoballC", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration),true);
+        public static final PathPlannerTrajectory ballGToShootToBallC =
+                PathPlanner.loadPath("ballGToShootToBallC", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration),true);
 
     }
 
