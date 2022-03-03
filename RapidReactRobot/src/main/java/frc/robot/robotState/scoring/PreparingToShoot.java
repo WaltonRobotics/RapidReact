@@ -37,9 +37,9 @@ public class PreparingToShoot implements IState {
         } else {
             // Re-adjust hood
             if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
-                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
-            } else {
                 shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
+            } else {
+                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
             }
 
             // Recalculate target velocity

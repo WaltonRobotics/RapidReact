@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.util.WaltTimesliceRobot;
@@ -26,6 +28,8 @@ public class Robot extends WaltTimesliceRobot {
     private Command autonomousCommand;
 
     private RobotContainer robotContainer;
+
+    private Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
 
     public Robot() {
         super(0.002, 0.007);
@@ -52,7 +56,7 @@ public class Robot extends WaltTimesliceRobot {
         schedule(godSubsystem.getShooter()::collectData, 0.0003);
         schedule(godSubsystem.getShooter()::outputData, 0.0006);
         schedule(godSubsystem.getClimber()::collectData, 0.0003);
-//        schedule(godSubsystem.getClimber()::outputData, 0.0006);
+        schedule(godSubsystem.getClimber()::outputData, 0.0006);
 
         LimelightHelper.setLEDMode(kIsInTuningMode);
     }

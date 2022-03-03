@@ -7,6 +7,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
@@ -29,8 +30,8 @@ public class Climber implements SubSubsystem {
     private final TalonFX pivotController = new TalonFX(config.getPivotControllerMotorConfig().getChannelOrID());
     private final TalonFX extensionController = new TalonFX(config.getExtensionControllerMotorConfig().getChannelOrID());
 
-    private final Solenoid climberLock = new Solenoid(CTREPCM, config.getClimberLockSolenoidChannel());
-    private final Solenoid climberDiscBrake = new Solenoid(CTREPCM, config.getClimberDiscBrakeSolenoidChannel());
+    private final Solenoid climberLock = new Solenoid(PneumaticsModuleType.REVPH, config.getClimberLockSolenoidChannel());
+    private final Solenoid climberDiscBrake = new Solenoid(PneumaticsModuleType.REVPH, config.getClimberDiscBrakeSolenoidChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 

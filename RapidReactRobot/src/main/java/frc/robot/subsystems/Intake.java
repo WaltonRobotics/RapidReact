@@ -21,10 +21,10 @@ public class Intake implements SubSubsystem {
     private final VictorSPX leftIntakeController = new VictorSPX(config.getLeftIntakeControllerConfig().getChannelOrID());
     private final VictorSPX rightIntakeController = new VictorSPX(config.getRightIntakeControllerConfig().getChannelOrID());
 
-    private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
+    private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH,
             config.getLeftIntakeSolenoidChannel());
 
-    private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
+    private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH,
             config.getRightIntakeSolenoidChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
@@ -120,11 +120,13 @@ public class Intake implements SubSubsystem {
     }
 
     private boolean isLeftIntakeRollUpNeeded() {
-        return !periodicIO.leftIntakeDeployDemand && Timer.getFPGATimestamp() < periodicIO.leftIntakeRollUpTimeout;
+        return false;
+        // return !periodicIO.leftIntakeDeployDemand && Timer.getFPGATimestamp() < periodicIO.leftIntakeRollUpTimeout;
     }
 
     private boolean isRightIntakeRollUpNeeded() {
-        return !periodicIO.rightIntakeDeployDemand && Timer.getFPGATimestamp() < periodicIO.rightIntakeRollUpTimeout;
+        return false;
+        // return !periodicIO.rightIntakeDeployDemand && Timer.getFPGATimestamp() < periodicIO.rightIntakeRollUpTimeout;
     }
 
     public IntakeControlState getIntakeControlState() {

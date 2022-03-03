@@ -33,9 +33,9 @@ public class AdjustingHood implements IState {
 
         if (!kIsInShooterTuningMode) {
             if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet || barfButton.get()) {
-                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
-            } else {
                 shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
+            } else {
+                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
             }
         } else {
             shooter.setHoodPosition(hoodPositionSetpoints.getSelected());

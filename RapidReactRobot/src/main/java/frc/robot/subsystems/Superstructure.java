@@ -155,7 +155,7 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void handleIntaking() {
-        if (intake.isLeftIntakeDeployed() || true) {
+        if (intake.isLeftIntakeDeployed()) {
             double configOutput = intake.getConfig().getLeftIntakePercentOutput();
 
             if (kIsInTuningMode) {
@@ -167,7 +167,7 @@ public class Superstructure extends SubsystemBase {
             intake.setLeftIntakeDemand(0);
         }
 
-        if (intake.isRightIntakeDeployed() || true) {
+        if (intake.isRightIntakeDeployed()) {
             double configOutput = intake.getConfig().getRightIntakePercentOutput();
 
             if (kIsInTuningMode) {
@@ -188,13 +188,13 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void handleOuttaking() {
-        if (intake.isLeftIntakeDeployed() || true) {
+        if (intake.isLeftIntakeDeployed()) {
             intake.setLeftIntakeDemand(intake.getConfig().getLeftOuttakePercentOutput());
         } else {
             intake.setLeftIntakeDemand(0);
         }
 
-        if (intake.isRightIntakeDeployed() || true) {
+        if (intake.isRightIntakeDeployed()) {
             intake.setRightIntakeDemand(intake.getConfig().getRightOuttakePercentOutput());
         } else {
             intake.setRightIntakeDemand(0);

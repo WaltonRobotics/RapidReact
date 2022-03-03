@@ -286,7 +286,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getMinTurnOmega() {
-                return 0.6;
+                return 1.2;
             }
 
             @Override
@@ -406,7 +406,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getTransportIntakePercentOutput() {
-                return 0.65;
+                return 0.5;
             }
 
             @Override
@@ -732,6 +732,7 @@ public class PracticeRapidReact extends WaltRobot {
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
+        sixtyDegreeMap.put(new InterpolatingDouble(20.0), new InterpolatingDouble(14000.0)); // Dummy data point
         sixtyDegreeMap.put(new InterpolatingDouble(8.179), new InterpolatingDouble(11250.0));
         sixtyDegreeMap.put(new InterpolatingDouble(7.628), new InterpolatingDouble(10000.0));
         sixtyDegreeMap.put(new InterpolatingDouble(7.184), new InterpolatingDouble(10000.0));
