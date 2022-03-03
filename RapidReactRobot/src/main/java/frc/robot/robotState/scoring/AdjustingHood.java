@@ -25,6 +25,8 @@ public class AdjustingHood implements IState {
     public void initialize() {
         godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
+        godSubsystem.getConveyor().setTransportDemand(0.0);
+        godSubsystem.getConveyor().setFeedDemand(0.0);
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
