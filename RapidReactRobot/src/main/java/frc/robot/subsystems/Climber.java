@@ -6,15 +6,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
 
-import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
-import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
 import static edu.wpi.first.wpilibj.PneumaticsModuleType.CTREPCM;
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
 import static frc.robot.RobotContainer.currentRobot;
@@ -32,10 +29,8 @@ public class Climber implements SubSubsystem {
     private final TalonFX pivotController = new TalonFX(config.getPivotControllerMotorConfig().getChannelOrID());
     private final TalonFX extensionController = new TalonFX(config.getExtensionControllerMotorConfig().getChannelOrID());
 
-    private final Solenoid leftClimberLock = new Solenoid(CTREPCM, config.getLeftClimberLockChannel());
-    private final Solenoid rightClimberLock = new Solenoid(CTREPCM, config.getRightClimberLockChannel());
-    private final DoubleSolenoid climberDiscBrake = new DoubleSolenoid(CTREPCM,
-            config.getClimberDiscBrakeForwardChannel(), config.getClimberDiscBrakeReverseChannel());
+    private final Solenoid climberLock = new Solenoid(CTREPCM, config.getClimberLockSolenoidChannel());
+    private final Solenoid climberDiscBrake = new Solenoid(CTREPCM, config.getClimberDiscBrakeSolenoidChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
@@ -169,9 +164,8 @@ public class Climber implements SubSubsystem {
                 break;
         }
 
-        leftClimberLock.set(periodicIO.leftClimberLockStateDemand);
-        rightClimberLock.set(periodicIO.rightClimberLockStateDemand);
-        climberDiscBrake.set(periodicIO.climberDiscBrakeStateDemand ? kForward : kReverse);
+        climberLock.set(periodicIO.climberLockStateDemand);
+        climberDiscBrake.set(periodicIO.climberDiscBrakeStateDemand);
     }
 
     @Override
@@ -310,36 +304,24 @@ public class Climber implements SubSubsystem {
         setExtensionPositionDemandNU(config.getClimberExtensionTargets().get(position).getTarget());
     }
 
-    public boolean isLeftClimberLockUnengaged() {
-        return periodicIO.leftClimberLockStateDemand;
+    public boolean isClimberLockUnengaged() {
+        return periodicIO.climberLockStateDemand;
     }
 
-    public void setLeftClimberLockStateDemand(boolean unengaged) {
-        periodicIO.leftClimberLockStateDemand = unengaged;
+    public void setClimberLockStateDemand(boolean unengaged) {
+        periodicIO.climberLockStateDemand = unengaged;
     }
 
-    public void toggleLeftClimberLock() {
-        setLeftClimberLockStateDemand(!isLeftClimberLockUnengaged());
+    public void toggleClimberLock() {
+        setClimberLockStateDemand(!isClimberLockUnengaged());
     }
 
-    public boolean isRightClimberLockUnengaged() {
-        return periodicIO.rightClimberLockStateDemand;
-    }
-
-    public void setRightClimberLockStateDemand(boolean unengaged) {
-        periodicIO.rightClimberLockStateDemand = unengaged;
-    }
-
-    public void toggleRightClimberLock() {
-        setRightClimberLockStateDemand(!isRightClimberLockUnengaged());
-    }
-
-    public boolean getClimberDiscBrakeStateDemand() {
+    public boolean isClimberDiscBrakeUnengaged() {
         return periodicIO.climberDiscBrakeStateDemand;
     }
 
-    public void setClimberDiscBrakeStateDemand(boolean climberDiscBrakeStateDemand) {
-        periodicIO.climberDiscBrakeStateDemand = climberDiscBrakeStateDemand;
+    public void setClimberDiscBrakeStateDemand(boolean unengaged) {
+        periodicIO.climberDiscBrakeStateDemand = unengaged;
     }
 
     public double getPivotAbsoluteEncoderPositionNU() {
@@ -484,8 +466,7 @@ public class Climber implements SubSubsystem {
         public double pivotPositionDemandNU;
         public double extensionPercentOutputDemand;
         public double extensionPositionDemandNU;
-        public boolean leftClimberLockStateDemand;
-        public boolean rightClimberLockStateDemand;
+        public boolean climberLockStateDemand;
         public boolean climberDiscBrakeStateDemand;
         private ClimberControlState pivotControlState = ClimberControlState.DISABLED;
         private ClimberControlState extensionControlState = ClimberControlState.DISABLED;
@@ -511,9 +492,7 @@ public class Climber implements SubSubsystem {
             });
             builder.addDoubleProperty("Extension Position Demand NU", () -> extensionPositionDemandNU, (x) -> {
             });
-            builder.addBooleanProperty("Left Climber Lock State Demand", () -> leftClimberLockStateDemand, (x) -> {
-            });
-            builder.addBooleanProperty("Right Climber Lock State Demand", () -> rightClimberLockStateDemand, (x) -> {
+            builder.addBooleanProperty("Climber Lock State Demand", () -> climberLockStateDemand, (x) -> {
             });
             builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {
             });

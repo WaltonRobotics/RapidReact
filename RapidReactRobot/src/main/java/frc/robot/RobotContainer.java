@@ -105,12 +105,7 @@ public class RobotContainer {
                 }
         ));
 
-        toggleClimberLocksButton.whenPressed(new InstantCommand(
-                () -> {
-                    godSubsystem.getClimber().toggleLeftClimberLock();
-                    godSubsystem.getClimber().toggleRightClimberLock();
-                }
-        ));
+        toggleClimberLocksButton.whenPressed(godSubsystem.getClimber()::toggleClimberLock);
     }
 
     private void initShuffleboard() {

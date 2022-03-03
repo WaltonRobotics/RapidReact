@@ -37,13 +37,8 @@ public interface ClimberConfig {
 
     int getRightExtensionLowerLimitChannel();
 
-    int getLeftClimberLockChannel();
-
-    int getRightClimberLockChannel();
-
-    int getClimberDiscBrakeForwardChannel();
-
-    int getClimberDiscBrakeReverseChannel();
+    int getClimberLockSolenoidChannel();
+    int getClimberDiscBrakeSolenoidChannel();
 
     double getPivotManualPercentOutputLimit();
     double getExtensionManualPercentOutputLimit();

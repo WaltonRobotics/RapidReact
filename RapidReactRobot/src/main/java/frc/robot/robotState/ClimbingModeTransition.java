@@ -21,8 +21,7 @@ public class ClimbingModeTransition implements IState {
         // Unengage climber locks
         // Unengage climber disc brake
         timeWhenLocksAreUnengaged = godSubsystem.getCurrentTime() + timeForLocksToUnengageSeconds;
-        godSubsystem.getClimber().setLeftClimberLockStateDemand(true);
-        godSubsystem.getClimber().setRightClimberLockStateDemand(true);
+        godSubsystem.getClimber().setClimberLockStateDemand(true);
 
         godSubsystem.getClimber().setClimberDiscBrakeStateDemand(true);
 

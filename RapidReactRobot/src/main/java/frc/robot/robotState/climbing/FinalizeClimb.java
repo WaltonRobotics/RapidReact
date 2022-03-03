@@ -35,8 +35,7 @@ public class FinalizeClimb implements IState {
         godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Brake);
 
         // Energize disc brake and climber locks
-        godSubsystem.getClimber().setLeftClimberLockStateDemand(false);
-        godSubsystem.getClimber().setRightClimberLockStateDemand(false);
+        godSubsystem.getClimber().setClimberLockStateDemand(false);
         godSubsystem.getClimber().setClimberDiscBrakeStateDemand(false);
 
         driveGamepad.setRumble(kLeftRumble, kFinishedClimbingRumbleValue);

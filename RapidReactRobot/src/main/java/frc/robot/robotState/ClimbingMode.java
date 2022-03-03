@@ -42,11 +42,6 @@ public class ClimbingMode implements IState {
             return new ScoringModeTransition();
         }
 
-        if (OI.toggleClimberLocksButton.isRisingEdge()) {
-            godSubsystem.getClimber().toggleLeftClimberLock();
-            godSubsystem.getClimber().toggleRightClimberLock();
-        }
-
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
