@@ -9,20 +9,20 @@ import static frc.robot.Paths.RoutineFiveB.ballAToBallB;
 import static frc.robot.Paths.RoutineFiveB.ballBToShoot;
 import static frc.robot.Paths.RoutineFiveC.ballBToBallG;
 import static frc.robot.Paths.RoutineFiveC.ballGToShootToBallC;
+import static frc.robot.Paths.RoutineFiveD.ballBToBallC;
 import static frc.robot.Paths.RoutineFiveFull.routineFiveBFull;
 import static frc.robot.Paths.RoutineFourA.*;
 import static frc.robot.Paths.RoutineOne.gammaBackwards;
-import static frc.robot.Paths.RoutineSeven.ballBToBallA;
-import static frc.robot.Paths.RoutineSeven.ballCToBallB;
+import static frc.robot.Paths.RoutineSeven.*;
 import static frc.robot.Paths.RoutineSixA.ballAToBallG;
-import static frc.robot.Paths.RoutineSixG.ballCToBallG;
-import static frc.robot.Paths.RoutineSixG.gammaPickUpC;
+import static frc.robot.Paths.RoutineSixG.*;
 import static frc.robot.Paths.RoutineThree.alphaPickUpA;
+import static frc.robot.Paths.RoutineTwo.betaBackwards;
 import static frc.robot.Paths.TestTrajectories.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
-//Completed: all tests paths, 
+//Completed: all tests paths, 1, 2, 3, 4, 5a, 5b,
     HALF_FOOT_BACKWARDS("Moves backwards 6 inches (it'll be off by .12 inches)", new SequentialCommandGroup(
         new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
         new ResetPose(halfFootBackwards),
@@ -58,14 +58,12 @@ public enum AutonRoutine {
 
     ROUTINE_TWO("Start from beta, shoot 1 ball, move backward off tarmac", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new ResetPose(gammaBackwards),
+            new ResetPose(betaBackwards),
             new ShootCargo(3.0),
-//            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(8.0)),
-            new SwerveTrajectoryCommand(gammaBackwards)
-//            new InstantCommand(() -> godSubsystem.getIntake().setVoltage(0))
+            new SwerveTrajectoryCommand(betaBackwards)
     )),
 
-    ROUTINE_THREE("Start from alpha, shoot, pick up ball A, pick shoot 2 balls", new SequentialCommandGroup(
+    ROUTINE_THREE("Start from alpha, pick up ball A, turn to face target, shoot 2 balls", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(alphaPickUpA),
             new ShootCargo(3.0),
@@ -74,6 +72,7 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(alphaPickUpA),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+            new TurnToAngle(90),    //this angle may not be correct
             new ShootCargo(3.0)
     )),
 
@@ -82,22 +81,20 @@ public enum AutonRoutine {
             new SequentialCommandGroup(
                     new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
                     new ResetPose(betaPickUpB),
-                    new SwerveTrajectoryCommand(betaPickUpB),
                     new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
                     new SetLeftIntakeDeployed(true),
+                    new SwerveTrajectoryCommand(betaPickUpB),
                     new SetLeftIntakeDeployed(false),
                     new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-                    new SwerveTrajectoryCommand(ballBToShoot),
                     new ShootCargo(3.0),
 
                     new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
                     new SetLeftIntakeDeployed(true),
                     new SwerveTrajectoryCommand(ballBToBallG),
 
-                    // Move in and shoot
                     new SetLeftIntakeDeployed(false),
                     new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-                    new SwerveTrajectoryCommand(ballGToShoot),
+                    new SwerveTrajectoryCommand(ballGToBallB),
                     new ShootCargo(3.0)
             )
     ),
@@ -126,7 +123,6 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(ballAToBallB),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetRightIntakeDeployed(false),
-            new SwerveTrajectoryCommand(ballBToShoot),
             new ShootCargo(3.0)
     )),
 
@@ -142,14 +138,13 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(ballAToBallB),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetRightIntakeDeployed(false),
-            new SwerveTrajectoryCommand(ballBToShoot),
             new ShootCargo(3.0),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SetLeftIntakeDeployed(true),
-            new SwerveTrajectoryCommand(ballBShootToBallG),
+            new SwerveTrajectoryCommand(ballBToBallG),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
-            new SwerveTrajectoryCommand(ballGToShoot),
+            new SwerveTrajectoryCommand(ballGToBallB),
             new ShootCargo(3.0)
     )),
 
@@ -161,25 +156,28 @@ public enum AutonRoutine {
             new SetRightIntakeDeployed(true),
             new SwerveTrajectoryCommand(alphaPickUpA),
             new SetRightIntakeDeployed(false),
+
             new SetLeftIntakeDeployed(true),
             new SwerveTrajectoryCommand(ballAToBallB),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetRightIntakeDeployed(false),
-            new SwerveTrajectoryCommand(ballBToShoot),
             new ShootCargo(3.0),
-            new SwerveTrajectoryCommand(ballBShootToBallG),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new SetLeftIntakeDeployed(false),
-            new SwerveTrajectoryCommand(ballGToShoot),
-            new ShootCargo(3.0),
+
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SetLeftIntakeDeployed(true),
-            new SwerveTrajectoryCommand(ballGToShootToBallC),
+            new SwerveTrajectoryCommand(ballBToBallG),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
-            //may need to move closer to shoot
+
+            new SwerveTrajectoryCommand(ballGToBallB),
+            new ShootCargo(3.0),
+
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+            new SetLeftIntakeDeployed(true),
+            new SwerveTrajectoryCommand(ballBToBallC),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+            new SetLeftIntakeDeployed(false),
             new ShootCargo(3.0)
-            //Pick up Ball C
 
     )),
 
@@ -197,43 +195,57 @@ public enum AutonRoutine {
             new ShootCargo(3)
     )),
 
-    ROUTINE_SIX_A("Start from alpha, pick up ball a, shoot 2, move to ballG, move in to shoot", new SequentialCommandGroup(
-            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new ResetPose(alphaPickUpA),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new SetRightIntakeDeployed(true),
-            new SwerveTrajectoryCommand(alphaPickUpA),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new SetRightIntakeDeployed(false),
-            //make a ballAtoShoot (return to alpha)
-            new ShootCargo(3.0),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new SetRightIntakeDeployed(true),
-            new SwerveTrajectoryCommand(ballAToBallG),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new SetRightIntakeDeployed(false),
-            new SwerveTrajectoryCommand(ballGToShoot),
-            new ShootCargo(3.0)
-    )),
+//    ROUTINE_SIX_A("Start from alpha, pick up ball a, shoot 2, move to ballG, move in to shoot", new SequentialCommandGroup(
+//            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+//            new ResetPose(alphaPickUpA),
+//            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+//            new SetRightIntakeDeployed(true),
+//            new SwerveTrajectoryCommand(alphaPickUpA),
+//            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+//            new SetRightIntakeDeployed(false),
+//            new TurnToAngle(75),    //angle may not be correct
+//            new ShootCargo(3.0),
+//            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+//            new SetRightIntakeDeployed(true),
+//            new SwerveTrajectoryCommand(ballAToBallG),
+//            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+//            new SetRightIntakeDeployed(false),
+//            new SwerveTrajectoryCommand(ballGToShoot),
+//            new ShootCargo(3.0)
+//    )),
 
     ROUTINE_SIX_G("Start from gamma, pick up ball C, shoot 2, pick up ball G, move in to shoot", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(gammaPickUpC),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+            new SetLeftIntakeDeployed(true),
             new SwerveTrajectoryCommand(gammaPickUpC),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+            new SetLeftIntakeDeployed(false),
+            new SwerveTrajectoryCommand(ballCToShoot),
             new ShootCargo(3.0),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+            new SetRightIntakeDeployed(true),
             new SwerveTrajectoryCommand(ballCToBallG),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+            new SetRightIntakeDeployed(false),
+            new SwerveTrajectoryCommand(ballGToBallB),
             new ShootCargo(3.0)
     )),
 
     ROUTINE_SEVEN("Start from gamma, pick up ball C, shoot 2, pick up ball B, pick up ball A, shoot 2", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(gammaPickUpC),
-            //intake
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+            new SetLeftIntakeDeployed(true),
             new SwerveTrajectoryCommand(gammaPickUpC),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+            new SetLeftIntakeDeployed(false),
+            new SwerveTrajectoryCommand(ballCToShoot),
             new ShootCargo(3.0),
             new SwerveTrajectoryCommand(ballCToBallB),
             new SwerveTrajectoryCommand(ballBToBallA),
-            new TurnToAngle(90),
+            new SwerveTrajectoryCommand(ballAToShoot),
             new ShootCargo(3.0)
     ));
 
