@@ -519,7 +519,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLimelightMountingAngleDegrees() {
-                return 33;
+                return 29;
             }
 
             @Override
@@ -690,12 +690,12 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public int getClimberLockSolenoidChannel() {
-                return 1;
+                return 2;
             }
 
             @Override
             public int getClimberDiscBrakeSolenoidChannel() {
-                return 4;
+                return 1;
             }
 
             @Override
