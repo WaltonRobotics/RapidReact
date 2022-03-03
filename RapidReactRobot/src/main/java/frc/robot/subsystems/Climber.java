@@ -1,9 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.sendable.Sendable;
@@ -56,7 +53,6 @@ public class Climber implements SubSubsystem {
         pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
         pivotController.setNeutralMode(NeutralMode.Brake);
         pivotController.enableVoltageCompensation(true);
-        pivotController.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10);
 
         extensionController.configFactoryDefault(10);
         extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);
@@ -64,7 +60,9 @@ public class Climber implements SubSubsystem {
         extensionController.setSensorPhase(config.getExtensionControllerMotorConfig().isInverted());
         extensionController.setNeutralMode(NeutralMode.Brake);
         extensionController.enableVoltageCompensation(true);
-        extensionController.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10);
+
+        configPivotStatusFrames();
+        configExtensionStatusFrames();
 
         periodicIO.pivotNeutralMode = NeutralMode.Brake;
         periodicIO.extensionNeutralMode = NeutralMode.Brake;
@@ -77,6 +75,9 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void collectData() {
+        periodicIO.hasPivotControllerResetOccurred = pivotController.hasResetOccurred();
+        periodicIO.hasExtensionControllerResetOccurred = extensionController.hasResetOccurred();
+
         // Absolute encoder feedback is non-continuous
         periodicIO.pivotAbsoluteEncoderPositionNU = Math.IEEEremainder(pivotAngleAbsoluteEncoder.getDistance(),
                 pivotAngleAbsoluteEncoder.getDistancePerRotation());
@@ -91,6 +92,14 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void outputData() {
+        if (periodicIO.hasPivotControllerResetOccurred) {
+            configPivotStatusFrames();
+        }
+
+        if (periodicIO.hasExtensionControllerResetOccurred) {
+            configExtensionStatusFrames();
+        }
+
         if (periodicIO.resetPivotLimits) {
             pivotController.configReverseSoftLimitThreshold(periodicIO.pivotLimits.getReverseSoftLimitThreshold());
             pivotController.configForwardSoftLimitThreshold(periodicIO.pivotLimits.getForwardsSoftLimitThreshold());
@@ -385,6 +394,30 @@ public class Climber implements SubSubsystem {
         return config;
     }
 
+    private void configPivotStatusFrames() {
+        pivotController.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
+        pivotController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        pivotController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 1000);
+        pivotController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 10);
+        pivotController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        pivotController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 100);
+        pivotController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        pivotController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        pivotController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+    }
+
+    private void configExtensionStatusFrames() {
+        extensionController.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
+        extensionController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        extensionController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 1000);
+        extensionController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 10);
+        extensionController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        extensionController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 100);
+        extensionController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        extensionController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        extensionController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+    }
+
     public enum ClimberControlState {
         ZEROING, AUTO, OPEN_LOOP, DISABLED
     }
@@ -446,6 +479,8 @@ public class Climber implements SubSubsystem {
         public boolean rightClimberLockStateDemand;
         public boolean climberDiscBrakeStateDemand;
         // Inputs
+        public boolean hasPivotControllerResetOccurred;
+        public boolean hasExtensionControllerResetOccurred;
         public double pivotAbsoluteEncoderPositionNU;
         public double pivotIntegratedEncoderPositionNU;
         public boolean isLeftExtensionLowerLimitClosed;
