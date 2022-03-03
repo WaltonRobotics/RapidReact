@@ -62,8 +62,7 @@ public final class Constants {
 
     public static final class Shooter {
 
-        public static final double kAbsoluteShootingDistanceFloorFeet = 42.0 / 12.0;
-        public static final double kAbsoluteShootingDistanceCeilingFeet = 216.0 / 12.0;
+        public static final double kAbsoluteMaximumVelocityNU = 15000;
 
         public static final double kDefaultVelocityRawUnits = 11500;
         public static final double kBarfVelocityRawUnits = 5000;

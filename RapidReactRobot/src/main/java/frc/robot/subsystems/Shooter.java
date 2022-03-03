@@ -195,15 +195,12 @@ public class Shooter implements SubSubsystem {
         double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
         HoodPosition currentHoodPosition = getHoodPosition();
 
-        distanceFeet = UtilMethods.limitRange(distanceFeet, kAbsoluteShootingDistanceFloorFeet,
-                kAbsoluteShootingDistanceCeilingFeet);
-
         InterpolatingDouble result;
 
         result = config.getHoodMaps().get(currentHoodPosition).getInterpolated(new InterpolatingDouble(distanceFeet));
 
         if (result != null) {
-            return result.value;
+            return UtilMethods.limitMagnitude(result.value, kAbsoluteMaximumVelocityNU);
         } else {
             return kDefaultVelocityRawUnits;
         }
