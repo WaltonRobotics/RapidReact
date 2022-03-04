@@ -6,9 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Paths;
 
 import static frc.robot.Paths.RoutineFiveB.ballAToBallB;
-import static frc.robot.Paths.RoutineFiveB.ballBToShoot;
 import static frc.robot.Paths.RoutineFiveC.ballBToBallG;
-import static frc.robot.Paths.RoutineFiveC.ballGToShootToBallC;
 import static frc.robot.Paths.RoutineFiveD.ballBToBallC;
 import static frc.robot.Paths.RoutineFiveFull.routineFiveBFull;
 import static frc.robot.Paths.RoutineFourA.*;
