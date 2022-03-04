@@ -70,7 +70,7 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void zeroSensors() {
-        config.getPivotProfiledController().reset(getPivotAbsoluteEncoderPositionNU());
+
     }
 
     @Override
@@ -241,8 +241,10 @@ public class Climber implements SubSubsystem {
 
     public void setPivotLimits(LimitPair limits) {
         // Only reset limits if they are different from the current limits
-        periodicIO.resetPivotLimits = true;
-        periodicIO.pivotLimits = limits;
+        if (!limits.equals(periodicIO.pivotLimits)) {
+            periodicIO.resetPivotLimits = true;
+            periodicIO.pivotLimits = limits;
+        }
     }
 
     public void setExtensionLimits(ClimberExtensionLimits limits) {
@@ -251,8 +253,10 @@ public class Climber implements SubSubsystem {
 
     public void setExtensionLimits(LimitPair limits) {
         // Only reset limits if they are different from the current limits
-        periodicIO.resetExtensionLimits = true;
-        periodicIO.extensionLimits = limits;
+        if (!limits.equals(periodicIO.extensionLimits)) {
+            periodicIO.resetExtensionLimits = true;
+            periodicIO.extensionLimits = limits;
+        }
     }
 
     public void enableExtensionLowerLimit() {
@@ -302,6 +306,11 @@ public class Climber implements SubSubsystem {
     }
 
     public void setPivotPositionDemandNU(double pivotPositionDemandNU, double feedForward) {
+        // Reset pivot controller upon new position demand
+        if (pivotPositionDemandNU != periodicIO.pivotPositionDemandNU) {
+            config.getPivotProfiledController().reset(getPivotAbsoluteEncoderPositionNU());
+        }
+
         periodicIO.pivotPositionDemandNU = pivotPositionDemandNU;
         periodicIO.pivotFeedForward = feedForward;
     }
