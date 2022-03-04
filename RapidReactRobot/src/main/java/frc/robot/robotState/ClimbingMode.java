@@ -55,9 +55,10 @@ public class ClimbingMode implements IState {
         double ff = godSubsystem.getClimber().getCalculatedFeedForward(currentRobotPitch);
 
         // Pivot arm is off the hook and needs a feedforward
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE, ff);
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
 
         godSubsystem.handleExtensionManualOverride();
+        godSubsystem.handlePivotManualOverride();
 
         return this;
     }
