@@ -550,6 +550,10 @@ public class Climber implements SubSubsystem {
             });
             builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {
             });
+            builder.addBooleanProperty("Reverse Limit", () -> pivotReverseSoftLimitBool.get(), (x) -> {
+            });
+            builder.addBooleanProperty("Forward Limit", () -> pivotForwardSoftLimitBool.get(), (x) -> {
+            });
             builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {
             });
             builder.addBooleanProperty("Is Right Extension Lower Limit Closed", () -> isRightExtensionLowerLimitClosed, (x) -> {
