@@ -22,7 +22,7 @@ public class ClimbingMode implements IState {
     public void initialize() {
         godSubsystem.setCurrentMode(Superstructure.CurrentMode.CLIMBING_MODE);
 
-        godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Coast);
+        godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 

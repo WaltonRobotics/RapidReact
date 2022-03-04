@@ -15,7 +15,7 @@ import static frc.robot.RobotContainer.currentRobot;
 
 public class Climber implements SubSubsystem {
 
-    private final ClimberConfig config = currentRobot.getClimberConfig();
+    private static final ClimberConfig config = currentRobot.getClimberConfig();
 
     private final DutyCycleEncoder pivotAngleAbsoluteEncoder = new DutyCycleEncoder(
             config.getPivotAngleAbsoluteEncoderConfig().getChannel());
@@ -44,7 +44,7 @@ public class Climber implements SubSubsystem {
         pivotController.configAllSettings(config.getPivotControllerTalonConfig(), 10);
         pivotController.setInverted(config.getPivotControllerMotorConfig().isInverted());
         pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
-        pivotController.setNeutralMode(NeutralMode.Coast);
+        pivotController.setNeutralMode(NeutralMode.Brake);
         pivotController.enableVoltageCompensation(true);
 
         extensionController.configFactoryDefault(10);
@@ -57,7 +57,7 @@ public class Climber implements SubSubsystem {
         configPivotStatusFrames();
         configExtensionStatusFrames();
 
-        periodicIO.pivotNeutralMode = NeutralMode.Coast;
+        periodicIO.pivotNeutralMode = NeutralMode.Brake;
         periodicIO.extensionNeutralMode = NeutralMode.Coast;
 
         config.getPivotProfiledController().enableContinuousInput(0.0,
@@ -124,21 +124,15 @@ public class Climber implements SubSubsystem {
 
         if (periodicIO.pivotReverseSoftLimitBool.isRisingEdge()) {
             pivotController.configReverseSoftLimitThreshold(periodicIO.pivotIntegratedEncoderPositionNU);
-            pivotController.configReverseSoftLimitEnable(true);
         }
 
-        if (periodicIO.pivotReverseSoftLimitBool.isFallingEdge()) {
-            pivotController.configReverseSoftLimitEnable(false);
-        }
+        pivotController.configReverseSoftLimitEnable(periodicIO.pivotReverseSoftLimitBool.get());
 
         if (periodicIO.pivotForwardSoftLimitBool.isRisingEdge()) {
             pivotController.configForwardSoftLimitThreshold(periodicIO.pivotIntegratedEncoderPositionNU);
-            pivotController.configForwardSoftLimitEnable(true);
         }
 
-        if (periodicIO.pivotForwardSoftLimitBool.isFallingEdge()) {
-            pivotController.configForwardSoftLimitEnable(false);
-        }
+        pivotController.configForwardSoftLimitEnable(periodicIO.pivotForwardSoftLimitBool.get());
 
         if (periodicIO.resetExtensionLimits) {
             System.out.println("Lower limit: " + periodicIO.extensionLimits.getReverseSoftLimitThreshold());
@@ -505,9 +499,9 @@ public class Climber implements SubSubsystem {
         public boolean isRightExtensionLowerLimitClosed;
         public double extensionIntegratedEncoderPosition;
         // Outputs
-        public LimitPair pivotLimits = new LimitPair(0, 0);
+        public LimitPair pivotLimits = config.getClimberPivotLimits().get(ClimberPivotLimits.PIVOT_STOWED);
         public boolean resetExtensionLimits;
-        public LimitPair extensionLimits  = new LimitPair(0, 0);
+        public LimitPair extensionLimits = config.getClimberExtensionLimits().get(ClimberExtensionLimits.STOWED);
         public boolean releaseExtensionLowerLimit;
         public double pivotPercentOutputDemand;
         public double pivotFeedForward;

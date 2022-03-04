@@ -91,8 +91,8 @@ public class PracticeRapidReact extends WaltRobot {
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration extensionControllerTalonConfig = new TalonFXConfiguration();
 
-    private final ProfiledPIDController pivotProfiledController = new ProfiledPIDController(0.005, 0, 0,
-            new TrapezoidProfile.Constraints(100, 100));
+    private final ProfiledPIDController pivotProfiledController = new ProfiledPIDController(0, 0, 0,
+            new TrapezoidProfile.Constraints(6, 6));
 
     private final HashMap<Climber.ClimberPivotLimits, LimitPair> climberPivotLimits = new HashMap<>(5);
     private final HashMap<Climber.ClimberPivotPosition, Target> climberPivotTargets = new HashMap<>(10);
@@ -708,7 +708,7 @@ public class PracticeRapidReact extends WaltRobot {
     @Override
     public void defineLimits() {
         climberPivotLimits.put(PIVOT_STOWED, new LimitPair(819, 825));
-        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(759, 893));
+        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(793, 862));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(-12174, -9898));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(23324, 25600));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(-12971, -10695));

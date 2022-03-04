@@ -167,7 +167,7 @@ public class Superstructure extends SubsystemBase {
             intake.setLeftIntakeDemand(0);
         }
 
-        if (intake.isRightIntakeDeployed()) {
+        if (intake.isRightIntakeDeployed() || true) {
             double configOutput = intake.getConfig().getRightIntakePercentOutput();
 
             if (kIsInTuningMode) {
