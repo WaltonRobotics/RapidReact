@@ -653,7 +653,7 @@ public class PracticeRapidReact extends WaltRobot {
                 return new AbsoluteEncoderConfig() {
                     @Override
                     public double getDistancePerRotation() {
-                        return 360.0;
+                        return 1024;
                     }
 
                     @Override
