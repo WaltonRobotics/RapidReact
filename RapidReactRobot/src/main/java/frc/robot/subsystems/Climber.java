@@ -5,15 +5,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.*;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
 
-import static edu.wpi.first.wpilibj.PneumaticsModuleType.CTREPCM;
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
 import static frc.robot.RobotContainer.currentRobot;
 
@@ -70,7 +66,7 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void zeroSensors() {
-
+        pivotController.setSelectedSensorPosition(0.0);
     }
 
     @Override
@@ -89,6 +85,15 @@ public class Climber implements SubSubsystem {
             periodicIO.pivotAbsoluteEncoderPositionNU = Math.IEEEremainder(absoluteEncoderDutyCycle,
                     absoluteEncoderCountsPerRev);
         }
+
+        double currentTime = Timer.getFPGATimestamp();
+        double dt = currentTime - periodicIO.lastCollectDataTime;
+
+        periodicIO.pivotAbsoluteEncoderVelocityNU = (periodicIO.pivotAbsoluteEncoderPositionNU
+                - periodicIO.lastPivotAbsoluteEncoderPositionNU) / dt;
+
+        periodicIO.lastCollectDataTime = currentTime;
+        periodicIO.lastPivotAbsoluteEncoderPositionNU = periodicIO.pivotAbsoluteEncoderPositionNU;
 
         periodicIO.isLeftExtensionLowerLimitClosed = !leftExtensionLowerLimit.get();
         periodicIO.isRightExtensionLowerLimitClosed = !rightExtensionLowerLimit.get();
@@ -308,7 +313,8 @@ public class Climber implements SubSubsystem {
     public void setPivotPositionDemandNU(double pivotPositionDemandNU, double feedForward) {
         // Reset pivot controller upon new position demand
         if (pivotPositionDemandNU != periodicIO.pivotPositionDemandNU) {
-            config.getPivotProfiledController().reset(getPivotAbsoluteEncoderPositionNU());
+            config.getPivotProfiledController().reset(getPivotAbsoluteEncoderPositionNU(),
+                    getPivotAbsoluteEncoderVelocityNU());
         }
 
         periodicIO.pivotPositionDemandNU = pivotPositionDemandNU;
@@ -357,6 +363,10 @@ public class Climber implements SubSubsystem {
 
     public double getPivotAbsoluteEncoderPositionNU() {
         return periodicIO.pivotAbsoluteEncoderPositionNU;
+    }
+
+    public double getPivotAbsoluteEncoderVelocityNU() {
+        return periodicIO.pivotAbsoluteEncoderVelocityNU;
     }
 
     public boolean isLeftExtensionLowerLimitClosed() {
@@ -478,6 +488,9 @@ public class Climber implements SubSubsystem {
         public boolean hasPivotControllerResetOccurred;
         public boolean hasExtensionControllerResetOccurred;
         public double pivotAbsoluteEncoderPositionNU;
+        private double lastCollectDataTime;
+        private double lastPivotAbsoluteEncoderPositionNU;
+        public double pivotAbsoluteEncoderVelocityNU;
         public boolean isLeftExtensionLowerLimitClosed;
         public boolean isRightExtensionLowerLimitClosed;
         public double extensionIntegratedEncoderPosition;
@@ -523,6 +536,8 @@ public class Climber implements SubSubsystem {
             builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {
             });
             builder.addDoubleProperty("Pivot Absolute Encoder Position NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
+            });
+            builder.addDoubleProperty("Pivot Absolute Encoder Velocity NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
             });
             builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {
             });
