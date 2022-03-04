@@ -97,6 +97,12 @@ public class Climber implements SubSubsystem {
 
         periodicIO.pivotIntegratedEncoderPositionNU = pivotController.getSelectedSensorPosition();
 
+        boolean reverse = getPivotAbsoluteEncoderPositionNU() < periodicIO.pivotLimits.getReverseSoftLimitThreshold();
+        boolean forward = getPivotAbsoluteEncoderPositionNU() > periodicIO.pivotLimits.getForwardsSoftLimitThreshold();
+
+        periodicIO.pivotReverseSoftLimitBool.set(reverse);
+        periodicIO.pivotForwardSoftLimitBool.set(forward);
+
         periodicIO.isLeftExtensionLowerLimitClosed = !leftExtensionLowerLimit.get();
         periodicIO.isRightExtensionLowerLimitClosed = !rightExtensionLowerLimit.get();
 
@@ -113,11 +119,26 @@ public class Climber implements SubSubsystem {
             configExtensionStatusFrames();
         }
 
-//        if (periodicIO.resetPivotLimits) {
-//            pivotController.configReverseSoftLimitThreshold(periodicIO.pivotLimits.getReverseSoftLimitThreshold());
-//            pivotController.configForwardSoftLimitThreshold(periodicIO.pivotLimits.getForwardsSoftLimitThreshold());
-//            periodicIO.resetPivotLimits = false;
-//        }
+        // When soft limits are rising, enable limiting based feedback from the integrated encoder
+        // When soft limits are falling, disable soft limits based on feedback from the integrated encoder
+
+        if (periodicIO.pivotReverseSoftLimitBool.isRisingEdge()) {
+            pivotController.configReverseSoftLimitThreshold(periodicIO.pivotIntegratedEncoderPositionNU);
+            pivotController.configReverseSoftLimitEnable(true);
+        }
+
+        if (periodicIO.pivotReverseSoftLimitBool.isFallingEdge()) {
+            pivotController.configReverseSoftLimitEnable(false);
+        }
+
+        if (periodicIO.pivotForwardSoftLimitBool.isRisingEdge()) {
+            pivotController.configForwardSoftLimitThreshold(periodicIO.pivotIntegratedEncoderPositionNU);
+            pivotController.configForwardSoftLimitEnable(true);
+        }
+
+        if (periodicIO.pivotForwardSoftLimitBool.isFallingEdge()) {
+            pivotController.configForwardSoftLimitEnable(false);
+        }
 
         if (periodicIO.resetExtensionLimits) {
             System.out.println("Lower limit: " + periodicIO.extensionLimits.getReverseSoftLimitThreshold());
@@ -145,14 +166,13 @@ public class Climber implements SubSubsystem {
                 double output = config.getPivotProfiledController().calculate(periodicIO.pivotAbsoluteEncoderPositionNU,
                         periodicIO.pivotPositionDemandNU);
 
-                setPivotPercentOutputWithLimits(output);
+                pivotController.set(ControlMode.PercentOutput, output);
 
                 periodicIO.pivotPercentOutputDemand = 0;
                 break;
             case OPEN_LOOP:
-                setPivotPercentOutputWithLimits(periodicIO.pivotPercentOutputDemand);
+                pivotController.set(ControlMode.PercentOutput, periodicIO.pivotPercentOutputDemand);
                 periodicIO.pivotPositionDemandNU = periodicIO.pivotAbsoluteEncoderPositionNU;
-
                 break;
             case DISABLED:
                 pivotController.set(ControlMode.Disabled, 0);
@@ -189,24 +209,6 @@ public class Climber implements SubSubsystem {
 
         climberLock.set(periodicIO.climberLockStateDemand);
         climberDiscBrake.set(periodicIO.climberDiscBrakeStateDemand);
-    }
-
-    private void setPivotPercentOutputWithLimits(double output) {
-        if (periodicIO.pivotAbsoluteEncoderPositionNU < periodicIO.pivotLimits.getReverseSoftLimitThreshold()) {
-            if (output > 0) {
-                pivotController.set(ControlMode.PercentOutput, output);
-            } else {
-                pivotController.set(ControlMode.PercentOutput, 0.0);
-            }
-        } else if (periodicIO.pivotAbsoluteEncoderPositionNU > periodicIO.pivotLimits.getForwardsSoftLimitThreshold()) {
-            if (output < 0) {
-                pivotController.set(ControlMode.PercentOutput, output);
-            } else {
-                pivotController.set(ControlMode.PercentOutput, 0.0);
-            }
-        } else {
-            pivotController.set(ControlMode.PercentOutput, output);
-        }
     }
 
     @Override
@@ -249,7 +251,6 @@ public class Climber implements SubSubsystem {
     public void setPivotLimits(LimitPair limits) {
         // Only reset limits if they are different from the current limits
         if (!limits.equals(periodicIO.pivotLimits)) {
-            periodicIO.resetPivotLimits = true;
             periodicIO.pivotLimits = limits;
         }
     }
@@ -498,14 +499,15 @@ public class Climber implements SubSubsystem {
         private double lastPivotAbsoluteEncoderPositionNU;
         public double pivotAbsoluteEncoderVelocityNU;
         public double pivotIntegratedEncoderPositionNU;
+        public EnhancedBoolean pivotReverseSoftLimitBool = new EnhancedBoolean();
+        public EnhancedBoolean pivotForwardSoftLimitBool = new EnhancedBoolean();
         public boolean isLeftExtensionLowerLimitClosed;
         public boolean isRightExtensionLowerLimitClosed;
         public double extensionIntegratedEncoderPosition;
         // Outputs
-        public boolean resetPivotLimits;
-        public LimitPair pivotLimits;
+        public LimitPair pivotLimits = new LimitPair(0, 0);
         public boolean resetExtensionLimits;
-        public LimitPair extensionLimits;
+        public LimitPair extensionLimits  = new LimitPair(0, 0);
         public boolean releaseExtensionLowerLimit;
         public double pivotPercentOutputDemand;
         public double pivotFeedForward;
