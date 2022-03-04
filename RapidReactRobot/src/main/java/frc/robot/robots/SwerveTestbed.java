@@ -568,19 +568,6 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public double getAbsoluteCountsToIntegratedCountsFactor() {
-                final double kAbsoluteCountsPerRev = 1.0;
-
-                return getIntegratedCountsPerRev() / kAbsoluteCountsPerRev;
-            }
-
-            @Override
-            public double getIntegratedCountsPerRev() {
-                final double kPivotGearRatio = 200;
-                return 2048.0 * kPivotGearRatio;
-            }
-
-            @Override
             public double getMaxGravityFeedForward() {
                 return 0;
             }
@@ -683,6 +670,11 @@ public class SwerveTestbed extends WaltRobot {
             @Override
             public double getExtensionManualPercentOutputLimit() {
                 return 0.3;
+            }
+
+            @Override
+            public ProfiledPIDController getPivotProfiledController() {
+                return null;
             }
         };
     }

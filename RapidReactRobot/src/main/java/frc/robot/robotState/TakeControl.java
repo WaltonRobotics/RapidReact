@@ -35,7 +35,7 @@ public class TakeControl implements IState {
             return new Disabled();
         }
 
-        double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
+        double pivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
 
         if (
 //                angleTarget.isWithinTolerance(pivotAngle, 100) &&

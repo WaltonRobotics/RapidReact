@@ -29,6 +29,7 @@ public class ClimbingMode implements IState {
         godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Coast);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setExtensionPositionDemand(Climber.ClimberExtensionPosition.LINING_UP_TO_MID_BAR_LENGTH);
+        godSubsystem.getClimber().enableExtensionLowerLimit();
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
     }
 
@@ -42,7 +43,7 @@ public class ClimbingMode implements IState {
             return new ScoringModeTransition();
         }
 
-        double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
+        double pivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
         if ((stowedAngle.isWithinTolerance(pivotAngle) && hookingLength.isWithinTolerance(extensionHeight)

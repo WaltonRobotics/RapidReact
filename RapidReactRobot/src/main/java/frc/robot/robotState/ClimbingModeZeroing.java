@@ -16,7 +16,7 @@ public class ClimbingModeZeroing implements IState {
         // Zero extension
         // Limit extension ROM
 
-        double currentPivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
+        double currentPivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
 
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setPivotPositionDemandNU(currentPivotAngle);

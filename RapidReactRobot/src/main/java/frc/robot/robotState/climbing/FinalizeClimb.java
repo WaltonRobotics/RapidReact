@@ -17,7 +17,7 @@ public class FinalizeClimb implements IState {
 
     @Override
     public void initialize() {
-        double currentPivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
+        double currentPivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
         double currentExtensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
         LimitPair pivotLimits = new LimitPair(currentPivotAngle - 50, currentPivotAngle + 50);

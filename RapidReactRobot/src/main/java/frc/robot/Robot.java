@@ -29,8 +29,6 @@ public class Robot extends WaltTimesliceRobot {
 
     private RobotContainer robotContainer;
 
-    private Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
-
     public Robot() {
         super(0.002, 0.007);
     }
