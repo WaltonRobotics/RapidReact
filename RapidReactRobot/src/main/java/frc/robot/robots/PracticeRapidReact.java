@@ -707,8 +707,8 @@ public class PracticeRapidReact extends WaltRobot {
 
     @Override
     public void defineLimits() {
-        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(289.28 - 1, 289.28 + 1));
-        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(267.08, 314.046));
+        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(819, 825));
+        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(759, 893));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(-12174, -9898));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(23324, 25600));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(-12971, -10695));
@@ -752,7 +752,7 @@ public class PracticeRapidReact extends WaltRobot {
         // 200:1 GR
         // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (200 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
         // Tolerance: 1 deg
-        climberPivotTargets.put(STOWED_ANGLE, new Target(289.28, 1)); // 0 deg
+        climberPivotTargets.put(STOWED_ANGLE, new Target(822, 3)); // 0 deg
         climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-11036, 1138)); // -9.7 deg
         climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(26624, 1138)); // 23.4 deg
         climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(24462, 1138)); // 21.5 deg
