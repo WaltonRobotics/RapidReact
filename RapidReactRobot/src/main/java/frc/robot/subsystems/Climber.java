@@ -95,6 +95,8 @@ public class Climber implements SubSubsystem {
         periodicIO.lastCollectDataTime = currentTime;
         periodicIO.lastPivotAbsoluteEncoderPositionNU = periodicIO.pivotAbsoluteEncoderPositionNU;
 
+        periodicIO.pivotIntegratedEncoderPositionNU = pivotController.getSelectedSensorPosition();
+
         periodicIO.isLeftExtensionLowerLimitClosed = !leftExtensionLowerLimit.get();
         periodicIO.isRightExtensionLowerLimitClosed = !rightExtensionLowerLimit.get();
 
@@ -369,6 +371,10 @@ public class Climber implements SubSubsystem {
         return periodicIO.pivotAbsoluteEncoderVelocityNU;
     }
 
+    public double getPivotIntegratedEncoderPositionNU() {
+        return periodicIO.pivotIntegratedEncoderPositionNU;
+    }
+
     public boolean isLeftExtensionLowerLimitClosed() {
         return periodicIO.isLeftExtensionLowerLimitClosed;
     }
@@ -491,6 +497,7 @@ public class Climber implements SubSubsystem {
         private double lastCollectDataTime;
         private double lastPivotAbsoluteEncoderPositionNU;
         public double pivotAbsoluteEncoderVelocityNU;
+        public double pivotIntegratedEncoderPositionNU;
         public boolean isLeftExtensionLowerLimitClosed;
         public boolean isRightExtensionLowerLimitClosed;
         public double extensionIntegratedEncoderPosition;
@@ -538,6 +545,8 @@ public class Climber implements SubSubsystem {
             builder.addDoubleProperty("Pivot Absolute Encoder Position NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
             });
             builder.addDoubleProperty("Pivot Absolute Encoder Velocity NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
+            });
+            builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {
             });
             builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {
             });
