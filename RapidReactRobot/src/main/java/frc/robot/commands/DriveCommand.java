@@ -52,6 +52,7 @@ public class DriveCommand extends CommandBase {
             }
 
             drivetrain.move(vx, vy, omega, true);
+//            drivetrain.move(0, 0, SmartDashboard.getNumber("Minimum omega command", 0.1), true);
         }
     }
 

@@ -75,7 +75,7 @@ public class PracticeRapidReact extends WaltRobot {
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
-    private final PIDController autoAlignController = new PIDController(0.05, 0.015, 0.000);
+    private final PIDController autoAlignController = new PIDController(0.12, 0.015, 0.000);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
                     Math.toDegrees(kMaxOmega / 1.1), 360.0));
@@ -91,8 +91,8 @@ public class PracticeRapidReact extends WaltRobot {
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration extensionControllerTalonConfig = new TalonFXConfiguration();
 
-    private final ProfiledPIDController pivotProfiledController = new ProfiledPIDController(0, 0, 0,
-            new TrapezoidProfile.Constraints(6, 6));
+    private final ProfiledPIDController pivotProfiledController = new ProfiledPIDController(0.001, 0, 0,
+            new TrapezoidProfile.Constraints(0.25, 0.25));
 
     private final HashMap<Climber.ClimberPivotLimits, LimitPair> climberPivotLimits = new HashMap<>(5);
     private final HashMap<Climber.ClimberPivotPosition, Target> climberPivotTargets = new HashMap<>(10);
@@ -289,7 +289,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getMinTurnOmega() {
-                return 1.2;
+                return 0.55;
             }
 
             @Override
@@ -337,7 +337,7 @@ public class PracticeRapidReact extends WaltRobot {
 
                     @Override
                     public boolean isInverted() {
-                        return true;
+                        return false;
                     }
                 };
             }
@@ -359,7 +359,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getRightIntakePercentOutput() {
-                return 0.7;
+                return 0.35;
             }
 
             @Override
@@ -369,7 +369,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getRightOuttakePercentOutput() {
-                return -0.7;
+                return -0.35;
             }
         };
     }
@@ -727,13 +727,8 @@ public class PracticeRapidReact extends WaltRobot {
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
-        sixtyDegreeMap.put(new InterpolatingDouble(20.0), new InterpolatingDouble(14000.0)); // Dummy data point
-        sixtyDegreeMap.put(new InterpolatingDouble(8.179), new InterpolatingDouble(11250.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.628), new InterpolatingDouble(10000.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.184), new InterpolatingDouble(10000.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(6.314), new InterpolatingDouble(10000.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(5.706), new InterpolatingDouble(9500.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(5.243), new InterpolatingDouble(8800.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(7.9344), new InterpolatingDouble(10700.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(11.359), new InterpolatingDouble(11250.0));
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> seventyDegreeMap = new InterpolatingTreeMap<>();
 

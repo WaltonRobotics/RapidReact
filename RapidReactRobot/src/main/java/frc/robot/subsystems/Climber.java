@@ -6,9 +6,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
+import frc.robot.util.UtilMethods;
 
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
 import static frc.robot.RobotContainer.currentRobot;
@@ -46,6 +48,8 @@ public class Climber implements SubSubsystem {
         pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
         pivotController.setNeutralMode(NeutralMode.Brake);
         pivotController.enableVoltageCompensation(true);
+        pivotController.configPeakOutputForward(0.15);
+        pivotController.configPeakOutputReverse(-0.15);
 
         extensionController.configFactoryDefault(10);
         extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);
@@ -157,8 +161,14 @@ public class Climber implements SubSubsystem {
             case ZEROING:
                 break;
             case AUTO:
+                config.getPivotProfiledController().setP(UtilMethods.limitMagnitude(config.getPivotProfiledController().getP(), 0.01));
+
+                SmartDashboard.putNumber("Pivot error", config.getPivotProfiledController().getPositionError());
+
                 double output = config.getPivotProfiledController().calculate(periodicIO.pivotAbsoluteEncoderPositionNU,
                         periodicIO.pivotPositionDemandNU);
+
+                output = UtilMethods.limitMagnitude(output, 0.15);
 
                 pivotController.set(ControlMode.PercentOutput, output);
 
@@ -166,6 +176,9 @@ public class Climber implements SubSubsystem {
                 break;
             case OPEN_LOOP:
                 pivotController.set(ControlMode.PercentOutput, periodicIO.pivotPercentOutputDemand);
+
+                periodicIO.pivotPercentOutputDemand = UtilMethods.limitMagnitude(periodicIO.pivotPercentOutputDemand, 0.15);
+
                 periodicIO.pivotPositionDemandNU = periodicIO.pivotAbsoluteEncoderPositionNU;
                 break;
             case DISABLED:
