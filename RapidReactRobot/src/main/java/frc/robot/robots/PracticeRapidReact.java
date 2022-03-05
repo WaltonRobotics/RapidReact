@@ -451,7 +451,7 @@ public class PracticeRapidReact extends WaltRobot {
 
         // Shooting profile
         flywheelMasterTalonConfig.slot1.kF = 0.0471003;
-        flywheelMasterTalonConfig.slot1.kP = 0.0153;
+        flywheelMasterTalonConfig.slot1.kP = 0.0151;
         flywheelMasterTalonConfig.slot1.kI = 0.000153;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
