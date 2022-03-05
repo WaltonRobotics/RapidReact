@@ -10,6 +10,7 @@ import frc.robot.util.UtilMethods;
 
 import static frc.robot.Constants.DriverPreferences.kMaxTranslationalAccelerationMsecSquared;
 import static frc.robot.OI.driveGamepad;
+import static frc.robot.OI.yawScale;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class DriveCommand extends CommandBase {
@@ -42,7 +43,13 @@ public class DriveCommand extends CommandBase {
             double yaw = OI.yawScale.apply(getYaw());
             double vx = vxRateLimiter.calculate(forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond());
             double vy = vyRateLimiter.calculate(strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond());
-            double omega = yaw * drivetrain.getConfig().getMaxOmega();
+            double omega = 0;
+
+            // Ensure at least the minimum turn omega is supplied to the drivetrain to prevent stalling
+            if (Math.abs(getYaw()) > yawScale.getDeadband()) {
+                omega = Math.max(yaw * drivetrain.getConfig().getMaxOmega(),
+                        drivetrain.getConfig().getMinTurnOmega());
+            }
 
             // Limit movement when climbing
             if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
