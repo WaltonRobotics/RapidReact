@@ -689,8 +689,8 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public double getPivotManualPercentOutputLimit() {
-                return 0.1;
+            public double getPivotPercentOutputLimit() {
+                return 0.15;
             }
 
             @Override

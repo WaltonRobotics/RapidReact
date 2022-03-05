@@ -663,7 +663,7 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public double getPivotManualPercentOutputLimit() {
+            public double getPivotPercentOutputLimit() {
                 return 0.3;
             }
 

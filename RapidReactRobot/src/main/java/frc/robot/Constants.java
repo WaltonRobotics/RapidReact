@@ -83,7 +83,7 @@ public final class Constants {
 
     public static final class Climber {
 
-        public static final double kExtensionZeroingPercentOutput = -0.05;
+        public static final double kExtensionZeroingPercentOutput = -0.1;
 
     }
 
