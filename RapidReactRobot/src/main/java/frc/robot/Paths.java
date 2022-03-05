@@ -5,6 +5,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.util.Units;
 
 public class Paths {
+
     private static final double maxVelocity = 5.0; //m/s
     private static final double maxAcceleration = 2.5; //m/s^2
     // Name of path, max vel, max acc
