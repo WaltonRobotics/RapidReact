@@ -55,14 +55,14 @@ public class Climber implements SubSubsystem {
         extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);
         extensionController.setInverted(config.getExtensionControllerMotorConfig().isInverted());
         extensionController.setSensorPhase(config.getExtensionControllerMotorConfig().isInverted());
-        extensionController.setNeutralMode(NeutralMode.Coast);
+        extensionController.setNeutralMode(NeutralMode.Brake);
         extensionController.enableVoltageCompensation(true);
 
         configPivotStatusFrames();
         configExtensionStatusFrames();
 
         periodicIO.pivotNeutralMode = NeutralMode.Brake;
-        periodicIO.extensionNeutralMode = NeutralMode.Coast;
+        periodicIO.extensionNeutralMode = NeutralMode.Brake;
 
         config.getPivotProfiledController().enableContinuousInput(0.0,
                 pivotAngleAbsoluteEncoder.getDistancePerRotation());
@@ -551,9 +551,9 @@ public class Climber implements SubSubsystem {
             });
             builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {
             });
-            builder.addBooleanProperty("Reverse Limit", () -> pivotReverseSoftLimitBool.get(), (x) -> {
+            builder.addBooleanProperty("Pivot Reverse Limit", () -> pivotReverseSoftLimitBool.get(), (x) -> {
             });
-            builder.addBooleanProperty("Forward Limit", () -> pivotForwardSoftLimitBool.get(), (x) -> {
+            builder.addBooleanProperty("Pivot Forward Limit", () -> pivotForwardSoftLimitBool.get(), (x) -> {
             });
             builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {
             });
