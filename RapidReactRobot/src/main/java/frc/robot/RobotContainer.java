@@ -141,6 +141,9 @@ public class RobotContainer {
             SmartDashboard.putNumber(kDrivetrainLeftRearZeroValueKey, 0.0);
             SmartDashboard.putNumber(kDrivetrainRightRearZeroValueKey, 0.0);
 
+            SmartDashboard.putData("Move Half Foot Backwards",
+                    AutonRoutine.HALF_FOOT_BACKWARDS.getCommandGroup());
+
             SmartDashboard.putData(kDrivetrainSaveLeftFrontZeroKey,
                     new InstantCommand(() ->
                             godSubsystem.getDrivetrain().saveLeftFrontZero((int) SmartDashboard.getNumber(kDrivetrainLeftFrontZeroValueKey, 0.0))));
