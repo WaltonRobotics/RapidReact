@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.util.WaltTimesliceRobot;
@@ -30,7 +28,7 @@ public class Robot extends WaltTimesliceRobot {
     private RobotContainer robotContainer;
 
     public Robot() {
-        super(0.002, 0.007);
+        super(0.002, 0.02);
     }
 
     /**
