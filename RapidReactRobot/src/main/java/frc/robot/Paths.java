@@ -97,6 +97,11 @@ public class Paths {
 
     }
 
+    public static final class RoutineFiveE {    //money shot
+        public static final PathPlannerTrajectory ballBToMoneyShot =
+                PathPlanner.loadPath("ballBToMoneyShot", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration));
+    }
+
     public static final class RoutineSixG {
 
         public static final PathPlannerTrajectory gammaPickUpC =
