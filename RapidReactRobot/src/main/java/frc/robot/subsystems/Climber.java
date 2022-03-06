@@ -166,6 +166,8 @@ public class Climber implements SubSubsystem {
                 double output = config.getPivotProfiledController().calculate(periodicIO.pivotAbsoluteEncoderPositionNU,
                         periodicIO.pivotPositionDemandNU);
 
+                SmartDashboard.putNumber("Pivot output", output);
+
                 pivotController.set(ControlMode.PercentOutput, output);
 
                 periodicIO.pivotPercentOutputDemand = 0;
