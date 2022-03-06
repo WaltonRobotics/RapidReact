@@ -236,7 +236,7 @@ public enum AutonRoutine {
 //            new ShootCargo(3.0)
 //    )),
 
-    ROUTINE_SIX_G("Start from gamma, pick up ball C, shoot 2, pick up ball G, move in to shoot", new SequentialCommandGroup(
+    ROUTINE_SIX_G("Start from gamma, pick up ball C, shoot 2", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(gammaPickUpC),
             new SetLeftIntakeDeployed(true),
@@ -244,7 +244,7 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(gammaPickUpC),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
-            new TurnToAngle(-90.0),
+            new TurnToAngle(-90.0).withTimeout(2.0),
             new AlignAndShootCargo(3.0)
     )),
 
