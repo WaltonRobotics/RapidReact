@@ -122,22 +122,28 @@ PathPlanner Points
 			heading: -39.29
 			rotation: 159.65
 		Endpoint:
-			x-position: 11.10
-			y-position: 2.41
-			heading: -41.53
-			rotation: 50.19
+			x-position: 11.20
+			y-position: 2.33
+			heading: -44.63
+			rotation: 230.00
 	
 	ball C to ball G
 		Startpoint:
-			x-position: 11.10
-			y-position: 2.41
-			heading: -41.53
-			rotation: 50.19
+			x-position: 10.51
+			y-position: 2.96
+			heading: 132.44
+			rotation: 135.0
 		Endpoint:
 			x-position: 14.85
 			y-position: 6.66
 			heading:38.30
 			rotation:135.00
+
+	ball C to shoot:
+			x-position: 10.51
+			y-position: 2.96
+			heading: 132.44
+			rotation:135.0
 		
 	betaBackward:
 		Startpoint:
