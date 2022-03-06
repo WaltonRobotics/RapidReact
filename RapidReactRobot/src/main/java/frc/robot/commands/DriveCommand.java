@@ -47,7 +47,7 @@ public class DriveCommand extends CommandBase {
 
             // Ensure at least the minimum turn omega is supplied to the drivetrain to prevent stalling
             if (Math.abs(getYaw()) > yawScale.getDeadband()) {
-                omega = Math.max(yaw * drivetrain.getConfig().getMaxOmega(),
+                omega = Math.signum(yaw) * Math.max(Math.abs(yaw * drivetrain.getConfig().getMaxOmega()),
                         drivetrain.getConfig().getMinTurnOmega());
             }
 
