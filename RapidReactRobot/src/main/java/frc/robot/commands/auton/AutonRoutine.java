@@ -20,12 +20,15 @@ import static frc.robot.Paths.TestTrajectories.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
-//Completed: all tests paths, 1, 2, 3, 4, 5a, 5b,
+
+    // Completed: all tests paths, 1, 2, 3, 4, 5a, 5b,
+
     HALF_FOOT_BACKWARDS("Moves backwards 6 inches (it'll be off by .12 inches)", new SequentialCommandGroup(
         new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
         new ResetPose(halfFootBackwards),
         new SwerveTrajectoryCommand(halfFootBackwards)
-)),
+    )),
+
     DO_NOTHING("Do Nothing", new SequentialCommandGroup(
     )),
 
