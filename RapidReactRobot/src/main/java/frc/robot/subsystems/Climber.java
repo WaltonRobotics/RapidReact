@@ -168,7 +168,7 @@ public class Climber implements SubSubsystem {
 
                 SmartDashboard.putNumber("Pivot output", output);
 
-                pivotController.set(ControlMode.PercentOutput, output);
+                pivotController.set(ControlMode.PercentOutput, UtilMethods.limitMagnitude(output, 0.05));
 
                 periodicIO.pivotPercentOutputDemand = 0;
                 break;
