@@ -91,7 +91,7 @@ public class PracticeRapidReact extends WaltRobot {
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration extensionControllerTalonConfig = new TalonFXConfiguration();
 
-    private final ProfiledPIDController pivotProfiledController = new ProfiledPIDController(0.001, 0, 0,
+    private final ProfiledPIDController pivotProfiledController = new ProfiledPIDController(0, 0, 0,
             new TrapezoidProfile.Constraints(0.25, 0.25));
 
     private final HashMap<Climber.ClimberPivotLimits, LimitPair> climberPivotLimits = new HashMap<>(5);
@@ -540,7 +540,7 @@ public class PracticeRapidReact extends WaltRobot {
     @Override
     public void configClimber() {
         pivotControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-                true, 40, 45, 1);
+                true, 25, 25, 1);
         pivotControllerTalonConfig.voltageCompSaturation = 12.0;
         pivotControllerTalonConfig.forwardSoftLimitEnable = false;
         pivotControllerTalonConfig.reverseSoftLimitEnable = false;
@@ -690,7 +690,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getPivotPercentOutputLimit() {
-                return 0.05;
+                return 0.25;
             }
 
             @Override

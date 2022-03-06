@@ -240,7 +240,7 @@ public class Superstructure extends SubsystemBase {
         if (isExtensionManualOverride()) {
             climber.setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
 
-            double extensionJoystick = -manipulationGamepad.getRightY();
+            double extensionJoystick = manipulationGamepad.getRightY();
 
             extensionJoystick = UtilMethods.limitMagnitude(extensionJoystick,
                     climber.getConfig().getExtensionManualPercentOutputLimit());
