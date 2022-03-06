@@ -85,6 +85,8 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setEnabled(false);
 
         godSubsystem.setInAuton(false);
+
+        godSubsystem.getDrivetrain().setCoastNeutralMode();
     }
 
     @Override

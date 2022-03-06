@@ -6,8 +6,8 @@ import edu.wpi.first.math.util.Units;
 
 public class Paths {
 
-    private static final double maxVelocity = 5.0; //m/s
-    private static final double maxAcceleration = 2.5; //m/s^2
+    private static final double maxVelocity = 5.0; //ft/s
+    private static final double maxAcceleration = 3.5; //ft/s^2
     // Name of path, max vel, max acc
 
 //    public static PathPlannerTrajectory grabLowBlue2 =
@@ -78,6 +78,11 @@ public class Paths {
                 PathPlanner.loadPath("ballAToBallB", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
         public static final PathPlannerTrajectory ballBToShoot =
                 PathPlanner.loadPath("ballBToShoot", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), false);
+        public static final PathPlannerTrajectory alphaPickUpA2 =
+                PathPlanner.loadPath("alphaPickUpA2", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
+        public static final PathPlannerTrajectory ballAToBallB2 =
+                PathPlanner.loadPath("ballAToBallB2", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
+
 
     }
 

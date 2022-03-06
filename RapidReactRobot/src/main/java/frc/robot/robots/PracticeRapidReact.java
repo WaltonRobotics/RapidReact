@@ -58,7 +58,7 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final Translation2d[] wheelLocationMeters = new Translation2d[4];
 
-    private final double kTranslationalP = 9.25;
+    private final double kTranslationalP = 8.00;
     private final double kTranslationalD = 0.06;
 
     private final double kMaxSpeedMetersPerSecond = 3.889;

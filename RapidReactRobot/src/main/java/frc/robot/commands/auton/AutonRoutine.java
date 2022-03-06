@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Paths;
 
-import static frc.robot.Paths.RoutineFiveB.ballAToBallB;
+import static frc.robot.Paths.RoutineFiveB.*;
 import static frc.robot.Paths.RoutineFiveC.ballBToBallG;
 import static frc.robot.Paths.RoutineFiveD.ballBToBallC;
 import static frc.robot.Paths.RoutineFiveE.ballBToMoneyShot;
@@ -112,19 +112,20 @@ public enum AutonRoutine {
             new ShootCargo(3.0)
     )),
 
-    ROUTINE_FIVE_B("Start from alpha, shoot 1, pick up ball A, pick up ball B, move in to shoot", new SequentialCommandGroup(
+    ROUTINE_FIVE_B("Start from alpha, shoot 1, pick up ball A, pick up ball B, move in to shoot", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(alphaPickUpA),
-            new ShootCargo(1.5),
+            new ShootCargo(2),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SetRightIntakeDeployed(true),
             new SwerveTrajectoryCommand(alphaPickUpA),
+            new SwerveTrajectoryCommand(alphaPickUpA2),
             new SetRightIntakeDeployed(false),
             new SetLeftIntakeDeployed(true),
             new SwerveTrajectoryCommand(ballAToBallB),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+            new SwerveTrajectoryCommand(ballAToBallB2),
             new SetRightIntakeDeployed(false),
-            new ShootCargo(3.0)
+            new AlignAndShootCargo(3.0)
     )),
 
     ROUTINE_FIVE_C("Routine_FIVE_B, move to pick up ball G, move in to shoot", new SequentialCommandGroup(
@@ -183,6 +184,7 @@ public enum AutonRoutine {
     )),
 
     ROUTINE_FIVE_E("shoot from alpha, pick up ball A & ball B, come in to make 'money shot'", new SequentialCommandGroup(
+
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(alphaPickUpA),
             new ShootCargo(1.5),
@@ -204,7 +206,7 @@ public enum AutonRoutine {
     ROUTINE_FIVE_B_FULL("ROUTINE_FIVE_B in one complete path", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFull),
-            new ShootCargo(1.5),
+            new ShootCargo(2.0),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SetLeftIntakeDeployed(true),
             new SetRightIntakeDeployed(true),
@@ -212,7 +214,7 @@ public enum AutonRoutine {
             new SetLeftIntakeDeployed(false),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new ShootCargo(3)
+            new AlignAndShootCargo(3)
     )),
 
 //    ROUTINE_SIX_A("Start from alpha, pick up ball a, shoot 2, move to ballG, move in to shoot", new SequentialCommandGroup(
