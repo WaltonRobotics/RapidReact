@@ -673,6 +673,11 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
+            public double getAbsoluteCountsToIntegratedCountsFactor() {
+                return 0;
+            }
+
+            @Override
             public ProfiledPIDController getPivotProfiledController() {
                 return null;
             }

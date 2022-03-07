@@ -40,6 +40,8 @@ public interface ClimberConfig {
     double getPivotPercentOutputLimit();
     double getExtensionManualPercentOutputLimit();
 
+    double getAbsoluteCountsToIntegratedCountsFactor();
+
     ProfiledPIDController getPivotProfiledController();
 
 }
