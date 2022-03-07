@@ -541,7 +541,7 @@ public class PracticeRapidReact extends WaltRobot {
     @Override
     public void configClimber() {
         pivotControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-                true, 25, 25, 1);
+                true, 30, 35, 1);
         pivotControllerTalonConfig.voltageCompSaturation = 12.0;
         pivotControllerTalonConfig.forwardSoftLimitEnable = false;
         pivotControllerTalonConfig.reverseSoftLimitEnable = false;
@@ -549,11 +549,11 @@ public class PracticeRapidReact extends WaltRobot {
         // Motion Magic slot
         pivotControllerTalonConfig.slot0.kF = 0.14614296;
         pivotControllerTalonConfig.slot0.kP = 1.0;
-        pivotControllerTalonConfig.slot0.kI = 0;
+        pivotControllerTalonConfig.slot0.kI = 1.0 / 100.0;
         pivotControllerTalonConfig.slot0.kD = 0;
         pivotControllerTalonConfig.slot0.allowableClosedloopError = 0;
-        pivotControllerTalonConfig.slot0.integralZone = 100;
-        pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
+        pivotControllerTalonConfig.slot0.integralZone = 200.0;
+        pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 75000;
         pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
         pivotControllerTalonConfig.motionCruiseVelocity = 700;
         pivotControllerTalonConfig.motionAcceleration = 600;
@@ -720,10 +720,10 @@ public class PracticeRapidReact extends WaltRobot {
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(1148, 1235));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(1148, 1235));
 
-        climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));
-        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 410000));
-        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(5000, 410000));
-        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(5000, 410000));
+        climberExtensionLimits.put(STOWED, new LimitPair(-7500, -7000));
+        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(-7500, 409000));
+        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(-7500, 409000));
+        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(-7500, 409000));
     }
 
     @Override
@@ -756,7 +756,8 @@ public class PracticeRapidReact extends WaltRobot {
         // Tolerance: 1 deg
         climberPivotTargets.put(LINING_UP_FOR_MID_BAR, new Target(9100, 60));
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 60)); // 0 deg
-        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-8829, 60)); // -9.7 deg
+        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-4929, 60)); // -9.7 deg
+        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(4000, 60));
         climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(21299, 60)); // 23.4 deg
         climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(19570, 60)); // 21.5 deg
         climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-9466, 60)); // -10.4 deg
@@ -769,7 +770,7 @@ public class PracticeRapidReact extends WaltRobot {
         // Output shaft: 0.5 inch diameter (may change if spool is added)
         // Encoder counts = inches * (1 output rev / 0.5*pi inches) * (36 extension motor rev / 1 output rev) * (2048 counts / 1 extension motor rev)
         // Tolerance: 0.1 in
-        climberExtensionTargets.put(STOWED_HEIGHT, new Target(6500, 1500)); // 1 in
+        climberExtensionTargets.put(STOWED_HEIGHT, new Target(-7500, 1500)); // 1 in
         climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
         climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(187747, 1877)); // 11.0 in
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(37549, 1877)); // 3.0 in

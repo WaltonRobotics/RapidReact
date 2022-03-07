@@ -22,6 +22,9 @@ public class RotatePivotForTraversalBar implements IState {
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+
+        godSubsystem.getClimber().setPivotPositionDemand(
+                Climber.ClimberPivotPosition.REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE);
     }
 
     @Override
@@ -40,12 +43,6 @@ public class RotatePivotForTraversalBar implements IState {
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new InitiateTraversalBarClimb();
         }
-
-        Rotation2d currentRobotPitch = godSubsystem.getDrivetrain().getPitch();
-        double ff = godSubsystem.getClimber().getCalculatedFeedForward(currentRobotPitch);
-
-        godSubsystem.getClimber().setPivotPositionDemand(
-                Climber.ClimberPivotPosition.REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, ff);
 
         godSubsystem.handleExtensionManualOverride();
 

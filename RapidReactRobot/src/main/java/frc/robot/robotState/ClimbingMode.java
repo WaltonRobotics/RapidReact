@@ -31,6 +31,8 @@ public class ClimbingMode implements IState {
         godSubsystem.getClimber().setExtensionPositionDemand(Climber.ClimberExtensionPosition.LINING_UP_TO_MID_BAR_LENGTH);
         godSubsystem.getClimber().enableExtensionLowerLimit();
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
     }
 
     @Override
@@ -50,12 +52,6 @@ public class ClimbingMode implements IState {
                 && advanceClimbingProcessButton.get()) || overrideNextClimbStateButton.isRisingEdge()) {
             return new PullUpToHookOntoMidBar();
         }
-
-        Rotation2d currentRobotPitch = godSubsystem.getDrivetrain().getPitch();
-        double ff = godSubsystem.getClimber().getCalculatedFeedForward(currentRobotPitch);
-
-        // Pivot arm is off the hook and needs a feedforward
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
 
         godSubsystem.handleExtensionManualOverride();
         godSubsystem.handlePivotManualOverride();
