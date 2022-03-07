@@ -108,7 +108,7 @@ public class RobotContainer {
         toggleClimberLocksButton.whenPressed(godSubsystem.getClimber()::toggleClimberLock);
     }
 
-    private void initShuffleboard() {
+    public void initShuffleboard() {
         LiveWindow.disableAllTelemetry();
 
         SmartDashboard.putData("Pivot controller", godSubsystem.getClimber().getConfig().getPivotProfiledController());

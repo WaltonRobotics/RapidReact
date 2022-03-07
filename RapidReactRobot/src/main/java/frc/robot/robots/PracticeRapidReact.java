@@ -58,7 +58,7 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final Translation2d[] wheelLocationMeters = new Translation2d[4];
 
-    private final double kTranslationalP = 9.25;
+    private final double kTranslationalP = 8.00;
     private final double kTranslationalD = 0.06;
 
     private final double kMaxSpeedMetersPerSecond = 3.889;
@@ -79,6 +79,7 @@ public class PracticeRapidReact extends WaltRobot {
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
                     Math.toDegrees(kMaxOmega / 1.1), 360.0));
+    
 
     // Shooter constants
     private final TalonFXConfiguration flywheelMasterTalonConfig = new TalonFXConfiguration();
@@ -91,7 +92,7 @@ public class PracticeRapidReact extends WaltRobot {
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration extensionControllerTalonConfig = new TalonFXConfiguration();
 
-    private final ProfiledPIDController pivotProfiledController = new ProfiledPIDController(0, 0, 0,
+    private final ProfiledPIDController pivotProfiledController = new ProfiledPIDController(0.002, 0, 0,
             new TrapezoidProfile.Constraints(0.25, 0.25));
 
     private final HashMap<Climber.ClimberPivotLimits, LimitPair> climberPivotLimits = new HashMap<>(5);
@@ -108,7 +109,7 @@ public class PracticeRapidReact extends WaltRobot {
     public void configDrivetrain() {
         for (int i = 0; i < 4; i++) {
             SmartMotionConstants azimuthConfig = new SmartMotionConstants() {
-                private final PIDController velocityPID = new PIDController(0.00015, 0.0000017, 0.0);
+                private final PIDController velocityPID = new PIDController(0.0002, 0.000007, 0.0);
 
                 @Override
                 public PIDController getVelocityPID() {
@@ -565,16 +566,16 @@ public class PracticeRapidReact extends WaltRobot {
         extensionControllerTalonConfig.reverseSoftLimitEnable = true;
 
         // Motion Magic slot
-        extensionControllerTalonConfig.slot0.kF = 0.0001;
-        extensionControllerTalonConfig.slot0.kP = 0.0001;
-        extensionControllerTalonConfig.slot0.kI = 0.0001;
-        extensionControllerTalonConfig.slot0.kD = 0.0001;
+        extensionControllerTalonConfig.slot0.kF = 0.04972917;
+        extensionControllerTalonConfig.slot0.kP = 0.5;
+        extensionControllerTalonConfig.slot0.kI = 0.5 / 100.0;
+        extensionControllerTalonConfig.slot0.kD = 0;
         extensionControllerTalonConfig.slot0.allowableClosedloopError = 0;
         extensionControllerTalonConfig.slot0.integralZone = 100;
         extensionControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
         extensionControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
-        extensionControllerTalonConfig.motionCruiseVelocity = 100;
-        extensionControllerTalonConfig.motionAcceleration = 100;
+        extensionControllerTalonConfig.motionCruiseVelocity = 7500;
+        extensionControllerTalonConfig.motionAcceleration = 7400;
         extensionControllerTalonConfig.motionCurveStrength = 3;
 
         climberConfig = new ClimberConfig() {
@@ -699,6 +700,11 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
+            public double getAbsoluteCountsToIntegratedCountsFactor() {
+                return (160.0 * 2048.0) / 1024.0;
+            }
+
+            @Override
             public ProfiledPIDController getPivotProfiledController() {
                 return pivotProfiledController;
             }
@@ -707,12 +713,12 @@ public class PracticeRapidReact extends WaltRobot {
 
     @Override
     public void defineLimits() {
-        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(819, 825));
-        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(793, 862));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(793, 862));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(793, 862));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(793, 862));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(793, 862));
+        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(1174, 1181));
+        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(1148, 1235));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(1148, 1235));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(1148, 1235));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(1148, 1235));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(1148, 1235));
 
         climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));
         climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 410000));
@@ -727,8 +733,14 @@ public class PracticeRapidReact extends WaltRobot {
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
+        sixtyDegreeMap.put(new InterpolatingDouble(6.517), new InterpolatingDouble(9100.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(7.298), new InterpolatingDouble(9600.0));
         sixtyDegreeMap.put(new InterpolatingDouble(7.9344), new InterpolatingDouble(10700.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(10.207), new InterpolatingDouble(11700.0));
         sixtyDegreeMap.put(new InterpolatingDouble(11.359), new InterpolatingDouble(11250.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(12.420), new InterpolatingDouble(11700.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(14.476), new InterpolatingDouble(12450.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(16.925), new InterpolatingDouble(13000.0));
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> seventyDegreeMap = new InterpolatingTreeMap<>();
 
@@ -739,17 +751,17 @@ public class PracticeRapidReact extends WaltRobot {
         hoodMaps.put(Shooter.HoodPosition.SEVENTY_DEGREES, seventyDegreeMap);
 
         // Angles in reference to fixed arm
-        // 200:1 GR
-        // Encoder counts = zero position + deg * (1 pivot arm rev / 360 deg) * (1024 counts / 1 pivot arm rev)
+        // 160:1 GR
+        // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (160 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
         // Tolerance: 1 deg
-        climberPivotTargets.put(STOWED_ANGLE, new Target(822, 3)); // 0 deg
-        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(794, 3)); // -9.7 deg
-        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(862, 3)); // 889, 23.4 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(862, 3)); // 883, 21.5 deg
-        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(793, 3)); // -10.4 deg
-        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(819, 3)); // -1.0 deg
-        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(862, 3)); // 898, 26.6 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(862, 3)); // 879, 20.0 deg
+        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 1138)); // 0 deg
+        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-8829, 1138)); // -9.7 deg
+        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(21299, 1138)); // 23.4 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(19570, 1138)); // 21.5 deg
+        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-9466, 1138)); // -10.4 deg
+        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(-910, 1138)); // -1.0 deg
+        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(24212, 1138)); // 26.6 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(26396, 1138)); // 20.0 deg
 
         // Lengths are relative to uppermost ring of outer arm
         // 36:1 GR

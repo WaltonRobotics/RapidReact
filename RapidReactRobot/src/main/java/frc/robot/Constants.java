@@ -66,11 +66,12 @@ public final class Constants {
 
         public static final double kDefaultVelocityRawUnits = 11500;
         public static final double kBarfVelocityRawUnits = 5000;
+        public static final double kIdleVelocityRawUnits = 9000;
 
         // The tolerance to exit the spinning up state and enter the shooting state
         public static final double kSpinningUpToleranceRawUnits = 150;
         // The tolerance to maintain the shooting state
-        public static final double kShootingToleranceRawUnits = 200;
+        public static final double kShootingToleranceRawUnits = 160;
 
         // Short period of time after the shoot button is released where the flywheels
         // continue rotating to ensure last few shots don't go amiss

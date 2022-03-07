@@ -70,7 +70,7 @@ public class Climber implements SubSubsystem {
 
     @Override
     public void zeroSensors() {
-        pivotController.setSelectedSensorPosition(0.0);
+        loadPivotVerticalReference();
     }
 
     @Override
@@ -161,21 +161,13 @@ public class Climber implements SubSubsystem {
             case ZEROING:
                 break;
             case AUTO:
-                SmartDashboard.putNumber("Pivot error", config.getPivotProfiledController().getPositionError());
-
-                double output = config.getPivotProfiledController().calculate(periodicIO.pivotAbsoluteEncoderPositionNU,
-                        periodicIO.pivotPositionDemandNU);
-
-                SmartDashboard.putNumber("Pivot output", output);
-
-                pivotController.set(ControlMode.PercentOutput, output);
-
+                pivotController.set(ControlMode.MotionMagic, periodicIO.pivotPositionDemandNU);
                 periodicIO.pivotPercentOutputDemand = 0;
                 break;
             case OPEN_LOOP:
                 pivotController.set(ControlMode.PercentOutput, periodicIO.pivotPercentOutputDemand);
 
-                periodicIO.pivotPositionDemandNU = periodicIO.pivotAbsoluteEncoderPositionNU;
+                periodicIO.pivotPositionDemandNU = periodicIO.pivotIntegratedEncoderPositionNU;
                 break;
             case DISABLED:
                 pivotController.set(ControlMode.Disabled, 0);
@@ -217,6 +209,14 @@ public class Climber implements SubSubsystem {
     @Override
     public Sendable getPeriodicIOSendable() {
         return periodicIO;
+    }
+
+    public void loadPivotVerticalReference() {
+        double offsetAbsoluteCounts = getPivotAbsoluteEncoderPositionNU() - config.getVerticalReferenceAbsoluteCounts();
+        double setpointIntegratedCounts = offsetAbsoluteCounts * config.getAbsoluteCountsToIntegratedCountsFactor();
+
+        pivotController.setSelectedSensorPosition(setpointIntegratedCounts);
+        setPivotPositionDemandNU(setpointIntegratedCounts);
     }
 
     public boolean isZeroed() {
@@ -318,10 +318,10 @@ public class Climber implements SubSubsystem {
 
     public void setPivotPositionDemandNU(double pivotPositionDemandNU, double feedForward) {
         // Reset pivot controller upon new position demand
-        if (pivotPositionDemandNU != periodicIO.pivotPositionDemandNU) {
-            config.getPivotProfiledController().reset(getPivotAbsoluteEncoderPositionNU(),
-                    getPivotAbsoluteEncoderVelocityNU());
-        }
+//        if (pivotPositionDemandNU != periodicIO.pivotPositionDemandNU) {
+//            config.getPivotProfiledController().reset(getPivotAbsoluteEncoderPositionNU(),
+//                    getPivotAbsoluteEncoderVelocityNU());
+//        }
 
         periodicIO.pivotPositionDemandNU = pivotPositionDemandNU;
         periodicIO.pivotFeedForward = feedForward;
