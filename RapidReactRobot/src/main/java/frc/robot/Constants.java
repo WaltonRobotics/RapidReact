@@ -66,6 +66,7 @@ public final class Constants {
 
         public static final double kDefaultVelocityRawUnits = 11500;
         public static final double kBarfVelocityRawUnits = 5000;
+        public static final double kIdleVelocityRawUnits = 9000;
 
         // The tolerance to exit the spinning up state and enter the shooting state
         public static final double kSpinningUpToleranceRawUnits = 150;

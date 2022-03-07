@@ -750,17 +750,17 @@ public class PracticeRapidReact extends WaltRobot {
         hoodMaps.put(Shooter.HoodPosition.SEVENTY_DEGREES, seventyDegreeMap);
 
         // Angles in reference to fixed arm
-        // 200:1 GR
-        // Encoder counts = zero position + deg * (1 pivot arm rev / 360 deg) * (1024 counts / 1 pivot arm rev)
+        // 160:1 GR
+        // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (160 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
         // Tolerance: 1 deg
-        climberPivotTargets.put(STOWED_ANGLE, new Target(1197, 3)); // 0 deg
-        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(1177, 3)); // -9.7 deg
-        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(1177, 3)); // 889, 23.4 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(1177, 3)); // 883, 21.5 deg
-        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(1177, 3)); // -10.4 deg
-        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(1177, 3)); // -1.0 deg
-        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(1177, 3)); // 898, 26.6 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(1177, 3)); // 879, 20.0 deg
+        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 1138)); // 0 deg
+        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-8829, 1138)); // -9.7 deg
+        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(21299, 1138)); // 23.4 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(19570, 1138)); // 21.5 deg
+        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-9466, 1138)); // -10.4 deg
+        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(-910, 1138)); // -1.0 deg
+        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(24212, 1138)); // 26.6 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(26396, 1138)); // 20.0 deg
 
         // Lengths are relative to uppermost ring of outer arm
         // 36:1 GR
