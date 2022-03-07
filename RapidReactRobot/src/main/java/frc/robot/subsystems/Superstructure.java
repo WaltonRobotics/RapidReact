@@ -12,9 +12,9 @@ import frc.robot.vision.LimelightHelper;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
 import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
+import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.OI.dangerButton;
-import static frc.robot.OI.manipulationGamepad;
+import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -248,6 +248,16 @@ public class Superstructure extends SubsystemBase {
             climber.setExtensionPercentOutputDemand(extensionJoystick);
         } else {
             climber.setExtensionControlState(Climber.ClimberControlState.AUTO);
+        }
+    }
+
+    public void handleIdleSpinUp() {
+        if (idleSpinUpButton.get()) {
+            shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
+            shooter.setFlywheelDemand(kIdleVelocityRawUnits);
+        } else {
+            shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
+            shooter.setFlywheelDemand(0);
         }
     }
 
