@@ -6,8 +6,8 @@ import edu.wpi.first.math.util.Units;
 
 public class Paths {
 
-    private static final double maxVelocity = 5.0; //ft/s
-    private static final double maxAcceleration = 3.5; //ft/s^2
+    private static final double maxVelocity = 5.0; //m/s
+    private static final double maxAcceleration = 2.5; //m/s^2
     // Name of path, max vel, max acc
 
 //    public static PathPlannerTrajectory grabLowBlue2 =
@@ -78,17 +78,12 @@ public class Paths {
                 PathPlanner.loadPath("ballAToBallB", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
         public static final PathPlannerTrajectory ballBToShoot =
                 PathPlanner.loadPath("ballBToShoot", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), false);
-        public static final PathPlannerTrajectory alphaPickUpA2 =
-                PathPlanner.loadPath("alphaPickUpA2", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
-        public static final PathPlannerTrajectory ballAToBallB2 =
-                PathPlanner.loadPath("ballAToBallB2", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
-
 
     }
 
     public static final class RoutineFiveC {
 
-        public static final PathPlannerTrajectory ballBToBallG =        
+        public static final PathPlannerTrajectory ballBToBallG =
                 PathPlanner.loadPath("ballBToBallG", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
         public static final PathPlannerTrajectory ballGToShootToBallC =
                 PathPlanner.loadPath("ballGToShootToBallC", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration),true);
@@ -100,11 +95,6 @@ public class Paths {
         public static final PathPlannerTrajectory ballBToBallC =
                 PathPlanner.loadPath("ballBToBallC", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration));
 
-    }
-
-    public static final class RoutineFiveE {    //money shot
-        public static final PathPlannerTrajectory ballBToMoneyShot =
-                PathPlanner.loadPath("ballBToMoneyShot", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration));
     }
 
     public static final class RoutineSixG {
