@@ -547,16 +547,16 @@ public class PracticeRapidReact extends WaltRobot {
         pivotControllerTalonConfig.reverseSoftLimitEnable = false;
 
         // Motion Magic slot
-        pivotControllerTalonConfig.slot0.kF = 0.0001;
-        pivotControllerTalonConfig.slot0.kP = 0.0001;
+        pivotControllerTalonConfig.slot0.kF = 0.14614296;
+        pivotControllerTalonConfig.slot0.kP = 1.0;
         pivotControllerTalonConfig.slot0.kI = 0;
         pivotControllerTalonConfig.slot0.kD = 0;
         pivotControllerTalonConfig.slot0.allowableClosedloopError = 0;
         pivotControllerTalonConfig.slot0.integralZone = 100;
         pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
         pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
-        pivotControllerTalonConfig.motionCruiseVelocity = 100;
-        pivotControllerTalonConfig.motionAcceleration = 100;
+        pivotControllerTalonConfig.motionCruiseVelocity = 700;
+        pivotControllerTalonConfig.motionAcceleration = 600;
         pivotControllerTalonConfig.motionCurveStrength = 3;
 
         extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
@@ -591,7 +591,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getVerticalReferenceAbsoluteCounts() {
-                return 289.28;
+                return 1177;
             }
 
             @Override
@@ -691,7 +691,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getPivotPercentOutputLimit() {
-                return 0.25;
+                return 1.0;
             }
 
             @Override
@@ -754,14 +754,15 @@ public class PracticeRapidReact extends WaltRobot {
         // 160:1 GR
         // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (160 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
         // Tolerance: 1 deg
-        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 1138)); // 0 deg
-        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-8829, 1138)); // -9.7 deg
-        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(21299, 1138)); // 23.4 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(19570, 1138)); // 21.5 deg
-        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-9466, 1138)); // -10.4 deg
-        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(-910, 1138)); // -1.0 deg
-        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(24212, 1138)); // 26.6 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(26396, 1138)); // 20.0 deg
+        climberPivotTargets.put(LINING_UP_FOR_MID_BAR, new Target(9100, 60));
+        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 60)); // 0 deg
+        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-8829, 60)); // -9.7 deg
+        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(21299, 60)); // 23.4 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(19570, 60)); // 21.5 deg
+        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-9466, 60)); // -10.4 deg
+        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(-910, 60)); // -1.0 deg
+        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(24212, 60)); // 26.6 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(26396, 60)); // 20.0 deg
 
         // Lengths are relative to uppermost ring of outer arm
         // 36:1 GR

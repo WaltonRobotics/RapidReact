@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Superstructure;
 import frc.robot.util.WaltTimesliceRobot;
 import frc.robot.vision.LimelightHelper;
 
@@ -132,6 +133,8 @@ public class Robot extends WaltTimesliceRobot {
 
     @Override
     public void teleopInit() {
+        godSubsystem.setCurrentMode(Superstructure.CurrentMode.SCORING_MODE);
+
         godSubsystem.setEnabled(true);
 
         godSubsystem.setInAuton(false);

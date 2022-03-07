@@ -33,7 +33,7 @@ public class TransferMidBarFromPivotToFixed implements IState {
             return new FinalizeClimb();
         }
 
-        double pivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
+        double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
         if ((stowedAngle.isWithinTolerance(pivotAngle) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {

@@ -15,7 +15,7 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class ClimbingMode implements IState {
 
-    private final Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.STOWED_ANGLE);
+    private final Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
     private final Target hookingLength = currentRobot.getExtensionTarget(Climber.ClimberExtensionPosition.LINING_UP_TO_MID_BAR_LENGTH);
 
     @Override
@@ -43,7 +43,7 @@ public class ClimbingMode implements IState {
             return new ScoringModeTransition();
         }
 
-        double pivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
+        double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
         if ((stowedAngle.isWithinTolerance(pivotAngle) && hookingLength.isWithinTolerance(extensionHeight)
@@ -55,7 +55,7 @@ public class ClimbingMode implements IState {
         double ff = godSubsystem.getClimber().getCalculatedFeedForward(currentRobotPitch);
 
         // Pivot arm is off the hook and needs a feedforward
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
 
         godSubsystem.handleExtensionManualOverride();
         godSubsystem.handlePivotManualOverride();
