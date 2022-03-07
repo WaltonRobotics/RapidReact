@@ -35,6 +35,7 @@ public class OI {
     public static final EnhancedAxisButton shootButton = new EnhancedAxisButton(driveGamepad,
             kRightTrigger.value, 0.5);
     public static final EnhancedJoystickButton barfButton = new EnhancedJoystickButton(driveGamepad, kRightBumper.value);
+    public static final EnhancedJoystickButton idleSpinUpButton = new EnhancedJoystickButton(manipulationGamepad, kRightBumper.value);
 
     // Climbing mode
     // Out-of-the-way buttons
