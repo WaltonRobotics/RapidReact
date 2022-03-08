@@ -6,11 +6,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
-import frc.robot.util.UtilMethods;
 
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
 import static frc.robot.RobotContainer.currentRobot;
@@ -48,8 +46,6 @@ public class Climber implements SubSubsystem {
         pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
         pivotController.setNeutralMode(NeutralMode.Brake);
         pivotController.enableVoltageCompensation(true);
-        pivotController.configPeakOutputForward(config.getPivotPercentOutputLimit());
-        pivotController.configPeakOutputReverse(-config.getPivotPercentOutputLimit());
 
         extensionController.configFactoryDefault(10);
         extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);

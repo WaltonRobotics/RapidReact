@@ -104,6 +104,7 @@ public class Robot extends WaltTimesliceRobot {
      */
     @Override
     public void autonomousInit() {
+        // Clear faults before a match for easy diagnosis of faults during the match
         pdp.clearStickyFaults();
         pneumaticHub.clearStickyFaults();
 
