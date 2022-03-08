@@ -61,7 +61,7 @@ public class AdjustingHood implements IState {
             return new PreparingToShoot();
         }
 
-        shooter.setFlywheelDemand(0);
+        godSubsystem.handleIdleSpinUp();
 
         return new AligningAndSpinningUp();
     }

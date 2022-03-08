@@ -49,6 +49,8 @@ public class ScoringMode implements IState {
             return new AdjustingHood();
         }
 
+        godSubsystem.handleIdleSpinUp();
+
         godSubsystem.handleTransportConveyorManualOverride();
         godSubsystem.handleFeedConveyorManualOverride();
 

@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -49,6 +50,8 @@ public class RobotContainer {
     public static final Logger robotLogger = Logger.getLogger("frc.robot");
     public static final SendableChooser<AutonRoutine> autonChooser = new SendableChooser<>();
     public static final SendableChooser<Shooter.HoodPosition> hoodPositionSetpoints = new SendableChooser<>();
+
+    public static final PneumaticHub pneumaticsHub = new PneumaticHub();
 
     static {
         currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),

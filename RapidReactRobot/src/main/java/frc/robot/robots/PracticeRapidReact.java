@@ -58,7 +58,7 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final Translation2d[] wheelLocationMeters = new Translation2d[4];
 
-    private final double kTranslationalP = 8.00;
+    private final double kTranslationalP = 8.0;
     private final double kTranslationalD = 0.06;
 
     private final double kMaxSpeedMetersPerSecond = 3.889;
@@ -70,7 +70,7 @@ public class PracticeRapidReact extends WaltRobot {
     private final PIDController yController = new PIDController(kTranslationalP, 0.0, kTranslationalD);
     private final ProfiledPIDController thetaController =
             new ProfiledPIDController(
-                    8,
+                    3.5,
                     0,
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
@@ -79,7 +79,6 @@ public class PracticeRapidReact extends WaltRobot {
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
                     Math.toDegrees(kMaxOmega / 1.1), 360.0));
-    
 
     // Shooter constants
     private final TalonFXConfiguration flywheelMasterTalonConfig = new TalonFXConfiguration();
@@ -574,8 +573,8 @@ public class PracticeRapidReact extends WaltRobot {
         extensionControllerTalonConfig.slot0.integralZone = 100;
         extensionControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
         extensionControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
-        extensionControllerTalonConfig.motionCruiseVelocity = 7500;
-        extensionControllerTalonConfig.motionAcceleration = 7400;
+        extensionControllerTalonConfig.motionCruiseVelocity = 11250;
+        extensionControllerTalonConfig.motionAcceleration = 9000;
         extensionControllerTalonConfig.motionCurveStrength = 3;
 
         climberConfig = new ClimberConfig() {
@@ -733,14 +732,14 @@ public class PracticeRapidReact extends WaltRobot {
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
-        sixtyDegreeMap.put(new InterpolatingDouble(6.517), new InterpolatingDouble(9100.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.298), new InterpolatingDouble(9600.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.9344), new InterpolatingDouble(10700.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(10.207), new InterpolatingDouble(11700.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(11.359), new InterpolatingDouble(11250.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(12.420), new InterpolatingDouble(11700.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(14.476), new InterpolatingDouble(12450.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(16.925), new InterpolatingDouble(13000.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(6.769), new InterpolatingDouble(9250.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(7.298), new InterpolatingDouble(9700.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(7.9344), new InterpolatingDouble(10600.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(10.342), new InterpolatingDouble(11800.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(11.889), new InterpolatingDouble(11900.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(12.556), new InterpolatingDouble(11800.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(14.174), new InterpolatingDouble(12250.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(16.925), new InterpolatingDouble(13100.0));
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> seventyDegreeMap = new InterpolatingTreeMap<>();
 
