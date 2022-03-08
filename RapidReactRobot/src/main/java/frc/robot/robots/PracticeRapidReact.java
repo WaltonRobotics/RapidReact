@@ -733,8 +733,8 @@ public class PracticeRapidReact extends WaltRobot {
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
         sixtyDegreeMap.put(new InterpolatingDouble(6.769), new InterpolatingDouble(9250.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.298), new InterpolatingDouble(9700.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.9344), new InterpolatingDouble(10600.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(7.298), new InterpolatingDouble(9750.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(7.9344), new InterpolatingDouble(10650.0));
         sixtyDegreeMap.put(new InterpolatingDouble(10.342), new InterpolatingDouble(11800.0));
         sixtyDegreeMap.put(new InterpolatingDouble(11.889), new InterpolatingDouble(11900.0));
         sixtyDegreeMap.put(new InterpolatingDouble(12.556), new InterpolatingDouble(11800.0));
