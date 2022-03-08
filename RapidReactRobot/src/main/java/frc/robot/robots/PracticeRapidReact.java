@@ -58,7 +58,7 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final Translation2d[] wheelLocationMeters = new Translation2d[4];
 
-    private final double kTranslationalP = 5.0;
+    private final double kTranslationalP = 6.0;
     private final double kTranslationalD = 0.02;
 
     private final double kMaxSpeedMetersPerSecond = 3.889;
@@ -70,7 +70,7 @@ public class PracticeRapidReact extends WaltRobot {
     private final PIDController yController = new PIDController(kTranslationalP, 0.0, kTranslationalD);
     private final ProfiledPIDController thetaController =
             new ProfiledPIDController(
-                    3.5,
+                    2.85,
                     0,
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
@@ -354,7 +354,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLeftIntakePercentOutput() {
-                return 0.35;
+                return 0.32;
             }
 
             @Override
@@ -364,7 +364,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLeftOuttakePercentOutput() {
-                return -0.35;
+                return -0.32;
             }
 
             @Override

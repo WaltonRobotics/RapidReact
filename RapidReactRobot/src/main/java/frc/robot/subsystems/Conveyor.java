@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -27,6 +28,9 @@ public class Conveyor implements SubSubsystem {
 
         feedController.configVoltageCompSaturation(12.0);
         feedController.enableVoltageCompensation(true);
+
+        transportController.setNeutralMode(NeutralMode.Brake);
+        feedController.setNeutralMode(NeutralMode.Brake);
 
         configTransportStatusFrame();
         configFeedStatusFrame();

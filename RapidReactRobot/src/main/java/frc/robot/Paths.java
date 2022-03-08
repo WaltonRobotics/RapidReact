@@ -110,7 +110,7 @@ public class Paths {
     public static final class RoutineSixG {
 
         public static final PathPlannerTrajectory gammaPickUpC =
-                PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
+                PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(4.0), Units.feetToMeters(maxAcceleration), true);
         public static final PathPlannerTrajectory ballCToBallG =
                 PathPlanner.loadPath("ballCToBallG", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration));
         public static final PathPlannerTrajectory ballCToShoot =
