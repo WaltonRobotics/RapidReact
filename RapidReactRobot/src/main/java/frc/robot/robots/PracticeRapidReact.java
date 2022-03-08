@@ -540,7 +540,7 @@ public class PracticeRapidReact extends WaltRobot {
     @Override
     public void configClimber() {
         pivotControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-                true, 25, 25, 1);
+                true, 35, 35, 1);
         pivotControllerTalonConfig.voltageCompSaturation = 12.0;
         pivotControllerTalonConfig.forwardSoftLimitEnable = false;
         pivotControllerTalonConfig.reverseSoftLimitEnable = false;
@@ -559,7 +559,7 @@ public class PracticeRapidReact extends WaltRobot {
         pivotControllerTalonConfig.motionCurveStrength = 3;
 
         extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-                true, 40, 45, 1);
+                true, 35, 40, 1);
         extensionControllerTalonConfig.voltageCompSaturation = 12.0;
         extensionControllerTalonConfig.forwardSoftLimitEnable = true;
         extensionControllerTalonConfig.reverseSoftLimitEnable = true;
@@ -689,8 +689,8 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public double getPivotPercentOutputLimit() {
-                return 1.0;
+            public double getManualPivotPercentOutputLimit() {
+                return 0.35;
             }
 
             @Override

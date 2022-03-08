@@ -230,7 +230,7 @@ public class Superstructure extends SubsystemBase {
             climber.setPivotControlState(Climber.ClimberControlState.OPEN_LOOP);
 
             double pivotJoystick = manipulationGamepad.getLeftX()
-                    * climber.getConfig().getPivotPercentOutputLimit();
+                    * climber.getConfig().getManualPivotPercentOutputLimit();
 
             climber.setPivotPercentOutputDemand(pivotJoystick);
         } else {
