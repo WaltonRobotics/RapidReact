@@ -6,8 +6,8 @@ import edu.wpi.first.math.util.Units;
 
 public class Paths {
 
-    private static final double maxVelocity = 5.0; //ft/s
-    private static final double maxAcceleration = 3.5; //ft/s^2
+    private static final double maxVelocity = 8.0; //ft/s
+    private static final double maxAcceleration = 4.0; //ft/s^2
     // Name of path, max vel, max acc
 
 //    public static PathPlannerTrajectory grabLowBlue2 =

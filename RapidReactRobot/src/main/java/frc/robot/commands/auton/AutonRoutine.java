@@ -126,27 +126,27 @@ public enum AutonRoutine {
 //            new AlignAndShootCargo(3.0)
 //    )),
 //
-//    ROUTINE_FIVE_C("Routine_FIVE_B, move to pick up ball G, move in to shoot", new SequentialCommandGroup(
-//            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-//            new ResetPose(alphaPickUpA),
-//            new ShootCargo(1.5),
+    ROUTINE_FIVE_C("Routine_FIVE_B, move to pick up ball G, move in to shoot", new SequentialCommandGroup(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new ResetPose(alphaPickUpA),
+            new ShootCargo(1.5),
 //            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
 //            new SetRightIntakeDeployed(true),
-//            new SwerveTrajectoryCommand(alphaPickUpA),
+            new SwerveTrajectoryCommand(alphaPickUpA),
 //            new SetRightIntakeDeployed(false),
 //            new SetLeftIntakeDeployed(true),
-//            new SwerveTrajectoryCommand(ballAToBallB),
+            new SwerveTrajectoryCommand(ballAToBallB),
 //            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
 //            new SetRightIntakeDeployed(false),
-//            new ShootCargo(3.0),
+            new ShootCargo(3.0),
 //            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
 //            new SetLeftIntakeDeployed(true),
-//            new SwerveTrajectoryCommand(ballBToBallG),
+            new SwerveTrajectoryCommand(ballBToBallG),
 //            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-//            new SetLeftIntakeDeployed(false),
-//            new SwerveTrajectoryCommand(ballGToBallB),
-//            new ShootCargo(3.0)
-//    )),
+            new SetLeftIntakeDeployed(false),
+            new SwerveTrajectoryCommand(ballGToBallB),
+            new ShootCargo(3.0)
+    )),
 //
 //    ROUTINE_FIVE_D("ROUTINE_FIVE_B, move to pick up ball C, shoot 1", new SequentialCommandGroup(
 //            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
