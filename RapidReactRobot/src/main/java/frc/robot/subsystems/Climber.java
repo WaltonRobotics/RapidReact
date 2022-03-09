@@ -11,6 +11,7 @@ import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
 
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
+import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Climber implements SubSubsystem {
@@ -526,40 +527,43 @@ public class Climber implements SubSubsystem {
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Pivot Control State", () -> pivotControlState.name(), (x) -> {
-            });
-            builder.addStringProperty("Extension Control State", () -> extensionControlState.name(), (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Feed Forward", () -> pivotFeedForward, (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Position Demand NU", () -> pivotPositionDemandNU, (x) -> {
-            });
-            builder.addDoubleProperty("Extension Percent Output Demand", () -> extensionPercentOutputDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Extension Position Demand NU", () -> extensionPositionDemandNU, (x) -> {
-            });
-            builder.addBooleanProperty("Climber Lock State Demand", () -> climberLockStateDemand, (x) -> {
-            });
-            builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Absolute Encoder Position NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Absolute Encoder Velocity NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {
-            });
-            builder.addBooleanProperty("Pivot Reverse Limit", () -> pivotReverseSoftLimitBool.get(), (x) -> {
-            });
-            builder.addBooleanProperty("Pivot Forward Limit", () -> pivotForwardSoftLimitBool.get(), (x) -> {
-            });
-            builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {
-            });
-            builder.addBooleanProperty("Is Right Extension Lower Limit Closed", () -> isRightExtensionLowerLimitClosed, (x) -> {
-            });
-            builder.addDoubleProperty("Extension Integrated Encoder Position", () -> extensionIntegratedEncoderPosition, (x) -> {
-            });
+
+            if (!kIsInCompetition) {
+                builder.addStringProperty("Pivot Control State", () -> pivotControlState.name(), (x) -> {
+                });
+                builder.addStringProperty("Extension Control State", () -> extensionControlState.name(), (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Feed Forward", () -> pivotFeedForward, (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Position Demand NU", () -> pivotPositionDemandNU, (x) -> {
+                });
+                builder.addDoubleProperty("Extension Percent Output Demand", () -> extensionPercentOutputDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Extension Position Demand NU", () -> extensionPositionDemandNU, (x) -> {
+                });
+                builder.addBooleanProperty("Climber Lock State Demand", () -> climberLockStateDemand, (x) -> {
+                });
+                builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Absolute Encoder Position NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Absolute Encoder Velocity NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {
+                });
+                builder.addBooleanProperty("Pivot Reverse Limit", () -> pivotReverseSoftLimitBool.get(), (x) -> {
+                });
+                builder.addBooleanProperty("Pivot Forward Limit", () -> pivotForwardSoftLimitBool.get(), (x) -> {
+                });
+                builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {
+                });
+                builder.addBooleanProperty("Is Right Extension Lower Limit Closed", () -> isRightExtensionLowerLimitClosed, (x) -> {
+                });
+                builder.addDoubleProperty("Extension Integrated Encoder Position", () -> extensionIntegratedEncoderPosition, (x) -> {
+                });
+            }
         }
     }
 

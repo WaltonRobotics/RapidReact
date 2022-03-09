@@ -17,6 +17,7 @@ import frc.robot.vision.LimelightHelper;
 
 import java.util.logging.Level;
 
+import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.Constants.PIDProfileSlots.kSpinningUpIndex;
 import static frc.robot.Constants.PIDProfileSlots.kShootingIndex;
 import static frc.robot.Constants.Shooter.*;
@@ -280,18 +281,21 @@ public class Shooter implements SubSubsystem {
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Shooter Control State", () -> shooterControlState.name(), (x) -> {
-            });
-            builder.addStringProperty("Selected Profile Slot", () -> selectedProfileSlot.name(), (x) -> {
-            });
-            builder.addDoubleProperty("Flywheel Demand", () -> flywheelDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Left Adjustable Hood Demand", () -> adjustableHoodDutyCycleDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Flywheel Velocity NU", () -> flywheelVelocityNU, (x) -> {
-            });
-            builder.addDoubleProperty("Flywheel Closed Loop Error NU", () -> flywheelClosedLoopErrorNU, (x) -> {
-            });
+
+            if (!kIsInCompetition) {
+                builder.addStringProperty("Shooter Control State", () -> shooterControlState.name(), (x) -> {
+                });
+                builder.addStringProperty("Selected Profile Slot", () -> selectedProfileSlot.name(), (x) -> {
+                });
+                builder.addDoubleProperty("Flywheel Demand", () -> flywheelDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Left Adjustable Hood Demand", () -> adjustableHoodDutyCycleDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Flywheel Velocity NU", () -> flywheelVelocityNU, (x) -> {
+                });
+                builder.addDoubleProperty("Flywheel Closed Loop Error NU", () -> flywheelClosedLoopErrorNU, (x) -> {
+                });
+            }
         }
     }
 

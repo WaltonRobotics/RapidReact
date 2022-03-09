@@ -770,7 +770,7 @@ public class PracticeRapidReact extends WaltRobot {
         // Tolerance: 0.1 in
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(6500, 1500)); // 1 in
         climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
-        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(187747, 1877)); // 11.0 in
+        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(100000, 1877)); // 11.0 in
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(37549, 1877)); // 3.0 in
         climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(450592, 1877)); // 25 in
         climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(234684, 1877)); // 13.50 in

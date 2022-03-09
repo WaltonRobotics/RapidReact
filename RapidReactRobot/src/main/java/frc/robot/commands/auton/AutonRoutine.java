@@ -250,8 +250,7 @@ public enum AutonRoutine {
     FIVE_BALL("Five ball auton", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFull),
-            new ShootCargo(1.5),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
+            new ShootCargo(2.5),
             new SetRightIntakeDeployed(true),
             new SetLeftIntakeDeployed(true),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),

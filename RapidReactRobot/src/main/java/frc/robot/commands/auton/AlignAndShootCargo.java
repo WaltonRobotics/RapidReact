@@ -23,15 +23,18 @@ public class AlignAndShootCargo extends CommandBase {
     }
 
     @Override
+    public void execute() {
+        godSubsystem.setDoesAutonNeedToAlignAndShoot(true);
+    }
+
+    @Override
     public void end(boolean interrupted) {
         godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
-
-        timer.stop();
     }
 
     @Override
     public boolean isFinished() {
-        return timer.get() > totalTimeSeconds;
+        return timer.hasElapsed(totalTimeSeconds);
     }
 
 }
