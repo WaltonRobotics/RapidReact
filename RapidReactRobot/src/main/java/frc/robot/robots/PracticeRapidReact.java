@@ -359,7 +359,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getRightIntakePercentOutput() {
-                return 0.35;
+                return 0.32; // 0.35
             }
 
             @Override
@@ -369,7 +369,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getRightOuttakePercentOutput() {
-                return -0.35;
+                return -0.32; // -0.35
             }
         };
     }
@@ -732,11 +732,11 @@ public class PracticeRapidReact extends WaltRobot {
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
-        sixtyDegreeMap.put(new InterpolatingDouble(6.769), new InterpolatingDouble(9250.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(5.603), new InterpolatingDouble(9250.0));
         sixtyDegreeMap.put(new InterpolatingDouble(7.298), new InterpolatingDouble(9750.0));
         sixtyDegreeMap.put(new InterpolatingDouble(7.9344), new InterpolatingDouble(10650.0));
         sixtyDegreeMap.put(new InterpolatingDouble(10.342), new InterpolatingDouble(11800.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(11.889), new InterpolatingDouble(11900.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(11.598), new InterpolatingDouble(12600.0));
         sixtyDegreeMap.put(new InterpolatingDouble(12.556), new InterpolatingDouble(11800.0));
         sixtyDegreeMap.put(new InterpolatingDouble(14.174), new InterpolatingDouble(12250.0));
         sixtyDegreeMap.put(new InterpolatingDouble(16.925), new InterpolatingDouble(13100.0));
