@@ -250,14 +250,14 @@ public enum AutonRoutine {
     FIVE_BALL("Five ball auton", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFull),
-            new ShootCargo(1.0),
+            new ShootCargo(1.5),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new SetRightIntakeDeployed(true),
             new SetLeftIntakeDeployed(true),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new ShootCargo(1.5),
+            new ShootCargo(2.5),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new ParallelDeadlineGroup(
@@ -267,7 +267,7 @@ public enum AutonRoutine {
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
                     )
             ),
-            new ShootCargo(1.5)
+            new ShootCargo(2.5)
     ));
 //
 //    ROUTINE_SEVEN("Start from gamma, pick up ball C, shoot 2, pick up ball B, pick up ball A, shoot 2", new SequentialCommandGroup(
