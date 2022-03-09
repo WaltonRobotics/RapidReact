@@ -257,17 +257,12 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new ShootCargo(2.5),
+            new AlignAndShootCargo(3.0),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new ParallelDeadlineGroup(
-                    new SwerveTrajectoryCommand(pickupG),
-                    new SequentialCommandGroup(
-                            new WaitCommand(pickupG.getTotalTimeSeconds() * 0.6),
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
-                    )
-            ),
-            new ShootCargo(2.5)
+            new SwerveTrajectoryCommand(pickupG),
+            new WaitCommand(5.0),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
     ));
 //
 //    ROUTINE_SEVEN("Start from gamma, pick up ball C, shoot 2, pick up ball B, pick up ball A, shoot 2", new SequentialCommandGroup(
