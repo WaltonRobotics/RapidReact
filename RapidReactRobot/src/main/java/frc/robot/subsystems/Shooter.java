@@ -9,6 +9,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ShooterConfig;
 import frc.robot.util.UtilMethods;
 import frc.robot.util.interpolation.InterpolatingDouble;
@@ -19,6 +20,7 @@ import java.util.logging.Level;
 import static frc.robot.Constants.PIDProfileSlots.kSpinningUpIndex;
 import static frc.robot.Constants.PIDProfileSlots.kShootingIndex;
 import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Constants.SmartDashboardKeys.kShooterBallQualityAdditive;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.robotLogger;
 
@@ -199,8 +201,11 @@ public class Shooter implements SubSubsystem {
 
         result = config.getHoodMaps().get(currentHoodPosition).getInterpolated(new InterpolatingDouble(distanceFeet));
 
+        double ballQualityAdditive = UtilMethods.limitMagnitude(
+                SmartDashboard.getNumber(kShooterBallQualityAdditive, 0.0), 150);
+
         if (result != null) {
-            return UtilMethods.limitMagnitude(result.value, kAbsoluteMaximumVelocityNU);
+            return UtilMethods.limitMagnitude(result.value, kAbsoluteMaximumVelocityNU) + ballQualityAdditive;
         } else {
             return kDefaultVelocityRawUnits;
         }

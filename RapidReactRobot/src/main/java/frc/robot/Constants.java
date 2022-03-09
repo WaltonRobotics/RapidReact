@@ -140,6 +140,7 @@ public final class Constants {
         public static final String kShooterCurrentTargetVelocityKey = "Shooter/Current Target Velocity NU";
         public static final String kShooterTuningSetpointVelocityNUKey = "Shooter/Tuning Setpoint Velocity NU";
         public static final String kShooterHoodPositionSetpointKey = "Shooter/Hood Position Setpoint";
+        public static final String kShooterBallQualityAdditive = "Shooter/Ball Quality Additive";
 
         public static final String kDrivetrainPeriodicIOKey = "Drivetrain/Periodic IO";
         public static final String kIntakePeriodicIOKey = "Intake/Periodic IO";
