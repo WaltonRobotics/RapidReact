@@ -85,7 +85,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
 //            new TurnToAngle(90.0).withTimeout(2.0),
-            new AlignAndShootCargo(3.0)
+            new AlignAndShootCargo(5.0)
     )),
 
 //    //FOUR_B is the same except picks up 2 balls from G
