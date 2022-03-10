@@ -11,6 +11,7 @@ import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
 
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
+import static frc.robot.Constants.Climber.kFastExtensionZeroingPercentOutput;
 import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.RobotContainer.currentRobot;
 
@@ -175,7 +176,11 @@ public class Climber implements SubSubsystem {
 
         switch (periodicIO.extensionControlState) {
             case ZEROING:
-                extensionController.set(ControlMode.PercentOutput, kExtensionZeroingPercentOutput);
+                if (isFastZeroing()) {
+                    extensionController.set(ControlMode.PercentOutput, kFastExtensionZeroingPercentOutput);
+                } else {
+                    extensionController.set(ControlMode.PercentOutput, kExtensionZeroingPercentOutput);
+                }
 
                 if (isZeroRising()) {
                     extensionController.setSelectedSensorPosition(0);
@@ -273,6 +278,14 @@ public class Climber implements SubSubsystem {
 
     public void releaseExtensionLowerLimit() {
         periodicIO.releaseExtensionLowerLimit = true;
+    }
+
+    public boolean isFastZeroing() {
+        return periodicIO.isFastZeroing;
+    }
+
+    public void setFastZeroing(boolean fastZeroing) {
+        periodicIO.isFastZeroing = fastZeroing;
     }
 
     public void setPivotNeutralMode(NeutralMode neutralModeDemand) {
@@ -519,6 +532,7 @@ public class Climber implements SubSubsystem {
         public boolean climberDiscBrakeStateDemand;
         private ClimberControlState pivotControlState = ClimberControlState.DISABLED;
         private ClimberControlState extensionControlState = ClimberControlState.DISABLED;
+        public boolean isFastZeroing;
         private boolean resetPivotNeutralMode;
         private NeutralMode pivotNeutralMode;
         private boolean resetExtensionNeutralMode;

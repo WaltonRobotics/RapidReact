@@ -41,6 +41,7 @@ public class OI {
 
     // Climbing mode
     // Out-of-the-way buttons
+    public static final EnhancedJoystickButton fastZeroButton = new EnhancedJoystickButton(manipulationGamepad, kX.value);
     public static final EnhancedAxisButton
             dangerButton = new EnhancedAxisButton(manipulationGamepad, kRightTrigger.value, 0.85);
     public static final EnhancedComboButton stopClimbButton = new EnhancedComboButton(dangerButton,
