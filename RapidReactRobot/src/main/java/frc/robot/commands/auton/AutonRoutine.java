@@ -85,7 +85,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
 //            new TurnToAngle(90.0).withTimeout(2.0),
-            new AlignAndShootCargo(5.0)
+            new AlignAndShootCargo(10.0)
     )),
 
 //    //FOUR_B is the same except picks up 2 balls from G
@@ -250,13 +250,13 @@ public enum AutonRoutine {
     FIVE_BALL("Five ball auton", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFull),
-            new ShootCargo(2.5),
+            new ShootCargo(3.0),
             new SetRightIntakeDeployed(true),
             new SetLeftIntakeDeployed(true),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new AlignAndShootCargo(3.0),
+            new AlignAndShootCargo(3.5),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(pickupG),

@@ -203,7 +203,7 @@ public class Shooter implements SubSubsystem {
         result = config.getHoodMaps().get(currentHoodPosition).getInterpolated(new InterpolatingDouble(distanceFeet));
 
         double ballQualityAdditive = UtilMethods.limitMagnitude(
-                SmartDashboard.getNumber(kShooterBallQualityAdditive, 0.0), 150);
+                SmartDashboard.getNumber(kShooterBallQualityAdditive, 0.0), 700);
 
         if (result != null) {
             return UtilMethods.limitMagnitude(result.value, kAbsoluteMaximumVelocityNU) + ballQualityAdditive;
