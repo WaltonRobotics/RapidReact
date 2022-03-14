@@ -758,7 +758,7 @@ public class PracticeRapidReact extends WaltRobot {
         climberPivotTargets.put(LINING_UP_FOR_MID_BAR, new Target(9100, 60));
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 60)); // 0 deg
         climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-8829, 60)); // -9.7 deg
-        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(-1000, 60));
+        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(6000, 60));
         climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(21299, 60)); // 23.4 deg
         climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(19570, 60)); // 21.5 deg
         climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-9466, 60)); // -10.4 deg
@@ -772,8 +772,8 @@ public class PracticeRapidReact extends WaltRobot {
         // Encoder counts = inches * (1 output rev / 0.5*pi inches) * (36 extension motor rev / 1 output rev) * (2048 counts / 1 extension motor rev)
         // Tolerance: 0.1 in
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(6500, 1500)); // 1 in
-        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
-        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(100000, 1877)); // 11.0 in
+        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(369664, 1877)); // 21.467 in
+        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(120000, 1877)); // 11.0 in
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(37549, 1877)); // 3.0 in
         climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(450592, 1877)); // 25 in
         climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(234684, 1877)); // 13.50 in

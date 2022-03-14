@@ -43,6 +43,7 @@ public class PullUpOntoMidBar implements IState {
     @Override
     public void finish() {
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
+        godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
     }
 
 }

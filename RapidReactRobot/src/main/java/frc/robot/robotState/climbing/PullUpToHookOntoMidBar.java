@@ -18,7 +18,7 @@ public class PullUpToHookOntoMidBar implements IState {
     @Override
     public void initialize() {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);

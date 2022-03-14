@@ -9,8 +9,7 @@ import frc.robot.subsystems.Superstructure;
 import frc.robot.util.UtilMethods;
 
 import static frc.robot.Constants.DriverPreferences.kMaxTranslationalAccelerationMsecSquared;
-import static frc.robot.OI.driveGamepad;
-import static frc.robot.OI.yawScale;
+import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class DriveCommand extends CommandBase {
@@ -21,6 +20,9 @@ public class DriveCommand extends CommandBase {
     private final SlewRateLimiter vyRateLimiter;
 
     private static boolean enabled = true;
+
+    private boolean isFieldRelative = true;
+    private boolean isPositionalRotation = false;
 
     public DriveCommand() {
         addRequirements(drivetrain);
@@ -44,6 +46,14 @@ public class DriveCommand extends CommandBase {
             double vx = vxRateLimiter.calculate(forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond());
             double vy = vyRateLimiter.calculate(strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond());
             double omega = 0;
+
+            if (toggleFieldRelativeMode.isRisingEdge()) {
+                isFieldRelative = !isFieldRelative;
+            }
+
+            if (toggleRotationMode.isRisingEdge()) {
+                isPositionalRotation = !isPositionalRotation;
+            }
 
             // Ensure at least the minimum turn omega is supplied to the drivetrain to prevent stalling
             if (Math.abs(getYaw()) > yawScale.getDeadband()) {

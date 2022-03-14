@@ -15,7 +15,7 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class ClimbingMode implements IState {
 
-    private final Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
+    private final Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.STOWED_ANGLE);
     private final Target hookingLength = currentRobot.getExtensionTarget(Climber.ClimberExtensionPosition.LINING_UP_TO_MID_BAR_LENGTH);
 
     @Override
@@ -32,7 +32,7 @@ public class ClimbingMode implements IState {
         godSubsystem.getClimber().enableExtensionLowerLimit();
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
 
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
     }
 
     @Override
