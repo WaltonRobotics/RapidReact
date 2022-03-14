@@ -758,6 +758,7 @@ public class PracticeRapidReact extends WaltRobot {
         climberPivotTargets.put(LINING_UP_FOR_MID_BAR, new Target(9100, 60));
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 60)); // 0 deg
         climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-8829, 60)); // -9.7 deg
+        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(-1000, 60));
         climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(21299, 60)); // 23.4 deg
         climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(19570, 60)); // 21.5 deg
         climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-9466, 60)); // -10.4 deg
