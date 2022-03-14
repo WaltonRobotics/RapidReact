@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.IntakeConfig;
 import frc.robot.util.EnhancedBoolean;
 
+import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.Constants.Intake.rollUpTimeoutSeconds;
 import static frc.robot.RobotContainer.currentRobot;
 
@@ -230,16 +231,19 @@ public class Intake implements SubSubsystem {
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Intake Control State", () -> intakeControlState.name(), (x) -> {
-            });
-            builder.addDoubleProperty("Left Intake Demand", () -> leftIntakeDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Right Intake Demand", () -> rightIntakeDemand, (x) -> {
-            });
-            builder.addBooleanProperty("Left Intake Deploy State Demand", () -> leftIntakeDeployDemand, (x) -> {
-            });
-            builder.addBooleanProperty("Right Intake Deploy State Demand", () -> rightIntakeDeployDemand, (x) -> {
-            });
+
+            if (!kIsInCompetition) {
+                builder.addStringProperty("Intake Control State", () -> intakeControlState.name(), (x) -> {
+                });
+                builder.addDoubleProperty("Left Intake Demand", () -> leftIntakeDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Right Intake Demand", () -> rightIntakeDemand, (x) -> {
+                });
+                builder.addBooleanProperty("Left Intake Deploy State Demand", () -> leftIntakeDeployDemand, (x) -> {
+                });
+                builder.addBooleanProperty("Right Intake Deploy State Demand", () -> rightIntakeDeployDemand, (x) -> {
+                });
+            }
         }
     }
 }

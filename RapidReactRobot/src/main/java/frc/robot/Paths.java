@@ -6,8 +6,8 @@ import edu.wpi.first.math.util.Units;
 
 public class Paths {
 
-    private static final double maxVelocity = 5.0; //ft/s
-    private static final double maxAcceleration = 3.5; //ft/s^2
+    private static final double maxVelocity = 9.5; //ft/s
+    private static final double maxAcceleration = 4.5; //ft/s^2
     // Name of path, max vel, max acc
 
 //    public static PathPlannerTrajectory grabLowBlue2 =
@@ -88,7 +88,7 @@ public class Paths {
 
     public static final class RoutineFiveC {
 
-        public static final PathPlannerTrajectory ballBToBallG =        
+        public static final PathPlannerTrajectory ballBToBallG =
                 PathPlanner.loadPath("ballBToBallG", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
         public static final PathPlannerTrajectory ballGToShootToBallC =
                 PathPlanner.loadPath("ballGToShootToBallC", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration),true);
@@ -110,7 +110,7 @@ public class Paths {
     public static final class RoutineSixG {
 
         public static final PathPlannerTrajectory gammaPickUpC =
-                PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
+                PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(4.0), Units.feetToMeters(maxAcceleration), true);
         public static final PathPlannerTrajectory ballCToBallG =
                 PathPlanner.loadPath("ballCToBallG", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration));
         public static final PathPlannerTrajectory ballCToShoot =
@@ -138,7 +138,17 @@ public class Paths {
 
     public static final class RoutineFiveFull {
         public static final PathPlannerTrajectory routineFiveBFull =
-                PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration));
+                PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(11.0), Units.feetToMeters(4.5));
+    }
+
+    public static final class RoutineEight {
+
+        public static final PathPlannerTrajectory pickupAAndB =
+                PathPlanner.loadPath("pickupAAndB", Units.feetToMeters(8), Units.feetToMeters(4), true);
+
+        public static final PathPlannerTrajectory pickupG =
+                PathPlanner.loadPath("pickupG", Units.feetToMeters(11.0), Units.feetToMeters(4.5), true);
+
     }
 
 }

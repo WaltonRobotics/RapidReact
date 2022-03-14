@@ -32,6 +32,8 @@ public class Superstructure extends SubsystemBase {
     private double currentTargetFlywheelVelocity = 0;
 
     private boolean isInAuton = false;
+
+    private boolean doesAutonNeedToIdleSpinUp = false;
     private boolean doesAutonNeedToIntake = false;
     private boolean doesAutonNeedToShoot = false;
     private boolean doesAutonNeedToAlignAndShoot = false;
@@ -228,7 +230,7 @@ public class Superstructure extends SubsystemBase {
             climber.setPivotControlState(Climber.ClimberControlState.OPEN_LOOP);
 
             double pivotJoystick = manipulationGamepad.getLeftX()
-                    * climber.getConfig().getPivotPercentOutputLimit();
+                    * climber.getConfig().getManualPivotPercentOutputLimit();
 
             climber.setPivotPercentOutputDemand(pivotJoystick);
         } else {
@@ -252,13 +254,21 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void handleIdleSpinUp() {
-        if (idleSpinUpButton.get()) {
+        if (idleSpinUpButton.get() || (isInAuton() && doesAutonNeedToIdleSpinUp())) {
             shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
             shooter.setFlywheelDemand(kIdleVelocityRawUnits);
         } else {
             shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
             shooter.setFlywheelDemand(0);
         }
+    }
+
+    public boolean doesAutonNeedToIdleSpinUp() {
+        return doesAutonNeedToIdleSpinUp;
+    }
+
+    public void setDoesAutonNeedToIdleSpinUp(boolean doesAutonNeedToIdleSpinUp) {
+        this.doesAutonNeedToIdleSpinUp = doesAutonNeedToIdleSpinUp;
     }
 
     @Override

@@ -58,8 +58,8 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final Translation2d[] wheelLocationMeters = new Translation2d[4];
 
-    private final double kTranslationalP = 8.00;
-    private final double kTranslationalD = 0.06;
+    private final double kTranslationalP = 6.0;
+    private final double kTranslationalD = 0.02;
 
     private final double kMaxSpeedMetersPerSecond = 3.889;
     private final double kMaxOmega = (kMaxSpeedMetersPerSecond / Math.hypot(kDistanceBetweenWheelsLengthWiseMeters / 2.0,
@@ -70,7 +70,7 @@ public class PracticeRapidReact extends WaltRobot {
     private final PIDController yController = new PIDController(kTranslationalP, 0.0, kTranslationalD);
     private final ProfiledPIDController thetaController =
             new ProfiledPIDController(
-                    8,
+                    2.85,
                     0,
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
@@ -79,7 +79,6 @@ public class PracticeRapidReact extends WaltRobot {
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
                     Math.toDegrees(kMaxOmega / 1.1), 360.0));
-    
 
     // Shooter constants
     private final TalonFXConfiguration flywheelMasterTalonConfig = new TalonFXConfiguration();
@@ -355,22 +354,22 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLeftIntakePercentOutput() {
-                return 0.35;
+                return 0.32;
             }
 
             @Override
             public double getRightIntakePercentOutput() {
-                return 0.35;
+                return 0.32; // 0.35
             }
 
             @Override
             public double getLeftOuttakePercentOutput() {
-                return -0.35;
+                return -0.32;
             }
 
             @Override
             public double getRightOuttakePercentOutput() {
-                return -0.35;
+                return -0.32; // -0.35
             }
         };
     }
@@ -541,7 +540,7 @@ public class PracticeRapidReact extends WaltRobot {
     @Override
     public void configClimber() {
         pivotControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-                true, 30, 35, 1);
+                true, 35, 35, 1);
         pivotControllerTalonConfig.voltageCompSaturation = 12.0;
         pivotControllerTalonConfig.forwardSoftLimitEnable = false;
         pivotControllerTalonConfig.reverseSoftLimitEnable = false;
@@ -549,18 +548,18 @@ public class PracticeRapidReact extends WaltRobot {
         // Motion Magic slot
         pivotControllerTalonConfig.slot0.kF = 0.14614296;
         pivotControllerTalonConfig.slot0.kP = 1.0;
-        pivotControllerTalonConfig.slot0.kI = 1.0 / 100.0;
+        pivotControllerTalonConfig.slot0.kI = 0;
         pivotControllerTalonConfig.slot0.kD = 0;
         pivotControllerTalonConfig.slot0.allowableClosedloopError = 0;
-        pivotControllerTalonConfig.slot0.integralZone = 200.0;
-        pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 75000;
+        pivotControllerTalonConfig.slot0.integralZone = 100;
+        pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
         pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
         pivotControllerTalonConfig.motionCruiseVelocity = 700;
         pivotControllerTalonConfig.motionAcceleration = 600;
         pivotControllerTalonConfig.motionCurveStrength = 3;
 
         extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-                true, 40, 45, 1);
+                true, 35, 40, 1);
         extensionControllerTalonConfig.voltageCompSaturation = 12.0;
         extensionControllerTalonConfig.forwardSoftLimitEnable = true;
         extensionControllerTalonConfig.reverseSoftLimitEnable = true;
@@ -574,8 +573,8 @@ public class PracticeRapidReact extends WaltRobot {
         extensionControllerTalonConfig.slot0.integralZone = 100;
         extensionControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
         extensionControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
-        extensionControllerTalonConfig.motionCruiseVelocity = 7500;
-        extensionControllerTalonConfig.motionAcceleration = 7400;
+        extensionControllerTalonConfig.motionCruiseVelocity = 11250;
+        extensionControllerTalonConfig.motionAcceleration = 9000;
         extensionControllerTalonConfig.motionCurveStrength = 3;
 
         climberConfig = new ClimberConfig() {
@@ -690,8 +689,8 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public double getPivotPercentOutputLimit() {
-                return 1.0;
+            public double getManualPivotPercentOutputLimit() {
+                return 0.35;
             }
 
             @Override
@@ -720,10 +719,10 @@ public class PracticeRapidReact extends WaltRobot {
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(1148, 1235));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(1148, 1235));
 
-        climberExtensionLimits.put(STOWED, new LimitPair(-7500, -7000));
-        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(-7500, 409000));
-        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(-7500, 409000));
-        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(-7500, 409000));
+        climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));
+        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 410000));
+        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(5000, 410000));
+        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(5000, 410000));
     }
 
     @Override
@@ -733,14 +732,16 @@ public class PracticeRapidReact extends WaltRobot {
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
-        sixtyDegreeMap.put(new InterpolatingDouble(6.517), new InterpolatingDouble(9100.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.298), new InterpolatingDouble(9600.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.9344), new InterpolatingDouble(10700.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(10.207), new InterpolatingDouble(11700.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(11.359), new InterpolatingDouble(11250.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(12.420), new InterpolatingDouble(11700.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(14.476), new InterpolatingDouble(12450.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(16.925), new InterpolatingDouble(13000.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(5.603), new InterpolatingDouble(9555.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(7.076), new InterpolatingDouble(10600.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(7.298), new InterpolatingDouble(10400.0)); // Needs to be retested
+        sixtyDegreeMap.put(new InterpolatingDouble(8.046), new InterpolatingDouble(10650.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(8.509), new InterpolatingDouble(11850.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(10.342), new InterpolatingDouble(11875.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(11.598), new InterpolatingDouble(12675.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(12.556), new InterpolatingDouble(11875.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(14.174), new InterpolatingDouble(12325.0));
+        sixtyDegreeMap.put(new InterpolatingDouble(16.925), new InterpolatingDouble(13175.0));
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> seventyDegreeMap = new InterpolatingTreeMap<>();
 
@@ -756,8 +757,7 @@ public class PracticeRapidReact extends WaltRobot {
         // Tolerance: 1 deg
         climberPivotTargets.put(LINING_UP_FOR_MID_BAR, new Target(9100, 60));
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 60)); // 0 deg
-        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-4929, 60)); // -9.7 deg
-        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(4000, 60));
+        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-8829, 60)); // -9.7 deg
         climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(21299, 60)); // 23.4 deg
         climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(19570, 60)); // 21.5 deg
         climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-9466, 60)); // -10.4 deg
@@ -770,9 +770,9 @@ public class PracticeRapidReact extends WaltRobot {
         // Output shaft: 0.5 inch diameter (may change if spool is added)
         // Encoder counts = inches * (1 output rev / 0.5*pi inches) * (36 extension motor rev / 1 output rev) * (2048 counts / 1 extension motor rev)
         // Tolerance: 0.1 in
-        climberExtensionTargets.put(STOWED_HEIGHT, new Target(-7500, 1500)); // 1 in
+        climberExtensionTargets.put(STOWED_HEIGHT, new Target(6500, 1500)); // 1 in
         climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
-        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(187747, 1877)); // 11.0 in
+        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(100000, 1877)); // 11.0 in
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(37549, 1877)); // 3.0 in
         climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(450592, 1877)); // 25 in
         climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(234684, 1877)); // 13.50 in

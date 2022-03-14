@@ -9,6 +9,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ShooterConfig;
 import frc.robot.util.UtilMethods;
 import frc.robot.util.interpolation.InterpolatingDouble;
@@ -16,9 +17,11 @@ import frc.robot.vision.LimelightHelper;
 
 import java.util.logging.Level;
 
+import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.Constants.PIDProfileSlots.kSpinningUpIndex;
 import static frc.robot.Constants.PIDProfileSlots.kShootingIndex;
 import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Constants.SmartDashboardKeys.kShooterBallQualityAdditive;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.robotLogger;
 
@@ -199,8 +202,11 @@ public class Shooter implements SubSubsystem {
 
         result = config.getHoodMaps().get(currentHoodPosition).getInterpolated(new InterpolatingDouble(distanceFeet));
 
+        double ballQualityAdditive = UtilMethods.limitMagnitude(
+                SmartDashboard.getNumber(kShooterBallQualityAdditive, 0.0), 700);
+
         if (result != null) {
-            return UtilMethods.limitMagnitude(result.value, kAbsoluteMaximumVelocityNU);
+            return UtilMethods.limitMagnitude(result.value, kAbsoluteMaximumVelocityNU) + ballQualityAdditive;
         } else {
             return kDefaultVelocityRawUnits;
         }
@@ -275,18 +281,21 @@ public class Shooter implements SubSubsystem {
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Shooter Control State", () -> shooterControlState.name(), (x) -> {
-            });
-            builder.addStringProperty("Selected Profile Slot", () -> selectedProfileSlot.name(), (x) -> {
-            });
-            builder.addDoubleProperty("Flywheel Demand", () -> flywheelDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Left Adjustable Hood Demand", () -> adjustableHoodDutyCycleDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Flywheel Velocity NU", () -> flywheelVelocityNU, (x) -> {
-            });
-            builder.addDoubleProperty("Flywheel Closed Loop Error NU", () -> flywheelClosedLoopErrorNU, (x) -> {
-            });
+
+            if (!kIsInCompetition) {
+                builder.addStringProperty("Shooter Control State", () -> shooterControlState.name(), (x) -> {
+                });
+                builder.addStringProperty("Selected Profile Slot", () -> selectedProfileSlot.name(), (x) -> {
+                });
+                builder.addDoubleProperty("Flywheel Demand", () -> flywheelDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Left Adjustable Hood Demand", () -> adjustableHoodDutyCycleDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Flywheel Velocity NU", () -> flywheelVelocityNU, (x) -> {
+                });
+                builder.addDoubleProperty("Flywheel Closed Loop Error NU", () -> flywheelClosedLoopErrorNU, (x) -> {
+                });
+            }
         }
     }
 

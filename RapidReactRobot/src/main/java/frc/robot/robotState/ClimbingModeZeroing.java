@@ -3,6 +3,7 @@ package frc.robot.robotState;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.OI.fastZeroButton;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class ClimbingModeZeroing implements IState {
@@ -16,7 +17,7 @@ public class ClimbingModeZeroing implements IState {
         // Zero extension
         // Limit extension ROM
 
-        double currentPivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
+        double currentPivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setPivotPositionDemandNU(currentPivotAngle);
@@ -24,6 +25,7 @@ public class ClimbingModeZeroing implements IState {
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.ZEROING);
         godSubsystem.getClimber().setZeroed(false);
+        godSubsystem.getClimber().setFastZeroing(false);
         godSubsystem.getClimber().releaseExtensionLowerLimit();
     }
 
@@ -32,6 +34,8 @@ public class ClimbingModeZeroing implements IState {
         if (!godSubsystem.isEnabled()) {
             return new Disabled();
         }
+
+        godSubsystem.getClimber().setFastZeroing(fastZeroButton.get());
         
         if (godSubsystem.getClimber().isLeftExtensionLowerLimitClosed()
                 || godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) {

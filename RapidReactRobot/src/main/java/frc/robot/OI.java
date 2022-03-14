@@ -36,9 +36,12 @@ public class OI {
             kRightTrigger.value, 0.5);
     public static final EnhancedJoystickButton barfButton = new EnhancedJoystickButton(driveGamepad, kRightBumper.value);
     public static final EnhancedJoystickButton idleSpinUpButton = new EnhancedJoystickButton(manipulationGamepad, kRightBumper.value);
+    public static final EnhancedJoystickButton increaseRPMsButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_N);
+    public static final EnhancedJoystickButton decreaseRPMsButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_S);
 
     // Climbing mode
     // Out-of-the-way buttons
+    public static final EnhancedJoystickButton fastZeroButton = new EnhancedJoystickButton(manipulationGamepad, kX.value);
     public static final EnhancedAxisButton
             dangerButton = new EnhancedAxisButton(manipulationGamepad, kRightTrigger.value, 0.85);
     public static final EnhancedComboButton stopClimbButton = new EnhancedComboButton(dangerButton,

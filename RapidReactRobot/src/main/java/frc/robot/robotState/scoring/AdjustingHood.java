@@ -32,11 +32,13 @@ public class AdjustingHood implements IState {
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
         if (!kIsInShooterTuningMode) {
-            if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet || barfButton.get()) {
-                shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
-            } else {
-                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
-            }
+//            if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet || barfButton.get()) {
+//                shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
+//            } else {
+//                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
+//            }
+
+            shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
         } else {
             shooter.setHoodPosition(hoodPositionSetpoints.getSelected());
         }
@@ -61,7 +63,7 @@ public class AdjustingHood implements IState {
             return new PreparingToShoot();
         }
 
-        shooter.setFlywheelDemand(0);
+        godSubsystem.handleIdleSpinUp();
 
         return new AligningAndSpinningUp();
     }

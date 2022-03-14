@@ -4,9 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -129,6 +127,8 @@ public class RobotContainer {
         SmartDashboard.putNumber(kClimberPivotAngleFromHorizontalKey, 0.0);
 
         SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, 0.0);
+
+        SmartDashboard.putNumber(kShooterBallQualityAdditive, 0.0);
 
         // Auton chooser
         Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));

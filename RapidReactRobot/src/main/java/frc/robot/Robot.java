@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Superstructure;
@@ -27,6 +29,9 @@ public class Robot extends WaltTimesliceRobot {
     private Command autonomousCommand;
 
     private RobotContainer robotContainer;
+
+    private final PowerDistribution pdp = new PowerDistribution();
+    private final PneumaticHub pneumaticHub = new PneumaticHub();
 
     public Robot() {
         super(0.002, 0.02);
@@ -99,6 +104,10 @@ public class Robot extends WaltTimesliceRobot {
      */
     @Override
     public void autonomousInit() {
+        // Clear faults before a match for easy diagnosis of faults during the match
+        pdp.clearStickyFaults();
+        pneumaticHub.clearStickyFaults();
+
         godSubsystem.setEnabled(true);
 
         // Clear auton flags
