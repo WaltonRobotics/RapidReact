@@ -12,9 +12,9 @@ import frc.robot.vision.LimelightHelper;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
 import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
+import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.OI.dangerButton;
-import static frc.robot.OI.manipulationGamepad;
+import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -32,6 +32,8 @@ public class Superstructure extends SubsystemBase {
     private double currentTargetFlywheelVelocity = 0;
 
     private boolean isInAuton = false;
+
+    private boolean doesAutonNeedToIdleSpinUp = false;
     private boolean doesAutonNeedToIntake = false;
     private boolean doesAutonNeedToShoot = false;
     private boolean doesAutonNeedToAlignAndShoot = false;
@@ -155,7 +157,7 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void handleIntaking() {
-        if (intake.isLeftIntakeDeployed() || true) {
+        if (intake.isLeftIntakeDeployed()) {
             double configOutput = intake.getConfig().getLeftIntakePercentOutput();
 
             if (kIsInTuningMode) {
@@ -167,7 +169,7 @@ public class Superstructure extends SubsystemBase {
             intake.setLeftIntakeDemand(0);
         }
 
-        if (intake.isRightIntakeDeployed() || true) {
+        if (intake.isRightIntakeDeployed()) {
             double configOutput = intake.getConfig().getRightIntakePercentOutput();
 
             if (kIsInTuningMode) {
@@ -188,13 +190,13 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void handleOuttaking() {
-        if (intake.isLeftIntakeDeployed() || true) {
+        if (intake.isLeftIntakeDeployed()) {
             intake.setLeftIntakeDemand(intake.getConfig().getLeftOuttakePercentOutput());
         } else {
             intake.setLeftIntakeDemand(0);
         }
 
-        if (intake.isRightIntakeDeployed() || true) {
+        if (intake.isRightIntakeDeployed()) {
             intake.setRightIntakeDemand(intake.getConfig().getRightOuttakePercentOutput());
         } else {
             intake.setRightIntakeDemand(0);
@@ -227,10 +229,8 @@ public class Superstructure extends SubsystemBase {
         if (isPivotManualOverride()) {
             climber.setPivotControlState(Climber.ClimberControlState.OPEN_LOOP);
 
-            double pivotJoystick = -manipulationGamepad.getLeftX();
-
-            pivotJoystick = UtilMethods.limitMagnitude(pivotJoystick,
-                    climber.getConfig().getPivotManualPercentOutputLimit());
+            double pivotJoystick = manipulationGamepad.getLeftX()
+                    * climber.getConfig().getManualPivotPercentOutputLimit();
 
             climber.setPivotPercentOutputDemand(pivotJoystick);
         } else {
@@ -242,7 +242,7 @@ public class Superstructure extends SubsystemBase {
         if (isExtensionManualOverride()) {
             climber.setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
 
-            double extensionJoystick = -manipulationGamepad.getRightY();
+            double extensionJoystick = manipulationGamepad.getRightY();
 
             extensionJoystick = UtilMethods.limitMagnitude(extensionJoystick,
                     climber.getConfig().getExtensionManualPercentOutputLimit());
@@ -251,6 +251,24 @@ public class Superstructure extends SubsystemBase {
         } else {
             climber.setExtensionControlState(Climber.ClimberControlState.AUTO);
         }
+    }
+
+    public void handleIdleSpinUp() {
+        if (idleSpinUpButton.get() || (isInAuton() && doesAutonNeedToIdleSpinUp())) {
+            shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
+            shooter.setFlywheelDemand(kIdleVelocityRawUnits);
+        } else {
+            shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
+            shooter.setFlywheelDemand(0);
+        }
+    }
+
+    public boolean doesAutonNeedToIdleSpinUp() {
+        return doesAutonNeedToIdleSpinUp;
+    }
+
+    public void setDoesAutonNeedToIdleSpinUp(boolean doesAutonNeedToIdleSpinUp) {
+        this.doesAutonNeedToIdleSpinUp = doesAutonNeedToIdleSpinUp;
     }
 
     @Override

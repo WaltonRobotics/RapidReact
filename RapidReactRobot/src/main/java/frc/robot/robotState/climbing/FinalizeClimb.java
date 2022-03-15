@@ -17,15 +17,15 @@ public class FinalizeClimb implements IState {
 
     @Override
     public void initialize() {
-        double currentPivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
+        double currentPivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
         double currentExtensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        LimitPair pivotLimits = new LimitPair(currentPivotAngle - 50, currentPivotAngle + 50);
+//        LimitPair pivotLimits = new LimitPair(currentPivotAngle - 50, currentPivotAngle + 50);
         LimitPair extensionLimits = new LimitPair(currentExtensionHeight - 50, currentExtensionHeight + 50);
 
-        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setPivotPositionDemandNU(currentPivotAngle);
-        godSubsystem.getClimber().setPivotLimits(pivotLimits);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
+//        godSubsystem.getClimber().setPivotPositionDemandNU(currentPivotAngle);
+//        godSubsystem.getClimber().setPivotLimits(pivotLimits);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setExtensionPositionDemandNU(currentExtensionHeight);
@@ -35,8 +35,7 @@ public class FinalizeClimb implements IState {
         godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Brake);
 
         // Energize disc brake and climber locks
-        godSubsystem.getClimber().setLeftClimberLockStateDemand(false);
-        godSubsystem.getClimber().setRightClimberLockStateDemand(false);
+        godSubsystem.getClimber().setClimberLockStateDemand(false);
         godSubsystem.getClimber().setClimberDiscBrakeStateDemand(false);
 
         driveGamepad.setRumble(kLeftRumble, kFinishedClimbingRumbleValue);

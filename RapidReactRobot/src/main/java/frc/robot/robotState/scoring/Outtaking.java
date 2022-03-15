@@ -9,6 +9,7 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+import static frc.robot.Constants.Shooter.kOuttakeVelocityRawUnits;
 import static frc.robot.OI.barfButton;
 import static frc.robot.OI.shootButton;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -22,7 +23,7 @@ public class Outtaking implements IState {
     public void initialize() {
         intake.setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         conveyor.setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
-        godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
+        godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.VELOCITY);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
     }
@@ -44,6 +45,8 @@ public class Outtaking implements IState {
         }
 
         godSubsystem.handleOuttakingWithConveyor();
+
+        godSubsystem.getShooter().setFlywheelDemand(kOuttakeVelocityRawUnits);
 
         return this;
     }

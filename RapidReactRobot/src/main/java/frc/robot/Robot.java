@@ -4,11 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Superstructure;
 import frc.robot.util.WaltTimesliceRobot;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -26,8 +30,11 @@ public class Robot extends WaltTimesliceRobot {
 
     private RobotContainer robotContainer;
 
+    private final PowerDistribution pdp = new PowerDistribution();
+    private final PneumaticHub pneumaticHub = new PneumaticHub();
+
     public Robot() {
-        super(0.002, 0.007);
+        super(0.002, 0.02);
     }
 
     /**
@@ -51,7 +58,7 @@ public class Robot extends WaltTimesliceRobot {
         schedule(godSubsystem.getShooter()::collectData, 0.0003);
         schedule(godSubsystem.getShooter()::outputData, 0.0006);
         schedule(godSubsystem.getClimber()::collectData, 0.0003);
-//        schedule(godSubsystem.getClimber()::outputData, 0.0006);
+        schedule(godSubsystem.getClimber()::outputData, 0.0006);
 
         LimelightHelper.setLEDMode(kIsInTuningMode);
     }
@@ -84,6 +91,8 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setEnabled(false);
 
         godSubsystem.setInAuton(false);
+
+        godSubsystem.getDrivetrain().setCoastNeutralMode();
     }
 
     @Override
@@ -95,6 +104,10 @@ public class Robot extends WaltTimesliceRobot {
      */
     @Override
     public void autonomousInit() {
+        // Clear faults before a match for easy diagnosis of faults during the match
+        pdp.clearStickyFaults();
+        pneumaticHub.clearStickyFaults();
+
         godSubsystem.setEnabled(true);
 
         // Clear auton flags
@@ -103,7 +116,11 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setDoesAutonNeedToShoot(false);
         godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
 
-        godSubsystem.getDrivetrain().setBrakeNeutralMode();
+        if (kIsInShooterTuningMode) {
+            godSubsystem.getDrivetrain().setCoastNeutralMode();
+        } else {
+            godSubsystem.getDrivetrain().setBrakeNeutralMode();
+        }
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(kIsInTuningMode);
@@ -125,11 +142,17 @@ public class Robot extends WaltTimesliceRobot {
 
     @Override
     public void teleopInit() {
+        godSubsystem.setCurrentMode(Superstructure.CurrentMode.SCORING_MODE);
+
         godSubsystem.setEnabled(true);
 
         godSubsystem.setInAuton(false);
 
-        godSubsystem.getDrivetrain().setBrakeNeutralMode();
+        if (kIsInShooterTuningMode) {
+            godSubsystem.getDrivetrain().setCoastNeutralMode();
+        } else {
+            godSubsystem.getDrivetrain().setBrakeNeutralMode();
+        }
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(true);

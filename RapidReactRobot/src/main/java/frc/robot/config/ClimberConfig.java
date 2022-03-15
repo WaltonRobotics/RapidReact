@@ -1,6 +1,7 @@
 package frc.robot.config;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import frc.robot.subsystems.Climber;
 
 import java.util.HashMap;
@@ -16,10 +17,6 @@ public interface ClimberConfig {
     HashMap<Climber.ClimberExtensionPosition, Target> getClimberExtensionTargets();
 
     double getVerticalReferenceAbsoluteCounts();
-
-    double getAbsoluteCountsToIntegratedCountsFactor();
-
-    double getIntegratedCountsPerRev();
 
     double getMaxGravityFeedForward();
 
@@ -37,15 +34,14 @@ public interface ClimberConfig {
 
     int getRightExtensionLowerLimitChannel();
 
-    int getLeftClimberLockChannel();
+    int getClimberLockSolenoidChannel();
+    int getClimberDiscBrakeSolenoidChannel();
 
-    int getRightClimberLockChannel();
-
-    int getClimberDiscBrakeForwardChannel();
-
-    int getClimberDiscBrakeReverseChannel();
-
-    double getPivotManualPercentOutputLimit();
+    double getManualPivotPercentOutputLimit();
     double getExtensionManualPercentOutputLimit();
+
+    double getAbsoluteCountsToIntegratedCountsFactor();
+
+    ProfiledPIDController getPivotProfiledController();
 
 }

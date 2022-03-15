@@ -26,16 +26,20 @@ public class AdjustingHood implements IState {
     public void initialize() {
         godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
-        godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
+        godSubsystem.getConveyor().setTransportDemand(0.0);
+        godSubsystem.getConveyor().setFeedDemand(0.0);
+        godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.VELOCITY);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
         if (!kIsInShooterTuningMode) {
-            if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet || barfButton.get()) {
-                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
-            } else {
-                shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
-            }
+//            if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet || barfButton.get()) {
+//                shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
+//            } else {
+//                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
+//            }
+
+            shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
         } else {
             shooter.setAdjustableHoodDutyCycleDemand(SmartDashboard.getNumber("Hood angle setpoint", 0.0));
 //            shooter.setHoodPosition(hoodPositionSetpoints.getSelected());
@@ -57,10 +61,11 @@ public class AdjustingHood implements IState {
         godSubsystem.handleIntakingAndOuttaking();
 
         if (barfButton.get()
-                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
-                || (!godSubsystem.isInAuton() && kIsInShooterTuningMode)) {
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())) {
             return new PreparingToShoot();
         }
+
+        godSubsystem.handleIdleSpinUp();
 
         return new AligningAndSpinningUp();
     }

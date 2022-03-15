@@ -15,20 +15,21 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class ClimbingMode implements IState {
 
-    private final Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.STOWED_ANGLE);
+    private final Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
     private final Target hookingLength = currentRobot.getExtensionTarget(Climber.ClimberExtensionPosition.LINING_UP_TO_MID_BAR_LENGTH);
 
     @Override
     public void initialize() {
         godSubsystem.setCurrentMode(Superstructure.CurrentMode.CLIMBING_MODE);
 
-        godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Coast);
+        godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 
-        godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Coast);
+        godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Brake);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setExtensionPositionDemand(Climber.ClimberExtensionPosition.LINING_UP_TO_MID_BAR_LENGTH);
+        godSubsystem.getClimber().enableExtensionLowerLimit();
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
     }
 
@@ -40,11 +41,6 @@ public class ClimbingMode implements IState {
 
         if (OI.toggleBetweenScoringAndClimbingModeButton.isRisingEdge()) {
             return new ScoringModeTransition();
-        }
-
-        if (OI.toggleClimberLocksButton.isRisingEdge()) {
-            godSubsystem.getClimber().toggleLeftClimberLock();
-            godSubsystem.getClimber().toggleRightClimberLock();
         }
 
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
@@ -59,9 +55,10 @@ public class ClimbingMode implements IState {
         double ff = godSubsystem.getClimber().getCalculatedFeedForward(currentRobotPitch);
 
         // Pivot arm is off the hook and needs a feedforward
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE, ff);
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
 
         godSubsystem.handleExtensionManualOverride();
+        godSubsystem.handlePivotManualOverride();
 
         return this;
     }

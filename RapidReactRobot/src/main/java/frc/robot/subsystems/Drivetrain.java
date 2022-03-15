@@ -54,7 +54,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             var azimuthSparkMax = new CANSparkMax(config.getAzimuthControllerIDs()[i], CANSparkMaxLowLevel.MotorType.kBrushless);
             azimuthSparkMax.restoreFactoryDefaults();
             azimuthSparkMax.enableVoltageCompensation(12.0);
-            azimuthSparkMax.setSmartCurrentLimit(20);
+            azimuthSparkMax.setSmartCurrentLimit(25);
             azimuthSparkMax.setOpenLoopRampRate(0.0);
             azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
             azimuthSparkMax.setInverted(config.getAzimuthControllerInversions()[i]);
@@ -161,6 +161,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     public void zeroHeading() {
         swerveDrive.resetGyro();
+        ahrs.setAngleAdjustment(0.0);
     }
 
     /**
@@ -170,16 +171,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return swerveModules;
     }
 
-    /**
-     * Resets the robot's position on the field.
-     *
-     * @param pose the current pose
-     */
-    public void resetPose(Pose2d pose) {
-        swerveDrive.resetOdometry(pose);
-    }
-
-    public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state){
+    public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state) {
+        ahrs.setAngleAdjustment(state.holonomicRotation.getDegrees());
         Pose2d holonomicPose =  new Pose2d(pose.getX(), pose.getY(), state.holonomicRotation);
         swerveDrive.resetOdometry(holonomicPose);
     }
@@ -304,65 +297,67 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
 
-            // Absolute encoder data
-            builder.addDoubleProperty("Left Front Absolute Counts", () -> swerveModules[0].getAzimuthAbsoluteEncoderCounts(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Front Absolute Counts", () -> swerveModules[1].getAzimuthAbsoluteEncoderCounts(), (x) -> {
-            });
-            builder.addDoubleProperty("Left Rear Absolute Counts", () -> swerveModules[2].getAzimuthAbsoluteEncoderCounts(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Rear Absolute Counts", () -> swerveModules[3].getAzimuthAbsoluteEncoderCounts(), (x) -> {
-            });
+            if (!kIsInCompetition) {
+                // Absolute encoder data
+                builder.addDoubleProperty("Left Front Absolute Counts", () -> swerveModules[0].getAzimuthAbsoluteEncoderCounts(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Front Absolute Counts", () -> swerveModules[1].getAzimuthAbsoluteEncoderCounts(), (x) -> {
+                });
+                builder.addDoubleProperty("Left Rear Absolute Counts", () -> swerveModules[2].getAzimuthAbsoluteEncoderCounts(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Rear Absolute Counts", () -> swerveModules[3].getAzimuthAbsoluteEncoderCounts(), (x) -> {
+                });
 
-            // Relative encoder data
-            builder.addDoubleProperty("Left Front Relative Counts", () -> swerveModules[0].getAzimuthRelativeEncoderCounts(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Front Relative Counts", () -> swerveModules[1].getAzimuthRelativeEncoderCounts(), (x) -> {
-            });
-            builder.addDoubleProperty("Left Rear Relative Counts", () -> swerveModules[2].getAzimuthRelativeEncoderCounts(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Rear Relative Counts", () -> swerveModules[3].getAzimuthRelativeEncoderCounts(), (x) -> {
-            });
+                // Relative encoder data
+                builder.addDoubleProperty("Left Front Relative Counts", () -> swerveModules[0].getAzimuthRelativeEncoderCounts(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Front Relative Counts", () -> swerveModules[1].getAzimuthRelativeEncoderCounts(), (x) -> {
+                });
+                builder.addDoubleProperty("Left Rear Relative Counts", () -> swerveModules[2].getAzimuthRelativeEncoderCounts(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Rear Relative Counts", () -> swerveModules[3].getAzimuthRelativeEncoderCounts(), (x) -> {
+                });
 
-            // Azimuth degree data
-            builder.addDoubleProperty("Left Front Angle Degrees", () -> swerveModules[0].getAzimuthRotation2d().getDegrees(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Front Angle Degrees", () -> swerveModules[1].getAzimuthRotation2d().getDegrees(), (x) -> {
-            });
-            builder.addDoubleProperty("Left Rear Angle Degrees", () -> swerveModules[2].getAzimuthRotation2d().getDegrees(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Rear Angle Degrees", () -> swerveModules[3].getAzimuthRotation2d().getDegrees(), (x) -> {
-            });
+                // Azimuth degree data
+                builder.addDoubleProperty("Left Front Angle Degrees", () -> swerveModules[0].getAzimuthRotation2d().getDegrees(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Front Angle Degrees", () -> swerveModules[1].getAzimuthRotation2d().getDegrees(), (x) -> {
+                });
+                builder.addDoubleProperty("Left Rear Angle Degrees", () -> swerveModules[2].getAzimuthRotation2d().getDegrees(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Rear Angle Degrees", () -> swerveModules[3].getAzimuthRotation2d().getDegrees(), (x) -> {
+                });
 
-            // Azimuth position error data
-            builder.addDoubleProperty("Left Front Position Error", () -> swerveModules[0].getAzimuthPositionErrorNU(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Front Position Error", () -> swerveModules[1].getAzimuthPositionErrorNU(), (x) -> {
-            });
-            builder.addDoubleProperty("Left Rear Position Error", () -> swerveModules[2].getAzimuthPositionErrorNU(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Rear Position Error", () -> swerveModules[3].getAzimuthPositionErrorNU(), (x) -> {
-            });
+                // Azimuth position error data
+                builder.addDoubleProperty("Left Front Position Error", () -> swerveModules[0].getAzimuthPositionErrorNU(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Front Position Error", () -> swerveModules[1].getAzimuthPositionErrorNU(), (x) -> {
+                });
+                builder.addDoubleProperty("Left Rear Position Error", () -> swerveModules[2].getAzimuthPositionErrorNU(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Rear Position Error", () -> swerveModules[3].getAzimuthPositionErrorNU(), (x) -> {
+                });
 
-            // Drive velocity data
-            builder.addDoubleProperty("Left Front Velocity Msec", () -> swerveModules[0].getDriveMetersPerSecond(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Front Velocity Msec", () -> swerveModules[1].getDriveMetersPerSecond(), (x) -> {
-            });
-            builder.addDoubleProperty("Left Rear Velocity Msec", () -> swerveModules[2].getDriveMetersPerSecond(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Rear Velocity Msec", () -> swerveModules[3].getDriveMetersPerSecond(), (x) -> {
-            });
+                // Drive velocity data
+                builder.addDoubleProperty("Left Front Velocity Msec", () -> swerveModules[0].getDriveMetersPerSecond(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Front Velocity Msec", () -> swerveModules[1].getDriveMetersPerSecond(), (x) -> {
+                });
+                builder.addDoubleProperty("Left Rear Velocity Msec", () -> swerveModules[2].getDriveMetersPerSecond(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Rear Velocity Msec", () -> swerveModules[3].getDriveMetersPerSecond(), (x) -> {
+                });
 
-            // Drive velocity error data
-            builder.addDoubleProperty("Left Front Velocity Error", () -> swerveModules[0].getDriveVelocityErrorNU(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Front Velocity Error", () -> swerveModules[1].getDriveVelocityErrorNU(), (x) -> {
-            });
-            builder.addDoubleProperty("Left Rear Velocity Error", () -> swerveModules[2].getDriveVelocityErrorNU(), (x) -> {
-            });
-            builder.addDoubleProperty("Right Rear Velocity Error", () -> swerveModules[3].getDriveVelocityErrorNU(), (x) -> {
-            });
+                // Drive velocity error data
+                builder.addDoubleProperty("Left Front Velocity Error", () -> swerveModules[0].getDriveVelocityErrorNU(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Front Velocity Error", () -> swerveModules[1].getDriveVelocityErrorNU(), (x) -> {
+                });
+                builder.addDoubleProperty("Left Rear Velocity Error", () -> swerveModules[2].getDriveVelocityErrorNU(), (x) -> {
+                });
+                builder.addDoubleProperty("Right Rear Velocity Error", () -> swerveModules[3].getDriveVelocityErrorNU(), (x) -> {
+                });
+            }
         }
     }
 }

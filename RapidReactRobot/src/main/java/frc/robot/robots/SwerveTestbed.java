@@ -317,12 +317,12 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public int getLeftSolenoidChannel() {
+            public int getLeftIntakeSolenoidChannel() {
                 return 0;
             }
 
             @Override
-            public int getRightSolenoidChannel() {
+            public int getRightIntakeSolenoidChannel() {
                 return 1;
             }
 
@@ -568,19 +568,6 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public double getAbsoluteCountsToIntegratedCountsFactor() {
-                final double kAbsoluteCountsPerRev = 1.0;
-
-                return getIntegratedCountsPerRev() / kAbsoluteCountsPerRev;
-            }
-
-            @Override
-            public double getIntegratedCountsPerRev() {
-                final double kPivotGearRatio = 200;
-                return 2048.0 * kPivotGearRatio;
-            }
-
-            @Override
             public double getMaxGravityFeedForward() {
                 return 0;
             }
@@ -666,33 +653,33 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public int getLeftClimberLockChannel() {
+            public int getClimberLockSolenoidChannel() {
                 return 2;
             }
 
             @Override
-            public int getRightClimberLockChannel() {
-                return 3;
-            }
-
-            @Override
-            public int getClimberDiscBrakeForwardChannel() {
+            public int getClimberDiscBrakeSolenoidChannel() {
                 return 4;
             }
 
             @Override
-            public int getClimberDiscBrakeReverseChannel() {
-                return 5;
-            }
-
-            @Override
-            public double getPivotManualPercentOutputLimit() {
+            public double getManualPivotPercentOutputLimit() {
                 return 0.3;
             }
 
             @Override
             public double getExtensionManualPercentOutputLimit() {
                 return 0.3;
+            }
+
+            @Override
+            public double getAbsoluteCountsToIntegratedCountsFactor() {
+                return 0;
+            }
+
+            @Override
+            public ProfiledPIDController getPivotProfiledController() {
+                return null;
             }
         };
     }

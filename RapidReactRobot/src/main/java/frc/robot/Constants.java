@@ -17,9 +17,9 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean kIsInCompetition = false;
-        public static final boolean kIsInTuningMode = true;
-        public static final boolean kIsInShooterTuningMode = true;
+        public static final boolean kIsInCompetition = true;
+        public static final boolean kIsInTuningMode = false;
+        public static final boolean kIsInShooterTuningMode = false;
 
     }
 
@@ -30,7 +30,7 @@ public final class Constants {
             public static final int kManipulationXboxControllerPort = 1;
         }
 
-        public static final double kMaxTranslationalAccelerationMsecSquared = 3.5; // m/s per second
+        public static final double kMaxTranslationalAccelerationMsecSquared = 3.75; // m/s per second
 
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;
@@ -62,16 +62,17 @@ public final class Constants {
 
     public static final class Shooter {
 
-        public static final double kAbsoluteShootingDistanceFloorFeet = 42.0 / 12.0;
-        public static final double kAbsoluteShootingDistanceCeilingFeet = 216.0 / 12.0;
+        public static final double kAbsoluteMaximumVelocityNU = 15000;
 
         public static final double kDefaultVelocityRawUnits = 11500;
-        public static final double kBarfVelocityRawUnits = 4500;
+        public static final double kBarfVelocityRawUnits = 5000;
+        public static final double kIdleVelocityRawUnits = 9000;
+        public static final double kOuttakeVelocityRawUnits = -4500;
 
         // The tolerance to exit the spinning up state and enter the shooting state
-        public static final double kSpinningUpToleranceRawUnits = 100;
+        public static final double kSpinningUpToleranceRawUnits = 150;
         // The tolerance to maintain the shooting state
-        public static final double kShootingToleranceRawUnits = 150;
+        public static final double kShootingToleranceRawUnits = 160;
 
         // Short period of time after the shoot button is released where the flywheels
         // continue rotating to ensure last few shots don't go amiss
@@ -84,7 +85,8 @@ public final class Constants {
 
     public static final class Climber {
 
-        public static final double kExtensionZeroingPercentOutput = -0.2;
+        public static final double kExtensionZeroingPercentOutput = -0.1;
+        public static final double kFastExtensionZeroingPercentOutput = -0.2;
 
     }
 
@@ -139,6 +141,7 @@ public final class Constants {
         public static final String kShooterCurrentTargetVelocityKey = "Shooter/Current Target Velocity NU";
         public static final String kShooterTuningSetpointVelocityNUKey = "Shooter/Tuning Setpoint Velocity NU";
         public static final String kShooterHoodPositionSetpointKey = "Shooter/Hood Position Setpoint";
+        public static final String kShooterBallQualityAdditive = "Shooter/Ball Quality Additive";
 
         public static final String kDrivetrainPeriodicIOKey = "Drivetrain/Periodic IO";
         public static final String kIntakePeriodicIOKey = "Intake/Periodic IO";
@@ -176,7 +179,7 @@ public final class Constants {
     public static final class FieldConstants {
 
         public static final double kTargetHeightInches = 103.81;
-        public static final double kHoodCloseUpDistanceFeet = 15;
+        public static final double kHoodCloseUpDistanceFeet = 4.741;
 
     }
 

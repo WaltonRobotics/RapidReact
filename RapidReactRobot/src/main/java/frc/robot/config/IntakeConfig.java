@@ -6,8 +6,8 @@ public interface IntakeConfig {
 
     MotorConfig getRightIntakeControllerConfig();
 
-    int getLeftSolenoidChannel();
-    int getRightSolenoidChannel();
+    int getLeftIntakeSolenoidChannel();
+    int getRightIntakeSolenoidChannel();
 
     double getLeftIntakePercentOutput();
     double getRightIntakePercentOutput();

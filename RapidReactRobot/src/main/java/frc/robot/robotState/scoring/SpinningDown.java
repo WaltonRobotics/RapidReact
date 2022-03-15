@@ -61,7 +61,8 @@ public class SpinningDown implements IState {
 
     @Override
     public void finish() {
-
+        godSubsystem.getConveyor().setTransportDemand(0.0);
+        godSubsystem.getConveyor().setFeedDemand(0.0);
     }
 
 }

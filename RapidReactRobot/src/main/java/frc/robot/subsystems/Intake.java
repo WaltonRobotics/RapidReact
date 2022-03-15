@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.IntakeConfig;
 import frc.robot.util.EnhancedBoolean;
 
+import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.Constants.Intake.rollUpTimeoutSeconds;
 import static frc.robot.RobotContainer.currentRobot;
 
@@ -21,11 +22,11 @@ public class Intake implements SubSubsystem {
     private final VictorSPX leftIntakeController = new VictorSPX(config.getLeftIntakeControllerConfig().getChannelOrID());
     private final VictorSPX rightIntakeController = new VictorSPX(config.getRightIntakeControllerConfig().getChannelOrID());
 
-    private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
-            config.getLeftSolenoidChannel());
+    private final Solenoid leftIntakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH,
+            config.getLeftIntakeSolenoidChannel());
 
-    private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,
-            config.getRightSolenoidChannel());
+    private final Solenoid rightIntakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH,
+            config.getRightIntakeSolenoidChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
@@ -39,27 +40,8 @@ public class Intake implements SubSubsystem {
         rightIntakeController.configVoltageCompSaturation(12.0);
         rightIntakeController.enableVoltageCompensation(true);
 
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
-        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
-
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
-        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+        configLeftIntakeStatusFrames();
+        configRightIntakeStatusFrames();
     }
 
     @Override
@@ -70,6 +52,9 @@ public class Intake implements SubSubsystem {
     @Override
     public void collectData() {
         double currentTime = Timer.getFPGATimestamp();
+
+        periodicIO.hasLeftIntakeControllerResetOccurred = leftIntakeController.hasResetOccurred();
+        periodicIO.hasRightIntakeControllerResetOccurred = rightIntakeController.hasResetOccurred();
 
         leftIntakeSolenoid.set(periodicIO.leftIntakeDeployDemand);
         rightIntakeSolenoid.set(periodicIO.rightIntakeDeployDemand);
@@ -88,6 +73,15 @@ public class Intake implements SubSubsystem {
 
     @Override
     public void outputData() {
+        // Reconfigure status frames when controllers reset
+        if (periodicIO.hasLeftIntakeControllerResetOccurred) {
+            configLeftIntakeStatusFrames();
+        }
+
+        if (periodicIO.hasRightIntakeControllerResetOccurred) {
+            configRightIntakeStatusFrames();
+        }
+
         switch (periodicIO.intakeControlState) {
             case OPEN_LOOP:
                 if (isLeftIntakeRollUpNeeded()) {
@@ -127,11 +121,13 @@ public class Intake implements SubSubsystem {
     }
 
     private boolean isLeftIntakeRollUpNeeded() {
-        return !periodicIO.leftIntakeDeployDemand && Timer.getFPGATimestamp() < periodicIO.leftIntakeRollUpTimeout;
+        return false;
+        // return !periodicIO.leftIntakeDeployDemand && Timer.getFPGATimestamp() < periodicIO.leftIntakeRollUpTimeout;
     }
 
     private boolean isRightIntakeRollUpNeeded() {
-        return !periodicIO.rightIntakeDeployDemand && Timer.getFPGATimestamp() < periodicIO.rightIntakeRollUpTimeout;
+        return false;
+        // return !periodicIO.rightIntakeDeployDemand && Timer.getFPGATimestamp() < periodicIO.rightIntakeRollUpTimeout;
     }
 
     public IntakeControlState getIntakeControlState() {
@@ -186,11 +182,41 @@ public class Intake implements SubSubsystem {
         return config;
     }
 
+    private void configLeftIntakeStatusFrames() {
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        leftIntakeController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+    }
+
+    private void configRightIntakeStatusFrames() {
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        rightIntakeController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+    }
+
     public enum IntakeControlState {
         OPEN_LOOP, DISABLED
     }
 
     public static class PeriodicIO implements Sendable {
+        // Inputs
+        public boolean hasLeftIntakeControllerResetOccurred;
+        public boolean hasRightIntakeControllerResetOccurred;
+
         // Outputs
         public double leftIntakeDemand;
         public double rightIntakeDemand;
@@ -205,16 +231,19 @@ public class Intake implements SubSubsystem {
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Intake Control State", () -> intakeControlState.name(), (x) -> {
-            });
-            builder.addDoubleProperty("Left Intake Demand", () -> leftIntakeDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Right Intake Demand", () -> rightIntakeDemand, (x) -> {
-            });
-            builder.addBooleanProperty("Left Intake Deploy State Demand", () -> leftIntakeDeployDemand, (x) -> {
-            });
-            builder.addBooleanProperty("Right Intake Deploy State Demand", () -> rightIntakeDeployDemand, (x) -> {
-            });
+
+            if (!kIsInCompetition) {
+                builder.addStringProperty("Intake Control State", () -> intakeControlState.name(), (x) -> {
+                });
+                builder.addDoubleProperty("Left Intake Demand", () -> leftIntakeDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Right Intake Demand", () -> rightIntakeDemand, (x) -> {
+                });
+                builder.addBooleanProperty("Left Intake Deploy State Demand", () -> leftIntakeDeployDemand, (x) -> {
+                });
+                builder.addBooleanProperty("Right Intake Deploy State Demand", () -> rightIntakeDeployDemand, (x) -> {
+                });
+            }
         }
     }
 }

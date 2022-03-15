@@ -1,13 +1,14 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.config.ConveyorConfig;
 
+import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Conveyor implements SubSubsystem {
@@ -29,27 +30,11 @@ public class Conveyor implements SubSubsystem {
         feedController.configVoltageCompSaturation(12.0);
         feedController.enableVoltageCompensation(true);
 
-        transportController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
-        transportController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
-        transportController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
-        transportController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
-        transportController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
-        transportController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
-        transportController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
-        transportController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
-        transportController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
-        transportController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+        transportController.setNeutralMode(NeutralMode.Brake);
+        feedController.setNeutralMode(NeutralMode.Brake);
 
-        feedController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
-        feedController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
-        feedController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
-        feedController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
-        feedController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
-        feedController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
-        feedController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
-        feedController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
-        feedController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
-        feedController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+        configTransportStatusFrame();
+        configFeedStatusFrame();
     }
 
     @Override
@@ -59,11 +44,20 @@ public class Conveyor implements SubSubsystem {
 
     @Override
     public void collectData() {
-
+        periodicIO.hasTransportControllerResetOccurred = transportController.hasResetOccurred();
+        periodicIO.hasFeedControllerResetOccurred = feedController.hasResetOccurred();
     }
 
     @Override
     public void outputData() {
+        if (periodicIO.hasTransportControllerResetOccurred) {
+            configTransportStatusFrame();
+        }
+
+        if (periodicIO.hasFeedControllerResetOccurred) {
+            configFeedStatusFrame();
+        }
+
         switch (periodicIO.conveyorControlState) {
             case OPEN_LOOP:
                 transportController.set(VictorSPXControlMode.PercentOutput, periodicIO.transportDemand);
@@ -105,6 +99,32 @@ public class Conveyor implements SubSubsystem {
         periodicIO.feedDemand = feedDemand;
     }
 
+    private void configTransportStatusFrame() {
+        transportController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
+        transportController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
+        transportController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        transportController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+    }
+
+    private void configFeedStatusFrame() {
+        feedController.setStatusFramePeriod(StatusFrame.Status_1_General, 200);
+        feedController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
+        feedController.setStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        feedController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+    }
+
     public enum ConveyorControlState {
         OPEN_LOOP, DISABLED
     }
@@ -114,6 +134,10 @@ public class Conveyor implements SubSubsystem {
     }
 
     public static class PeriodicIO implements Sendable {
+        // Inputs
+        public boolean hasTransportControllerResetOccurred;
+        public boolean hasFeedControllerResetOccurred;
+
         // Outputs
         public ConveyorControlState conveyorControlState = ConveyorControlState.DISABLED;
 
@@ -123,12 +147,15 @@ public class Conveyor implements SubSubsystem {
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Conveyor Control State", () -> conveyorControlState.name(), (x) -> {
-            });
-            builder.addDoubleProperty("Transport Demand", () -> transportDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Feed Demand", () -> feedDemand, (x) -> {
-            });
+
+            if (!kIsInCompetition) {
+                builder.addStringProperty("Conveyor Control State", () -> conveyorControlState.name(), (x) -> {
+                });
+                builder.addDoubleProperty("Transport Demand", () -> transportDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Feed Demand", () -> feedDemand, (x) -> {
+                });
+            }
         }
     }
 

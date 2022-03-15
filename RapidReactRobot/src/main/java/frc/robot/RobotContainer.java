@@ -4,9 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -105,16 +103,13 @@ public class RobotContainer {
                 }
         ));
 
-        toggleClimberLocksButton.whenPressed(new InstantCommand(
-                () -> {
-                    godSubsystem.getClimber().toggleLeftClimberLock();
-                    godSubsystem.getClimber().toggleRightClimberLock();
-                }
-        ));
+        toggleClimberLocksButton.whenPressed(godSubsystem.getClimber()::toggleClimberLock);
     }
 
-    private void initShuffleboard() {
+    public void initShuffleboard() {
         LiveWindow.disableAllTelemetry();
+
+        SmartDashboard.putData("Pivot controller", godSubsystem.getClimber().getConfig().getPivotProfiledController());
 
         SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
 
@@ -134,8 +129,6 @@ public class RobotContainer {
         SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, 0.0);
 
         SmartDashboard.putNumber(kShooterBallQualityAdditive, 0.0);
-
-        SmartDashboard.putNumber("Hood angle setpoint", 0.0);
 
         // Auton chooser
         Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
@@ -196,6 +189,9 @@ public class RobotContainer {
             Arrays.stream(Shooter.HoodPosition.values()).forEach(n -> hoodPositionSetpoints.addOption(n.name(), n));
 
             SmartDashboard.putData(kShooterHoodPositionSetpointKey, hoodPositionSetpoints);
+
+            SmartDashboard.putData("Move Half Foot Backwards",
+                    AutonRoutine.HALF_FOOT_BACKWARDS.getCommandGroup());
         }
     }
 

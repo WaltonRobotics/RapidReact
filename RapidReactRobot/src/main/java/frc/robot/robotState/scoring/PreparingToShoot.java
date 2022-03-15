@@ -38,11 +38,12 @@ public class PreparingToShoot implements IState {
                     SmartDashboard.getNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits));
         } else {
             // Re-adjust hood
-            if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
-                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
-            } else {
-                shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
-            }
+//            if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
+//                shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
+//            } else {
+//                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
+//            }
+            shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
 
             // Recalculate target velocity
             godSubsystem.setCurrentTargetFlywheelVelocity(shooter.getEstimatedVelocityFromTarget());
