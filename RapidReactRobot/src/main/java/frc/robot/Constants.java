@@ -38,6 +38,8 @@ public final class Constants {
 
         public static final double kFinishedClimbingRumbleValue = 1.0;
 
+        public static final double kFaceDirectionToleranceDegrees = 2.0;
+
     }
 
     public static final class DioIDs {

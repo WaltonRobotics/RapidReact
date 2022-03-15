@@ -48,6 +48,7 @@ public interface DrivetrainConfig {
 
     // Turn to angle and auto align constants
 
+    PIDController getFaceDirectionController();
     PIDController getAutoAlignController();
     double getMinTurnOmega();
 

@@ -42,6 +42,4 @@ public interface ClimberConfig {
 
     double getAbsoluteCountsToIntegratedCountsFactor();
 
-    ProfiledPIDController getPivotProfiledController();
-
 }

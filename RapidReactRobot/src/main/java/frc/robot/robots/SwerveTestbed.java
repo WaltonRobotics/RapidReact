@@ -52,6 +52,7 @@ public class SwerveTestbed extends WaltRobot {
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
+    private final PIDController faceDirectionController = new PIDController(0.05, 0, 0.000);
     private final PIDController autoAlignController = new PIDController(0.05, 0.015, 0.000);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
@@ -254,6 +255,11 @@ public class SwerveTestbed extends WaltRobot {
             @Override
             public ProfiledPIDController getThetaController() {
                 return thetaController;
+            }
+
+            @Override
+            public PIDController getFaceDirectionController() {
+                return faceDirectionController;
             }
 
             @Override
@@ -675,11 +681,6 @@ public class SwerveTestbed extends WaltRobot {
             @Override
             public double getAbsoluteCountsToIntegratedCountsFactor() {
                 return 0;
-            }
-
-            @Override
-            public ProfiledPIDController getPivotProfiledController() {
-                return null;
             }
         };
     }

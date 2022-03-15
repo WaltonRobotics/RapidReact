@@ -75,9 +75,10 @@ public class PracticeRapidReact extends WaltRobot {
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
-    private final PIDController autoAlignController = new PIDController(0.12, 0.015, 0.000);
+    private final PIDController faceDirectionController = new PIDController(0.12, 0, 0);
+    private final PIDController autoAlignController = new PIDController(0.12, 0.015, 0);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
-            (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
+            (0.05, 0.015, 0, new TrapezoidProfile.Constraints(
                     Math.toDegrees(kMaxOmega / 1.1), 360.0));
 
     // Shooter constants
@@ -90,9 +91,6 @@ public class PracticeRapidReact extends WaltRobot {
     // Climber constants
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration extensionControllerTalonConfig = new TalonFXConfiguration();
-
-    private final ProfiledPIDController pivotProfiledController = new ProfiledPIDController(0.002, 0, 0,
-            new TrapezoidProfile.Constraints(0.25, 0.25));
 
     private final HashMap<Climber.ClimberPivotLimits, LimitPair> climberPivotLimits = new HashMap<>(5);
     private final HashMap<Climber.ClimberPivotPosition, Target> climberPivotTargets = new HashMap<>(10);
@@ -280,6 +278,11 @@ public class PracticeRapidReact extends WaltRobot {
             @Override
             public ProfiledPIDController getThetaController() {
                 return thetaController;
+            }
+
+            @Override
+            public PIDController getFaceDirectionController() {
+                return faceDirectionController;
             }
 
             @Override
@@ -701,11 +704,6 @@ public class PracticeRapidReact extends WaltRobot {
             @Override
             public double getAbsoluteCountsToIntegratedCountsFactor() {
                 return (160.0 * 2048.0) / 1024.0;
-            }
-
-            @Override
-            public ProfiledPIDController getPivotProfiledController() {
-                return pivotProfiledController;
             }
         };
     }
