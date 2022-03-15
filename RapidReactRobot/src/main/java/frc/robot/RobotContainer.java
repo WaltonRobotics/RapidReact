@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.SetModuleStates;
+import frc.robot.commands.auton.TurnToAngle;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Shooter;
@@ -103,6 +104,18 @@ public class RobotContainer {
                 }
         ));
 
+        toggleTrackTargetButton.whenPressed(new InstantCommand(
+                () -> {
+                    if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE){
+                        godSubsystem.handleToggleTrackTarget();
+                    }
+                }
+        ));
+
+        climberAlignButton.whenPressed(
+                new TurnToAngle(0)   //face perpendicular to bars
+        );
+        
         toggleClimberLocksButton.whenPressed(godSubsystem.getClimber()::toggleClimberLock);
     }
 

@@ -101,7 +101,7 @@ public class Robot extends TimedRobot {
 
     // Smart Motion Coefficients
     maxVel = 145; // rpm
-    maxAcc = 120;
+    maxAcc = 145; //was 120
     minVel = -145;
 
     // set PID coefficients

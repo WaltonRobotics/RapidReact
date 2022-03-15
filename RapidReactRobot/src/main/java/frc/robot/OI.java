@@ -38,6 +38,7 @@ public class OI {
     public static final EnhancedJoystickButton idleSpinUpButton = new EnhancedJoystickButton(manipulationGamepad, kRightBumper.value);
     public static final EnhancedJoystickButton increaseRPMsButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_N);
     public static final EnhancedJoystickButton decreaseRPMsButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_S);
+    public static final EnhancedJoystickButton toggleTrackTargetButton = new EnhancedJoystickButton(driveGamepad, kA.value);
 
     // Climbing mode
     // Out-of-the-way buttons
@@ -56,5 +57,6 @@ public class OI {
             new EnhancedJoystickButton(manipulationGamepad, kY.value));
     public static final EnhancedComboButton toggleBetweenScoringAndClimbingModeButton = new EnhancedComboButton(
             new EnhancedJoystickButton(driveGamepad, kStart.value), new EnhancedJoystickButton(driveGamepad, kBack.value));
+    public static final EnhancedJoystickButton climberAlignButton = new EnhancedJoystickButton(driveGamepad, kB.value);
 
 }
