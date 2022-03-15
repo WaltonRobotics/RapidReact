@@ -109,6 +109,8 @@ public class RobotContainer {
     public void initShuffleboard() {
         LiveWindow.disableAllTelemetry();
 
+        SmartDashboard.putNumber("Hood angle setpoint", 0.0);
+
         SmartDashboard.putData("Pivot controller", godSubsystem.getClimber().getConfig().getPivotProfiledController());
 
         SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
