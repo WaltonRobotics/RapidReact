@@ -24,8 +24,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
 import frc.robot.config.DrivetrainConfig;
 import frc.robot.config.SmartMotionConstants;
+import frc.robot.util.UtilMethods;
 
 import static frc.robot.Constants.ContextFlags.kIsInCompetition;
+import static frc.robot.Constants.DriverPreferences.kFaceDirectionToleranceDegrees;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Drivetrain extends SubsystemBase implements SubSubsystem {
@@ -217,6 +219,33 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             double omegaRadiansPerSecond,
             boolean isFieldOriented) {
         swerveDrive.move(vxMetersPerSecond, vyMetersPerSecond, omegaRadiansPerSecond, isFieldOriented);
+    }
+
+    public void faceDirection(double vx, double vy, Rotation2d theta, boolean isFieldRelative) {
+        double currentHeading = UtilMethods.restrictAngle(getHeading().getDegrees(), -180, 180);
+        double thetaTarget = UtilMethods.restrictAngle(theta.getDegrees(), -180, 180);
+        double thetaError = thetaTarget - currentHeading;
+
+        double output = config.getFaceDirectionController().calculate(currentHeading, thetaTarget);
+
+        output = Math.signum(output) * UtilMethods.limitRange(
+                Math.abs(output), config.getMinTurnOmega(), config.getMaxOmega());
+
+        if (Math.abs(thetaError) < kFaceDirectionToleranceDegrees) {
+            output = 0;
+        }
+
+        move(vx, vy, output, isFieldRelative);
+    }
+
+    public void faceClosest(double vx, double vy, boolean isFieldRelative) {
+        double currentHeading = UtilMethods.restrictAngle(getHeading().getDegrees(), 0, 360);
+
+        if (currentHeading <= 90 || currentHeading >= 270) {
+            faceDirection(vx, vy, Rotation2d.fromDegrees(0), isFieldRelative);
+        } else {
+            faceDirection(vx, vy, Rotation2d.fromDegrees(180), isFieldRelative);
+        }
     }
 
     public void setModuleStates(SwerveModuleState state) {

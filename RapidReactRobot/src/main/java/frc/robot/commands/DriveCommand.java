@@ -9,7 +9,6 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.util.UtilMethods;
 
-import static frc.robot.Constants.DriverPreferences.kFaceDirectionToleranceDegrees;
 import static frc.robot.Constants.DriverPreferences.kMaxTranslationalAccelerationMsecSquared;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -57,15 +56,15 @@ public class DriveCommand extends CommandBase {
 
             // Limit movement when climbing
             if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE && faceClimb.get()) {
-                faceDirection(vx, vy, Rotation2d.fromDegrees(180.0), isFieldRelative);
+                drivetrain.faceDirection(vx, vy, Rotation2d.fromDegrees(180.0), isFieldRelative);
             } else if (faceClosest.get()) {
-                faceClosest(vx, vy, isFieldRelative);
+                drivetrain.faceClosest(vx, vy, isFieldRelative);
             } else if (isPositionalRotation && godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
                 double rotateX = getRotateX() * 10;
                 double rotateY = getRotateY() * 10;
 
                 if (Math.abs(rotateX) > 1 || Math.abs(rotateY) > 1) {
-                    faceDirection(vx, vy,
+                    drivetrain.faceDirection(vx, vy,
                             new Rotation2d(Math.atan2(rotateY, rotateX)).minus(Rotation2d.fromDegrees(90.0)),
                             isFieldRelative);
                 } else {
@@ -91,33 +90,6 @@ public class DriveCommand extends CommandBase {
                 drivetrain.move(vx, vy, omega, isFieldRelative);
 //            drivetrain.move(0, 0, SmartDashboard.getNumber("Minimum omega command", 0.1), true);
             }
-        }
-    }
-
-    private void faceDirection(double vx, double vy, Rotation2d theta, boolean isFieldRelative) {
-        double currentHeading = UtilMethods.restrictAngle(drivetrain.getHeading().getDegrees(), -180, 180);
-        double thetaTarget = UtilMethods.restrictAngle(theta.getDegrees(), -180, 180);
-        double thetaError = thetaTarget - currentHeading;
-
-        double output = drivetrain.getConfig().getFaceDirectionController().calculate(currentHeading, thetaTarget);
-
-        output = Math.signum(output) * UtilMethods.limitRange(
-                Math.abs(output), drivetrain.getConfig().getMinTurnOmega(), drivetrain.getConfig().getMaxOmega());
-
-        if (Math.abs(thetaError) < kFaceDirectionToleranceDegrees) {
-            output = 0;
-        }
-
-        drivetrain.move(vx, vy, output, isFieldRelative);
-    }
-
-    private void faceClosest(double vx, double vy, boolean isFieldRelative) {
-        double currentHeading = UtilMethods.restrictAngle(drivetrain.getHeading().getDegrees(), 0, 360);
-
-        if (currentHeading <= 90 || currentHeading >= 270) {
-            faceDirection(vx, vy, Rotation2d.fromDegrees(0), isFieldRelative);
-        } else {
-            faceDirection(vx, vy, Rotation2d.fromDegrees(180), isFieldRelative);
         }
     }
 
