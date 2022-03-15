@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,6 +34,7 @@ public class Robot extends WaltTimesliceRobot {
 
     private final PowerDistribution pdp = new PowerDistribution();
     private final PneumaticHub pneumaticHub = new PneumaticHub();
+    private final SwerveModuleState zero = new SwerveModuleState(0,new Rotation2d(0));
 
     public Robot() {
         super(0.002, 0.02);
@@ -61,6 +64,8 @@ public class Robot extends WaltTimesliceRobot {
         schedule(godSubsystem.getClimber()::outputData, 0.0006);
 
         LimelightHelper.setLEDMode(kIsInTuningMode);
+        godSubsystem.getDrivetrain().setModuleStates(zero);
+        godSubsystem.getDrivetrain().setBrakeNeutralMode();
     }
 
     /**
@@ -143,6 +148,7 @@ public class Robot extends WaltTimesliceRobot {
     @Override
     public void teleopInit() {
         godSubsystem.setCurrentMode(Superstructure.CurrentMode.SCORING_MODE);
+        godSubsystem.getDrivetrain().setBrakeNeutralMode();
 
         godSubsystem.setEnabled(true);
 
