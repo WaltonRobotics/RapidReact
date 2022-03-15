@@ -61,9 +61,6 @@ public class Climber implements SubSubsystem {
 
         periodicIO.pivotNeutralMode = NeutralMode.Brake;
         periodicIO.extensionNeutralMode = NeutralMode.Brake;
-
-        config.getPivotProfiledController().enableContinuousInput(0.0,
-                pivotAngleAbsoluteEncoder.getDistancePerRotation());
     }
 
     @Override
