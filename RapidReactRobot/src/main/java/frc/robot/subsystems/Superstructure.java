@@ -142,6 +142,12 @@ public class Superstructure extends SubsystemBase {
         return dangerButton.get() && Math.abs(manipulationGamepad.getRightY()) > kExtensionManualOverrideDeadband;
     }
 
+    public boolean isClimbingMovementOverride() {
+        return Math.abs(driveGamepad.getLeftY()) > forwardScale.getDeadband()
+                || Math.abs(driveGamepad.getLeftX()) > strafeScale.getDeadband()
+                || Math.abs(driveGamepad.getRightX()) > yawScale.getDeadband();
+    }
+
     public void handleTransportConveyorManualOverride() {
         if (OI.overrideTransportConveyorButton.get()) {
             godSubsystem.getConveyor().setTransportDemand(conveyor.getConfig().getTransportIntakePercentOutput());
