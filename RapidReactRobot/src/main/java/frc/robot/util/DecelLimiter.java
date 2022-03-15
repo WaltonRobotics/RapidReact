@@ -5,6 +5,7 @@ import edu.wpi.first.util.WPIUtilJNI;
 
 public class DecelLimiter {
 
+    private final double m_rateLimit;
     private double m_prevVal;
     private double m_prevTime;
 
