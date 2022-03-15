@@ -32,6 +32,8 @@ public class PreparingToShoot implements IState {
         if (barfButton.get()) {
             godSubsystem.setCurrentTargetFlywheelVelocity(kBarfVelocityRawUnits);
         } else if (kIsInShooterTuningMode) {
+            shooter.setAdjustableHoodDutyCycleDemand(SmartDashboard.getNumber("Hood angle setpoint", 0.0));
+
             godSubsystem.setCurrentTargetFlywheelVelocity(
                     SmartDashboard.getNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits));
         } else {

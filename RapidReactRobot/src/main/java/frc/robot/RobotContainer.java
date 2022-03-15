@@ -133,6 +133,10 @@ public class RobotContainer {
 
         SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, 0.0);
 
+        SmartDashboard.putNumber(kShooterBallQualityAdditive, 0.0);
+
+        SmartDashboard.putNumber("Hood angle setpoint", 0.0);
+
         // Auton chooser
         Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
         autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);

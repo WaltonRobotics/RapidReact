@@ -51,7 +51,8 @@ public class DriveCommand extends CommandBase {
                 omega = UtilMethods.limitMagnitude(omega, drivetrain.getConfig().getClimbingMaxOmega());
             }
 
-            drivetrain.move(vx, vy, omega, true);
+            drivetrain.move(vx, vy, omega, isFieldRelative);
+//            drivetrain.move(0, 0, SmartDashboard.getNumber("Minimum omega command", 0.1), true);
         }
     }
 

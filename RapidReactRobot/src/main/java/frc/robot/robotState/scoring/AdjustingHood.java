@@ -1,5 +1,6 @@
 package frc.robot.robotState.scoring;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
@@ -36,7 +37,8 @@ public class AdjustingHood implements IState {
                 shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
             }
         } else {
-            shooter.setHoodPosition(hoodPositionSetpoints.getSelected());
+            shooter.setAdjustableHoodDutyCycleDemand(SmartDashboard.getNumber("Hood angle setpoint", 0.0));
+//            shooter.setHoodPosition(hoodPositionSetpoints.getSelected());
         }
     }
 

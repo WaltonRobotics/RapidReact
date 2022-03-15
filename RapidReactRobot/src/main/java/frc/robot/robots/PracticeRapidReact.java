@@ -75,7 +75,8 @@ public class PracticeRapidReact extends WaltRobot {
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
-    private final PIDController autoAlignController = new PIDController(0.05, 0.015, 0.000);
+    private final PIDController autoAlignController = new PIDController(0.12, 0.015, 0.000);
+    private final PIDController faceDirectionController = new PIDController(0.12, 0.015, 0);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
                     Math.toDegrees(kMaxOmega / 1.1), 360.0));
@@ -739,6 +740,8 @@ public class PracticeRapidReact extends WaltRobot {
     public void defineTargets() {
         hoodTargets.put(Shooter.HoodPosition.SIXTY_DEGREES, new Target(1.0, 0));
         hoodTargets.put(Shooter.HoodPosition.SEVENTY_DEGREES, new Target(-1.0, 0));
+
+        // 6.234 ft, -0.5 hood angle, 9800 RPM
 
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
