@@ -103,18 +103,6 @@ public class RobotContainer {
                     }
                 }
         ));
-
-        toggleTrackTargetButton.whenPressed(new InstantCommand(
-                () -> {
-                    if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE){
-                        godSubsystem.handleToggleTrackTarget();
-                    }
-                }
-        ));
-
-        climberAlignButton.whenPressed(
-                new TurnToAngle(0)   //face perpendicular to bars
-        );
         
         toggleClimberLocksButton.whenPressed(godSubsystem.getClimber()::toggleClimberLock);
     }
