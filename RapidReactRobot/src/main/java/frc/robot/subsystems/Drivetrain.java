@@ -119,7 +119,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                             .build();
         }
 
-        swerveDrive = new SwerveDrive(ahrs, swerveModules);
+        swerveDrive = new SwerveDrive(ahrs, config.getXLimiter(), config.getYLimiter(), config.getOmegaLimiter(),
+                swerveModules);
 
         SmartDashboard.putData("Field", field);
     }

@@ -30,15 +30,13 @@ public final class Constants {
             public static final int kManipulationXboxControllerPort = 1;
         }
 
-        public static final double kMaxTranslationalAccelerationMsecSquared = 3.75; // m/s per second
-
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;
         public static final double kExtensionManualOverrideDeadband = 0.1;
 
         public static final double kFinishedClimbingRumbleValue = 1.0;
 
-        public static final double kFaceDirectionToleranceDegrees = 2.0;
+        public static final double kFaceDirectionToleranceDegrees = 1.0;
 
     }
 
@@ -114,7 +112,7 @@ public final class Constants {
 
         public static final String kDrivetrainSetModuleStatesKey = "Drivetrain/Set Module States";
         public static final String kDrivetrainSetpointAngleDegreesKey = "Drivetrain/Setpoint Angle Degrees";
-        public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity Msec";
+        public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity MPS";
 
         public static final String kDrivetrainResetKey = "Drivetrain/Reset";
 
@@ -129,7 +127,7 @@ public final class Constants {
         public static final String kDrivetrainSaveRightRearZeroKey = "Drivetrain/Save Right Rear Azimuth Zero";
 
         public static final String kDrivetrainHeadingDegrees = "Drivetrain/Heading Degrees";
-        public static final String kDrivetrainAngularVelocity = "Drivetrain/Angular Velocity Dsec";
+        public static final String kDrivetrainAngularVelocity = "Drivetrain/Angular Velocity DPS";
         public static final String kDrivetrainPitchDegrees = "Drivetrain/Pitch Degrees";
         public static final String kDrivetrainRollDegrees = "Drivetrain/Roll Degrees";
 

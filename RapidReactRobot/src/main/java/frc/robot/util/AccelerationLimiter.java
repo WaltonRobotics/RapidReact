@@ -1,33 +1,29 @@
 package frc.robot.util;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.WPIUtilJNI;
 
-public class DecelLimiter {
+public class AccelerationLimiter {
 
-    private final double m_rateLimit;
+    private final double m_accelerationRateLimit;
+    private final double m_decelerationRateLimit;
     private double m_prevVal;
     private double m_prevTime;
 
     /**
-     * Creates a new DecelLimiter with the given rate limit and initial value.
-     *
-     * @param rateLimit The rate-of-change limit, in units per second.
-     * @param initialValue The initial value of the input.
+     * Creates a new AccelerationLimiter with the given rate limit and initial value.
      */
-    public DecelLimiter(double rateLimit, double initialValue) {
-        m_rateLimit = rateLimit;
+    public AccelerationLimiter(double accelerationRateLimit, double decelerationRateLimit, double initialValue) {
+        m_accelerationRateLimit = accelerationRateLimit;
+        m_decelerationRateLimit = decelerationRateLimit;
         m_prevVal = initialValue;
         m_prevTime = WPIUtilJNI.now() * 1e-6;
     }
 
     /**
      * Creates a new DecelLimiter with the given rate limit and an initial value of zero.
-     *
-     * @param rateLimit The rate-of-change limit, in units per second.
      */
-    public DecelLimiter(double rateLimit) {
-        this(rateLimit, 0);
+    public AccelerationLimiter(double accelerationRateLimit, double decelerationRateLimit) {
+        this(accelerationRateLimit, decelerationRateLimit, 0);
     }
 
     /**
@@ -40,7 +36,8 @@ public class DecelLimiter {
         double currentTime = WPIUtilJNI.now() * 1e-6;
         double elapsedTime = currentTime - m_prevTime;
 
-        m_prevVal += Math.max(input - m_prevVal, -m_rateLimit * elapsedTime);
+        m_prevVal += UtilMethods.limitRange(input - m_prevVal, -m_decelerationRateLimit * elapsedTime,
+                m_accelerationRateLimit * elapsedTime);
 
         m_prevTime = currentTime;
         return m_prevVal;

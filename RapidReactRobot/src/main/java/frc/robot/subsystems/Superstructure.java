@@ -14,8 +14,6 @@ import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DriverPreferences.*;
-import static frc.robot.Constants.DriverPreferences.kMaxTranslationalAccelerationMsecSquared;
-import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.OI.*;

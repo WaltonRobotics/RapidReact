@@ -11,6 +11,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.config.*;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
+import frc.robot.util.AccelerationLimiter;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.util.interpolation.InterpolatingTreeMap;
 
@@ -263,6 +264,24 @@ public class PracticeRapidReact extends WaltRobot {
             @Override
             public Translation2d[] getWheelLocationMeters() {
                 return wheelLocationMeters;
+            }
+
+            @Override
+            public AccelerationLimiter getXLimiter() {
+                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / 0.4,
+                        kMaxSpeedMetersPerSecond / 0.4);
+            }
+
+            @Override
+            public AccelerationLimiter getYLimiter() {
+                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / 0.4,
+                        3.75);
+            }
+
+            @Override
+            public AccelerationLimiter getOmegaLimiter() {
+                return new AccelerationLimiter(kMaxOmega / 0.4,
+                        kMaxOmega / 0.4);
             }
 
             @Override
