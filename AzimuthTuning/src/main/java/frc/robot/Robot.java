@@ -90,8 +90,8 @@ public class Robot extends TimedRobot {
     m_encoder.setVelocityConversionFactor(relativeEncoderDegreesPerTick);
 
     // PID coefficients
-    kP = 0.00013;
-    kI = 0.0000017;
+    kP = 0.0002;
+    kI = 0.000007;
     kD = 0;
     kIz = 10;
     kFF = 0.00559;
