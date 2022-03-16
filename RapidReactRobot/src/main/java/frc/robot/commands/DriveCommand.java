@@ -56,7 +56,7 @@ public class DriveCommand extends CommandBase {
             } else if (faceClosest.get()) {
                 drivetrain.faceClosest(vx, vy, isFieldRelative);
             } else if (isPositionalRotation && godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
-                double rotateX = getRotateX() * 10;
+                double rotateX = -getRotateX() * 10;
                 double rotateY = getRotateY() * 10;
 
                 if (Math.abs(rotateX) > 1 || Math.abs(rotateY) > 1) {
