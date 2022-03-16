@@ -13,6 +13,7 @@ import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
 import static frc.robot.Constants.Shooter.kBarfVelocityRawUnits;
 import static frc.robot.Constants.Shooter.kDefaultVelocityRawUnits;
+import static frc.robot.Constants.SmartDashboardKeys.kShooterHoodPositionSetpointKey;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterTuningSetpointVelocityNUKey;
 import static frc.robot.OI.barfButton;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -32,7 +33,8 @@ public class PreparingToShoot implements IState {
         if (barfButton.get()) {
             godSubsystem.setCurrentTargetFlywheelVelocity(kBarfVelocityRawUnits);
         } else if (kIsInShooterTuningMode) {
-            shooter.setAdjustableHoodDutyCycleDemand(SmartDashboard.getNumber("Hood angle setpoint", 0.0));
+            shooter.setAdjustableHoodDutyCycleDemand(
+                    SmartDashboard.getNumber(kShooterHoodPositionSetpointKey, 0.0));
 
             godSubsystem.setCurrentTargetFlywheelVelocity(
                     SmartDashboard.getNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits));
@@ -43,7 +45,8 @@ public class PreparingToShoot implements IState {
 //            } else {
 //                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
 //            }
-            shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
+
+            shooter.setAdjustableHoodDutyCycleDemand(shooter.getEstimatedHoodAngleFromTarget());
 
             // Recalculate target velocity
             godSubsystem.setCurrentTargetFlywheelVelocity(shooter.getEstimatedVelocityFromTarget());

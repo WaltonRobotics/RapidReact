@@ -46,7 +46,6 @@ public class RobotContainer {
     public static final Superstructure godSubsystem;
     public static final Logger robotLogger = Logger.getLogger("frc.robot");
     public static final SendableChooser<AutonRoutine> autonChooser = new SendableChooser<>();
-    public static final SendableChooser<Shooter.HoodPosition> hoodPositionSetpoints = new SendableChooser<>();
 
     static {
         currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),
@@ -187,10 +186,7 @@ public class RobotContainer {
         if (kIsInShooterTuningMode) {
             SmartDashboard.putNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits);
 
-            hoodPositionSetpoints.setDefaultOption(Shooter.HoodPosition.SEVENTY_DEGREES.name(), Shooter.HoodPosition.SEVENTY_DEGREES);
-            Arrays.stream(Shooter.HoodPosition.values()).forEach(n -> hoodPositionSetpoints.addOption(n.name(), n));
-
-            SmartDashboard.putData(kShooterHoodPositionSetpointKey, hoodPositionSetpoints);
+            SmartDashboard.putNumber(kShooterHoodPositionSetpointKey, 0.0);
 
             SmartDashboard.putData("Move Half Foot Backwards",
                     AutonRoutine.HALF_FOOT_BACKWARDS.getCommandGroup());

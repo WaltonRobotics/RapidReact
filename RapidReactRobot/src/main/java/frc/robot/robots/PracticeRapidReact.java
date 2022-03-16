@@ -84,8 +84,10 @@ public class PracticeRapidReact extends WaltRobot {
     private final TalonFXConfiguration flywheelMasterTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration flywheelSlaveTalonConfig = new TalonFXConfiguration();
 
-    private final HashMap<Shooter.HoodPosition, Target> hoodTargets = new HashMap<>(2);
-    private final HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> hoodMaps = new HashMap<>(2);
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> flywheelVelocityMap
+            = new InterpolatingTreeMap<>();
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> hoodAngleMap
+            = new InterpolatingTreeMap<>();
 
     // Climber constants
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
@@ -526,13 +528,13 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public HashMap<Shooter.HoodPosition, Target> getHoodTargets() {
-                return hoodTargets;
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getFlywheelVelocityMap() {
+                return flywheelVelocityMap;
             }
 
             @Override
-            public HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> getHoodMaps() {
-                return hoodMaps;
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getHoodAngleMap() {
+                return hoodAngleMap;
             }
         };
     }
@@ -727,29 +729,9 @@ public class PracticeRapidReact extends WaltRobot {
 
     @Override
     public void defineTargets() {
-        hoodTargets.put(Shooter.HoodPosition.SIXTY_DEGREES, new Target(1.0, 0));
-        hoodTargets.put(Shooter.HoodPosition.SEVENTY_DEGREES, new Target(-1.0, 0));
+        hoodAngleMap.put(new InterpolatingDouble(6.234), new InterpolatingDouble(-0.5));
 
-        final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
-
-        sixtyDegreeMap.put(new InterpolatingDouble(5.603), new InterpolatingDouble(9555.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.076), new InterpolatingDouble(10600.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.298), new InterpolatingDouble(10400.0)); // Needs to be retested
-        sixtyDegreeMap.put(new InterpolatingDouble(8.046), new InterpolatingDouble(10650.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(8.509), new InterpolatingDouble(11850.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(10.342), new InterpolatingDouble(11875.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(11.598), new InterpolatingDouble(12675.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(12.556), new InterpolatingDouble(11875.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(14.174), new InterpolatingDouble(12325.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(16.925), new InterpolatingDouble(13175.0));
-
-        final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> seventyDegreeMap = new InterpolatingTreeMap<>();
-
-        seventyDegreeMap.put(new InterpolatingDouble(7.741), new InterpolatingDouble(8800.0));
-        seventyDegreeMap.put(new InterpolatingDouble(8.17), new InterpolatingDouble(11500.0));
-
-        hoodMaps.put(Shooter.HoodPosition.SIXTY_DEGREES, sixtyDegreeMap);
-        hoodMaps.put(Shooter.HoodPosition.SEVENTY_DEGREES, seventyDegreeMap);
+        flywheelVelocityMap.put(new InterpolatingDouble(6.234), new InterpolatingDouble(9800.0));
 
         // Angles in reference to fixed arm
         // 160:1 GR

@@ -60,8 +60,6 @@ public class Shooter implements SubSubsystem {
 
         // From L16-R datasheet
         adjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
-
-        setHoodPosition(HoodPosition.SIXTY_DEGREES);
     }
 
     @Override
@@ -143,18 +141,6 @@ public class Shooter implements SubSubsystem {
         }
     }
 
-    public HoodPosition getHoodPosition() {
-        return periodicIO.hoodPosition;
-    }
-
-    public void setHoodPosition(HoodPosition selectedHoodPosition) {
-        periodicIO.hoodPosition = selectedHoodPosition;
-
-        double targetDutyCycle = currentRobot.getShooterConfig().getHoodTargets().get(selectedHoodPosition).getTarget();
-
-        setAdjustableHoodDutyCycleDemand(targetDutyCycle);
-    }
-
     public double getFlywheelDemand() {
         return periodicIO.flywheelDemand;
     }
@@ -175,6 +161,10 @@ public class Shooter implements SubSubsystem {
         return periodicIO.lastAdjustableHoodChangeFPGATime;
     }
 
+    public double getLastAdjustableHoodDutyCycleDemand() {
+        return periodicIO.lastAdjustableHoodDutyCycleDemand;
+    }
+
     public double getFlywheelVelocityNU() {
         return periodicIO.flywheelVelocityNU;
     }
@@ -187,7 +177,7 @@ public class Shooter implements SubSubsystem {
         return config;
     }
 
-    public double getEstimatedVelocityFromTarget() {
+    public double getEstimatedHoodAngleFromTarget() {
         // If the limelight does not see a target, we use the last known "ty" value since
         // LimelightHelper uses a MovingAverage to keep track of it at all times
 
@@ -196,17 +186,32 @@ public class Shooter implements SubSubsystem {
         }
 
         double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
-        HoodPosition currentHoodPosition = getHoodPosition();
-
         InterpolatingDouble result;
 
-        result = config.getHoodMaps().get(currentHoodPosition).getInterpolated(new InterpolatingDouble(distanceFeet));
+        result = config.getHoodAngleMap().getInterpolated(new InterpolatingDouble(distanceFeet));
+
+        if (result != null) {
+            return result.value;
+        } else {
+            return 0;
+        }
+    }
+
+    public double getEstimatedVelocityFromTarget() {
+        if (LimelightHelper.getTV() <= 0) {
+            robotLogger.log(Level.WARNING, "No target found for shooter. Using last known information");
+        }
+
+        double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
+        InterpolatingDouble result;
+
+        result = config.getFlywheelVelocityMap().getInterpolated(new InterpolatingDouble(distanceFeet));
 
         double ballQualityAdditive = UtilMethods.limitMagnitude(
                 SmartDashboard.getNumber(kShooterBallQualityAdditive, 0.0), 700);
 
         if (result != null) {
-            return UtilMethods.limitMagnitude(result.value, kAbsoluteMaximumVelocityNU) + ballQualityAdditive;
+            return UtilMethods.limitMagnitude(result.value + ballQualityAdditive, kAbsoluteMaximumVelocityNU) ;
         } else {
             return kDefaultVelocityRawUnits;
         }
@@ -255,11 +260,6 @@ public class Shooter implements SubSubsystem {
         }
     }
 
-    public enum HoodPosition {
-        SIXTY_DEGREES,
-        SEVENTY_DEGREES;
-    }
-
     public static class PeriodicIO implements Sendable {
         // Inputs
         public boolean hasFlywheelMasterControllerResetOccurred;
@@ -272,7 +272,6 @@ public class Shooter implements SubSubsystem {
 
         public ShooterProfileSlot selectedProfileSlot = ShooterProfileSlot.SPINNING_UP_SLOT;
         public boolean resetSelectedProfileSlot = false;
-        public HoodPosition hoodPosition = HoodPosition.SIXTY_DEGREES;
         public double flywheelDemand;
         public double adjustableHoodDutyCycleDemand;
         public double lastAdjustableHoodDutyCycleDemand;

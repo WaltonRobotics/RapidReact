@@ -80,6 +80,8 @@ public final class Constants {
 
         // Time it takes for the hood to change positions
         public static final double kHoodTransitionTimeSeconds = 2.3;
+        // The full range of angles for the hood
+        public static final double kFullHoodAngleRange = 2.0;
 
     }
 

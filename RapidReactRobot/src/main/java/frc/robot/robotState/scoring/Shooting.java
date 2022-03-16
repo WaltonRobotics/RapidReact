@@ -8,8 +8,7 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-import static frc.robot.Constants.Shooter.kHoodTransitionTimeSeconds;
-import static frc.robot.Constants.Shooter.kShootingToleranceRawUnits;
+import static frc.robot.Constants.Shooter.*;
 import static frc.robot.OI.intakeButton;
 import static frc.robot.OI.outtakeButton;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -57,7 +56,12 @@ public class Shooting implements IState {
         }
 
         // Wait for hood to move in position
-        if (godSubsystem.getCurrentTime() >= shooter.getLastAdjustableHoodChangeFPGATime() + kHoodTransitionTimeSeconds) {
+
+        double timeToMoveHood = kHoodTransitionTimeSeconds / kFullHoodAngleRange *
+                Math.abs(shooter.getAdjustableHoodDutyCycleDemand() - shooter.getLastAdjustableHoodDutyCycleDemand());
+
+        if (godSubsystem.getCurrentTime() >=
+                shooter.getLastAdjustableHoodChangeFPGATime() + timeToMoveHood) {
             conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
             conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {
