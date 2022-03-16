@@ -1,5 +1,6 @@
 package frc.robot.robotState;
 
+import frc.robot.commands.auton.TurnToAngle;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
@@ -35,6 +36,9 @@ public class ClimbingModeTransition implements IState {
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
+
+        new TurnToAngle(180).withTimeout(1.5)
+                .withInterrupt(godSubsystem::isClimbingMovementOverride).schedule();
     }
 
     @Override

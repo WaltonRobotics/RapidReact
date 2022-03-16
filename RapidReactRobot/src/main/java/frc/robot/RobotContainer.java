@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.SetModuleStates;
+import frc.robot.commands.auton.TurnToAngle;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Shooter;
@@ -102,7 +103,7 @@ public class RobotContainer {
                     }
                 }
         ));
-
+        
         toggleClimberLocksButton.whenPressed(godSubsystem.getClimber()::toggleClimberLock);
     }
 
@@ -166,6 +167,8 @@ public class RobotContainer {
             SmartDashboard.putNumber("X Error Average", 0.0);
             SmartDashboard.putNumber("Y Error Average", 0.0);
             SmartDashboard.putNumber("Theta Error Average", 0.0);
+
+            SmartDashboard.putData(godSubsystem.getDrivetrain().getConfig().getFaceDirectionController());
 
             SmartDashboard.putData(kLimelightAlignControllerKey, currentRobot.getDrivetrainConfig().getAutoAlignController());
             SmartDashboard.putNumber(kLimelightAlignErrorDegrees, 0.0);

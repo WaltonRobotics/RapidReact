@@ -11,6 +11,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.config.*;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
+import frc.robot.util.AccelerationLimiter;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.util.interpolation.InterpolatingTreeMap;
 
@@ -75,9 +76,10 @@ public class PracticeRapidReact extends WaltRobot {
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
-    private final PIDController autoAlignController = new PIDController(0.12, 0.015, 0.000);
+    private final PIDController faceDirectionController = new PIDController(0.09, 0, 0);
+    private final PIDController autoAlignController = new PIDController(0.12, 0.015, 0);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
-            (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
+            (0.05, 0.015, 0, new TrapezoidProfile.Constraints(
                     Math.toDegrees(kMaxOmega / 1.1), 360.0));
 
     // Shooter constants
@@ -90,9 +92,6 @@ public class PracticeRapidReact extends WaltRobot {
     // Climber constants
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration extensionControllerTalonConfig = new TalonFXConfiguration();
-
-    private final ProfiledPIDController pivotProfiledController = new ProfiledPIDController(0.002, 0, 0,
-            new TrapezoidProfile.Constraints(0.25, 0.25));
 
     private final HashMap<Climber.ClimberPivotLimits, LimitPair> climberPivotLimits = new HashMap<>(5);
     private final HashMap<Climber.ClimberPivotPosition, Target> climberPivotTargets = new HashMap<>(10);
@@ -108,7 +107,7 @@ public class PracticeRapidReact extends WaltRobot {
     public void configDrivetrain() {
         for (int i = 0; i < 4; i++) {
             SmartMotionConstants azimuthConfig = new SmartMotionConstants() {
-                private final PIDController velocityPID = new PIDController(0.0002, 0.000007, 0.0);
+                private final PIDController velocityPID = new PIDController(0.00082, 0, 0.0);
 
                 @Override
                 public PIDController getVelocityPID() {
@@ -122,7 +121,7 @@ public class PracticeRapidReact extends WaltRobot {
 
                 @Override
                 public double getFeedforward() {
-                    return 0.00559;
+                    return 0.00627162;
                 }
 
                 @Override
@@ -147,7 +146,7 @@ public class PracticeRapidReact extends WaltRobot {
 
                 @Override
                 public double getMaxAccel() {
-                    return 120;
+                    return 500;
                 }
 
                 @Override
@@ -190,6 +189,8 @@ public class PracticeRapidReact extends WaltRobot {
 
         turnToAngleController.enableContinuousInput(-180.0, 180.0);
         turnToAngleController.setTolerance(1.5, 1.0);
+        faceDirectionController.enableContinuousInput(-180, 180);
+        autoAlignController.enableContinuousInput(-180, 180);
 
         drivetrainConfig = new DrivetrainConfig() {
             @Override
@@ -253,6 +254,11 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
+            public double getMaxFaceDirectionOmega() {
+                return kMaxOmega;
+            }
+
+            @Override
             public double getDriveGearRatio() {
                 final double kDriveMotorOutputGear = 12;
                 final double kDriveInputGear = 21;
@@ -268,6 +274,24 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
+            public AccelerationLimiter getXLimiter() {
+                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / 0.4,
+                        kMaxSpeedMetersPerSecond / 0.4);
+            }
+
+            @Override
+            public AccelerationLimiter getYLimiter() {
+                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / 0.4,
+                        3.75);
+            }
+
+            @Override
+            public AccelerationLimiter getOmegaLimiter() {
+                return new AccelerationLimiter(kMaxOmega / 0.4,
+                        kMaxOmega / 0.4);
+            }
+
+            @Override
             public PIDController getXController() {
                 return xController;
             }
@@ -280,6 +304,11 @@ public class PracticeRapidReact extends WaltRobot {
             @Override
             public ProfiledPIDController getThetaController() {
                 return thetaController;
+            }
+
+            @Override
+            public PIDController getFaceDirectionController() {
+                return faceDirectionController;
             }
 
             @Override
@@ -354,22 +383,22 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLeftIntakePercentOutput() {
-                return 0.32;
+                return 0.50;
             }
 
             @Override
             public double getRightIntakePercentOutput() {
-                return 0.32; // 0.35
+                return 0.50; // 0.35
             }
 
             @Override
             public double getLeftOuttakePercentOutput() {
-                return -0.32;
+                return -0.50;
             }
 
             @Override
             public double getRightOuttakePercentOutput() {
-                return -0.32; // -0.35
+                return -0.50; // -0.35
             }
         };
     }
