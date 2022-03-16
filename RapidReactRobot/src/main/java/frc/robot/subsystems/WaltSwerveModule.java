@@ -143,7 +143,6 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         if (desiredState.speedMetersPerSecond < driveDeadbandMetersPerSecond) {
             desiredState = new SwerveModuleState(0.0, previousAngle);
         }
-        previousAngle = desiredState.angle;
 
         Rotation2d currentAngle = getAzimuthRotation2d();
         SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, currentAngle);
@@ -249,17 +248,20 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return periodicIO.azimuthRelativeCounts;
     }
 
+    @Override
     public Rotation2d getAzimuthRotation2d() {
         double azimuthCounts = getAzimuthRelativeEncoderCounts();
         double radians = 2.0 * Math.PI * azimuthCounts;
         return new Rotation2d(radians);
     }
 
+    @Override
     public void setAzimuthRotation2d(Rotation2d angle) {
         double countsBefore = getAzimuthRelativeEncoderCounts();
         double countsFromAngle = angle.getRadians() / (2.0 * Math.PI);
         double countsDelta = Math.IEEEremainder(countsFromAngle - countsBefore, 1.0);
         periodicIO.azimuthRelativeCountsDemand = countsBefore + countsDelta;
+        previousAngle = angle;
     }
 
     public double getDriveMetersPerSecond() {
