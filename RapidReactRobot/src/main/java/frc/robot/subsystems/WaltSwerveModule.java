@@ -1,12 +1,14 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -36,6 +38,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final double driveDeadbandMetersPerSecond;
     private final double driveMaximumMetersPerSecond;
     private final Translation2d wheelLocationMeters;
+    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.74425, 2.3973, 0.072907);
 
     private final PeriodicIO periodicIO = new PeriodicIO();
     private Rotation2d previousAngle = new Rotation2d();
@@ -46,6 +49,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         // Outputs
         public double azimuthRelativeCountsDemand;
         public double driveDemand;
+        public double driveFeedforward;
 
         // Inputs
         public boolean hasDriveControllerReset;
@@ -104,9 +108,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         azimuthSparkMax.getPIDController().setReference(periodicIO.azimuthRelativeCountsDemand, CANSparkMax.ControlType.kSmartMotion);
 
         if (driveControlState == DriveControlState.OPEN_LOOP) {
-            driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand);
+            driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand,
+                    DemandType.ArbitraryFeedForward, periodicIO.driveFeedforward);
         } else if (driveControlState == DriveControlState.VELOCITY) {
-            driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand);
+            driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand,
+                    DemandType.ArbitraryFeedForward, periodicIO.driveFeedforward);
         }
     }
 
@@ -278,6 +284,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         }
 
         periodicIO.driveDemand = metersPerSecond / driveMaximumMetersPerSecond;
+        periodicIO.driveFeedforward = 0;
     }
 
     public void setDriveClosedLoopMetersPerSecond(double metersPerSecond) {
@@ -291,6 +298,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         double encoderCountsPerSecond = motorRotationsPerSecond * driveCountsPerRev;
 
         periodicIO.driveDemand = encoderCountsPerSecond / k100msPerSecond;
+        periodicIO.driveFeedforward = feedforward.calculate(metersPerSecond) / 12.0;
     }
 
     public void setBrakeNeutralMode() {
