@@ -144,9 +144,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             desiredState = new SwerveModuleState(0.0, previousAngle);
         }
 
-        Rotation2d currentAngle = getAzimuthRotation2d();
-        SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, currentAngle);
-        setAzimuthRotation2d(optimizedState.angle);
+        SwerveModuleState optimizedState = setAzimuthOptimizedState(desiredState);
+
         if (isDriveOpenLoop) {
             setDriveOpenLoopMetersPerSecond(optimizedState.speedMetersPerSecond);
         } else {
@@ -257,11 +256,23 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public void setAzimuthRotation2d(Rotation2d angle) {
+        setAzimuthOptimizedState(new SwerveModuleState(0.0, angle));
+    }
+
+    private SwerveModuleState setAzimuthOptimizedState(SwerveModuleState desiredState) {
+        // minimize change in heading by potentially reversing the drive direction
+        Rotation2d currentAngle = getAzimuthRotation2d();
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, currentAngle);
+
+        // set the azimuth wheel position
         double countsBefore = getAzimuthRelativeEncoderCounts();
-        double countsFromAngle = angle.getRadians() / (2.0 * Math.PI);
+        double countsFromAngle = optimizedState.angle.getRadians() / (2.0 * Math.PI);
         double countsDelta = Math.IEEEremainder(countsFromAngle - countsBefore, 1.0);
         periodicIO.azimuthRelativeCountsDemand = countsBefore + countsDelta;
-        previousAngle = angle;
+
+        // save previous angle for use if inside deadband in setDesiredState()
+        previousAngle = optimizedState.angle;
+        return optimizedState;
     }
 
     public double getDriveMetersPerSecond() {

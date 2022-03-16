@@ -32,7 +32,7 @@ public interface SwerveModule {
    * Command the swerve module motors to the desired state.
    *
    * @param desiredState the desired swerve module speed and angle
-   * @param isDriveOpenLoop true if drive should set speed using closed-loop velocity control
+   * @param isDriveOpenLoop false if drive should set speed using closed-loop velocity control
    */
   void setDesiredState(SwerveModuleState desiredState, boolean isDriveOpenLoop);
 
