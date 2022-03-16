@@ -161,10 +161,10 @@ public class PracticeRapidReact extends WaltRobot {
             driveConfig.supplyCurrLimit.triggerThresholdCurrent = 45;
             driveConfig.supplyCurrLimit.triggerThresholdTime = 40;
             driveConfig.supplyCurrLimit.enable = true;
-            driveConfig.slot0.kP = 0.00075;
-            driveConfig.slot0.kI = 0.00019;
-            driveConfig.slot0.kD = 0.000;
-            driveConfig.slot0.kF = 0.04538598;
+            driveConfig.slot0.kP = 0.00096971;
+            driveConfig.slot0.kI = 0;
+            driveConfig.slot0.kD = 0;
+            driveConfig.slot0.kF = 0;
 //            driveConfig.slot0.kP = 0.045;
 //            driveConfig.slot0.kI = 0.0005;
 //            driveConfig.slot0.kD = 0.000;
