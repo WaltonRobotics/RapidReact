@@ -229,6 +229,11 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
+            public double getMaxFaceDirectionOmega() {
+                return 1.0;
+            }
+
+            @Override
             public double getDriveGearRatio() {
                 final double kDriveMotorOutputGear = 12;
                 final double kDriveInputGear = 21;

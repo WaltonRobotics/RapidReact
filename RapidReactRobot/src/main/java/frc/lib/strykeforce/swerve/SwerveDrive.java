@@ -9,6 +9,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.AccelerationLimiter;
 
 import java.util.Arrays;
@@ -266,6 +267,7 @@ public class SwerveDrive {
                 hasGyroOffset ? gyro.getRotation2d().rotateBy(gyroOffset) : gyro.getRotation2d())
             : new ChassisSpeeds(vxMetersPerSecond, vyMetersPerSecond, omegaRadiansPerSecond);
 
+    SmartDashboard.putNumber("Vy", chassisSpeeds.vyMetersPerSecond);
     chassisSpeeds.vxMetersPerSecond = xLimiter.calculate(chassisSpeeds.vxMetersPerSecond);
     chassisSpeeds.vyMetersPerSecond = yLimiter.calculate(chassisSpeeds.vyMetersPerSecond);
     chassisSpeeds.omegaRadiansPerSecond = omegaLimiter.calculate(chassisSpeeds.omegaRadiansPerSecond);

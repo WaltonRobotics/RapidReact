@@ -17,8 +17,8 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean kIsInCompetition = true;
-        public static final boolean kIsInTuningMode = false;
+        public static final boolean kIsInCompetition = false;
+        public static final boolean kIsInTuningMode = true;
         public static final boolean kIsInShooterTuningMode = false;
 
     }
@@ -36,7 +36,7 @@ public final class Constants {
 
         public static final double kFinishedClimbingRumbleValue = 1.0;
 
-        public static final double kFaceDirectionToleranceDegrees = 1.0;
+        public static final double kFaceDirectionToleranceDegrees = 2.0;
 
     }
 

@@ -76,7 +76,7 @@ public class PracticeRapidReact extends WaltRobot {
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
-    private final PIDController faceDirectionController = new PIDController(0.12, 0, 0);
+    private final PIDController faceDirectionController = new PIDController(0.09, 0, 0);
     private final PIDController autoAlignController = new PIDController(0.12, 0.015, 0);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0, new TrapezoidProfile.Constraints(
@@ -189,6 +189,8 @@ public class PracticeRapidReact extends WaltRobot {
 
         turnToAngleController.enableContinuousInput(-180.0, 180.0);
         turnToAngleController.setTolerance(1.5, 1.0);
+        faceDirectionController.enableContinuousInput(-180, 180);
+        autoAlignController.enableContinuousInput(-180, 180);
 
         drivetrainConfig = new DrivetrainConfig() {
             @Override
@@ -248,6 +250,11 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getMaxOmega() {
+                return kMaxOmega;
+            }
+
+            @Override
+            public double getMaxFaceDirectionOmega() {
                 return kMaxOmega;
             }
 

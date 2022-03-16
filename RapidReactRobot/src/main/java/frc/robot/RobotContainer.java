@@ -168,6 +168,8 @@ public class RobotContainer {
             SmartDashboard.putNumber("Y Error Average", 0.0);
             SmartDashboard.putNumber("Theta Error Average", 0.0);
 
+            SmartDashboard.putData(godSubsystem.getDrivetrain().getConfig().getFaceDirectionController());
+
             SmartDashboard.putData(kLimelightAlignControllerKey, currentRobot.getDrivetrainConfig().getAutoAlignController());
             SmartDashboard.putNumber(kLimelightAlignErrorDegrees, 0.0);
             SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, 0.0);

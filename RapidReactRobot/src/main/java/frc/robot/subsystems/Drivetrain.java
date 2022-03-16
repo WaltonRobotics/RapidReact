@@ -227,10 +227,12 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         double thetaTarget = UtilMethods.restrictAngle(theta.getDegrees(), -180, 180);
         double thetaError = thetaTarget - currentHeading;
 
+        SmartDashboard.putNumber("Theta face direction error", thetaError);
+
         double output = config.getFaceDirectionController().calculate(currentHeading, thetaTarget);
 
         output = Math.signum(output) * UtilMethods.limitRange(
-                Math.abs(output), config.getMinTurnOmega(), config.getMaxOmega());
+                Math.abs(output), config.getMinTurnOmega(), config.getMaxFaceDirectionOmega());
 
         if (Math.abs(thetaError) < kFaceDirectionToleranceDegrees) {
             output = 0;
@@ -241,6 +243,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     public void faceClosest(double vx, double vy, boolean isFieldRelative) {
         double currentHeading = UtilMethods.restrictAngle(getHeading().getDegrees(), 0, 360);
+
+        SmartDashboard.putNumber("Current face closest heading", currentHeading);
 
         if (currentHeading <= 90 || currentHeading >= 270) {
             faceDirection(vx, vy, Rotation2d.fromDegrees(0), isFieldRelative);

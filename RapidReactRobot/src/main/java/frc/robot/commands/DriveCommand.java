@@ -41,6 +41,9 @@ public class DriveCommand extends CommandBase {
                 isPositionalRotation = !isPositionalRotation;
             }
 
+            SmartDashboard.putBoolean("Is Field Relative", isFieldRelative);
+            SmartDashboard.putBoolean("Is Positional Rotation", isPositionalRotation);
+
             double forward = OI.forwardScale.apply(getForward());
             double strafe = OI.strafeScale.apply(getStrafe());
 

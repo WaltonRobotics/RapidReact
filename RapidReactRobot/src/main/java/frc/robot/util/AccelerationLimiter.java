@@ -1,6 +1,8 @@
 package frc.robot.util;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AccelerationLimiter {
 
@@ -36,8 +38,13 @@ public class AccelerationLimiter {
         double currentTime = WPIUtilJNI.now() * 1e-6;
         double elapsedTime = currentTime - m_prevTime;
 
-        m_prevVal += UtilMethods.limitRange(input - m_prevVal, -m_decelerationRateLimit * elapsedTime,
-                m_accelerationRateLimit * elapsedTime);
+        if (m_prevVal < 0) {
+            m_prevVal += UtilMethods.limitRange(input - m_prevVal, -m_accelerationRateLimit * elapsedTime,
+                    m_decelerationRateLimit * elapsedTime);
+        } else {
+            m_prevVal += UtilMethods.limitRange(input - m_prevVal, -m_decelerationRateLimit * elapsedTime,
+                    m_accelerationRateLimit * elapsedTime);
+        }
 
         m_prevTime = currentTime;
         return m_prevVal;

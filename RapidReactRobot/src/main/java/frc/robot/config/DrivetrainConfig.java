@@ -35,6 +35,7 @@ public interface DrivetrainConfig {
     double getMaxSpeedMetersPerSecond();
 
     double getMaxOmega();
+    double getMaxFaceDirectionOmega();
 
     double getDriveGearRatio();
 
