@@ -56,12 +56,7 @@ public class Shooting implements IState {
         }
 
         // Wait for hood to move in position
-
-        double timeToMoveHood = kHoodTransitionTimeSeconds / kFullHoodAngleRange *
-                Math.abs(shooter.getAdjustableHoodDutyCycleDemand() - shooter.getLastAdjustableHoodDutyCycleDemand());
-
-        if (godSubsystem.getCurrentTime() >=
-                shooter.getLastAdjustableHoodChangeFPGATime() + timeToMoveHood) {
+        if (shooter.getEstimatedHoodPosition() == shooter.getAdjustableHoodDutyCycleDemand()) {
             conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
             conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {

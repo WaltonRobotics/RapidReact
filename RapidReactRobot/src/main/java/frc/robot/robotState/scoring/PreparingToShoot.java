@@ -7,10 +7,8 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
-import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
 import static frc.robot.Constants.Shooter.kBarfVelocityRawUnits;
 import static frc.robot.Constants.Shooter.kDefaultVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterHoodPositionSetpointKey;

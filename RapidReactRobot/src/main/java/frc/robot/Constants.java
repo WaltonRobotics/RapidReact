@@ -105,7 +105,7 @@ public final class Constants {
 
         public static final int kAlignmentPipeline = 0;
 
-        public static final double kAlignmentToleranceDegrees = 0.75;
+        public static final double kAlignmentToleranceDegrees = 100.0;
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
     }
@@ -136,6 +136,9 @@ public final class Constants {
         public static final String kDriverForwardScaleKey = "Driver/Forward Scale";
         public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
         public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
+
+        public static final String kDriverIsAlignedKey = "Driver/Is Aligned";
+        public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
 
         public static final String kClimberPivotAngleFromVerticalKey = "Climber/Angle From Vertical Deg";
         public static final String kClimberPivotAngleFromHorizontalKey = "Climber/Angle From Horizontal Deg";
@@ -181,7 +184,10 @@ public final class Constants {
     public static final class FieldConstants {
 
         public static final double kTargetHeightInches = 103.81;
-        public static final double kHoodCloseUpDistanceFeet = 4.741;
+        public static final double kSpinUpFlywheelDistanceFromHub = 10;
+
+        public static final double kMoneyShotDistance = 8.1145;
+        public static final double kMoneyShotTolerance = 0.25;
 
     }
 

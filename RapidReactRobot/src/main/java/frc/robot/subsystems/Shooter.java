@@ -60,6 +60,9 @@ public class Shooter implements SubSubsystem {
 
         // From L16-R datasheet
         adjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
+
+        periodicIO.adjustableHoodDutyCycleDemand = 0.0;
+        periodicIO.lastAdjustableHoodDutyCycleDemand = 0.0;
     }
 
     @Override
@@ -72,6 +75,20 @@ public class Shooter implements SubSubsystem {
         periodicIO.flywheelVelocityNU = flywheelMasterController.getSelectedSensorVelocity();
         periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
         LimelightHelper.updateData();
+
+        double timeToMove = (kHoodTransitionTimeSeconds / kFullHoodAngleRange) *
+                (periodicIO.adjustableHoodDutyCycleDemand - periodicIO.lastAdjustableHoodDutyCycleDemand);
+        double currentTime = Timer.getFPGATimestamp();
+
+        if (currentTime - periodicIO.lastAdjustableHoodChangeFPGATime < timeToMove) {
+            // Hood is in motion
+            double dx = (currentTime - periodicIO.lastAdjustableHoodChangeFPGATime) * (kFullHoodAngleRange / kHoodTransitionTimeSeconds);
+
+            periodicIO.estimatedHoodPosition += dx;
+        } else {
+            // Hood has reached setpoint
+            periodicIO.estimatedHoodPosition = periodicIO.adjustableHoodDutyCycleDemand;
+        }
     }
 
     @Override
@@ -120,6 +137,14 @@ public class Shooter implements SubSubsystem {
     @Override
     public Sendable getPeriodicIOSendable() {
         return periodicIO;
+    }
+
+    public AimTarget getAimTarget() {
+        return periodicIO.aimTarget;
+    }
+
+    public void setAimTarget(AimTarget target) {
+        periodicIO.aimTarget = target;
     }
 
     public ShooterControlState getShooterControlState() {
@@ -173,6 +198,10 @@ public class Shooter implements SubSubsystem {
         return periodicIO.flywheelClosedLoopErrorNU;
     }
 
+    public double getEstimatedHoodPosition() {
+        return periodicIO.estimatedHoodPosition;
+    }
+
     public ShooterConfig getConfig() {
         return config;
     }
@@ -188,7 +217,7 @@ public class Shooter implements SubSubsystem {
         double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
         InterpolatingDouble result;
 
-        result = config.getHoodAngleMap().getInterpolated(new InterpolatingDouble(distanceFeet));
+        result = config.getHoodAngleMap(getAimTarget()).getInterpolated(new InterpolatingDouble(distanceFeet));
 
         if (result != null) {
             return result.value;
@@ -205,7 +234,7 @@ public class Shooter implements SubSubsystem {
         double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
         InterpolatingDouble result;
 
-        result = config.getFlywheelVelocityMap().getInterpolated(new InterpolatingDouble(distanceFeet));
+        result = config.getFlywheelVelocityMap(getAimTarget()).getInterpolated(new InterpolatingDouble(distanceFeet));
 
         double ballQualityAdditive = UtilMethods.limitMagnitude(
                 SmartDashboard.getNumber(kShooterBallQualityAdditive, 0.0), 700);
@@ -260,14 +289,21 @@ public class Shooter implements SubSubsystem {
         }
     }
 
+    public enum AimTarget {
+        LOW_GOAL,
+        HIGH_GOAL
+    }
+
     public static class PeriodicIO implements Sendable {
         // Inputs
         public boolean hasFlywheelMasterControllerResetOccurred;
         public boolean hasFlywheelSlaveControllerResetOccurred;
         public double flywheelVelocityNU;
         public double flywheelClosedLoopErrorNU;
+        public double estimatedHoodPosition;
 
         // Outputs
+        public AimTarget aimTarget = AimTarget.HIGH_GOAL;
         public ShooterControlState shooterControlState = ShooterControlState.DISABLED;
 
         public ShooterProfileSlot selectedProfileSlot = ShooterProfileSlot.SPINNING_UP_SLOT;
@@ -281,6 +317,9 @@ public class Shooter implements SubSubsystem {
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
 
+            builder.addStringProperty("Aim Target", () -> aimTarget.name(), (x) -> {
+            });
+
             if (!kIsInCompetition) {
                 builder.addStringProperty("Shooter Control State", () -> shooterControlState.name(), (x) -> {
                 });
@@ -288,11 +327,13 @@ public class Shooter implements SubSubsystem {
                 });
                 builder.addDoubleProperty("Flywheel Demand", () -> flywheelDemand, (x) -> {
                 });
-                builder.addDoubleProperty("Left Adjustable Hood Demand", () -> adjustableHoodDutyCycleDemand, (x) -> {
+                builder.addDoubleProperty("Adjustable Hood Demand", () -> adjustableHoodDutyCycleDemand, (x) -> {
                 });
                 builder.addDoubleProperty("Flywheel Velocity NU", () -> flywheelVelocityNU, (x) -> {
                 });
                 builder.addDoubleProperty("Flywheel Closed Loop Error NU", () -> flywheelClosedLoopErrorNU, (x) -> {
+                });
+                builder.addDoubleProperty("Estimated Hood Position", () -> estimatedHoodPosition, (x) -> {
                 });
             }
         }

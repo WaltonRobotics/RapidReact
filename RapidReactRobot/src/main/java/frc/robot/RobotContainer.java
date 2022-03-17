@@ -136,6 +136,9 @@ public class RobotContainer {
         autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
         SmartDashboard.putData("Auton Selector", autonChooser);
 
+        SmartDashboard.putBoolean(kDriverIsAlignedKey, false);
+        SmartDashboard.putBoolean(kDriverIsMoneyShotKey, false);
+
         if (kIsInTuningMode) {
             SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
             SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);

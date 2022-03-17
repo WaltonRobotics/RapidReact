@@ -7,8 +7,14 @@ import frc.robot.OI;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.util.UtilMethods;
+import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.DriverPreferences.kMaxTranslationalAccelerationMsecSquared;
+import static frc.robot.Constants.FieldConstants.kMoneyShotDistance;
+import static frc.robot.Constants.FieldConstants.kMoneyShotTolerance;
+import static frc.robot.Constants.SmartDashboardKeys.kDriverIsAlignedKey;
+import static frc.robot.Constants.SmartDashboardKeys.kDriverIsMoneyShotKey;
+import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
 import static frc.robot.OI.driveGamepad;
 import static frc.robot.OI.yawScale;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -61,6 +67,13 @@ public class DriveCommand extends CommandBase {
             drivetrain.move(vx, vy, omega, true);
 //            drivetrain.move(0, 0, SmartDashboard.getNumber("Minimum omega command", 0.1), true);
         }
+
+        SmartDashboard.putBoolean(kDriverIsAlignedKey,
+                UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees));
+
+        SmartDashboard.putBoolean(kDriverIsMoneyShotKey,
+                UtilMethods.isWithinTolerance(LimelightHelper.getDistanceToTargetFeet(), kMoneyShotDistance,
+                        kMoneyShotTolerance));
     }
 
     public double getForward() {

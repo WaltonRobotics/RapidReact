@@ -58,7 +58,8 @@ public class AdjustingHood implements IState {
         godSubsystem.handleIntakingAndOuttaking();
 
         if (barfButton.get()
-                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())) {
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
+                || kIsInShooterTuningMode) {
             return new PreparingToShoot();
         }
 

@@ -502,12 +502,12 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getFlywheelVelocityMap() {
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getFlywheelVelocityMap(Shooter.AimTarget target) {
                 return flywheelVelocityMap;
             }
 
             @Override
-            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getHoodAngleMap() {
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getHoodAngleMap(Shooter.AimTarget target) {
                 return hoodAngleMap;
             }
         };
