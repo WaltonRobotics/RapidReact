@@ -122,6 +122,9 @@ public class RobotContainer {
         SmartDashboard.putNumber(kDrivetrainPitchDegrees, 0.0);
         SmartDashboard.putNumber(kDrivetrainRollDegrees, 0.0);
 
+        SmartDashboard.putBoolean(kDrivetrainIsFieldRelativeKey, true);
+        SmartDashboard.putBoolean(kDrivetrainIsPositionalRotationKey, false);
+
         SmartDashboard.putNumber(kClimberPivotAngleFromVerticalKey, 0.0);
         SmartDashboard.putNumber(kClimberPivotAngleFromHorizontalKey, 0.0);
 

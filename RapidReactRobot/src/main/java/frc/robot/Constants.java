@@ -133,6 +133,9 @@ public final class Constants {
         public static final String kDrivetrainPitchDegrees = "Drivetrain/Pitch Degrees";
         public static final String kDrivetrainRollDegrees = "Drivetrain/Roll Degrees";
 
+        public static final String kDrivetrainIsFieldRelativeKey = "Drivetrain/Is Field Relative";
+        public static final String kDrivetrainIsPositionalRotationKey = "Drivetrain/Is Positional Rotation";
+
         public static final String kDriverForwardScaleKey = "Driver/Forward Scale";
         public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
         public static final String kDriverYawScaleKey = "Driver/Yaw Scale";

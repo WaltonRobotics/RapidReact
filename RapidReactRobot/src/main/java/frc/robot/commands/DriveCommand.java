@@ -9,6 +9,8 @@ import frc.robot.subsystems.Superstructure;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainIsFieldRelativeKey;
+import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainIsPositionalRotationKey;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -41,8 +43,8 @@ public class DriveCommand extends CommandBase {
                 isPositionalRotation = !isPositionalRotation;
             }
 
-            SmartDashboard.putBoolean("Is Field Relative", isFieldRelative);
-            SmartDashboard.putBoolean("Is Positional Rotation", isPositionalRotation);
+            SmartDashboard.putBoolean(kDrivetrainIsFieldRelativeKey, isFieldRelative);
+            SmartDashboard.putBoolean(kDrivetrainIsPositionalRotationKey, isPositionalRotation);
 
             double forward = OI.forwardScale.apply(getForward());
             double strafe = OI.strafeScale.apply(getStrafe());
