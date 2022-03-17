@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -194,6 +195,8 @@ public class RobotContainer {
             SmartDashboard.putData("Move Half Foot Backwards",
                     AutonRoutine.HALF_FOOT_BACKWARDS.getCommandGroup());
         }
+
+        NetworkTableInstance.getDefault().flush();
     }
 
     /**
