@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.SetModuleStates;
-import frc.robot.commands.auton.TurnToAngle;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Shooter;
@@ -131,6 +130,9 @@ public class RobotContainer {
         SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, 0.0);
 
         SmartDashboard.putNumber(kShooterBallQualityAdditive, 0.0);
+
+        SmartDashboard.putNumber(kTrajectoryThetaPKey,
+                godSubsystem.getDrivetrain().getConfig().getThetaController().getP());
 
         // Auton chooser
         Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));

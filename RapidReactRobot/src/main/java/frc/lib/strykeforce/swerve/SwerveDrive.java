@@ -267,7 +267,7 @@ public class SwerveDrive {
                 hasGyroOffset ? gyro.getRotation2d().rotateBy(gyroOffset) : gyro.getRotation2d())
             : new ChassisSpeeds(vxMetersPerSecond, vyMetersPerSecond, omegaRadiansPerSecond);
 
-    SmartDashboard.putNumber("Vy", chassisSpeeds.vyMetersPerSecond);
+//    SmartDashboard.putNumber("Vy", chassisSpeeds.vyMetersPerSecond);
     chassisSpeeds.vxMetersPerSecond = xLimiter.calculate(chassisSpeeds.vxMetersPerSecond);
     chassisSpeeds.vyMetersPerSecond = yLimiter.calculate(chassisSpeeds.vyMetersPerSecond);
     chassisSpeeds.omegaRadiansPerSecond = omegaLimiter.calculate(chassisSpeeds.omegaRadiansPerSecond);

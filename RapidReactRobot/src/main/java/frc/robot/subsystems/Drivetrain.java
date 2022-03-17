@@ -244,7 +244,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     public void faceClosest(double vx, double vy, boolean isFieldRelative) {
         double currentHeading = UtilMethods.restrictAngle(getHeading().getDegrees(), 0, 360);
 
-        SmartDashboard.putNumber("Current face closest heading", currentHeading);
+//        SmartDashboard.putNumber("Current face closest heading", currentHeading);
 
         if (currentHeading <= 90 || currentHeading >= 270) {
             faceDirection(vx, vy, Rotation2d.fromDegrees(0), isFieldRelative);

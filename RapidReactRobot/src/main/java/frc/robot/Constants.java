@@ -166,6 +166,8 @@ public final class Constants {
         public static final String kLeftIntakePercentOutputKey = "Left Intake Percent Output";
         public static final String kRightIntakePercentOutputKey = "Right Intake Percent Output";
 
+        public static final String kTrajectoryThetaPKey = "Trajectory/Theta P";
+
     }
 
     public static final class LiveDashboardKeys {
