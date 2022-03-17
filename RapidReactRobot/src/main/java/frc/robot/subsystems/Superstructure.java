@@ -271,41 +271,6 @@ public class Superstructure extends SubsystemBase {
         }
     }
 
-    public void handleToggleTrackTarget(){
-//        if(toggleTrackTargetButton.get() && LimelightHelper.getDistanceToTargetFeet() < 20){    //dummy distance zone
-//            SlewRateLimiter vxRateLimiter = new SlewRateLimiter(kMaxTranslationalAccelerationMsecSquared);
-//            SlewRateLimiter vyRateLimiter = new SlewRateLimiter(kMaxTranslationalAccelerationMsecSquared);
-//            double forward = OI.forwardScale.apply(-driveGamepad.getLeftY());
-//            double strafe = OI.strafeScale.apply(-driveGamepad.getLeftX());
-//
-//            double vx = vxRateLimiter.calculate(forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond());
-//            double vy = vyRateLimiter.calculate(strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond());
-//
-//            //align drivetrain
-//            double headingError = LimelightHelper.getTX();
-//            double turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
-//            turnRate += Math.signum(turnRate) * drivetrain.getConfig().getMinTurnOmega();
-//            //allow drivetrain to keep moving but facing target and
-//            if (LimelightHelper.getTV() >= 1) {
-//
-//                drivetrain.move(vx,vy , turnRate, true);
-//            }
-//
-//            // Re-adjust hood
-//            if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
-//                shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
-//            } else {
-//                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
-//            }
-//        }
-    }
-
-    public void handleClimberAlign(){
-//        if(climberAlignButton.isRisingEdge()){
-//            new TurnToAngle(0);
-//        }
-    }
-
     public boolean doesAutonNeedToIdleSpinUp() {
         return doesAutonNeedToIdleSpinUp;
     }

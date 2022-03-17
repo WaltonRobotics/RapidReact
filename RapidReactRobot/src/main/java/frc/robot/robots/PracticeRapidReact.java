@@ -77,7 +77,7 @@ public class PracticeRapidReact extends WaltRobot {
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
     private final PIDController faceDirectionController = new PIDController(0.09, 0, 0);
-    private final PIDController autoAlignController = new PIDController(0.12, 0.015, 0);
+    private final PIDController autoAlignController = new PIDController(0.09, 0.0009, 0);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0, new TrapezoidProfile.Constraints(
                     Math.toDegrees(kMaxOmega / 1.1), 360.0));

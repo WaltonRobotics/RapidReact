@@ -54,9 +54,10 @@ public class OI {
             new EnhancedJoystickButton(manipulationGamepad, kY.value));
     public static final EnhancedComboButton toggleBetweenScoringAndClimbingModeButton = new EnhancedComboButton(
             new EnhancedJoystickButton(driveGamepad, kStart.value), new EnhancedJoystickButton(driveGamepad, kBack.value));
-    public static final EnhancedJoystickButton toggleFieldRelativeMode = new EnhancedJoystickButton(driveGamepad, kLeftStick.value);
-    public static final EnhancedJoystickButton toggleRotationMode = new EnhancedJoystickButton(driveGamepad, kRightStick.value);
-    public static final EnhancedJoystickButton faceClosest = new EnhancedJoystickButton(driveGamepad, kA.value);
-    public static final EnhancedJoystickButton faceClimb = new EnhancedJoystickButton(driveGamepad, kB.value);
+    public static final EnhancedJoystickButton toggleFieldRelativeModeButton = new EnhancedJoystickButton(driveGamepad, kLeftStick.value);
+    public static final EnhancedJoystickButton toggleRotationModeButton = new EnhancedJoystickButton(driveGamepad, kRightStick.value);
+    public static final EnhancedJoystickButton faceClosestButton = new EnhancedJoystickButton(driveGamepad, kA.value);
+    public static final EnhancedJoystickButton faceClimbButton = new EnhancedJoystickButton(driveGamepad, kB.value);
+    public static final EnhancedJoystickButton trackTargetButton = new EnhancedJoystickButton(driveGamepad, kX.value);
 
 }

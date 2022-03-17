@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -8,6 +7,7 @@ import frc.robot.OI;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.util.UtilMethods;
+import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -33,11 +33,11 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
         if (enabled) {
-            if (toggleFieldRelativeMode.isRisingEdge()) {
+            if (toggleFieldRelativeModeButton.isRisingEdge()) {
                 isFieldRelative = !isFieldRelative;
             }
 
-            if (toggleRotationMode.isRisingEdge()) {
+            if (toggleRotationModeButton.isRisingEdge()) {
                 isPositionalRotation = !isPositionalRotation;
             }
 
@@ -51,9 +51,9 @@ public class DriveCommand extends CommandBase {
             double vy = strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
 
             // Limit movement when climbing
-            if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE && faceClimb.get()) {
+            if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE && faceClimbButton.get()) {
                 drivetrain.faceDirection(vx, vy, Rotation2d.fromDegrees(180.0), isFieldRelative);
-            } else if (faceClosest.get()) {
+            } else if (faceClosestButton.get()) {
                 drivetrain.faceClosest(vx, vy, isFieldRelative);
             } else if (isPositionalRotation && godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
                 double rotateX = -getRotateX() * 10;
@@ -66,6 +66,15 @@ public class DriveCommand extends CommandBase {
                 } else {
                     drivetrain.move(vx, vy, 0, isFieldRelative);
                 }
+            } else if (trackTargetButton.get() && LimelightHelper.getTV() >= 1) {
+                double headingError = LimelightHelper.getTX();
+                double turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
+
+                turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
+                        Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
+                        drivetrain.getConfig().getMaxOmega());
+
+                drivetrain.move(vx, vy, turnRate, isFieldRelative);
             } else {
                 double yaw = OI.yawScale.apply(getRotateX());
                 double omega = 0;
