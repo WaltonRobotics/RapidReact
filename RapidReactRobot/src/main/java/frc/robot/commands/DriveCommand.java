@@ -11,6 +11,7 @@ import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainIsFieldRelativeKey;
 import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainIsPositionalRotationKey;
+import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -75,6 +76,10 @@ public class DriveCommand extends CommandBase {
                 turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
                         Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
                         drivetrain.getConfig().getMaxOmega());
+
+                if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
+                    turnRate = 0;
+                }
 
                 drivetrain.move(vx, vy, turnRate, isFieldRelative);
             } else {
