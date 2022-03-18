@@ -86,13 +86,19 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final double[][] lowGoalMap = {
         // Actual measured distance, Limelight distance, hood angle, velocity
-            {0, 0, 0, 0}
+            {0, 3.879, -0.3, 5000},
+            {0, 6.456, 0.15, 6200},
     };
 
     private final double[][] highGoalMap = {
         // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
+            {28, 4.813, -0.672, 8800},
+            {41, 5.906, -0.30, 8700},
             {49.5, 6.6612, -0.1, 8800},
             {66.0, 8.1145, 0.35, 8850}, // Money shot
+            {74, 8.819, 0.6, 8950},
+            {85.5, 9.711, 0.9, 9050},
+            {96, 10.674, 0.95, 9275},
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap

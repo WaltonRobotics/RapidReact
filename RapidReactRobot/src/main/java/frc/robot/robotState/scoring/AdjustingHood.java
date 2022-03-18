@@ -11,6 +11,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
+import static frc.robot.Constants.Shooter.kBarfHoodAngle;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterHoodPositionSetpointKey;
 import static frc.robot.OI.barfButton;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -36,7 +37,11 @@ public class AdjustingHood implements IState {
 //                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
 //            }
 
-            shooter.setAdjustableHoodDutyCycleDemand(shooter.getEstimatedHoodAngleFromTarget());
+            if (barfButton.get()) {
+                shooter.setAdjustableHoodDutyCycleDemand(kBarfHoodAngle);
+            } else {
+                shooter.setAdjustableHoodDutyCycleDemand(shooter.getEstimatedHoodAngleFromTarget());
+            }
         } else {
             shooter.setAdjustableHoodDutyCycleDemand(
                     SmartDashboard.getNumber(kShooterHoodPositionSetpointKey, 0.0));

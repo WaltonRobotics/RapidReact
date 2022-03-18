@@ -104,6 +104,9 @@ public class RobotContainer {
         ));
 
         toggleClimberLocksButton.whenPressed(godSubsystem.getClimber()::toggleClimberLock);
+
+        aimUpperButton.whenPressed(() -> godSubsystem.getShooter().setAimTarget(Shooter.AimTarget.HIGH_GOAL));
+        aimLowerButton.whenPressed(() -> godSubsystem.getShooter().setAimTarget(Shooter.AimTarget.LOW_GOAL));
     }
 
     public void initShuffleboard() {
