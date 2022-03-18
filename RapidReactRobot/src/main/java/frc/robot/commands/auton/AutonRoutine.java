@@ -284,7 +284,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFullFast),
             new ParallelDeadlineGroup(
-                    new ShootCargo(2.0),
+                    new ShootCargo(2.0), // Limelight distance: 6.322 ft
                     new SequentialCommandGroup(
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
                             new SetLeftIntakeDeployed(true),

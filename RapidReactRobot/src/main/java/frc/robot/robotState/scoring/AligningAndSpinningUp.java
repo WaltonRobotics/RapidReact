@@ -1,6 +1,7 @@
 package frc.robot.robotState.scoring;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.commands.DriveCommand;
@@ -15,6 +16,7 @@ import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignErrorDegrees;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignOmegaOutputKey;
 import static frc.robot.Constants.VisionConstants.*;
+import static frc.robot.OI.driveGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
 
@@ -77,8 +79,12 @@ public class AligningAndSpinningUp implements IState {
 
         if (LimelightHelper.getTV() >= 1) {
             drivetrain.move(0, 0, turnRate, false);
+            driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+            driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0);
         } else {
             drivetrain.move(0, 0, 0, false);
+            driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.15);
+            driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0.15);
         }
 
         if (godSubsystem.getCurrentTime() < nudgeDownTimeout) {
@@ -106,6 +112,9 @@ public class AligningAndSpinningUp implements IState {
         DriveCommand.setIsEnabled(true);
 
         drivetrain.move(0, 0, 0, false);
+        
+        driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+        driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0);
     }
 
 }
