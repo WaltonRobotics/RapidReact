@@ -35,6 +35,7 @@ public class Superstructure extends SubsystemBase {
 
     private boolean isInAuton = false;
 
+    private boolean doesAutonNeedToTrackTarget = false;
     private boolean doesAutonNeedToIdleSpinUp = false;
     private boolean doesAutonNeedToIntake = false;
     private boolean doesAutonNeedToShoot = false;
@@ -277,6 +278,14 @@ public class Superstructure extends SubsystemBase {
 
     public void setDoesAutonNeedToIdleSpinUp(boolean doesAutonNeedToIdleSpinUp) {
         this.doesAutonNeedToIdleSpinUp = doesAutonNeedToIdleSpinUp;
+    }
+
+    public boolean doesAutonNeedToTrackTarget() {
+        return doesAutonNeedToTrackTarget;
+    }
+
+    public void setDoesAutonNeedToTrackTarget(boolean doesAutonNeedToTrackTarget) {
+        this.doesAutonNeedToTrackTarget = doesAutonNeedToTrackTarget;
     }
 
     @Override
