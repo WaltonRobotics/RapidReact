@@ -9,6 +9,7 @@ import static frc.robot.Paths.RoutineFiveB.*;
 import static frc.robot.Paths.RoutineFiveC.ballBToBallG;
 import static frc.robot.Paths.RoutineFiveD.ballBToBallC;
 import static frc.robot.Paths.RoutineFiveE.ballBToMoneyShot;
+import static frc.robot.Paths.RoutineFiveFull.pickupGShoot;
 import static frc.robot.Paths.RoutineFiveFull.routineFiveBFull;
 import static frc.robot.Paths.RoutineFourA.*;
 import static frc.robot.Paths.RoutineOne.gammaBackwards;
@@ -247,7 +248,7 @@ public enum AutonRoutine {
 //            new ShootCargo(3.0)
 //    )),
 
-    FIVE_BALL("Five ball auton", new TimedAuton(
+    FIVE_BALL("Five ball auton (but doesn't go back to shoot last 2)", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFull),
             new ShootCargo(3.0),
@@ -260,7 +261,23 @@ public enum AutonRoutine {
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(pickupG),
-//            new WaitCommand(5.0),
+            new WaitCommand(5.0),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
+    )),
+
+    NEW_FIVE_BALL("Five ball auton that comes back to shoot 2 more", new TimedAuton(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new ResetPose(routineFiveBFull),
+            new ShootCargo(3.0),
+            new SetRightIntakeDeployed(true),
+            new SetLeftIntakeDeployed(true),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+            new SwerveTrajectoryCommand(routineFiveBFull),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+            new AlignAndShootCargo(3.5),
+            new SetRightIntakeDeployed(false),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+            new SwerveTrajectoryCommand(pickupGShoot),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new AlignAndShootCargo(3.5)
     ));
