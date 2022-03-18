@@ -30,14 +30,14 @@ public class OI {
     public static final EnhancedJoystickButton overrideFeedConveyorButton = new EnhancedJoystickButton(manipulationGamepad, kStart.value);
     public static final EnhancedJoystickButton toggleLeftIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_W);
     public static final EnhancedJoystickButton toggleRightIntakeButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_E);
-    public static final EnhancedAxisButton toggleLimelightButton = new EnhancedAxisButton(driveGamepad,
-            kLeftTrigger.value, 0.5);
+    public static final EnhancedJoystickButton toggleLimelightButton = new EnhancedJoystickButton(driveGamepad,
+            kX.value);
     public static final EnhancedAxisButton shootButton = new EnhancedAxisButton(driveGamepad,
             kRightTrigger.value, 0.5);
     public static final EnhancedJoystickButton barfButton = new EnhancedJoystickButton(driveGamepad, kRightBumper.value);
     public static final EnhancedJoystickButton idleSpinUpButton = new EnhancedJoystickButton(manipulationGamepad, kRightBumper.value);
-    public static final EnhancedJoystickButton aimUpperButton = new EnhancedJoystickButton(driveGamepad, EnhancedJoystickButton.POV_N);
-    public static final EnhancedJoystickButton aimLowerButton = new EnhancedJoystickButton(driveGamepad, EnhancedJoystickButton.POV_S);
+    public static final EnhancedJoystickButton aimUpperButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_N);
+    public static final EnhancedJoystickButton aimLowerButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_S);
 
     // Climbing mode
     // Out-of-the-way buttons
@@ -56,10 +56,11 @@ public class OI {
             new EnhancedJoystickButton(manipulationGamepad, kY.value));
     public static final EnhancedComboButton toggleBetweenScoringAndClimbingModeButton = new EnhancedComboButton(
             new EnhancedJoystickButton(driveGamepad, kStart.value), new EnhancedJoystickButton(driveGamepad, kBack.value));
-    public static final EnhancedJoystickButton toggleFieldRelativeModeButton = new EnhancedJoystickButton(driveGamepad, kLeftStick.value);
-    public static final EnhancedJoystickButton toggleRotationModeButton = new EnhancedJoystickButton(driveGamepad, kRightStick.value);
+    public static final EnhancedJoystickButton toggleFieldRelativeModeButton = new EnhancedJoystickButton(driveGamepad, EnhancedJoystickButton.POV_N);
+    public static final EnhancedJoystickButton toggleRotationModeButton = new EnhancedJoystickButton(driveGamepad, EnhancedJoystickButton.POV_S);
     public static final EnhancedJoystickButton faceClosestButton = new EnhancedJoystickButton(driveGamepad, kA.value);
     public static final EnhancedJoystickButton faceClimbButton = new EnhancedJoystickButton(driveGamepad, kB.value);
-    public static final EnhancedJoystickButton trackTargetButton = new EnhancedJoystickButton(driveGamepad, kX.value);
+    public static final EnhancedAxisButton trackTargetButton = new EnhancedAxisButton(driveGamepad,
+            kLeftTrigger.value, 0.5);
 
 }

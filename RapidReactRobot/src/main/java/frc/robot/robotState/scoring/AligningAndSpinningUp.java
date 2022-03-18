@@ -77,6 +77,8 @@ public class AligningAndSpinningUp implements IState {
 
         if (LimelightHelper.getTV() >= 1) {
             drivetrain.move(0, 0, turnRate, false);
+        } else {
+            drivetrain.move(0, 0, 0, false);
         }
 
         if (godSubsystem.getCurrentTime() < nudgeDownTimeout) {
