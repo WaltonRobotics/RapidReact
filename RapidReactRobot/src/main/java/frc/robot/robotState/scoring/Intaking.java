@@ -44,7 +44,7 @@ public class Intaking implements IState {
         }
 
         godSubsystem.handleIntakingWithConveyor();
-        godSubsystem.handleIdleSpinUp();
+        godSubsystem.handleTrackTarget();
 
         return this;
     }
