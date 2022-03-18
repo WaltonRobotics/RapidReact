@@ -10,10 +10,12 @@ import frc.robot.commands.auton.TurnToAngle;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
+import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DriverPreferences.*;
+import static frc.robot.Constants.FieldConstants.kSpinUpFlywheelDistanceFromHub;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.OI.*;
@@ -269,6 +271,22 @@ public class Superstructure extends SubsystemBase {
             shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
             shooter.setFlywheelDemand(0);
         }
+    }
+
+    public void handleTrackTarget() {
+        if (LimelightHelper.getTV() >= 1) {
+//            double distanceFromTarget = LimelightHelper.getDistanceToTargetFeet();
+//
+//            if (distanceFromTarget < kSpinUpFlywheelDistanceFromHub) {
+//                shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
+//                shooter.setFlywheelDemand(kIdleVelocityRawUnits);
+//            }
+
+            double hoodAngle = shooter.getEstimatedHoodAngleFromTarget();
+            shooter.setAdjustableHoodDutyCycleDemand(hoodAngle);
+        }
+
+        handleIdleSpinUp();
     }
 
     public boolean doesAutonNeedToIdleSpinUp() {
