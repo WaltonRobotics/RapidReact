@@ -260,8 +260,9 @@ public enum AutonRoutine {
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(pickupG),
-            new WaitCommand(5.0),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
+//            new WaitCommand(5.0),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+            new AlignAndShootCargo(3.5)
     ));
 //
 //    ROUTINE_SEVEN("Start from gamma, pick up ball C, shoot 2, pick up ball B, pick up ball A, shoot 2", new SequentialCommandGroup(
