@@ -67,10 +67,13 @@ public class AligningAndSpinningUp implements IState {
         double headingError = LimelightHelper.getTX();
         double turnRate = controller.calculate(headingError, 0.0);
 
-        turnRate += Math.signum(turnRate) * drivetrain.getConfig().getMinTurnOmega();
+        turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
+                Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
+                drivetrain.getConfig().getMaxOmega());
+
+        SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, turnRate);
 
         SmartDashboard.putNumber(kLimelightAlignErrorDegrees, controller.getPositionError());
-        SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, turnRate);
 
         if (LimelightHelper.getTV() >= 1) {
             drivetrain.move(0, 0, turnRate, false);

@@ -26,7 +26,7 @@ public class DriveCommand extends CommandBase {
     public DriveCommand() {
         addRequirements(drivetrain);
 
-//        SmartDashboard.putNumber("Minimum omega command", 0.1);
+        SmartDashboard.putNumber("Minimum omega command", 0.1);
     }
 
     public static void setIsEnabled(boolean isEnabled) {
