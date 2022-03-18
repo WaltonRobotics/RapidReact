@@ -79,7 +79,7 @@ public final class Constants {
         // continue rotating to ensure last few shots don't go amiss
         public static final double kSpinDownTimeSeconds = 0.25;
 
-        public static final double kNudgeDownTimeSeconds = 0.4;
+        public static final double kNudgeDownTimeSeconds = 0.15;
 
         // Time it takes for the hood to change positions
         public static final double kHoodTransitionTimeSeconds = 2.3;
