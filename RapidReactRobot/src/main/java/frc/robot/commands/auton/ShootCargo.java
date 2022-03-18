@@ -23,15 +23,18 @@ public class ShootCargo extends CommandBase {
     }
 
     @Override
+    public void execute() {
+        godSubsystem.setDoesAutonNeedToShoot(true);
+    }
+
+    @Override
     public void end(boolean interrupted) {
         godSubsystem.setDoesAutonNeedToShoot(false);
-
-        timer.stop();
     }
 
     @Override
     public boolean isFinished() {
-        return timer.get() > totalTimeSeconds;
+        return timer.hasElapsed(totalTimeSeconds);
     }
 
 }

@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -7,6 +8,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.robot.config.ConveyorConfig;
 
+import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Conveyor implements SubSubsystem {
@@ -27,6 +29,9 @@ public class Conveyor implements SubSubsystem {
 
         feedController.configVoltageCompSaturation(12.0);
         feedController.enableVoltageCompensation(true);
+
+        transportController.setNeutralMode(NeutralMode.Brake);
+        feedController.setNeutralMode(NeutralMode.Brake);
 
         configTransportStatusFrame();
         configFeedStatusFrame();
@@ -142,12 +147,15 @@ public class Conveyor implements SubSubsystem {
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Conveyor Control State", () -> conveyorControlState.name(), (x) -> {
-            });
-            builder.addDoubleProperty("Transport Demand", () -> transportDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Feed Demand", () -> feedDemand, (x) -> {
-            });
+
+            if (!kIsInCompetition) {
+                builder.addStringProperty("Conveyor Control State", () -> conveyorControlState.name(), (x) -> {
+                });
+                builder.addDoubleProperty("Transport Demand", () -> transportDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Feed Demand", () -> feedDemand, (x) -> {
+                });
+            }
         }
     }
 

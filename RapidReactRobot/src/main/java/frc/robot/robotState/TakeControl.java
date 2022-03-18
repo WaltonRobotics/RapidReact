@@ -17,7 +17,7 @@ public class TakeControl implements IState {
         // Enable drive
         DriveCommand.setIsEnabled(true);
 
-        godSubsystem.getDrivetrain().zeroSensors();
+        godSubsystem.getDrivetrain().reloadAzimuthZeros();
 
         // Load pivot reference
         godSubsystem.getClimber().zeroSensors();
@@ -35,7 +35,7 @@ public class TakeControl implements IState {
             return new Disabled();
         }
 
-        double pivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
+        double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
         if (
 //                angleTarget.isWithinTolerance(pivotAngle, 100) &&

@@ -4,9 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -104,14 +102,12 @@ public class RobotContainer {
                     }
                 }
         ));
-
+        
         toggleClimberLocksButton.whenPressed(godSubsystem.getClimber()::toggleClimberLock);
     }
 
     public void initShuffleboard() {
         LiveWindow.disableAllTelemetry();
-
-        SmartDashboard.putData("Pivot controller", godSubsystem.getClimber().getConfig().getPivotProfiledController());
 
         SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
 
@@ -125,10 +121,18 @@ public class RobotContainer {
         SmartDashboard.putNumber(kDrivetrainPitchDegrees, 0.0);
         SmartDashboard.putNumber(kDrivetrainRollDegrees, 0.0);
 
+        SmartDashboard.putBoolean(kDrivetrainIsFieldRelativeKey, true);
+        SmartDashboard.putBoolean(kDrivetrainIsPositionalRotationKey, false);
+
         SmartDashboard.putNumber(kClimberPivotAngleFromVerticalKey, 0.0);
         SmartDashboard.putNumber(kClimberPivotAngleFromHorizontalKey, 0.0);
 
         SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, 0.0);
+
+        SmartDashboard.putNumber(kShooterBallQualityAdditive, 0.0);
+
+        SmartDashboard.putNumber(kTrajectoryThetaPKey,
+                godSubsystem.getDrivetrain().getConfig().getThetaController().getP());
 
         // Auton chooser
         Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
@@ -168,6 +172,8 @@ public class RobotContainer {
             SmartDashboard.putNumber("X Error Average", 0.0);
             SmartDashboard.putNumber("Y Error Average", 0.0);
             SmartDashboard.putNumber("Theta Error Average", 0.0);
+
+            SmartDashboard.putData(godSubsystem.getDrivetrain().getConfig().getFaceDirectionController());
 
             SmartDashboard.putData(kLimelightAlignControllerKey, currentRobot.getDrivetrainConfig().getAutoAlignController());
             SmartDashboard.putNumber(kLimelightAlignErrorDegrees, 0.0);

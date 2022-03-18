@@ -11,6 +11,7 @@ import frc.robot.subsystems.*;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignErrorDegrees;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignOmegaOutputKey;
 import static frc.robot.Constants.VisionConstants.*;
@@ -24,6 +25,7 @@ public class AligningAndSpinningUp implements IState {
     private final Shooter shooter = godSubsystem.getShooter();
 
     private double timeout;
+    private double nudgeDownTimeout;
 
     @Override
     public void initialize() {
@@ -46,6 +48,7 @@ public class AligningAndSpinningUp implements IState {
         controller.reset();
 
         timeout = godSubsystem.getCurrentTime() + kAlignmentTimeoutSeconds;
+        nudgeDownTimeout = godSubsystem.getCurrentTime() + kNudgeDownTimeSeconds;
     }
 
     @Override
@@ -73,10 +76,20 @@ public class AligningAndSpinningUp implements IState {
             drivetrain.move(0, 0, turnRate, false);
         }
 
-        godSubsystem.handleIntakingAndOuttaking();
+        if (godSubsystem.getCurrentTime() < nudgeDownTimeout) {
+            godSubsystem.handleIntaking();
 
-        if (UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
-                || godSubsystem.getCurrentTime() >= timeout) {
+            godSubsystem.getConveyor().setTransportDemand(
+                    godSubsystem.getConveyor().getConfig().getTransportOuttakePercentOutput());
+            godSubsystem.getConveyor().setFeedDemand(
+                    godSubsystem.getConveyor().getConfig().getFeedOuttakePercentOutput());
+        } else {
+            godSubsystem.handleIntakingAndOuttaking();
+        }
+
+        if ((UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
+                || godSubsystem.getCurrentTime() >= timeout) &&
+                godSubsystem.getCurrentTime() >= nudgeDownTimeout) {
             return new PreparingToShoot();
         }
 

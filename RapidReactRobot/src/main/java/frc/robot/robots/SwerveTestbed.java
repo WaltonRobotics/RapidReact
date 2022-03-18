@@ -11,6 +11,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.config.*;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
+import frc.robot.util.AccelerationLimiter;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.util.interpolation.InterpolatingTreeMap;
 
@@ -52,6 +53,7 @@ public class SwerveTestbed extends WaltRobot {
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
+    private final PIDController faceDirectionController = new PIDController(0.05, 0, 0.000);
     private final PIDController autoAlignController = new PIDController(0.05, 0.015, 0.000);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
@@ -227,6 +229,11 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
+            public double getMaxFaceDirectionOmega() {
+                return 1.0;
+            }
+
+            @Override
             public double getDriveGearRatio() {
                 final double kDriveMotorOutputGear = 12;
                 final double kDriveInputGear = 21;
@@ -242,6 +249,21 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
+            public AccelerationLimiter getXLimiter() {
+                return null;
+            }
+
+            @Override
+            public AccelerationLimiter getYLimiter() {
+                return null;
+            }
+
+            @Override
+            public AccelerationLimiter getOmegaLimiter() {
+                return null;
+            }
+
+            @Override
             public PIDController getXController() {
                 return xController;
             }
@@ -254,6 +276,11 @@ public class SwerveTestbed extends WaltRobot {
             @Override
             public ProfiledPIDController getThetaController() {
                 return thetaController;
+            }
+
+            @Override
+            public PIDController getFaceDirectionController() {
+                return faceDirectionController;
             }
 
             @Override
@@ -663,7 +690,7 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public double getPivotPercentOutputLimit() {
+            public double getManualPivotPercentOutputLimit() {
                 return 0.3;
             }
 
@@ -675,11 +702,6 @@ public class SwerveTestbed extends WaltRobot {
             @Override
             public double getAbsoluteCountsToIntegratedCountsFactor() {
                 return 0;
-            }
-
-            @Override
-            public ProfiledPIDController getPivotProfiledController() {
-                return null;
             }
         };
     }

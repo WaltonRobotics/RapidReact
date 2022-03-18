@@ -6,13 +6,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
 import frc.robot.util.EnhancedBoolean;
-import frc.robot.util.UtilMethods;
 
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
+import static frc.robot.Constants.Climber.kFastExtensionZeroingPercentOutput;
+import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Climber implements SubSubsystem {
@@ -48,8 +48,6 @@ public class Climber implements SubSubsystem {
         pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
         pivotController.setNeutralMode(NeutralMode.Brake);
         pivotController.enableVoltageCompensation(true);
-        pivotController.configPeakOutputForward(config.getPivotPercentOutputLimit());
-        pivotController.configPeakOutputReverse(-config.getPivotPercentOutputLimit());
 
         extensionController.configFactoryDefault(10);
         extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);
@@ -63,9 +61,6 @@ public class Climber implements SubSubsystem {
 
         periodicIO.pivotNeutralMode = NeutralMode.Brake;
         periodicIO.extensionNeutralMode = NeutralMode.Brake;
-
-        config.getPivotProfiledController().enableContinuousInput(0.0,
-                pivotAngleAbsoluteEncoder.getDistancePerRotation());
     }
 
     @Override
@@ -178,7 +173,11 @@ public class Climber implements SubSubsystem {
 
         switch (periodicIO.extensionControlState) {
             case ZEROING:
-                extensionController.set(ControlMode.PercentOutput, kExtensionZeroingPercentOutput);
+                if (isFastZeroing()) {
+                    extensionController.set(ControlMode.PercentOutput, kFastExtensionZeroingPercentOutput);
+                } else {
+                    extensionController.set(ControlMode.PercentOutput, kExtensionZeroingPercentOutput);
+                }
 
                 if (isZeroRising()) {
                     extensionController.setSelectedSensorPosition(0);
@@ -276,6 +275,14 @@ public class Climber implements SubSubsystem {
 
     public void releaseExtensionLowerLimit() {
         periodicIO.releaseExtensionLowerLimit = true;
+    }
+
+    public boolean isFastZeroing() {
+        return periodicIO.isFastZeroing;
+    }
+
+    public void setFastZeroing(boolean fastZeroing) {
+        periodicIO.isFastZeroing = fastZeroing;
     }
 
     public void setPivotNeutralMode(NeutralMode neutralModeDemand) {
@@ -474,6 +481,7 @@ public class Climber implements SubSubsystem {
         // If the position begins with ANGLE, rotation is CW
         // If the position ends with ANGLE, rotation is CCW
 
+        LINING_UP_FOR_MID_BAR,
         STOWED_ANGLE,
         ANGLE_HOOK_THETA_FOR_MID_BAR,
         REACHING_FOR_HIGH_BAR_PIVOT_ANGLE,
@@ -521,6 +529,7 @@ public class Climber implements SubSubsystem {
         public boolean climberDiscBrakeStateDemand;
         private ClimberControlState pivotControlState = ClimberControlState.DISABLED;
         private ClimberControlState extensionControlState = ClimberControlState.DISABLED;
+        public boolean isFastZeroing;
         private boolean resetPivotNeutralMode;
         private NeutralMode pivotNeutralMode;
         private boolean resetExtensionNeutralMode;
@@ -529,40 +538,43 @@ public class Climber implements SubSubsystem {
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
-            builder.addStringProperty("Pivot Control State", () -> pivotControlState.name(), (x) -> {
-            });
-            builder.addStringProperty("Extension Control State", () -> extensionControlState.name(), (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Feed Forward", () -> pivotFeedForward, (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Position Demand NU", () -> pivotPositionDemandNU, (x) -> {
-            });
-            builder.addDoubleProperty("Extension Percent Output Demand", () -> extensionPercentOutputDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Extension Position Demand NU", () -> extensionPositionDemandNU, (x) -> {
-            });
-            builder.addBooleanProperty("Climber Lock State Demand", () -> climberLockStateDemand, (x) -> {
-            });
-            builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Absolute Encoder Position NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Absolute Encoder Velocity NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
-            });
-            builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {
-            });
-            builder.addBooleanProperty("Pivot Reverse Limit", () -> pivotReverseSoftLimitBool.get(), (x) -> {
-            });
-            builder.addBooleanProperty("Pivot Forward Limit", () -> pivotForwardSoftLimitBool.get(), (x) -> {
-            });
-            builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {
-            });
-            builder.addBooleanProperty("Is Right Extension Lower Limit Closed", () -> isRightExtensionLowerLimitClosed, (x) -> {
-            });
-            builder.addDoubleProperty("Extension Integrated Encoder Position", () -> extensionIntegratedEncoderPosition, (x) -> {
-            });
+
+            if (!kIsInCompetition) {
+                builder.addStringProperty("Pivot Control State", () -> pivotControlState.name(), (x) -> {
+                });
+                builder.addStringProperty("Extension Control State", () -> extensionControlState.name(), (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Feed Forward", () -> pivotFeedForward, (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Position Demand NU", () -> pivotPositionDemandNU, (x) -> {
+                });
+                builder.addDoubleProperty("Extension Percent Output Demand", () -> extensionPercentOutputDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Extension Position Demand NU", () -> extensionPositionDemandNU, (x) -> {
+                });
+                builder.addBooleanProperty("Climber Lock State Demand", () -> climberLockStateDemand, (x) -> {
+                });
+                builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Absolute Encoder Position NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Absolute Encoder Velocity NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
+                });
+                builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {
+                });
+                builder.addBooleanProperty("Pivot Reverse Limit", () -> pivotReverseSoftLimitBool.get(), (x) -> {
+                });
+                builder.addBooleanProperty("Pivot Forward Limit", () -> pivotForwardSoftLimitBool.get(), (x) -> {
+                });
+                builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {
+                });
+                builder.addBooleanProperty("Is Right Extension Lower Limit Closed", () -> isRightExtensionLowerLimitClosed, (x) -> {
+                });
+                builder.addDoubleProperty("Extension Integrated Encoder Position", () -> extensionIntegratedEncoderPosition, (x) -> {
+                });
+            }
         }
     }
 

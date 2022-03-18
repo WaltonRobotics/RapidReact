@@ -30,13 +30,13 @@ public final class Constants {
             public static final int kManipulationXboxControllerPort = 1;
         }
 
-        public static final double kMaxTranslationalAccelerationMsecSquared = 3.75; // m/s per second
-
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;
         public static final double kExtensionManualOverrideDeadband = 0.1;
 
         public static final double kFinishedClimbingRumbleValue = 1.0;
+
+        public static final double kFaceDirectionToleranceDegrees = 2.0;
 
     }
 
@@ -67,6 +67,7 @@ public final class Constants {
         public static final double kDefaultVelocityRawUnits = 11500;
         public static final double kBarfVelocityRawUnits = 5000;
         public static final double kIdleVelocityRawUnits = 9000;
+        public static final double kOuttakeVelocityRawUnits = -4500;
 
         // The tolerance to exit the spinning up state and enter the shooting state
         public static final double kSpinningUpToleranceRawUnits = 150;
@@ -77,6 +78,8 @@ public final class Constants {
         // continue rotating to ensure last few shots don't go amiss
         public static final double kSpinDownTimeSeconds = 0.25;
 
+        public static final double kNudgeDownTimeSeconds = 0.4;
+
         // Time it takes for the hood to change positions
         public static final double kHoodTransitionTimeSeconds = 2.3;
 
@@ -85,6 +88,7 @@ public final class Constants {
     public static final class Climber {
 
         public static final double kExtensionZeroingPercentOutput = -0.1;
+        public static final double kFastExtensionZeroingPercentOutput = -0.2;
 
     }
 
@@ -110,7 +114,7 @@ public final class Constants {
 
         public static final String kDrivetrainSetModuleStatesKey = "Drivetrain/Set Module States";
         public static final String kDrivetrainSetpointAngleDegreesKey = "Drivetrain/Setpoint Angle Degrees";
-        public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity Msec";
+        public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity MPS";
 
         public static final String kDrivetrainResetKey = "Drivetrain/Reset";
 
@@ -125,9 +129,12 @@ public final class Constants {
         public static final String kDrivetrainSaveRightRearZeroKey = "Drivetrain/Save Right Rear Azimuth Zero";
 
         public static final String kDrivetrainHeadingDegrees = "Drivetrain/Heading Degrees";
-        public static final String kDrivetrainAngularVelocity = "Drivetrain/Angular Velocity Dsec";
+        public static final String kDrivetrainAngularVelocity = "Drivetrain/Angular Velocity DPS";
         public static final String kDrivetrainPitchDegrees = "Drivetrain/Pitch Degrees";
         public static final String kDrivetrainRollDegrees = "Drivetrain/Roll Degrees";
+
+        public static final String kDrivetrainIsFieldRelativeKey = "Drivetrain/Is Field Relative";
+        public static final String kDrivetrainIsPositionalRotationKey = "Drivetrain/Is Positional Rotation";
 
         public static final String kDriverForwardScaleKey = "Driver/Forward Scale";
         public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
@@ -139,6 +146,7 @@ public final class Constants {
         public static final String kShooterCurrentTargetVelocityKey = "Shooter/Current Target Velocity NU";
         public static final String kShooterTuningSetpointVelocityNUKey = "Shooter/Tuning Setpoint Velocity NU";
         public static final String kShooterHoodPositionSetpointKey = "Shooter/Hood Position Setpoint";
+        public static final String kShooterBallQualityAdditive = "Shooter/Ball Quality Additive";
 
         public static final String kDrivetrainPeriodicIOKey = "Drivetrain/Periodic IO";
         public static final String kIntakePeriodicIOKey = "Intake/Periodic IO";
@@ -157,6 +165,8 @@ public final class Constants {
 
         public static final String kLeftIntakePercentOutputKey = "Left Intake Percent Output";
         public static final String kRightIntakePercentOutputKey = "Right Intake Percent Output";
+
+        public static final String kTrajectoryThetaPKey = "Trajectory/Theta P";
 
     }
 

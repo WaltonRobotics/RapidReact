@@ -1,20 +1,22 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.auton.TurnToAngle;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
-import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
-import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
+import static frc.robot.Constants.DriverPreferences.*;
+import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.OI.dangerButton;
-import static frc.robot.OI.manipulationGamepad;
+import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -32,6 +34,8 @@ public class Superstructure extends SubsystemBase {
     private double currentTargetFlywheelVelocity = 0;
 
     private boolean isInAuton = false;
+
+    private boolean doesAutonNeedToIdleSpinUp = false;
     private boolean doesAutonNeedToIntake = false;
     private boolean doesAutonNeedToShoot = false;
     private boolean doesAutonNeedToAlignAndShoot = false;
@@ -138,6 +142,12 @@ public class Superstructure extends SubsystemBase {
         return dangerButton.get() && Math.abs(manipulationGamepad.getRightY()) > kExtensionManualOverrideDeadband;
     }
 
+    public boolean isClimbingMovementOverride() {
+        return Math.abs(driveGamepad.getLeftY()) > forwardScale.getDeadband()
+                || Math.abs(driveGamepad.getLeftX()) > strafeScale.getDeadband()
+                || Math.abs(driveGamepad.getRightX()) > yawScale.getDeadband();
+    }
+
     public void handleTransportConveyorManualOverride() {
         if (OI.overrideTransportConveyorButton.get()) {
             godSubsystem.getConveyor().setTransportDemand(conveyor.getConfig().getTransportIntakePercentOutput());
@@ -228,7 +238,7 @@ public class Superstructure extends SubsystemBase {
             climber.setPivotControlState(Climber.ClimberControlState.OPEN_LOOP);
 
             double pivotJoystick = manipulationGamepad.getLeftX()
-                    * climber.getConfig().getPivotPercentOutputLimit();
+                    * climber.getConfig().getManualPivotPercentOutputLimit();
 
             climber.setPivotPercentOutputDemand(pivotJoystick);
         } else {
@@ -249,6 +259,24 @@ public class Superstructure extends SubsystemBase {
         } else {
             climber.setExtensionControlState(Climber.ClimberControlState.AUTO);
         }
+    }
+
+    public void handleIdleSpinUp() {
+        if (idleSpinUpButton.get() || (isInAuton() && doesAutonNeedToIdleSpinUp())) {
+            shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
+            shooter.setFlywheelDemand(kIdleVelocityRawUnits);
+        } else {
+            shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
+            shooter.setFlywheelDemand(0);
+        }
+    }
+
+    public boolean doesAutonNeedToIdleSpinUp() {
+        return doesAutonNeedToIdleSpinUp;
+    }
+
+    public void setDoesAutonNeedToIdleSpinUp(boolean doesAutonNeedToIdleSpinUp) {
+        this.doesAutonNeedToIdleSpinUp = doesAutonNeedToIdleSpinUp;
     }
 
     @Override

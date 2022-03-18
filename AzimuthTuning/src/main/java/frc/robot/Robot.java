@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.RelativeEncoder;
@@ -61,6 +62,8 @@ public class Robot extends TimedRobot {
   private SparkMaxPIDController m_pidController;
   private RelativeEncoder m_encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
+  private double previousTime = 0;
+  private double previousVelocity = 0;
 
   @Override
   public void robotInit() {
@@ -90,11 +93,11 @@ public class Robot extends TimedRobot {
     m_encoder.setVelocityConversionFactor(relativeEncoderDegreesPerTick);
 
     // PID coefficients
-    kP = 0.00013;
-    kI = 0.0000017;
+    kP = 0.00082;
+    kI = 0.0;
     kD = 0;
     kIz = 10;
-    kFF = 0.00559;
+    kFF = 0.00627162;
     kMaxOutput = 1;
     kMinOutput = -1;
     maxRPM = 5700.0 * inverseEncoderConstant;
@@ -213,11 +216,18 @@ public class Robot extends TimedRobot {
     if((allE != allowedErr)) { m_pidController.setSmartMotionAllowedClosedLoopError(allE,0); allowedErr = allE; }
 
     double setPoint, processVariable;
+    double deltaVelocity = m_encoder.getVelocity() - previousVelocity;
+    double deltaTime = Timer.getFPGATimestamp() - previousTime;
+
+    double acceleration = deltaVelocity/deltaTime;
+    previousVelocity = m_encoder.getVelocity();
+    previousTime = Timer.getFPGATimestamp();
+
     boolean mode = SmartDashboard.getBoolean("Mode", false);
     if(mode) {
       setPoint = SmartDashboard.getNumber("Set Velocity", 0);
       m_pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
-      //m_motor.set(0.85);
+//      m_motor.set(0.85);
       processVariable = m_encoder.getVelocity();
     } else {
       setPoint = SmartDashboard.getNumber("Set Position", 0);
@@ -233,5 +243,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("SetPoint", setPoint);
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putNumber("Output", m_motor.getAppliedOutput());
+    SmartDashboard.putNumber("acceleration", acceleration);
   }
 }

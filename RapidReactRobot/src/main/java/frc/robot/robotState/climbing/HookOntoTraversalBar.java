@@ -34,7 +34,7 @@ public class HookOntoTraversalBar implements IState {
             return new FinalizeClimb();
         }
 
-        double pivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
+        double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
         if ((angleTarget.isWithinTolerance(pivotAngle) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {

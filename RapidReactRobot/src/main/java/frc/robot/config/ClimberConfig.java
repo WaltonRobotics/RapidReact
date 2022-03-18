@@ -37,11 +37,9 @@ public interface ClimberConfig {
     int getClimberLockSolenoidChannel();
     int getClimberDiscBrakeSolenoidChannel();
 
-    double getPivotPercentOutputLimit();
+    double getManualPivotPercentOutputLimit();
     double getExtensionManualPercentOutputLimit();
 
     double getAbsoluteCountsToIntegratedCountsFactor();
-
-    ProfiledPIDController getPivotProfiledController();
 
 }
