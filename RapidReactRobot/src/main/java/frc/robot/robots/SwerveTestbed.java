@@ -63,8 +63,10 @@ public class SwerveTestbed extends WaltRobot {
     private final TalonFXConfiguration flywheelMasterTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration flywheelSlaveTalonConfig = new TalonFXConfiguration();
 
-    private final HashMap<Shooter.HoodPosition, Target> hoodTargets = new HashMap<>(2);
-    private final HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> hoodMaps = new HashMap<>(2);
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> flywheelVelocityMap
+            = new InterpolatingTreeMap<>();
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> hoodAngleMap
+            = new InterpolatingTreeMap<>();
 
     // Climber constants
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
@@ -527,13 +529,13 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public HashMap<Shooter.HoodPosition, Target> getHoodTargets() {
-                return hoodTargets;
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getFlywheelVelocityMap(Shooter.AimTarget target) {
+                return flywheelVelocityMap;
             }
 
             @Override
-            public HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> getHoodMaps() {
-                return hoodMaps;
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getHoodAngleMap(Shooter.AimTarget target) {
+                return hoodAngleMap;
             }
         };
     }
@@ -723,9 +725,6 @@ public class SwerveTestbed extends WaltRobot {
 
     @Override
     public void defineTargets() {
-        hoodTargets.put(Shooter.HoodPosition.SIXTY_DEGREES, new Target(0, 0));
-        hoodTargets.put(Shooter.HoodPosition.SEVENTY_DEGREES, new Target(0.5, 0));
-
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
         sixtyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
@@ -745,9 +744,6 @@ public class SwerveTestbed extends WaltRobot {
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
-
-        hoodMaps.put(Shooter.HoodPosition.SIXTY_DEGREES, sixtyDegreeMap);
-        hoodMaps.put(Shooter.HoodPosition.SEVENTY_DEGREES, seventyDegreeMap);
 
         // Angles in reference to fixed arm
         // 200:1 GR

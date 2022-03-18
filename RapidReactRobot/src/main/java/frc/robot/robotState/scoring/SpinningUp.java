@@ -44,7 +44,8 @@ public class SpinningUp implements IState {
 
         godSubsystem.handleIntakingAndOuttaking();
 
-        if (Math.abs(shooter.getFlywheelClosedLoopErrorNU()) <= kSpinningUpToleranceRawUnits) {
+        if (Math.abs(godSubsystem.getCurrentTargetFlywheelVelocity() - shooter.getFlywheelVelocityNU())
+                <= kSpinningUpToleranceRawUnits) {
             return new Shooting();
         }
 

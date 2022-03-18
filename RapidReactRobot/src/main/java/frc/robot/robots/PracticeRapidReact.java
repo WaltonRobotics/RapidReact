@@ -77,7 +77,7 @@ public class PracticeRapidReact extends WaltRobot {
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
     private final PIDController faceDirectionController = new PIDController(0.09, 0, 0);
-    private final PIDController autoAlignController = new PIDController(0.09, 0.0009, 0);
+    private final PIDController autoAlignController = new PIDController(0.05, 0, 0);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0, new TrapezoidProfile.Constraints(
                     Math.toDegrees(kMaxOmega / 1.1), 360.0));
@@ -86,8 +86,32 @@ public class PracticeRapidReact extends WaltRobot {
     private final TalonFXConfiguration flywheelMasterTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration flywheelSlaveTalonConfig = new TalonFXConfiguration();
 
-    private final HashMap<Shooter.HoodPosition, Target> hoodTargets = new HashMap<>(2);
-    private final HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> hoodMaps = new HashMap<>(2);
+    private final double[][] lowGoalMap = {
+        // Actual measured distance, Limelight distance, hood angle, velocity
+            {0, 3.879, -0.3, 5000},
+            {0, 6.456, 0.15, 6200},
+    };
+
+    private final double[][] highGoalMap = {
+        // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
+            {28, 4.813, -0.672, 8800},
+            {41, 5.906, -0.30, 8700},
+            {49.5, 6.6612, -0.1, 8800},
+            {66.0, 8.1145, 0.35, 8850}, // Money shot
+            {74, 8.819, 0.6, 8950},
+            {85.5, 9.711, 0.9, 9050},
+            {96, 10.674, 0.95, 9275},
+    };
+
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
+            = new InterpolatingTreeMap<>();
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalHoodAngleMap
+            = new InterpolatingTreeMap<>();
+
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> highGoalFlywheelVelocityMap
+            = new InterpolatingTreeMap<>();
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> highGoalHoodAngleMap
+            = new InterpolatingTreeMap<>();
 
     // Climber constants
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
@@ -318,7 +342,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getMinTurnOmega() {
-                return 0.55;
+                return 0.05;
             }
 
             @Override
@@ -383,22 +407,22 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLeftIntakePercentOutput() {
-                return 0.50;
+                return 0.32;
             }
 
             @Override
             public double getRightIntakePercentOutput() {
-                return 0.50; // 0.35
+                return 0.32; // 0.35
             }
 
             @Override
             public double getLeftOuttakePercentOutput() {
-                return -0.50;
+                return -0.32;
             }
 
             @Override
             public double getRightOuttakePercentOutput() {
-                return -0.50; // -0.35
+                return -0.32; // -0.35
             }
         };
     }
@@ -470,7 +494,7 @@ public class PracticeRapidReact extends WaltRobot {
 
         // Spinning up profile
         flywheelMasterTalonConfig.slot0.kF = 0.0471003;
-        flywheelMasterTalonConfig.slot0.kP = 0.0153;
+        flywheelMasterTalonConfig.slot0.kP = 0.04;
         flywheelMasterTalonConfig.slot0.kI = 0.000153;
         flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
@@ -480,7 +504,7 @@ public class PracticeRapidReact extends WaltRobot {
 
         // Shooting profile
         flywheelMasterTalonConfig.slot1.kF = 0.0471003;
-        flywheelMasterTalonConfig.slot1.kP = 0.0151;
+        flywheelMasterTalonConfig.slot1.kP = 0.042;
         flywheelMasterTalonConfig.slot1.kI = 0.000153;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
@@ -555,13 +579,21 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public HashMap<Shooter.HoodPosition, Target> getHoodTargets() {
-                return hoodTargets;
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getFlywheelVelocityMap(Shooter.AimTarget target) {
+                if (target == Shooter.AimTarget.LOW_GOAL) {
+                    return lowGoalFlywheelVelocityMap;
+                }
+
+                return highGoalFlywheelVelocityMap;
             }
 
             @Override
-            public HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> getHoodMaps() {
-                return hoodMaps;
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getHoodAngleMap(Shooter.AimTarget target) {
+                if (target == Shooter.AimTarget.LOW_GOAL) {
+                    return lowGoalHoodAngleMap;
+                }
+
+                return highGoalHoodAngleMap;
             }
         };
     }
@@ -751,29 +783,23 @@ public class PracticeRapidReact extends WaltRobot {
 
     @Override
     public void defineTargets() {
-        hoodTargets.put(Shooter.HoodPosition.SIXTY_DEGREES, new Target(1.0, 0));
-        hoodTargets.put(Shooter.HoodPosition.SEVENTY_DEGREES, new Target(-1.0, 0));
+        for (double[] tableRow : lowGoalMap) {
+            double distance = tableRow[1];
+            double hoodAngle = tableRow[2];
+            double flywheelVelocity = tableRow[3];
 
-        final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
+            lowGoalHoodAngleMap.put(new InterpolatingDouble(distance), new InterpolatingDouble(hoodAngle));
+            lowGoalFlywheelVelocityMap.put(new InterpolatingDouble(distance), new InterpolatingDouble(flywheelVelocity));
+        }
 
-        sixtyDegreeMap.put(new InterpolatingDouble(5.603), new InterpolatingDouble(9555.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.076), new InterpolatingDouble(10600.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(7.298), new InterpolatingDouble(10400.0)); // Needs to be retested
-        sixtyDegreeMap.put(new InterpolatingDouble(8.046), new InterpolatingDouble(10650.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(8.509), new InterpolatingDouble(11850.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(10.342), new InterpolatingDouble(11875.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(11.598), new InterpolatingDouble(12675.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(12.556), new InterpolatingDouble(11875.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(14.174), new InterpolatingDouble(12325.0));
-        sixtyDegreeMap.put(new InterpolatingDouble(16.925), new InterpolatingDouble(13175.0));
+        for (double[] tableRow : highGoalMap) {
+            double distance = tableRow[1];
+            double hoodAngle = tableRow[2];
+            double flywheelVelocity = tableRow[3];
 
-        final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> seventyDegreeMap = new InterpolatingTreeMap<>();
-
-        seventyDegreeMap.put(new InterpolatingDouble(7.741), new InterpolatingDouble(8800.0));
-        seventyDegreeMap.put(new InterpolatingDouble(8.17), new InterpolatingDouble(11500.0));
-
-        hoodMaps.put(Shooter.HoodPosition.SIXTY_DEGREES, sixtyDegreeMap);
-        hoodMaps.put(Shooter.HoodPosition.SEVENTY_DEGREES, seventyDegreeMap);
+            highGoalHoodAngleMap.put(new InterpolatingDouble(distance), new InterpolatingDouble(hoodAngle));
+            highGoalFlywheelVelocityMap.put(new InterpolatingDouble(distance), new InterpolatingDouble(flywheelVelocity));
+        }
 
         // Angles in reference to fixed arm
         // 160:1 GR

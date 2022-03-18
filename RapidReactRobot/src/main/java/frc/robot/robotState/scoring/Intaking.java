@@ -22,7 +22,7 @@ public class Intaking implements IState {
     public void initialize() {
         intake.setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         conveyor.setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
-        godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);
+        godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.VELOCITY);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
     }
@@ -44,6 +44,7 @@ public class Intaking implements IState {
         }
 
         godSubsystem.handleIntakingWithConveyor();
+        godSubsystem.handleTrackTarget();
 
         return this;
     }
