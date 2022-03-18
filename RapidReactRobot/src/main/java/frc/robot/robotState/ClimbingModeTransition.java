@@ -37,7 +37,7 @@ public class ClimbingModeTransition implements IState {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
-        new TurnToAngle(180).withTimeout(1.5)
+        new TurnToAngle(180).withTimeout(3.0)
                 .withInterrupt(godSubsystem::isClimbingMovementOverride).schedule();
     }
 
