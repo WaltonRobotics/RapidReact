@@ -82,4 +82,40 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
             return gotval;
         }
     }
+
+    /**
+     * @param key Lookup for a value (does not have to exist)
+     * @return V or null; V if it is Interpolable or exists, null if it is at a
+     * bound and cannot average
+     */
+    public V getInterpolatedOrExtrapolated(K key) {
+        V gotval = get(key);
+        if (gotval == null) {
+            /** Get surrounding keys for interpolation */
+            K topBound = ceilingKey(key);
+            K bottomBound = floorKey(key);
+
+            /**
+             * If attempting interpolation at ends of tree, return the nearest
+             * data point
+             */
+            if (topBound == null && bottomBound == null) {
+                return null;
+            } else if (topBound == null) {
+                K nearestKey = lowerKey(bottomBound);
+                V nearestValue = get(nearestKey);
+
+                return get(bottomBound);
+            } else if (bottomBound == null) {
+                return get(topBound);
+            }
+
+            /** Get surrounding values for interpolation */
+            V topElem = get(topBound);
+            V bottomElem = get(bottomBound);
+            return bottomElem.interpolate(topElem, bottomBound.inverseInterpolate(topBound, key));
+        } else {
+            return gotval;
+        }
+    }
 }
