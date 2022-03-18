@@ -234,6 +234,12 @@ public enum AutonRoutine {
             new AlignAndShootCargo(3)
     )),
 
+    TEST_ROUTINE("test", new TimedAuton(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new ResetPose(routineFiveBFull),
+            new SwerveTrajectoryCommand(routineFiveBFull)
+    )),
+
 //    ROUTINE_SIX_A("Start from alpha, pick up ball a, shoot 2, move to ballG, move in to shoot", new SequentialCommandGroup(
 //            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
 //            new ResetPose(alphaPickUpA),
@@ -253,7 +259,7 @@ public enum AutonRoutine {
 //            new ShootCargo(3.0)
 //    )),
 
-    FIVE_BALL("Five ball auton (but doesn't go back to shoot last 2)", new TimedAuton(
+    THREE_BALL_PICKUP_TWO("3 ball auton, pick up 2", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFullFast),
             new ParallelDeadlineGroup(
@@ -274,14 +280,18 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
     )),
 
-    NEW_FIVE_BALL("Five ball auton that comes back to shoot 2 more", new TimedAuton(
+    FIVE_BALL("Five ball auton", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new ResetPose(routineFiveBFull),
-            new ShootCargo(3.0),
-            new SetRightIntakeDeployed(true),
-            new SetLeftIntakeDeployed(true),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new SwerveTrajectoryCommand(routineFiveBFull),
+            new ResetPose(routineFiveBFullFast),
+            new ParallelDeadlineGroup(
+                    new ShootCargo(2.0),
+                    new SequentialCommandGroup(
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+                            new SetLeftIntakeDeployed(true),
+                            new SetRightIntakeDeployed(true)
+                    )
+            ),
+            new SwerveTrajectoryCommand(routineFiveBFullFast),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new AlignAndShootCargo(3.5),
             new SetRightIntakeDeployed(false),
