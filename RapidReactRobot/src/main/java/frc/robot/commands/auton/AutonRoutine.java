@@ -10,6 +10,7 @@ import static frc.robot.Paths.RoutineFiveC.ballBToBallG;
 import static frc.robot.Paths.RoutineFiveD.ballBToBallC;
 import static frc.robot.Paths.RoutineFiveE.ballBToMoneyShot;
 import static frc.robot.Paths.RoutineFiveFull.routineFiveBFull;
+import static frc.robot.Paths.RoutineFiveFull.routineFiveBFullFast;
 import static frc.robot.Paths.RoutineFourA.*;
 import static frc.robot.Paths.RoutineOne.gammaBackwards;
 import static frc.robot.Paths.RoutineSeven.*;
@@ -216,11 +217,15 @@ public enum AutonRoutine {
 
     THREE_BALL("ROUTINE_FIVE_B in one complete path", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new ResetPose(routineFiveBFull),
-            new ShootCargo(2.0),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new SetLeftIntakeDeployed(true),
-            new SetRightIntakeDeployed(true),
+            new ResetPose(routineFiveBFullFast),
+            new ParallelDeadlineGroup(
+                    new ShootCargo(2.0),
+                    new SequentialCommandGroup(
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+                            new SetLeftIntakeDeployed(true),
+                            new SetRightIntakeDeployed(true)
+                    )
+            ),
             new SwerveTrajectoryCommand(routineFiveBFull),
             new SetLeftIntakeDeployed(false),
             new SetRightIntakeDeployed(false),
