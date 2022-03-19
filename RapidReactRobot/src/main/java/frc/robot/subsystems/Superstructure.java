@@ -327,4 +327,8 @@ public class Superstructure extends SubsystemBase {
         SCORING_MODE, CLIMBING_MODE
     }
 
+    public enum ClimbingTargetRung {
+        MID_RUNG, HIGH_RUNG
+    }
+
 }
