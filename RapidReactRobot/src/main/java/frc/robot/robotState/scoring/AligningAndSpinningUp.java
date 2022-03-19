@@ -1,6 +1,7 @@
 package frc.robot.robotState.scoring;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.commands.DriveCommand;
@@ -11,9 +12,11 @@ import frc.robot.subsystems.*;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignErrorDegrees;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignOmegaOutputKey;
 import static frc.robot.Constants.VisionConstants.*;
+import static frc.robot.OI.driveGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
 
@@ -24,6 +27,7 @@ public class AligningAndSpinningUp implements IState {
     private final Shooter shooter = godSubsystem.getShooter();
 
     private double timeout;
+    private double nudgeDownTimeout;
 
     @Override
     public void initialize() {
@@ -46,6 +50,7 @@ public class AligningAndSpinningUp implements IState {
         controller.reset();
 
         timeout = godSubsystem.getCurrentTime() + kAlignmentTimeoutSeconds;
+        nudgeDownTimeout = godSubsystem.getCurrentTime() + kNudgeDownTimeSeconds;
     }
 
     @Override
@@ -64,19 +69,38 @@ public class AligningAndSpinningUp implements IState {
         double headingError = LimelightHelper.getTX();
         double turnRate = controller.calculate(headingError, 0.0);
 
-        turnRate += Math.signum(turnRate) * drivetrain.getConfig().getMinTurnOmega();
+        turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
+                Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
+                drivetrain.getConfig().getMaxOmega());
+
+        SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, turnRate);
 
         SmartDashboard.putNumber(kLimelightAlignErrorDegrees, controller.getPositionError());
-        SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, turnRate);
 
         if (LimelightHelper.getTV() >= 1) {
             drivetrain.move(0, 0, turnRate, false);
+            driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+            driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0);
+        } else {
+            drivetrain.move(0, 0, 0, false);
+            driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.15);
+            driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0.15);
         }
 
-        godSubsystem.handleIntakingAndOuttaking();
+        if (godSubsystem.getCurrentTime() < nudgeDownTimeout) {
+            godSubsystem.handleIntaking();
 
-        if (UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
-                || godSubsystem.getCurrentTime() >= timeout) {
+            godSubsystem.getConveyor().setTransportDemand(
+                    godSubsystem.getConveyor().getConfig().getTransportOuttakePercentOutput());
+            godSubsystem.getConveyor().setFeedDemand(
+                    godSubsystem.getConveyor().getConfig().getFeedOuttakePercentOutput());
+        } else {
+            godSubsystem.handleIntakingAndOuttaking();
+        }
+
+        if ((UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
+                || godSubsystem.getCurrentTime() >= timeout) &&
+                godSubsystem.getCurrentTime() >= nudgeDownTimeout) {
             return new PreparingToShoot();
         }
 
@@ -88,6 +112,9 @@ public class AligningAndSpinningUp implements IState {
         DriveCommand.setIsEnabled(true);
 
         drivetrain.move(0, 0, 0, false);
+        
+        driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+        driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0);
     }
 
 }

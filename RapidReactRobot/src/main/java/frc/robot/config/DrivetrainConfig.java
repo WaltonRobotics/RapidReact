@@ -5,6 +5,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import frc.robot.util.AccelerationLimiter;
 
 public interface DrivetrainConfig {
 
@@ -34,10 +35,15 @@ public interface DrivetrainConfig {
     double getMaxSpeedMetersPerSecond();
 
     double getMaxOmega();
+    double getMaxFaceDirectionOmega();
 
     double getDriveGearRatio();
 
     Translation2d[] getWheelLocationMeters();
+
+    AccelerationLimiter getXLimiter();
+    AccelerationLimiter getYLimiter();
+    AccelerationLimiter getOmegaLimiter();
 
     // Pathing constants/controllers
     PIDController getXController();
@@ -48,6 +54,7 @@ public interface DrivetrainConfig {
 
     // Turn to angle and auto align constants
 
+    PIDController getFaceDirectionController();
     PIDController getAutoAlignController();
     double getMinTurnOmega();
 

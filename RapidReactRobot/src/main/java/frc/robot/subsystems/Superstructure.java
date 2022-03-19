@@ -1,17 +1,21 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.auton.TurnToAngle;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
+import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
-import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
-import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
+import static frc.robot.Constants.DriverPreferences.*;
+import static frc.robot.Constants.FieldConstants.kSpinUpFlywheelDistanceFromHub;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.OI.*;
@@ -33,6 +37,7 @@ public class Superstructure extends SubsystemBase {
 
     private boolean isInAuton = false;
 
+    private boolean doesAutonNeedToTrackTarget = false;
     private boolean doesAutonNeedToIdleSpinUp = false;
     private boolean doesAutonNeedToIntake = false;
     private boolean doesAutonNeedToShoot = false;
@@ -138,6 +143,12 @@ public class Superstructure extends SubsystemBase {
 
     public boolean isExtensionManualOverride() {
         return dangerButton.get() && Math.abs(manipulationGamepad.getRightY()) > kExtensionManualOverrideDeadband;
+    }
+
+    public boolean isClimbingMovementOverride() {
+        return Math.abs(driveGamepad.getLeftY()) > forwardScale.getDeadband()
+                || Math.abs(driveGamepad.getLeftX()) > strafeScale.getDeadband()
+                || Math.abs(driveGamepad.getRightX()) > yawScale.getDeadband();
     }
 
     public void handleTransportConveyorManualOverride() {
@@ -263,12 +274,36 @@ public class Superstructure extends SubsystemBase {
         }
     }
 
+    public void handleTrackTarget() {
+        if (LimelightHelper.getTV() >= 1) {
+//            double distanceFromTarget = LimelightHelper.getDistanceToTargetFeet();
+//
+//            if (distanceFromTarget < kSpinUpFlywheelDistanceFromHub) {
+//                shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
+//                shooter.setFlywheelDemand(kIdleVelocityRawUnits);
+//            }
+
+            double hoodAngle = shooter.getEstimatedHoodAngleFromTarget();
+            shooter.setAdjustableHoodDutyCycleDemand(hoodAngle);
+        }
+
+        handleIdleSpinUp();
+    }
+
     public boolean doesAutonNeedToIdleSpinUp() {
         return doesAutonNeedToIdleSpinUp;
     }
 
     public void setDoesAutonNeedToIdleSpinUp(boolean doesAutonNeedToIdleSpinUp) {
         this.doesAutonNeedToIdleSpinUp = doesAutonNeedToIdleSpinUp;
+    }
+
+    public boolean doesAutonNeedToTrackTarget() {
+        return doesAutonNeedToTrackTarget;
+    }
+
+    public void setDoesAutonNeedToTrackTarget(boolean doesAutonNeedToTrackTarget) {
+        this.doesAutonNeedToTrackTarget = doesAutonNeedToTrackTarget;
     }
 
     @Override

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.averages.CumulativeAverage;
 
+import static frc.robot.Constants.SmartDashboardKeys.kTrajectoryThetaPKey;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class SwerveTrajectoryCommand extends CommandBase {
@@ -25,7 +26,6 @@ public class SwerveTrajectoryCommand extends CommandBase {
     public SwerveTrajectoryCommand(PathPlannerTrajectory trajectory) {
         addRequirements(drivetrain);
         this.trajectory = trajectory;
-        SmartDashboard.putNumber("thetaP", 3.5);
     }
 
     public void initialize() {
@@ -53,8 +53,10 @@ public class SwerveTrajectoryCommand extends CommandBase {
     }
 
     public void execute() {
-        double thetaP = SmartDashboard.getNumber("thetaP", 3.5);
+        double thetaP = SmartDashboard.getNumber(kTrajectoryThetaPKey, drivetrain.getConfig().getThetaController().getP());
+
         drivetrain.getConfig().getThetaController().setP(thetaP);
+
         double currentTime = timer.get();
         double kXInstantPositionError = drivetrain.getConfig().getXController().getPositionError();
         double kYInstantPositionError = drivetrain.getConfig().getYController().getPositionError();

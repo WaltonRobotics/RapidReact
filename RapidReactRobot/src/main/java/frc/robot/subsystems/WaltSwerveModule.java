@@ -1,12 +1,14 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -36,6 +38,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final double driveDeadbandMetersPerSecond;
     private final double driveMaximumMetersPerSecond;
     private final Translation2d wheelLocationMeters;
+    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.74425, 2.3973, 0.072907);
 
     private final PeriodicIO periodicIO = new PeriodicIO();
     private Rotation2d previousAngle = new Rotation2d();
@@ -46,6 +49,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         // Outputs
         public double azimuthRelativeCountsDemand;
         public double driveDemand;
+        public double driveFeedforward;
 
         // Inputs
         public boolean hasDriveControllerReset;
@@ -104,9 +108,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         azimuthSparkMax.getPIDController().setReference(periodicIO.azimuthRelativeCountsDemand, CANSparkMax.ControlType.kSmartMotion);
 
         if (driveControlState == DriveControlState.OPEN_LOOP) {
-            driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand);
+            driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand,
+                    DemandType.ArbitraryFeedForward, periodicIO.driveFeedforward);
         } else if (driveControlState == DriveControlState.VELOCITY) {
-            driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand);
+            driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand,
+                    DemandType.ArbitraryFeedForward, periodicIO.driveFeedforward);
         }
     }
 
@@ -143,11 +149,9 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         if (desiredState.speedMetersPerSecond < driveDeadbandMetersPerSecond) {
             desiredState = new SwerveModuleState(0.0, previousAngle);
         }
-        previousAngle = desiredState.angle;
 
-        Rotation2d currentAngle = getAzimuthRotation2d();
-        SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, currentAngle);
-        setAzimuthRotation2d(optimizedState.angle);
+        SwerveModuleState optimizedState = setAzimuthOptimizedState(desiredState);
+
         if (isDriveOpenLoop) {
             setDriveOpenLoopMetersPerSecond(optimizedState.speedMetersPerSecond);
         } else {
@@ -186,8 +190,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         String key = String.format("SwerveDrive/wheel.%d", index);
         int reference = Preferences.getInt(key, Integer.MIN_VALUE);
         if (reference == Integer.MIN_VALUE) {
-            robotLogger.log(Level.WARNING, "no saved azimuth zero reference for swerve module {0}", index);
-            throw new IllegalStateException();
+            robotLogger.log(Level.SEVERE, "no saved azimuth zero reference for swerve module {0}", index);
         }
         robotLogger.log(Level.INFO, "swerve module {0}: loaded azimuth zero reference = {1}", new Object[]{index, reference});
 
@@ -250,17 +253,32 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return periodicIO.azimuthRelativeCounts;
     }
 
+    @Override
     public Rotation2d getAzimuthRotation2d() {
         double azimuthCounts = getAzimuthRelativeEncoderCounts();
         double radians = 2.0 * Math.PI * azimuthCounts;
         return new Rotation2d(radians);
     }
 
+    @Override
     public void setAzimuthRotation2d(Rotation2d angle) {
+        setAzimuthOptimizedState(new SwerveModuleState(0.0, angle));
+    }
+
+    private SwerveModuleState setAzimuthOptimizedState(SwerveModuleState desiredState) {
+        // minimize change in heading by potentially reversing the drive direction
+        Rotation2d currentAngle = getAzimuthRotation2d();
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, currentAngle);
+
+        // set the azimuth wheel position
         double countsBefore = getAzimuthRelativeEncoderCounts();
-        double countsFromAngle = angle.getRadians() / (2.0 * Math.PI);
+        double countsFromAngle = optimizedState.angle.getRadians() / (2.0 * Math.PI);
         double countsDelta = Math.IEEEremainder(countsFromAngle - countsBefore, 1.0);
         periodicIO.azimuthRelativeCountsDemand = countsBefore + countsDelta;
+
+        // save previous angle for use if inside deadband in setDesiredState()
+        previousAngle = optimizedState.angle;
+        return optimizedState;
     }
 
     public double getDriveMetersPerSecond() {
@@ -278,6 +296,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         }
 
         periodicIO.driveDemand = metersPerSecond / driveMaximumMetersPerSecond;
+        periodicIO.driveFeedforward = 0;
     }
 
     public void setDriveClosedLoopMetersPerSecond(double metersPerSecond) {
@@ -291,6 +310,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         double encoderCountsPerSecond = motorRotationsPerSecond * driveCountsPerRev;
 
         periodicIO.driveDemand = encoderCountsPerSecond / k100msPerSecond;
+        periodicIO.driveFeedforward = feedforward.calculate(metersPerSecond) / 12.0;
     }
 
     public void setBrakeNeutralMode() {

@@ -1,5 +1,6 @@
 package frc.robot.robotState.scoring;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
@@ -8,14 +9,12 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
-import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
-import static frc.robot.Constants.FieldConstants.kHoodCloseUpDistanceFeet;
+import static frc.robot.Constants.Shooter.kBarfHoodAngle;
+import static frc.robot.Constants.SmartDashboardKeys.kShooterHoodPositionSetpointKey;
 import static frc.robot.OI.barfButton;
 import static frc.robot.RobotContainer.godSubsystem;
-import static frc.robot.RobotContainer.hoodPositionSetpoints;
 
 public class AdjustingHood implements IState {
 
@@ -38,9 +37,14 @@ public class AdjustingHood implements IState {
 //                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
 //            }
 
-            shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
+            if (barfButton.get()) {
+                shooter.setAdjustableHoodDutyCycleDemand(kBarfHoodAngle);
+            } else {
+                shooter.setAdjustableHoodDutyCycleDemand(shooter.getEstimatedHoodAngleFromTarget());
+            }
         } else {
-            shooter.setHoodPosition(hoodPositionSetpoints.getSelected());
+            shooter.setAdjustableHoodDutyCycleDemand(
+                    SmartDashboard.getNumber(kShooterHoodPositionSetpointKey, 0.0));
         }
     }
 
@@ -59,7 +63,8 @@ public class AdjustingHood implements IState {
         godSubsystem.handleIntakingAndOuttaking();
 
         if (barfButton.get()
-                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())) {
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
+                || kIsInShooterTuningMode) {
             return new PreparingToShoot();
         }
 

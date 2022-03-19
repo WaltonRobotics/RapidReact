@@ -11,6 +11,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.config.*;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
+import frc.robot.util.AccelerationLimiter;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.util.interpolation.InterpolatingTreeMap;
 
@@ -52,6 +53,7 @@ public class SwerveTestbed extends WaltRobot {
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
+    private final PIDController faceDirectionController = new PIDController(0.05, 0, 0.000);
     private final PIDController autoAlignController = new PIDController(0.05, 0.015, 0.000);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0.000, new TrapezoidProfile.Constraints(
@@ -61,8 +63,10 @@ public class SwerveTestbed extends WaltRobot {
     private final TalonFXConfiguration flywheelMasterTalonConfig = new TalonFXConfiguration();
     private final TalonFXConfiguration flywheelSlaveTalonConfig = new TalonFXConfiguration();
 
-    private final HashMap<Shooter.HoodPosition, Target> hoodTargets = new HashMap<>(2);
-    private final HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> hoodMaps = new HashMap<>(2);
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> flywheelVelocityMap
+            = new InterpolatingTreeMap<>();
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> hoodAngleMap
+            = new InterpolatingTreeMap<>();
 
     // Climber constants
     private final TalonFXConfiguration pivotControllerTalonConfig = new TalonFXConfiguration();
@@ -227,6 +231,11 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
+            public double getMaxFaceDirectionOmega() {
+                return 1.0;
+            }
+
+            @Override
             public double getDriveGearRatio() {
                 final double kDriveMotorOutputGear = 12;
                 final double kDriveInputGear = 21;
@@ -242,6 +251,21 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
+            public AccelerationLimiter getXLimiter() {
+                return null;
+            }
+
+            @Override
+            public AccelerationLimiter getYLimiter() {
+                return null;
+            }
+
+            @Override
+            public AccelerationLimiter getOmegaLimiter() {
+                return null;
+            }
+
+            @Override
             public PIDController getXController() {
                 return xController;
             }
@@ -254,6 +278,11 @@ public class SwerveTestbed extends WaltRobot {
             @Override
             public ProfiledPIDController getThetaController() {
                 return thetaController;
+            }
+
+            @Override
+            public PIDController getFaceDirectionController() {
+                return faceDirectionController;
             }
 
             @Override
@@ -500,13 +529,13 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public HashMap<Shooter.HoodPosition, Target> getHoodTargets() {
-                return hoodTargets;
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getFlywheelVelocityMap(Shooter.AimTarget target) {
+                return flywheelVelocityMap;
             }
 
             @Override
-            public HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> getHoodMaps() {
-                return hoodMaps;
+            public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getHoodAngleMap(Shooter.AimTarget target) {
+                return hoodAngleMap;
             }
         };
     }
@@ -676,11 +705,6 @@ public class SwerveTestbed extends WaltRobot {
             public double getAbsoluteCountsToIntegratedCountsFactor() {
                 return 0;
             }
-
-            @Override
-            public ProfiledPIDController getPivotProfiledController() {
-                return null;
-            }
         };
     }
 
@@ -701,9 +725,6 @@ public class SwerveTestbed extends WaltRobot {
 
     @Override
     public void defineTargets() {
-        hoodTargets.put(Shooter.HoodPosition.SIXTY_DEGREES, new Target(0, 0));
-        hoodTargets.put(Shooter.HoodPosition.SEVENTY_DEGREES, new Target(0.5, 0));
-
         final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> sixtyDegreeMap = new InterpolatingTreeMap<>();
 
         sixtyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
@@ -723,9 +744,6 @@ public class SwerveTestbed extends WaltRobot {
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
         seventyDegreeMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(11500.0));
-
-        hoodMaps.put(Shooter.HoodPosition.SIXTY_DEGREES, sixtyDegreeMap);
-        hoodMaps.put(Shooter.HoodPosition.SEVENTY_DEGREES, seventyDegreeMap);
 
         // Angles in reference to fixed arm
         // 200:1 GR

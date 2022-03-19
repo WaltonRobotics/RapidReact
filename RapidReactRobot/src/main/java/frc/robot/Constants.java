@@ -14,7 +14,6 @@ package frc.robot;
  */
 public final class Constants {
 
-
     public static final class ContextFlags {
 
         public static final boolean kIsInCompetition = false;
@@ -30,13 +29,13 @@ public final class Constants {
             public static final int kManipulationXboxControllerPort = 1;
         }
 
-        public static final double kMaxTranslationalAccelerationMsecSquared = 3.75; // m/s per second
-
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;
         public static final double kExtensionManualOverrideDeadband = 0.1;
 
         public static final double kFinishedClimbingRumbleValue = 1.0;
+
+        public static final double kFaceDirectionToleranceDegrees = 2.0;
 
     }
 
@@ -62,12 +61,16 @@ public final class Constants {
 
     public static final class Shooter {
 
+        public static final double kDefaultHoodAngle = -0.189;
+
         public static final double kAbsoluteMaximumVelocityNU = 15000;
 
         public static final double kDefaultVelocityRawUnits = 11500;
-        public static final double kBarfVelocityRawUnits = 5000;
+        public static final double kBarfVelocityRawUnits = 4500;
         public static final double kIdleVelocityRawUnits = 9000;
         public static final double kOuttakeVelocityRawUnits = -4500;
+
+        public static final double kBarfHoodAngle = -0.672;
 
         // The tolerance to exit the spinning up state and enter the shooting state
         public static final double kSpinningUpToleranceRawUnits = 150;
@@ -78,8 +81,12 @@ public final class Constants {
         // continue rotating to ensure last few shots don't go amiss
         public static final double kSpinDownTimeSeconds = 0.25;
 
+        public static final double kNudgeDownTimeSeconds = 0.15;
+
         // Time it takes for the hood to change positions
         public static final double kHoodTransitionTimeSeconds = 2.3;
+        // The full range of angles for the hood
+        public static final double kFullHoodAngleRange = 2.0;
 
     }
 
@@ -103,7 +110,7 @@ public final class Constants {
 
         public static final int kAlignmentPipeline = 0;
 
-        public static final double kAlignmentToleranceDegrees = 0.75;
+        public static final double kAlignmentToleranceDegrees = 1.5;
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
     }
@@ -112,7 +119,7 @@ public final class Constants {
 
         public static final String kDrivetrainSetModuleStatesKey = "Drivetrain/Set Module States";
         public static final String kDrivetrainSetpointAngleDegreesKey = "Drivetrain/Setpoint Angle Degrees";
-        public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity Msec";
+        public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity MPS";
 
         public static final String kDrivetrainResetKey = "Drivetrain/Reset";
 
@@ -127,13 +134,19 @@ public final class Constants {
         public static final String kDrivetrainSaveRightRearZeroKey = "Drivetrain/Save Right Rear Azimuth Zero";
 
         public static final String kDrivetrainHeadingDegrees = "Drivetrain/Heading Degrees";
-        public static final String kDrivetrainAngularVelocity = "Drivetrain/Angular Velocity Dsec";
+        public static final String kDrivetrainAngularVelocity = "Drivetrain/Angular Velocity DPS";
         public static final String kDrivetrainPitchDegrees = "Drivetrain/Pitch Degrees";
         public static final String kDrivetrainRollDegrees = "Drivetrain/Roll Degrees";
+
+        public static final String kDrivetrainIsFieldRelativeKey = "Drivetrain/Is Field Relative";
+        public static final String kDrivetrainIsPositionalRotationKey = "Drivetrain/Is Positional Rotation";
 
         public static final String kDriverForwardScaleKey = "Driver/Forward Scale";
         public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
         public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
+
+        public static final String kDriverIsAlignedKey = "Driver/Is Aligned";
+        public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
 
         public static final String kClimberPivotAngleFromVerticalKey = "Climber/Angle From Vertical Deg";
         public static final String kClimberPivotAngleFromHorizontalKey = "Climber/Angle From Horizontal Deg";
@@ -161,6 +174,8 @@ public final class Constants {
         public static final String kLeftIntakePercentOutputKey = "Left Intake Percent Output";
         public static final String kRightIntakePercentOutputKey = "Right Intake Percent Output";
 
+        public static final String kTrajectoryThetaPKey = "Trajectory/Theta P";
+
     }
 
     public static final class LiveDashboardKeys {
@@ -179,7 +194,10 @@ public final class Constants {
     public static final class FieldConstants {
 
         public static final double kTargetHeightInches = 103.81;
-        public static final double kHoodCloseUpDistanceFeet = 4.741;
+        public static final double kSpinUpFlywheelDistanceFromHub = 10;
+
+        public static final double kMoneyShotDistance = 8.1145;
+        public static final double kMoneyShotTolerance = 0.25;
 
     }
 

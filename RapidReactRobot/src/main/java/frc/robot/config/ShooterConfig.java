@@ -22,7 +22,7 @@ public interface ShooterConfig {
     double getLimelightMountingHeightInches();
     double getLimelightMountingAngleDegrees();
 
-    HashMap<Shooter.HoodPosition, Target> getHoodTargets();
-    HashMap<Shooter.HoodPosition, InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>> getHoodMaps();
+    InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getFlywheelVelocityMap(Shooter.AimTarget target);
+    InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getHoodAngleMap(Shooter.AimTarget target);
 
 }
