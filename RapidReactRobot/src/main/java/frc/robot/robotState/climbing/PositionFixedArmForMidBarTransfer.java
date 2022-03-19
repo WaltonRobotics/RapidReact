@@ -37,7 +37,7 @@ public class PositionFixedArmForMidBarTransfer implements IState {
 
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
-        if ((angleTarget.isWithinTolerance(pivotAngle) && midRungAdvanceButton.get())
+        if ((angleTarget.isWithinTolerance(pivotAngle) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new PullUpOntoMidBar();
         }

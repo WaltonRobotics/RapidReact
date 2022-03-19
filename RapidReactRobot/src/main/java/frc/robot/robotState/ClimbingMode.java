@@ -14,7 +14,7 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class ClimbingMode implements IState {
 
-    private final Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.STOWED_ANGLE);
+    private Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.STOWED_ANGLE);
     private final Target hookingLength = currentRobot.getExtensionTarget(Climber.ClimberExtensionPosition.LINING_UP_TO_MID_BAR_LENGTH);
 
     @Override
@@ -31,7 +31,7 @@ public class ClimbingMode implements IState {
         godSubsystem.getClimber().enableExtensionLowerLimit();
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
 
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
     }
 
     @Override
@@ -44,22 +44,21 @@ public class ClimbingMode implements IState {
             return new ScoringModeTransition();
         }
 
+        if (selectMidRungButton.isRisingEdge()) {
+            godSubsystem.setSelectedRung(Superstructure.ClimbingTargetRung.MID_RUNG);
+            stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
+            godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
+        } else if (selectHighRungButton.isRisingEdge()) {
+            godSubsystem.setSelectedRung(Superstructure.ClimbingTargetRung.HIGH_RUNG);
+            stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.STOWED_ANGLE);
+            godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
+        }
+
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
         if ((stowedAngle.isWithinTolerance(pivotAngle) && hookingLength.isWithinTolerance(extensionHeight)
-                && midRungAdvanceButton.get())
-                || (midRungAdvanceButton.get() && overrideNextClimbStateButton.isRisingEdge())) {
-
-            godSubsystem.setSelectedRung(Superstructure.ClimbingTargetRung.MID_RUNG);
-            return new PullUpToHookOntoMidBar();
-        }
-
-        if ((stowedAngle.isWithinTolerance(pivotAngle) && hookingLength.isWithinTolerance(extensionHeight)
-                && highRungAdvanceButton.get())
-                || (highRungAdvanceButton.get() && overrideNextClimbStateButton.isRisingEdge())) {
-
-            godSubsystem.setSelectedRung(Superstructure.ClimbingTargetRung.HIGH_RUNG);
+                && advanceClimbingProcessButton.get()) || overrideNextClimbStateButton.isRisingEdge()) {
             return new PullUpToHookOntoMidBar();
         }
 
