@@ -22,6 +22,7 @@ public class PullUpToHookOntoMidBar implements IState {
 
         if (godSubsystem.getSelectedRung() == Superstructure.ClimbingTargetRung.MID_RUNG) {
             godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
+            godSubsystem.getClimber().setClimberLockStateDemand(false);
         } else {
             godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
         }
@@ -32,10 +33,6 @@ public class PullUpToHookOntoMidBar implements IState {
         godSubsystem.getClimber().setExtensionPositionDemand(
                 Climber.ClimberExtensionPosition.PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH);
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
-
-        if (godSubsystem.getSelectedRung() == Superstructure.ClimbingTargetRung.MID_RUNG) {
-            godSubsystem.getClimber().setClimberLockStateDemand(false);
-        }
     }
 
     @Override
@@ -50,9 +47,16 @@ public class PullUpToHookOntoMidBar implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if ((pullUpLength.isWithinTolerance(extensionHeight))
-                || overrideNextClimbStateButton.isRisingEdge()) {
-            return new PositionFixedArmForMidBarTransfer();
+        if (godSubsystem.getSelectedRung() == Superstructure.ClimbingTargetRung.MID_RUNG) {
+            if ((pullUpLength.isWithinTolerance(extensionHeight))
+                    || overrideNextClimbStateButton.isRisingEdge()) {
+                return new FinalizeClimb();
+            }
+        } else {
+            if ((pullUpLength.isWithinTolerance(extensionHeight))
+                    || overrideNextClimbStateButton.isRisingEdge()) {
+                return new PositionFixedArmForMidBarTransfer();
+            }
         }
 
         godSubsystem.handleExtensionManualOverride();

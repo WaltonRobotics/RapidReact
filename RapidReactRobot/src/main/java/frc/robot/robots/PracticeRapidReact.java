@@ -612,7 +612,7 @@ public class PracticeRapidReact extends WaltRobot {
         pivotControllerTalonConfig.slot0.kI = 0;
         pivotControllerTalonConfig.slot0.kD = 0;
         pivotControllerTalonConfig.slot0.allowableClosedloopError = 0;
-        pivotControllerTalonConfig.slot0.integralZone = 100;
+        pivotControllerTalonConfig.slot0.integralZone = 100; // 750
         pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
         pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
         pivotControllerTalonConfig.motionCruiseVelocity = 700;
@@ -822,7 +822,8 @@ public class PracticeRapidReact extends WaltRobot {
         // Encoder counts = inches * (1 output rev / 0.5*pi inches) * (36 extension motor rev / 1 output rev) * (2048 counts / 1 extension motor rev)
         // Tolerance: 0.1 in
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(6500, 1500)); // 1 in
-        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(369664, 1877)); // 21.467 in
+        climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
+        climberExtensionTargets.put(HIGH_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(369664, 1877)); // 21.467 in
         climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(120000, 1877)); // 11.0 in
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(37549, 1877)); // 3.0 in
         climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(450592, 1877)); // 25 in
