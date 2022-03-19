@@ -20,7 +20,6 @@ import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
-import static frc.robot.RobotContainer.godSubsystem;
 
 public class Superstructure extends SubsystemBase {
 
@@ -32,6 +31,7 @@ public class Superstructure extends SubsystemBase {
 
     private boolean isEnabled = false;
     private CurrentMode currentMode = CurrentMode.SCORING_MODE;
+    private ClimbingTargetRung selectedRung = ClimbingTargetRung.MID_RUNG;
 
     private double currentTargetFlywheelVelocity = 0;
 
@@ -63,6 +63,14 @@ public class Superstructure extends SubsystemBase {
         } else {
             setCurrentMode(CurrentMode.SCORING_MODE);
         }
+    }
+
+    public ClimbingTargetRung getSelectedRung() {
+        return selectedRung;
+    }
+
+    public void setSelectedRung(ClimbingTargetRung rung) {
+        this.selectedRung = rung;
     }
 
     public Drivetrain getDrivetrain() {
@@ -153,17 +161,17 @@ public class Superstructure extends SubsystemBase {
 
     public void handleTransportConveyorManualOverride() {
         if (OI.overrideTransportConveyorButton.get()) {
-            godSubsystem.getConveyor().setTransportDemand(conveyor.getConfig().getTransportIntakePercentOutput());
+            getConveyor().setTransportDemand(conveyor.getConfig().getTransportIntakePercentOutput());
         } else {
-            godSubsystem.getConveyor().setTransportDemand(0);
+            getConveyor().setTransportDemand(0);
         }
     }
 
     public void handleFeedConveyorManualOverride() {
         if (OI.overrideFeedConveyorButton.get()) {
-            godSubsystem.getConveyor().setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
+            getConveyor().setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {
-            godSubsystem.getConveyor().setFeedDemand(0);
+            getConveyor().setFeedDemand(0);
         }
     }
 
@@ -321,6 +329,8 @@ public class Superstructure extends SubsystemBase {
 
         SmartDashboard.putNumber(kClimberPivotAngleFromVerticalKey, climber.getPivotAngleFromVertical().getDegrees());
         SmartDashboard.putNumber(kClimberPivotAngleFromHorizontalKey, climber.getPivotAngleFromHorizontal().getDegrees());
+
+        SmartDashboard.putString(kDriverSelectedRungKey, getSelectedRung().name());
     }
 
     public enum CurrentMode {

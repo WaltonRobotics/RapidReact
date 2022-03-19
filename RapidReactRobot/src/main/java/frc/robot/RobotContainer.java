@@ -145,6 +145,8 @@ public class RobotContainer {
         SmartDashboard.putBoolean(kDriverIsAlignedKey, false);
         SmartDashboard.putBoolean(kDriverIsMoneyShotKey, false);
 
+        SmartDashboard.putString(kDriverSelectedRungKey, godSubsystem.getSelectedRung().name());
+
         if (kIsInTuningMode) {
             SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
             SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);
