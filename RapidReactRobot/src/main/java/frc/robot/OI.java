@@ -41,14 +41,15 @@ public class OI {
 
     // Climbing mode
     // Out-of-the-way buttons
-    public static final EnhancedJoystickButton fastZeroButton = new EnhancedJoystickButton(manipulationGamepad, kX.value);
+    public static final EnhancedJoystickButton fastZeroButton = new EnhancedJoystickButton(manipulationGamepad, kBack.value);
     public static final EnhancedAxisButton
             dangerButton = new EnhancedAxisButton(manipulationGamepad, kRightTrigger.value, 0.85);
     public static final EnhancedComboButton stopClimbButton = new EnhancedComboButton(dangerButton,
             new EnhancedAxisButton(manipulationGamepad, kLeftTrigger.value, 0.85));
     public static final EnhancedComboButton overrideNextClimbStateButton = new EnhancedComboButton(dangerButton,
             new EnhancedJoystickButton(manipulationGamepad, kB.value));
-    public static final EnhancedJoystickButton advanceClimbingProcessButton = new EnhancedJoystickButton(manipulationGamepad, kA.value);
+    public static final EnhancedJoystickButton midRungAdvanceButton = new EnhancedJoystickButton(manipulationGamepad, kA.value);
+    public static final EnhancedJoystickButton highRungAdvanceButton = new EnhancedJoystickButton(manipulationGamepad, kX.value);
 
     // Both modes
     public static final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, kLeftBumper.value);

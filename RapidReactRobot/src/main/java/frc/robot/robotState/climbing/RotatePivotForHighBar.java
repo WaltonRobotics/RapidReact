@@ -1,6 +1,5 @@
 package frc.robot.robotState.climbing;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.config.Target;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
@@ -39,7 +38,7 @@ public class RotatePivotForHighBar implements IState {
 
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();
 
-        if ((angleTarget.isWithinTolerance(pivotAngle) && advanceClimbingProcessButton.get())
+        if ((angleTarget.isWithinTolerance(pivotAngle) && midRungAdvanceButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new InitiateHighBarClimb();
         }

@@ -37,7 +37,7 @@ public class InitiateTraversalBarClimb implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if ((heightTarget.isWithinTolerance(extensionHeight) && advanceClimbingProcessButton.get())
+        if ((heightTarget.isWithinTolerance(extensionHeight) && midRungAdvanceButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new HookOntoTraversalBar();
         }

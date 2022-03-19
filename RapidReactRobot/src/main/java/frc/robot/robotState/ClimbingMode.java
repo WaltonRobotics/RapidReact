@@ -1,7 +1,6 @@
 package frc.robot.robotState;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.OI;
 import frc.robot.config.Target;
 import frc.robot.robotState.climbing.PullUpToHookOntoMidBar;
@@ -49,7 +48,18 @@ public class ClimbingMode implements IState {
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
         if ((stowedAngle.isWithinTolerance(pivotAngle) && hookingLength.isWithinTolerance(extensionHeight)
-                && advanceClimbingProcessButton.get()) || overrideNextClimbStateButton.isRisingEdge()) {
+                && midRungAdvanceButton.get())
+                || (midRungAdvanceButton.get() && overrideNextClimbStateButton.isRisingEdge())) {
+
+            godSubsystem.setSelectedRung(Superstructure.ClimbingTargetRung.MID_RUNG);
+            return new PullUpToHookOntoMidBar();
+        }
+
+        if ((stowedAngle.isWithinTolerance(pivotAngle) && hookingLength.isWithinTolerance(extensionHeight)
+                && highRungAdvanceButton.get())
+                || (highRungAdvanceButton.get() && overrideNextClimbStateButton.isRisingEdge())) {
+
+            godSubsystem.setSelectedRung(Superstructure.ClimbingTargetRung.HIGH_RUNG);
             return new PullUpToHookOntoMidBar();
         }
 
