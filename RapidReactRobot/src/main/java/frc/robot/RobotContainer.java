@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -146,6 +147,12 @@ public class RobotContainer {
         SmartDashboard.putBoolean(kDriverIsMoneyShotKey, false);
 
         SmartDashboard.putString(kDriverSelectedRungKey, godSubsystem.getSelectedRung().name());
+
+        SmartDashboard.putData("Climber Pivot Coast Mode", new InstantCommand(() ->
+                godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Coast)));
+
+        SmartDashboard.putData("Climber Extension Coast Mode", new InstantCommand(() ->
+                godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Coast)));
 
         if (kIsInTuningMode) {
             SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
