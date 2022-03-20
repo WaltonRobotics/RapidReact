@@ -463,6 +463,11 @@ public class Climber implements SubSubsystem {
         extensionController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
     }
 
+    public void configExtensionSmartMotion(double cruiseVelocity, double maxAcceleration) {
+        extensionController.configMotionCruiseVelocity(cruiseVelocity);
+        extensionController.configMotionAcceleration(maxAcceleration);
+    }
+
     public enum ClimberControlState {
         ZEROING, AUTO, OPEN_LOOP, DISABLED
     }

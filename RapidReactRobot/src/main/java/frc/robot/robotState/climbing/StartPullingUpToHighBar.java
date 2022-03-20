@@ -23,6 +23,8 @@ public class StartPullingUpToHighBar implements IState {
         godSubsystem.getClimber().setExtensionPositionDemand(
                 Climber.ClimberExtensionPosition.PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH);
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+
+        godSubsystem.getClimber().configExtensionSmartMotion(10500.0, 8000.0);
     }
 
     @Override
@@ -50,6 +52,8 @@ public class StartPullingUpToHighBar implements IState {
     @Override
     public void finish() {
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.HIGH_BAR_TRANSFER_TO_FIXED_ARM);
+
+        godSubsystem.getClimber().configExtensionSmartMotion(11250, 9000);
     }
 
 }

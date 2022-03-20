@@ -769,11 +769,11 @@ public class PracticeRapidReact extends WaltRobot {
     @Override
     public void defineLimits() {
         climberPivotLimits.put(PIVOT_STOWED, new LimitPair(956, 1006));
-        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(969, 1064));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(969, 1064));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(969, 1064));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(969, 1064));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(969, 1064));
+        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(969, 1065));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(969, 1065));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(969, 1065));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(969, 1065));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(969, 1065));
 
         climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));
         climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 470081));
@@ -802,15 +802,15 @@ public class PracticeRapidReact extends WaltRobot {
         }
 
         // Angles in reference to fixed arm
-        // 160:1 GR
-        // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (160 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
+        // 200:1 GR
+        // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (200 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
         // Tolerance: 1 deg
         climberPivotTargets.put(LINING_UP_FOR_MID_BAR, new Target(11375, 75));
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 75)); // 0 deg
         climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-2000, 75)); // -9.7 deg
-        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(7400, 75));
-        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(25000, 75)); // 23.4 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(14000, 75)); // 21.5 deg
+        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(8000, 75));
+        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(25500, 75)); // 23.4 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(8000, 75)); // 21.5 deg
         climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-2000, 75)); // -10.4 deg
         climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(16000, 75)); // -1.0 deg
         climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(30265, 75)); // 26.6 deg
