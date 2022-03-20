@@ -761,7 +761,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getAbsoluteCountsToIntegratedCountsFactor() {
-                return (160.0 * 2048.0) / 1024.0;
+                return (200.0 * 2048.0) / 1024.0;
             }
         };
     }
