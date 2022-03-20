@@ -17,6 +17,8 @@ import frc.robot.util.interpolation.InterpolatingTreeMap;
 
 import java.util.HashMap;
 
+import static frc.robot.Constants.Climber.kDefaultExtensionAcceleration;
+import static frc.robot.Constants.Climber.kDefaultExtensionCruiseVelocity;
 import static frc.robot.subsystems.Climber.ClimberExtensionLimits.*;
 import static frc.robot.subsystems.Climber.ClimberExtensionLimits.HIGH_BAR_TRANSFER_TO_FIXED_ARM;
 import static frc.robot.subsystems.Climber.ClimberExtensionPosition.*;
@@ -634,8 +636,8 @@ public class PracticeRapidReact extends WaltRobot {
         extensionControllerTalonConfig.slot0.integralZone = 100;
         extensionControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
         extensionControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
-        extensionControllerTalonConfig.motionCruiseVelocity = 11250;
-        extensionControllerTalonConfig.motionAcceleration = 9000;
+        extensionControllerTalonConfig.motionCruiseVelocity = kDefaultExtensionCruiseVelocity;
+        extensionControllerTalonConfig.motionAcceleration = kDefaultExtensionAcceleration;
         extensionControllerTalonConfig.motionCurveStrength = 3;
 
         climberConfig = new ClimberConfig() {

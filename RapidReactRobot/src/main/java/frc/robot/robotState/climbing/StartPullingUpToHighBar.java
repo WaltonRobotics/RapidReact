@@ -5,6 +5,7 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.Constants.Climber.*;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -24,7 +25,8 @@ public class StartPullingUpToHighBar implements IState {
                 Climber.ClimberExtensionPosition.PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH);
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
 
-        godSubsystem.getClimber().configExtensionSmartMotion(10500.0, 8000.0);
+        godSubsystem.getClimber().configExtensionSmartMotion(kSlowPullUpExtensionCruiseVelocity,
+                kSlowPullUpExtensionAcceleration);
     }
 
     @Override
@@ -53,7 +55,8 @@ public class StartPullingUpToHighBar implements IState {
     public void finish() {
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.HIGH_BAR_TRANSFER_TO_FIXED_ARM);
 
-        godSubsystem.getClimber().configExtensionSmartMotion(11250, 9000);
+        godSubsystem.getClimber().configExtensionSmartMotion(kDefaultExtensionCruiseVelocity,
+                kDefaultExtensionAcceleration);
     }
 
 }
