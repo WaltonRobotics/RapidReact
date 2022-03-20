@@ -67,10 +67,15 @@ public final class Constants {
         
         public static final double kAbsoluteMaximumVelocityNU = 15000;
 
-        public static final double kDefaultVelocityRawUnits = 11500;
+        public static final double kDefaultVelocityRawUnits = 8850;
         public static final double kBarfVelocityRawUnits = 4500;
         public static final double kIdleVelocityRawUnits = 9000;
         public static final double kOuttakeVelocityRawUnits = -4500;
+
+        public static final double kDefaultHighGoalHoodAngle = 0.35;
+        public static final double kDefaultHighGoalVelocity = 8850;
+        public static final double kDefaultLowGoalHoodAngle = -0.08;
+        public static final double kDefaultLowGoalVelocity = 5600;
 
         public static final double kBarfHoodAngle = -0.672;
 
