@@ -62,8 +62,8 @@ public class Shooter implements SubSubsystem {
         // From L16-R datasheet
         adjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 
-        periodicIO.adjustableHoodDutyCycleDemand = 0.0;
-        periodicIO.lastAdjustableHoodDutyCycleDemand = 0.0;
+        periodicIO.adjustableHoodDutyCycleDemand = kDefaultHoodAngle;
+        periodicIO.lastAdjustableHoodDutyCycleDemand = kDefaultHoodAngle;
     }
 
     @Override

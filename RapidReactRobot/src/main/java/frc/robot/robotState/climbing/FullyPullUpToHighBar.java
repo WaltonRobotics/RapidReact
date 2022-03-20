@@ -11,16 +11,13 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class FullyPullUpToHighBar implements IState {
 
-    private final Target heightTarget = currentRobot.getExtensionTarget(Climber.ClimberExtensionPosition.STOWED_HEIGHT);
-
     @Override
     public void initialize() {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR);
+        godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_PULL_UP_TO_HIGH_BAR);
 
-        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setExtensionPositionDemand(Climber.ClimberExtensionPosition.STOWED_HEIGHT);
-        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
+        godSubsystem.getClimber().releaseExtensionLowerLimit();
     }
 
     @Override
@@ -33,21 +30,19 @@ public class FullyPullUpToHighBar implements IState {
             return new FinalizeClimb();
         }
 
-        double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
-
-        if ((heightTarget.isWithinTolerance(extensionHeight) && advanceClimbingProcessButton.get())
-                || overrideNextClimbStateButton.isRisingEdge()) {
+        if (godSubsystem.getClimber().isLeftExtensionLowerLimitClosed() ||
+                godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) {
             return new TransferHighBarFromPivotToFixed();
         }
 
-        godSubsystem.handleExtensionManualOverride();
+        godSubsystem.getClimber().setExtensionPercentOutputDemand(-0.2);
 
         return this;
     }
 
     @Override
     public void finish() {
-        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.STOWED);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
+        godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
     }
-
 }

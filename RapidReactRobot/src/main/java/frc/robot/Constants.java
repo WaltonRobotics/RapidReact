@@ -64,7 +64,9 @@ public final class Constants {
     }
 
     public static final class Shooter {
-        
+
+        public static final double kDefaultHoodAngle = -0.189;
+
         public static final double kAbsoluteMaximumVelocityNU = 15000;
 
         public static final double kDefaultVelocityRawUnits = 8850;
@@ -156,6 +158,7 @@ public final class Constants {
 
         public static final String kDriverIsAlignedKey = "Driver/Is Aligned";
         public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
+        public static final String kDriverSelectedRungKey = "Driver/Selected Rung";
 
         public static final String kClimberPivotAngleFromVerticalKey = "Climber/Angle From Vertical Deg";
         public static final String kClimberPivotAngleFromHorizontalKey = "Climber/Angle From Horizontal Deg";

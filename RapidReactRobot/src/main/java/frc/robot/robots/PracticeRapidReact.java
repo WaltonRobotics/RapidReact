@@ -407,22 +407,22 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLeftIntakePercentOutput() {
-                return 0.32;
+                return 0.45;
             }
 
             @Override
             public double getRightIntakePercentOutput() {
-                return 0.32; // 0.35
+                return 0.45; // 0.35
             }
 
             @Override
             public double getLeftOuttakePercentOutput() {
-                return -0.32;
+                return -0.45;
             }
 
             @Override
             public double getRightOuttakePercentOutput() {
-                return -0.32; // -0.35
+                return -0.45; // -0.35
             }
         };
     }
@@ -607,13 +607,13 @@ public class PracticeRapidReact extends WaltRobot {
         pivotControllerTalonConfig.reverseSoftLimitEnable = false;
 
         // Motion Magic slot
-        pivotControllerTalonConfig.slot0.kF = 0.14614296;
+        pivotControllerTalonConfig.slot0.kF = 0.11366667;
         pivotControllerTalonConfig.slot0.kP = 1.0;
-        pivotControllerTalonConfig.slot0.kI = 0;
+        pivotControllerTalonConfig.slot0.kI = 1.0 / 100.0;
         pivotControllerTalonConfig.slot0.kD = 0;
         pivotControllerTalonConfig.slot0.allowableClosedloopError = 0;
-        pivotControllerTalonConfig.slot0.integralZone = 100;
-        pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 0;
+        pivotControllerTalonConfig.slot0.integralZone = 300; // 750
+        pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 250_000;
         pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
         pivotControllerTalonConfig.motionCruiseVelocity = 700;
         pivotControllerTalonConfig.motionAcceleration = 600;
@@ -651,7 +651,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getVerticalReferenceAbsoluteCounts() {
-                return 1177;
+                return 1001;
             }
 
             @Override
@@ -761,24 +761,24 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getAbsoluteCountsToIntegratedCountsFactor() {
-                return (160.0 * 2048.0) / 1024.0;
+                return (200.0 * 2048.0) / 1024.0;
             }
         };
     }
 
     @Override
     public void defineLimits() {
-        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(1174, 1181));
-        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(1148, 1235));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(1148, 1235));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(1148, 1235));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(1148, 1235));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(1148, 1235));
+        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(956, 1006));
+        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(969, 1064));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(969, 1064));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(969, 1064));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(969, 1064));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(969, 1064));
 
         climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));
-        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 410000));
-        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(5000, 410000));
-        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(5000, 410000));
+        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 470081));
+        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(5000, 470081));
+        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(5000, 470081));
     }
 
     @Override
@@ -805,15 +805,16 @@ public class PracticeRapidReact extends WaltRobot {
         // 160:1 GR
         // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (160 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
         // Tolerance: 1 deg
-        climberPivotTargets.put(LINING_UP_FOR_MID_BAR, new Target(9100, 60));
-        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 60)); // 0 deg
-        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-8829, 60)); // -9.7 deg
-        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(21299, 60)); // 23.4 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(19570, 60)); // 21.5 deg
-        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-9466, 60)); // -10.4 deg
-        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(-910, 60)); // -1.0 deg
-        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(24212, 60)); // 26.6 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(26396, 60)); // 20.0 deg
+        climberPivotTargets.put(LINING_UP_FOR_MID_BAR, new Target(11375, 75));
+        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 75)); // 0 deg
+        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-2000, 75)); // -9.7 deg
+        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(7400, 75));
+        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(25000, 75)); // 23.4 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(14000, 75)); // 21.5 deg
+        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-2000, 75)); // -10.4 deg
+        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(16000, 75)); // -1.0 deg
+        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(30265, 75)); // 26.6 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(32995, 75)); // 20.0 deg
 
         // Lengths are relative to uppermost ring of outer arm
         // 36:1 GR
@@ -821,13 +822,14 @@ public class PracticeRapidReact extends WaltRobot {
         // Encoder counts = inches * (1 output rev / 0.5*pi inches) * (36 extension motor rev / 1 output rev) * (2048 counts / 1 extension motor rev)
         // Tolerance: 0.1 in
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(6500, 1500)); // 1 in
-        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
-        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(100000, 1877)); // 11.0 in
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(37549, 1877)); // 3.0 in
-        climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(450592, 1877)); // 25 in
-        climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(234684, 1877)); // 13.50 in
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(37549, 1877)); // 3.0 in
-        climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(469367, 1877)); // 26.0 in
+        climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
+        climberExtensionTargets.put(HIGH_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(369664, 1877)); // 21.467 in
+        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(120000, 1877)); // 11.0 in
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(40549, 1877)); // 3.0 in
+        climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(469500, 1877)); // 25 in
+        climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(120000, 1877)); // 13.50 in
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(40549, 1877)); // 3.0 in
+        climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(469867, 1877)); // 26.0 in
         climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(199012, 1877)); // 11.6 in
     }
 
