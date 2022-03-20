@@ -59,7 +59,7 @@ public class OI {
     public static final EnhancedJoystickButton toggleFieldRelativeModeButton = new EnhancedJoystickButton(driveGamepad, kLeftStick.value);
     public static final EnhancedJoystickButton toggleRotationModeButton = new EnhancedJoystickButton(driveGamepad, kRightStick.value);
     public static final EnhancedJoystickButton faceClosestButton = new EnhancedJoystickButton(driveGamepad, kA.value);
-    public static final EnhancedJoystickButton faceClimbButton = new EnhancedJoystickButton(driveGamepad, kB.value);
+    public static final EnhancedJoystickButton overrideAutoAimAndShootButton = new EnhancedJoystickButton(driveGamepad, kB.value);
     public static final EnhancedJoystickButton trackTargetButton = new EnhancedJoystickButton(driveGamepad, kX.value);
 
 }

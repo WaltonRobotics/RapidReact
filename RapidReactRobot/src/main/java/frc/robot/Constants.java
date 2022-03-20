@@ -115,6 +115,8 @@ public final class Constants {
         public static final double kAlignmentToleranceDegrees = 1.5;
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
+        public static final boolean kUseOdometryBackup = false;
+
     }
 
     public static final class SmartDashboardKeys {
@@ -201,7 +203,7 @@ public final class Constants {
         public static final double kMoneyShotDistance = 8.1145;
         public static final double kMoneyShotTolerance = 0.25;
 
-        public static final Pose2d centerOfHub = new Pose2d(8.23, 4.11, Rotation2d.fromDegrees(0.0));
+        public static final Pose2d kCenterOfHubPose = new Pose2d(8.23, 4.11, Rotation2d.fromDegrees(0.0));
 
     }
 
