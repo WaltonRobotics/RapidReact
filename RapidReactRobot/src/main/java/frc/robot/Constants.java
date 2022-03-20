@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -65,10 +69,15 @@ public final class Constants {
 
         public static final double kAbsoluteMaximumVelocityNU = 15000;
 
-        public static final double kDefaultVelocityRawUnits = 11500;
+        public static final double kDefaultVelocityRawUnits = 8850;
         public static final double kBarfVelocityRawUnits = 4500;
         public static final double kIdleVelocityRawUnits = 9000;
         public static final double kOuttakeVelocityRawUnits = -4500;
+
+        public static final double kDefaultHighGoalHoodAngle = 0.35;
+        public static final double kDefaultHighGoalVelocity = 8850;
+        public static final double kDefaultLowGoalHoodAngle = -0.08;
+        public static final double kDefaultLowGoalVelocity = 5600;
 
         public static final double kBarfHoodAngle = -0.672;
 
@@ -118,6 +127,8 @@ public final class Constants {
 
         public static final double kAlignmentToleranceDegrees = 1.5;
         public static final double kAlignmentTimeoutSeconds = 1.5;
+
+        public static final boolean kUseOdometryBackup = false;
 
     }
 
@@ -205,6 +216,8 @@ public final class Constants {
 
         public static final double kMoneyShotDistance = 8.1145;
         public static final double kMoneyShotTolerance = 0.25;
+
+        public static final Pose2d kCenterOfHubPose = new Pose2d(8.23, 4.11, Rotation2d.fromDegrees(0.0));
 
     }
 
