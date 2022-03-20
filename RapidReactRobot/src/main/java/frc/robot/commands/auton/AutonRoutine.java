@@ -262,17 +262,25 @@ public enum AutonRoutine {
     THREE_BALL_PICKUP_TWO("3 ball auton, pick up 2", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFull),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new ParallelDeadlineGroup(
                     new ShootCargo(2.0),
                     new SequentialCommandGroup(
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
                             new SetLeftIntakeDeployed(true),
                             new SetRightIntakeDeployed(true)
                     )
             ),
-            new SwerveTrajectoryCommand(routineFiveBFull),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
+            new ParallelDeadlineGroup(
+                    new SwerveTrajectoryCommand(routineFiveBFull),
+                    new ParallelCommandGroup(
+                           new WaitCommand(routineFiveBFull.getTotalTimeSeconds() * 0.75),
+                           new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
+                    )
+            ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new AlignAndShootCargo(3.5),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(pickupG),
@@ -283,6 +291,7 @@ public enum AutonRoutine {
     FIVE_BALL("Five ball auton", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFullFast),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new ParallelDeadlineGroup(
                     new ShootCargo(2.0), // Limelight distance: 6.322 ft
                     new SequentialCommandGroup(
@@ -291,14 +300,29 @@ public enum AutonRoutine {
                             new SetRightIntakeDeployed(true)
                     )
             ),
-            new SwerveTrajectoryCommand(routineFiveBFullFast),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
+            new ParallelDeadlineGroup(
+                    new SwerveTrajectoryCommand(routineFiveBFullFast),
+                    new ParallelCommandGroup(
+                            new WaitCommand(routineFiveBFullFast.getTotalTimeSeconds() * 0.75),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
+                    )
+            ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new AlignAndShootCargo(3.5),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new SwerveTrajectoryCommand(pickupGShoot),
+            new ParallelDeadlineGroup(
+                    new SwerveTrajectoryCommand(pickupGShoot),
+                    new ParallelCommandGroup(
+                            new WaitCommand(pickupGShoot.getTotalTimeSeconds() * 0.75),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
+                    )
+            ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new AlignAndShootCargo(3.5)
+            new AlignAndShootCargo(3.5),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false))
     ));
 //
 //    ROUTINE_SEVEN("Start from gamma, pick up ball C, shoot 2, pick up ball B, pick up ball A, shoot 2", new SequentialCommandGroup(
