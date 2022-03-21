@@ -212,6 +212,8 @@ public class RobotContainer {
                     AutonRoutine.HALF_FOOT_BACKWARDS.getCommandGroup());
         }
 
+        SmartDashboard.putBoolean("Flywheel on target", false);
+
         NetworkTableInstance.getDefault().flush();
     }
 

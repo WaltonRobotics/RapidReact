@@ -73,7 +73,7 @@ public class PracticeRapidReact extends WaltRobot {
     private final PIDController yController = new PIDController(kTranslationalP, 0.0, kTranslationalD);
     private final ProfiledPIDController thetaController =
             new ProfiledPIDController(
-                    2.85,
+                    3.5,
                     0,
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));

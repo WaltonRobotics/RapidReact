@@ -1,5 +1,6 @@
 package frc.robot.commands.auton;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
 
@@ -255,7 +256,10 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
-            new ShootCargoTimed(2.0),
+            new ParallelDeadlineGroup(
+                    new ShootCargo(1, 2.0),
+                    new SetModuleStates(0, Rotation2d.fromDegrees(0), 2.0)
+            ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SetLeftIntakeDeployed(true),
             new SetRightIntakeDeployed(true),
@@ -267,7 +271,7 @@ public enum AutonRoutine {
                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
                     )
             ),
-            new AlignAndShootCargoTimed(3.5),
+            new AlignAndShootCargo(2, 3.5),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
@@ -280,7 +284,10 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFullFast),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
-            new ShootCargoTimed(2.0), // Limelight distance: 6.322 ft
+            new ParallelDeadlineGroup(
+                    new ShootCargoTimed(2.0), // Limelight distance: 6.322 ft
+                    new SetModuleStates(0, Rotation2d.fromDegrees(0), 2.0)
+            ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SetLeftIntakeDeployed(true),
             new SetRightIntakeDeployed(true),
