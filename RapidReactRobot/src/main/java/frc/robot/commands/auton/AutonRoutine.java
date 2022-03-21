@@ -258,6 +258,7 @@ public enum AutonRoutine {
             new ParallelDeadlineGroup(
                     new ShootCargoTimed(2.0),
                     new SequentialCommandGroup(
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
                             new SetLeftIntakeDeployed(true),
                             new SetRightIntakeDeployed(true)
                     )
