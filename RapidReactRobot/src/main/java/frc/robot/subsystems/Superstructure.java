@@ -8,6 +8,7 @@ import frc.robot.OI;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.auton.TurnToAngle;
 import frc.robot.robotState.Disabled;
+import frc.robot.stateMachine.IState;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
 import frc.robot.util.interpolation.InterpolatingDouble;
@@ -47,6 +48,10 @@ public class Superstructure extends SubsystemBase {
 
     public Superstructure() {
         stateMachine = new StateMachine("Superstructure", new Disabled());
+    }
+
+    public IState getCurrentState() {
+        return stateMachine.getCurrentState();
     }
 
     public CurrentMode getCurrentMode() {
