@@ -323,12 +323,6 @@ public class Superstructure extends SubsystemBase {
     public void periodic() {
         stateMachine.run();
 
-        SmartDashboard.putData(kDrivetrainPeriodicIOKey, drivetrain.getPeriodicIOSendable());
-        SmartDashboard.putData(kIntakePeriodicIOKey, intake.getPeriodicIOSendable());
-        SmartDashboard.putData(kConveyorPeriodicIOKey, conveyor.getPeriodicIOSendable());
-        SmartDashboard.putData(kShooterPeriodicIOKey, shooter.getPeriodicIOSendable());
-        SmartDashboard.putData(kClimberPeriodicIOKey, climber.getPeriodicIOSendable());
-
         SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, getCurrentTargetFlywheelVelocity());
         SmartDashboard.putNumber(kLimelightDistanceFeetKey, LimelightHelper.getDistanceToTargetFeet());
 

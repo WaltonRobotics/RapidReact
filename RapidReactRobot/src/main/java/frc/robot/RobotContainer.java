@@ -154,6 +154,12 @@ public class RobotContainer {
         SmartDashboard.putData("Climber Extension Coast Mode", new InstantCommand(() ->
                 godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Coast)));
 
+        SmartDashboard.putData(kDrivetrainPeriodicIOKey, godSubsystem.getDrivetrain().getPeriodicIOSendable());
+        SmartDashboard.putData(kIntakePeriodicIOKey, godSubsystem.getIntake().getPeriodicIOSendable());
+        SmartDashboard.putData(kConveyorPeriodicIOKey, godSubsystem.getConveyor().getPeriodicIOSendable());
+        SmartDashboard.putData(kShooterPeriodicIOKey, godSubsystem.getShooter().getPeriodicIOSendable());
+        SmartDashboard.putData(kClimberPeriodicIOKey, godSubsystem.getClimber().getPeriodicIOSendable());
+
         if (kIsInTuningMode) {
             SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
             SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);
