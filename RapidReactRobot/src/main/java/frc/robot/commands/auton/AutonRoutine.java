@@ -255,15 +255,11 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
-            new ParallelDeadlineGroup(
-                    new ShootCargoTimed(2.0),
-                    new SequentialCommandGroup(
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-                            new SetLeftIntakeDeployed(true),
-                            new SetRightIntakeDeployed(true)
-                    )
-            ),
+            new ShootCargoTimed(2.0),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
+            new SetLeftIntakeDeployed(true),
+            new SetRightIntakeDeployed(true),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(routineFiveBFull),
                     new ParallelCommandGroup(
@@ -284,15 +280,11 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFullFast),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
-            new ParallelDeadlineGroup(
-                    new ShootCargoTimed(2.0), // Limelight distance: 6.322 ft
-                    new SequentialCommandGroup(
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-                            new SetLeftIntakeDeployed(true),
-                            new SetRightIntakeDeployed(true)
-                    )
-            ),
+            new ShootCargoTimed(2.0), // Limelight distance: 6.322 ft
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
+            new SetLeftIntakeDeployed(true),
+            new SetRightIntakeDeployed(true),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(routineFiveBFullFast),
                     new ParallelCommandGroup(
