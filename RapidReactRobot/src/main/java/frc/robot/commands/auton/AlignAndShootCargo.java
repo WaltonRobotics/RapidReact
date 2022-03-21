@@ -2,39 +2,31 @@ package frc.robot.commands.auton;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import static frc.robot.RobotContainer.godSubsystem;
 
-public class AlignAndShootCargo extends CommandBase {
+public class AlignAndShootCargo extends SequentialCommandGroup {
 
-    private final Timer timer = new Timer();
-    private double totalTimeSeconds;
+    public AlignAndShootCargo(int numberOfBalls, double timeout) {
+        addCommands(new InstantCommand(() -> godSubsystem.setDoesAutonNeedToAlignAndShoot(true)));
 
-    public AlignAndShootCargo(double timeSeconds) {
-        totalTimeSeconds = timeSeconds;
+        for (int i = 0; i < numberOfBalls; i++) {
+            addCommands(new WaitForCargoShot().withTimeout(timeout));
+        }
+
+        addCommands(new InstantCommand(() -> godSubsystem.setDoesAutonNeedToAlignAndShoot(false)));
     }
 
-    @Override
-    public void initialize() {
-        timer.reset();
-        timer.start();
+    public AlignAndShootCargo(int numberOfBalls) {
+        addCommands(new InstantCommand(() -> godSubsystem.setDoesAutonNeedToAlignAndShoot(true)));
 
-        godSubsystem.setDoesAutonNeedToAlignAndShoot(true);
-    }
+        for (int i = 0; i < numberOfBalls; i++) {
+            addCommands(new WaitForCargoShot());
+        }
 
-    @Override
-    public void execute() {
-        godSubsystem.setDoesAutonNeedToAlignAndShoot(true);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return timer.hasElapsed(totalTimeSeconds);
+        addCommands(new InstantCommand(() -> godSubsystem.setDoesAutonNeedToAlignAndShoot(false)));
     }
 
 }

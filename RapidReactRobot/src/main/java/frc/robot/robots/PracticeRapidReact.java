@@ -409,17 +409,17 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLeftIntakePercentOutput() {
-                return 0.45;
+                return 0.35;
             }
 
             @Override
             public double getRightIntakePercentOutput() {
-                return 0.45; // 0.35
+                return 0.35; // 0.35
             }
 
             @Override
             public double getLeftOuttakePercentOutput() {
-                return -0.45;
+                return -0.4;
             }
 
             @Override

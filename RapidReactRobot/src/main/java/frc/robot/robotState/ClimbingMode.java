@@ -8,6 +8,8 @@ import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Superstructure;
 
+import static frc.robot.Constants.Climber.kDefaultExtensionAcceleration;
+import static frc.robot.Constants.Climber.kDefaultExtensionCruiseVelocity;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -31,6 +33,7 @@ public class ClimbingMode implements IState {
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setExtensionPositionDemand(
                 Climber.ClimberExtensionPosition.MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH);
+        godSubsystem.getClimber().configExtensionSmartMotion(13000, 10000);
 
         godSubsystem.getClimber().enableExtensionLowerLimit();
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
@@ -80,7 +83,8 @@ public class ClimbingMode implements IState {
 
     @Override
     public void finish() {
-
+        godSubsystem.getClimber().configExtensionSmartMotion(kDefaultExtensionCruiseVelocity,
+                kDefaultExtensionAcceleration);
     }
 
 }

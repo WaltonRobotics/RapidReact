@@ -12,6 +12,7 @@ import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
+import static frc.robot.OI.barfButton;
 import static frc.robot.OI.overrideAutoAimAndShootButton;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
@@ -43,7 +44,8 @@ public class NudgingDown implements IState {
             return new Disabled();
         }
 
-        if (!OI.shootButton.get() && !OI.barfButton.get() && !overrideAutoAimAndShootButton.get()
+        if (!OI.shootButton.get() && !barfButton.get() && !overrideAutoAimAndShootButton.get()
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
             return new ScoringMode();
         }

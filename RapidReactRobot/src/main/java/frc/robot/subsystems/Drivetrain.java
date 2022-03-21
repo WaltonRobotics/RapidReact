@@ -164,8 +164,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public void zeroHeading() {
+        setHeadingOffset(Rotation2d.fromDegrees(0.0));
         swerveDrive.resetGyro();
-        ahrs.setAngleAdjustment(0.0);
     }
 
     /**
@@ -176,7 +176,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state) {
-        ahrs.setAngleAdjustment(state.holonomicRotation.getDegrees());
+        setHeadingOffset(state.holonomicRotation);
         Pose2d holonomicPose =  new Pose2d(pose.getX(), pose.getY(), state.holonomicRotation);
         swerveDrive.resetOdometry(holonomicPose);
     }

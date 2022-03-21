@@ -3,20 +3,12 @@ package frc.robot.commands.auton;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
 
-import static frc.robot.Paths.RoutineEight.pickupAAndB;
 import static frc.robot.Paths.RoutineEight.pickupG;
-import static frc.robot.Paths.RoutineFiveB.*;
-import static frc.robot.Paths.RoutineFiveC.ballBToBallG;
-import static frc.robot.Paths.RoutineFiveD.ballBToBallC;
-import static frc.robot.Paths.RoutineFiveE.ballBToMoneyShot;
 import static frc.robot.Paths.RoutineFiveFull.pickupGShoot;
 import static frc.robot.Paths.RoutineFiveFull.routineFiveBFull;
 import static frc.robot.Paths.RoutineFiveFull.routineFiveBFullFast;
-import static frc.robot.Paths.RoutineFourA.*;
 import static frc.robot.Paths.RoutineOne.gammaBackwards;
-import static frc.robot.Paths.RoutineSeven.*;
 import static frc.robot.Paths.RoutineSixG.*;
-import static frc.robot.Paths.RoutineThree.alphaPickUpA;
 import static frc.robot.Paths.RoutineTwo.betaBackwards;
 import static frc.robot.Paths.TestTrajectories.*;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -60,7 +52,7 @@ public enum AutonRoutine {
     ONE_BALL("Start from beta, shoot 1 ball, move backward off tarmac", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(betaBackwards),
-            new ShootCargo(3.0),
+            new ShootCargoTimed(3.0),
             new SwerveTrajectoryCommand(betaBackwards)
     )),
 
@@ -87,7 +79,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
 //            new TurnToAngle(90.0).withTimeout(2.0),
-            new AlignAndShootCargo(10.0)
+            new AlignAndShootCargoTimed(10.0)
     )),
 
 //    //FOUR_B is the same except picks up 2 balls from G
@@ -220,7 +212,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFullFast),
             new ParallelDeadlineGroup(
-                    new ShootCargo(2.0),
+                    new ShootCargoTimed(2.0),
                     new SequentialCommandGroup(
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
                             new SetLeftIntakeDeployed(true),
@@ -264,7 +256,7 @@ public enum AutonRoutine {
             new ResetPose(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new ParallelDeadlineGroup(
-                    new ShootCargo(2.0),
+                    new ShootCargoTimed(2.0),
                     new SequentialCommandGroup(
                             new SetLeftIntakeDeployed(true),
                             new SetRightIntakeDeployed(true)
@@ -278,8 +270,7 @@ public enum AutonRoutine {
                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
                     )
             ),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new AlignAndShootCargo(3.5),
+            new AlignAndShootCargoTimed(3.5),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
@@ -293,7 +284,7 @@ public enum AutonRoutine {
             new ResetPose(routineFiveBFullFast),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new ParallelDeadlineGroup(
-                    new ShootCargo(2.0), // Limelight distance: 6.322 ft
+                    new ShootCargoTimed(2.0), // Limelight distance: 6.322 ft
                     new SequentialCommandGroup(
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
                             new SetLeftIntakeDeployed(true),
@@ -309,7 +300,7 @@ public enum AutonRoutine {
                     )
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new AlignAndShootCargo(3.5),
+            new AlignAndShootCargoTimed(3.5),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
@@ -321,7 +312,7 @@ public enum AutonRoutine {
                     )
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new AlignAndShootCargo(3.5),
+            new AlignAndShootCargoTimed(3.5),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false))
     ));
 //
