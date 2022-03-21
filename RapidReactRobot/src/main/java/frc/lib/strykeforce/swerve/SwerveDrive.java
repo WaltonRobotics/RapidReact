@@ -271,12 +271,9 @@ public class SwerveDrive {
 
 //    SmartDashboard.putNumber("Vy", chassisSpeeds.vyMetersPerSecond);
 
-    // Temporary auton fix
-    if (!godSubsystem.isInAuton()) {
-      chassisSpeeds.vxMetersPerSecond = xLimiter.calculate(chassisSpeeds.vxMetersPerSecond);
-      chassisSpeeds.vyMetersPerSecond = yLimiter.calculate(chassisSpeeds.vyMetersPerSecond);
-      chassisSpeeds.omegaRadiansPerSecond = omegaLimiter.calculate(chassisSpeeds.omegaRadiansPerSecond);
-    }
+    chassisSpeeds.vxMetersPerSecond = xLimiter.calculate(chassisSpeeds.vxMetersPerSecond);
+    chassisSpeeds.vyMetersPerSecond = yLimiter.calculate(chassisSpeeds.vyMetersPerSecond);
+    chassisSpeeds.omegaRadiansPerSecond = omegaLimiter.calculate(chassisSpeeds.omegaRadiansPerSecond);
 
     var swerveModuleStates = kinematics.toSwerveModuleStates(chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxSpeedMetersPerSecond);
