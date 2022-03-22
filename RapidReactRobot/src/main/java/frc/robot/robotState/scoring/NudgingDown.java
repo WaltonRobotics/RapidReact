@@ -8,15 +8,19 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.vision.LimelightHelper;
 
-import static frc.robot.Constants.Shooter.kSpinningUpToleranceRawUnits;
+import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
+import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
+import static frc.robot.OI.barfButton;
 import static frc.robot.OI.overrideAutoAimAndShootButton;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
 
-public class SpinningUp implements IState {
+public class NudgingDown implements IState {
 
     private final Shooter shooter = godSubsystem.getShooter();
+    private double timeout;
 
     @Override
     public void initialize() {
@@ -25,8 +29,13 @@ public class SpinningUp implements IState {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
+        LimelightHelper.setLEDMode(true);
+        LimelightHelper.setPipeline(kAlignmentPipeline);
+
         shooter.setSelectedProfileSlot(SPINNING_UP_SLOT);
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
+
+        timeout = godSubsystem.getCurrentTime() + kNudgeDownTimeSeconds;
     }
 
     @Override
@@ -35,19 +44,23 @@ public class SpinningUp implements IState {
             return new Disabled();
         }
 
-        if (!OI.shootButton.get() && !OI.barfButton.get() && !overrideAutoAimAndShootButton.get()
+        if (!OI.shootButton.get() && !barfButton.get() && !overrideAutoAimAndShootButton.get()
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
             return new ScoringMode();
         }
 
-        shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+        godSubsystem.handleIdleSpinUp();
 
-        godSubsystem.handleIntakingAndOuttaking();
+        godSubsystem.handleIntaking();
 
-        if (Math.abs(godSubsystem.getCurrentTargetFlywheelVelocity() - shooter.getFlywheelVelocityNU())
-                <= kSpinningUpToleranceRawUnits) {
-            return new Shooting();
+        godSubsystem.getConveyor().setTransportDemand(
+                godSubsystem.getConveyor().getConfig().getTransportOuttakePercentOutput());
+        godSubsystem.getConveyor().setFeedDemand(
+                godSubsystem.getConveyor().getConfig().getFeedOuttakePercentOutput());
+
+        if (godSubsystem.getCurrentTime() >= timeout) {
+            return new PreparingToShoot();
         }
 
         return this;

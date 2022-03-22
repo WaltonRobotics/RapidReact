@@ -22,6 +22,7 @@ import static frc.robot.Constants.PIDProfileSlots.kSpinningUpIndex;
 import static frc.robot.Constants.PIDProfileSlots.kShootingIndex;
 import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterBallQualityAdditive;
+import static frc.robot.Constants.VisionConstants.kUseOdometryBackup;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.robotLogger;
 
@@ -61,8 +62,8 @@ public class Shooter implements SubSubsystem {
         // From L16-R datasheet
         adjustableHoodServo.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 
-        periodicIO.adjustableHoodDutyCycleDemand = 0.0;
-        periodicIO.lastAdjustableHoodDutyCycleDemand = 0.0;
+        periodicIO.adjustableHoodDutyCycleDemand = kDefaultHoodAngle;
+        periodicIO.lastAdjustableHoodDutyCycleDemand = kDefaultHoodAngle;
     }
 
     @Override
@@ -210,11 +211,14 @@ public class Shooter implements SubSubsystem {
     }
 
     public double getEstimatedHoodAngleFromTarget() {
-        // If the limelight does not see a target, we use the last known "ty" value since
-        // LimelightHelper uses a MovingAverage to keep track of it at all times
-
         if (LimelightHelper.getTV() <= 0) {
-            robotLogger.log(Level.WARNING, "No target found for shooter. Using last known information");
+            robotLogger.log(Level.WARNING, "No target found for shooter. Using default hood angle");
+
+            if (getAimTarget() == AimTarget.HIGH_GOAL) {
+                return kDefaultHighGoalHoodAngle;
+            } else {
+                return kDefaultLowGoalHoodAngle;
+            }
         }
 
         double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
@@ -231,7 +235,13 @@ public class Shooter implements SubSubsystem {
 
     public double getEstimatedVelocityFromTarget() {
         if (LimelightHelper.getTV() <= 0) {
-            robotLogger.log(Level.WARNING, "No target found for shooter. Using last known information");
+            robotLogger.log(Level.WARNING, "No target found for shooter. Using default flywheel velocity");
+
+            if (getAimTarget() == AimTarget.HIGH_GOAL) {
+                return kDefaultHighGoalVelocity;
+            } else {
+                return kDefaultLowGoalVelocity;
+            }
         }
 
         double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
@@ -323,7 +333,7 @@ public class Shooter implements SubSubsystem {
             builder.addStringProperty("Aim Target", () -> aimTarget.name(), (x) -> {
             });
 
-            if (!kIsInCompetition) {
+//            if (!kIsInCompetition) {
                 builder.addStringProperty("Shooter Control State", () -> shooterControlState.name(), (x) -> {
                 });
                 builder.addStringProperty("Selected Profile Slot", () -> selectedProfileSlot.name(), (x) -> {
@@ -338,7 +348,7 @@ public class Shooter implements SubSubsystem {
                 });
                 builder.addDoubleProperty("Estimated Hood Position", () -> estimatedHoodPosition, (x) -> {
                 });
-            }
+//            }
         }
     }
 

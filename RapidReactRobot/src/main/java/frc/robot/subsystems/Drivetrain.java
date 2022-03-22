@@ -28,6 +28,7 @@ import frc.robot.util.UtilMethods;
 
 import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.Constants.DriverPreferences.kFaceDirectionToleranceDegrees;
+import static frc.robot.Constants.FieldConstants.kCenterOfHubPose;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Drivetrain extends SubsystemBase implements SubSubsystem {
@@ -163,8 +164,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public void zeroHeading() {
+        setHeadingOffset(Rotation2d.fromDegrees(0.0));
         swerveDrive.resetGyro();
-        ahrs.setAngleAdjustment(0.0);
     }
 
     /**
@@ -175,8 +176,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state) {
-        ahrs.setAngleAdjustment(state.holonomicRotation.getDegrees());
-        Pose2d holonomicPose =  new Pose2d(pose.getX(), pose.getY(), state.holonomicRotation);
+        setHeadingOffset(state.holonomicRotation);
+        Pose2d holonomicPose = new Pose2d(pose.getX(), pose.getY(), state.holonomicRotation);
         swerveDrive.resetOdometry(holonomicPose);
     }
 
@@ -199,8 +200,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         field.setRobotPose(getPoseMeters());
 //        LiveDashboardHelper.putRobotData(getPoseMeters());
 
-        SmartDashboard.putNumber("Robot pitch angle", ahrs.getPitch());
-        SmartDashboard.putNumber("Robot roll angle", ahrs.getRoll());
+//        SmartDashboard.putNumber("Robot pitch angle", ahrs.getPitch());
+//        SmartDashboard.putNumber("Robot roll angle", ahrs.getRoll());
     }
 
     /**
@@ -293,6 +294,12 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveModules[1].setAzimuthRotation2d(Rotation2d.fromDegrees(-45));
         swerveModules[2].setAzimuthRotation2d(Rotation2d.fromDegrees(-45));
         swerveModules[3].setAzimuthRotation2d(Rotation2d.fromDegrees(45));
+    }
+
+    public Rotation2d getEstimatedAngleToHub() {
+        Pose2d targetRobotRelative = kCenterOfHubPose.relativeTo(getPoseMeters());
+
+        return new Rotation2d(Math.atan2(targetRobotRelative.getY(), targetRobotRelative.getX()));
     }
 
     @Override

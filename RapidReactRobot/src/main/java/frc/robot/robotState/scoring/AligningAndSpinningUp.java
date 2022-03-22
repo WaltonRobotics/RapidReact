@@ -16,6 +16,7 @@ import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignErrorDegrees;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignOmegaOutputKey;
 import static frc.robot.Constants.VisionConstants.*;
+import static frc.robot.OI.overrideAutoAimAndShootButton;
 import static frc.robot.OI.driveGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
@@ -59,7 +60,7 @@ public class AligningAndSpinningUp implements IState {
             return new Disabled();
         }
 
-        if (!OI.shootButton.get() && !OI.barfButton.get()
+        if (!OI.shootButton.get() && !OI.barfButton.get() && !overrideAutoAimAndShootButton.get()
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
             return new ScoringMode();
         }

@@ -5,6 +5,7 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.Constants.Climber.*;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -16,13 +17,17 @@ public class StartPullingUpToHighBar implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.OPEN_LOOP);
+        godSubsystem.getClimber().setPivotPercentOutputDemand(0);
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_PULL_UP_TO_HIGH_BAR);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setExtensionPositionDemand(
                 Climber.ClimberExtensionPosition.PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH);
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+
+        godSubsystem.getClimber().configExtensionSmartMotion(kSlowPullUpExtensionCruiseVelocity,
+                kSlowPullUpExtensionAcceleration);
     }
 
     @Override
@@ -37,6 +42,8 @@ public class StartPullingUpToHighBar implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
+        godSubsystem.getClimber().setPivotPercentOutputDemand(0);
+
         if ((heightTarget.isWithinTolerance(extensionHeight) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new PositionFixedArmForHighBarTransfer();
@@ -50,6 +57,9 @@ public class StartPullingUpToHighBar implements IState {
     @Override
     public void finish() {
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.HIGH_BAR_TRANSFER_TO_FIXED_ARM);
+
+        godSubsystem.getClimber().configExtensionSmartMotion(kDefaultExtensionCruiseVelocity,
+                kDefaultExtensionAcceleration);
     }
 
 }

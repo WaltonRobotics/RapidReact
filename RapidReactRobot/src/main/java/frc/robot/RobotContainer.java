@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -145,6 +146,20 @@ public class RobotContainer {
         SmartDashboard.putBoolean(kDriverIsAlignedKey, false);
         SmartDashboard.putBoolean(kDriverIsMoneyShotKey, false);
 
+        SmartDashboard.putString(kDriverSelectedRungKey, godSubsystem.getSelectedRung().name());
+
+        SmartDashboard.putData("Climber Pivot Coast Mode", new InstantCommand(() ->
+                godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Coast)));
+
+        SmartDashboard.putData("Climber Extension Coast Mode", new InstantCommand(() ->
+                godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Coast)));
+
+        SmartDashboard.putData(kDrivetrainPeriodicIOKey, godSubsystem.getDrivetrain().getPeriodicIOSendable());
+        SmartDashboard.putData(kIntakePeriodicIOKey, godSubsystem.getIntake().getPeriodicIOSendable());
+        SmartDashboard.putData(kConveyorPeriodicIOKey, godSubsystem.getConveyor().getPeriodicIOSendable());
+        SmartDashboard.putData(kShooterPeriodicIOKey, godSubsystem.getShooter().getPeriodicIOSendable());
+        SmartDashboard.putData(kClimberPeriodicIOKey, godSubsystem.getClimber().getPeriodicIOSendable());
+
         if (kIsInTuningMode) {
             SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
             SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);
@@ -202,6 +217,8 @@ public class RobotContainer {
             SmartDashboard.putData("Move Half Foot Backwards",
                     AutonRoutine.HALF_FOOT_BACKWARDS.getCommandGroup());
         }
+
+        SmartDashboard.putBoolean("Flywheel on target", false);
 
         NetworkTableInstance.getDefault().flush();
     }

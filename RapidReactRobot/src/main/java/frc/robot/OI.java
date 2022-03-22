@@ -41,7 +41,7 @@ public class OI {
 
     // Climbing mode
     // Out-of-the-way buttons
-    public static final EnhancedJoystickButton fastZeroButton = new EnhancedJoystickButton(manipulationGamepad, kX.value);
+    public static final EnhancedJoystickButton fastZeroButton = new EnhancedJoystickButton(manipulationGamepad, kLeftBumper.value);
     public static final EnhancedAxisButton
             dangerButton = new EnhancedAxisButton(manipulationGamepad, kRightTrigger.value, 0.85);
     public static final EnhancedComboButton stopClimbButton = new EnhancedComboButton(dangerButton,
@@ -49,6 +49,8 @@ public class OI {
     public static final EnhancedComboButton overrideNextClimbStateButton = new EnhancedComboButton(dangerButton,
             new EnhancedJoystickButton(manipulationGamepad, kB.value));
     public static final EnhancedJoystickButton advanceClimbingProcessButton = new EnhancedJoystickButton(manipulationGamepad, kA.value);
+    public static final EnhancedJoystickButton selectMidRungButton = new EnhancedJoystickButton(manipulationGamepad, kBack.value);
+    public static final EnhancedJoystickButton selectHighRungButton = new EnhancedJoystickButton(manipulationGamepad, kStart.value);
 
     // Both modes
     public static final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, kLeftBumper.value);
@@ -59,7 +61,7 @@ public class OI {
     public static final EnhancedJoystickButton toggleFieldRelativeModeButton = new EnhancedJoystickButton(driveGamepad, EnhancedJoystickButton.POV_N);
     public static final EnhancedJoystickButton toggleRotationModeButton = new EnhancedJoystickButton(driveGamepad, EnhancedJoystickButton.POV_S);
     public static final EnhancedJoystickButton faceClosestButton = new EnhancedJoystickButton(driveGamepad, kA.value);
-    public static final EnhancedJoystickButton faceClimbButton = new EnhancedJoystickButton(driveGamepad, kB.value);
+    public static final EnhancedJoystickButton overrideAutoAimAndShootButton = new EnhancedJoystickButton(driveGamepad, kB.value);
     public static final EnhancedAxisButton trackTargetButton = new EnhancedAxisButton(driveGamepad,
             kLeftTrigger.value, 0.5);
 

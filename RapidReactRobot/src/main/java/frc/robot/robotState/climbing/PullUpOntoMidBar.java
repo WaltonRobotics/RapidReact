@@ -11,17 +11,13 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class PullUpOntoMidBar implements IState {
 
-    private final Target targetLength = currentRobot.getExtensionTarget(
-            Climber.ClimberExtensionPosition.STOWED_HEIGHT);
-
     @Override
     public void initialize() {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_PULL_UP_TO_MID_BAR);
 
-        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setExtensionPositionDemand(Climber.ClimberExtensionPosition.STOWED_HEIGHT);
-        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
+        godSubsystem.getClimber().releaseExtensionLowerLimit();
     }
 
     @Override
@@ -34,21 +30,20 @@ public class PullUpOntoMidBar implements IState {
             return new FinalizeClimb();
         }
 
-        double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
-
-        if ((targetLength.isWithinTolerance(extensionHeight) && advanceClimbingProcessButton.get())
-                || overrideNextClimbStateButton.isRisingEdge()) {
+        if (godSubsystem.getClimber().isLeftExtensionLowerLimitClosed() ||
+                godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) {
             return new TransferMidBarFromPivotToFixed();
         }
 
-        godSubsystem.handleExtensionManualOverride();
+        godSubsystem.getClimber().setExtensionPercentOutputDemand(-0.2);
 
         return this;
     }
 
     @Override
     public void finish() {
-
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
+        godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
     }
 
 }
