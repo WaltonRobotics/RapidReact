@@ -262,6 +262,30 @@ public enum AutonRoutine {
     THREE_BALL_PICKUP_TWO("3 ball auton, pick up 2", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(routineFiveBFull),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
+            new ParallelDeadlineGroup(
+                    new ShootCargoTimed(1.25),
+                    new SequentialCommandGroup(
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+                            new SetLeftIntakeDeployed(true),
+                            new SetRightIntakeDeployed(true)
+                    )
+            ),
+
+//            new ParallelDeadlineGroup(
+//                    new ShootCargoTimed(2.0),
+//                    new SetModuleStates(0, Rotation2d.fromDegrees(0), 2.0)
+//            ),
+
+//            new SequentialCommandGroup(
+//                    new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+//                    new SetLeftIntakeDeployed(true),
+//                    new SetRightIntakeDeployed(true)
+//            ),
+//            new SetLeftIntakeDeployed(true),
+//            new SetRightIntakeDeployed(true),
+//            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new ParallelDeadlineGroup(
                     new ShootCargo(2.0),
                     new SequentialCommandGroup(
