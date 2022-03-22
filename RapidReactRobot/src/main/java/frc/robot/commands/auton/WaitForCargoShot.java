@@ -13,19 +13,27 @@ public class WaitForCargoShot extends CommandBase {
     private final EnhancedBoolean flywheelOnTarget = new EnhancedBoolean();
 
     @Override
-    public boolean isFinished() {
+    public void initialize() {
+        flywheelOnTarget.set(false);
+    }
+
+    @Override
+    public void execute() {
         if (godSubsystem.getCurrentState() instanceof Shooting) {
             double setpointVelocity = godSubsystem.getCurrentTargetFlywheelVelocity();
             double currentVelocity = godSubsystem.getShooter().getFlywheelVelocityNU();
 
             flywheelOnTarget.set(Math.abs(setpointVelocity - currentVelocity) < kShootingToleranceRawUnits);
-
-            SmartDashboard.putBoolean("Flywheel on target", flywheelOnTarget.get());
-
-            return flywheelOnTarget.isFallingEdge();
         } else {
-            return false;
+            flywheelOnTarget.set(false);
         }
+
+        SmartDashboard.putBoolean("Flywheel on target", flywheelOnTarget.get());
+    }
+
+    @Override
+    public boolean isFinished() {
+        return flywheelOnTarget.isFallingEdge();
     }
 
 }
