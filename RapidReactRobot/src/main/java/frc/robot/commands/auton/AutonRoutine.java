@@ -257,22 +257,39 @@ public enum AutonRoutine {
             new ResetPose(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new ParallelDeadlineGroup(
-                    new ShootCargoTimed(2.0),
-                    new SetModuleStates(0, Rotation2d.fromDegrees(0), 2.0)
-            ),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
-            new SetLeftIntakeDeployed(true),
-            new SetRightIntakeDeployed(true),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new ParallelDeadlineGroup(
-                    new SwerveTrajectoryCommand(routineFiveBFull),
-                    new ParallelCommandGroup(
-                           new WaitCommand(routineFiveBFull.getTotalTimeSeconds() * 0.75),
-                           new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
+                    new ShootCargoTimed(1.25),
+                    new SequentialCommandGroup(
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+                            new SetLeftIntakeDeployed(true),
+                            new SetRightIntakeDeployed(true)
                     )
             ),
-            new AlignAndShootCargo(2, 3.5),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
+
+//            new ParallelDeadlineGroup(
+//                    new ShootCargoTimed(2.0),
+//                    new SetModuleStates(0, Rotation2d.fromDegrees(0), 2.0)
+//            ),
+
+//            new SequentialCommandGroup(
+//                    new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+//                    new SetLeftIntakeDeployed(true),
+//                    new SetRightIntakeDeployed(true)
+//            ),
+//            new SetLeftIntakeDeployed(true),
+//            new SetRightIntakeDeployed(true),
+//            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+            new ParallelDeadlineGroup(
+                    new ShootCargo(1,2.0),
+                    new SequentialCommandGroup(
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+                            new SetLeftIntakeDeployed(true),
+                            new SetRightIntakeDeployed(true)
+                    )
+            ),
+            new SwerveTrajectoryCommand(routineFiveBFull),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+            new AlignAndShootCargo(2,3.5),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(pickupG),
