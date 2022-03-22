@@ -333,7 +333,7 @@ public class Shooter implements SubSubsystem {
             builder.addStringProperty("Aim Target", () -> aimTarget.name(), (x) -> {
             });
 
-            if (!kIsInCompetition) {
+//            if (!kIsInCompetition) {
                 builder.addStringProperty("Shooter Control State", () -> shooterControlState.name(), (x) -> {
                 });
                 builder.addStringProperty("Selected Profile Slot", () -> selectedProfileSlot.name(), (x) -> {
@@ -348,7 +348,7 @@ public class Shooter implements SubSubsystem {
                 });
                 builder.addDoubleProperty("Estimated Hood Position", () -> estimatedHoodPosition, (x) -> {
                 });
-            }
+//            }
         }
     }
 

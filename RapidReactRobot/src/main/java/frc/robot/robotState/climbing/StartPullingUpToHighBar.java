@@ -17,7 +17,8 @@ public class StartPullingUpToHighBar implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.OPEN_LOOP);
+        godSubsystem.getClimber().setPivotPercentOutputDemand(0);
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_PULL_UP_TO_HIGH_BAR);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
@@ -40,6 +41,8 @@ public class StartPullingUpToHighBar implements IState {
         }
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
+
+        godSubsystem.getClimber().setPivotPercentOutputDemand(0);
 
         if ((heightTarget.isWithinTolerance(extensionHeight) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {

@@ -96,13 +96,17 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final double[][] highGoalMap = {
         // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
-            {28, 4.813, -0.672, 8800},
-            {41, 5.906, -0.30, 8700},
-            {49.5, 6.6612, -0.1, 8800},
-            {66.0, 8.1145, 0.35, 8850}, // Money shot
-            {74, 8.819, 0.6, 8950},
-            {85.5, 9.711, 0.9, 9050},
-            {96, 10.674, 0.95, 9275},
+//            {28, 4.813, -0.672, 8800},
+//            {41, 5.906, -0.30, 8700},
+//            {49.5, 6.6612, -0.1, 8800},
+//            {66.0, 8.1145, 0.35, 8850}, // Money shot
+//            {74, 8.819, 0.6, 8950},
+//            {85.5, 9.711, 0.9, 9050},
+//            {96, 10.674, 0.95, 9275},
+
+            {34.5, 5.477, -1, 8000},
+            {55.5, 7.909, 0.3, 8300},
+            {95, 10.64378, 0.95, 9000},
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -419,7 +423,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getLeftOuttakePercentOutput() {
-                return -0.4;
+                return -0.45;
             }
 
             @Override
@@ -495,22 +499,22 @@ public class PracticeRapidReact extends WaltRobot {
         flywheelSlaveTalonConfig.voltageCompSaturation = 12.0;
 
         // Spinning up profile
-        flywheelMasterTalonConfig.slot0.kF = 0.0471003;
-        flywheelMasterTalonConfig.slot0.kP = 0.04;
-        flywheelMasterTalonConfig.slot0.kI = 0.000153;
+        flywheelMasterTalonConfig.slot0.kF = 0.04942029;
+        flywheelMasterTalonConfig.slot0.kP = 0.1;
+        flywheelMasterTalonConfig.slot0.kI = 0.0001;
         flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
-        flywheelMasterTalonConfig.slot0.integralZone = 100;
+        flywheelMasterTalonConfig.slot0.integralZone = 200;
         flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 75000;
         flywheelMasterTalonConfig.slot0.closedLoopPeakOutput = 1.0;
 
         // Shooting profile
-        flywheelMasterTalonConfig.slot1.kF = 0.0471003;
-        flywheelMasterTalonConfig.slot1.kP = 0.042;
-        flywheelMasterTalonConfig.slot1.kI = 0.000153;
+        flywheelMasterTalonConfig.slot1.kF = 0.04942029;
+        flywheelMasterTalonConfig.slot1.kP = 0.11;
+        flywheelMasterTalonConfig.slot1.kI = 0.0001;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
-        flywheelMasterTalonConfig.slot1.integralZone = 100;
+        flywheelMasterTalonConfig.slot1.integralZone = 200;
         flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 75000;
         flywheelMasterTalonConfig.slot1.closedLoopPeakOutput = 1.0;
 
@@ -810,9 +814,9 @@ public class PracticeRapidReact extends WaltRobot {
         climberPivotTargets.put(LINING_UP_FOR_MID_BAR, new Target(11375, 75));
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 75)); // 0 deg
         climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-2000, 75)); // -9.7 deg
-        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(8000, 75));
-        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(25500, 75)); // 23.4 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(8000, 75)); // 21.5 deg
+        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(11500, 75));
+        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(33000, 75)); // 23.4 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(5000, 75)); // 21.5 deg
         climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-2000, 75)); // -10.4 deg
         climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(16000, 75)); // -1.0 deg
         climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(30265, 75)); // 26.6 deg
@@ -833,7 +837,7 @@ public class PracticeRapidReact extends WaltRobot {
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(40549, 1877)); // 3.0 in
         climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(469867, 1877)); // 26.0 in
         climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(199012, 1877)); // 11.6 in
-    }
+    }//samit and armand is a kool kid
 
     @Override
     public Target getPivotTarget(Climber.ClimberPivotPosition target) {

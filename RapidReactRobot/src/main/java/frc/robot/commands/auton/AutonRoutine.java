@@ -257,7 +257,7 @@ public enum AutonRoutine {
             new ResetPose(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new ParallelDeadlineGroup(
-                    new ShootCargo(1, 2.0),
+                    new ShootCargoTimed(2.0),
                     new SetModuleStates(0, Rotation2d.fromDegrees(0), 2.0)
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),

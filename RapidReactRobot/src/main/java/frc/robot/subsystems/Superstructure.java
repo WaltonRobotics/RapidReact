@@ -14,6 +14,7 @@ import frc.robot.util.UtilMethods;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DriverPreferences.*;
 import static frc.robot.Constants.FieldConstants.kSpinUpFlywheelDistanceFromHub;
@@ -296,8 +297,10 @@ public class Superstructure extends SubsystemBase {
 //                shooter.setFlywheelDemand(kIdleVelocityRawUnits);
 //            }
 
-            double hoodAngle = shooter.getEstimatedHoodAngleFromTarget();
-            shooter.setAdjustableHoodDutyCycleDemand(hoodAngle);
+            if (!kIsInShooterTuningMode) {
+                double hoodAngle = shooter.getEstimatedHoodAngleFromTarget();
+                shooter.setAdjustableHoodDutyCycleDemand(hoodAngle);
+            }
         }
 
         handleIdleSpinUp();
