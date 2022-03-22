@@ -140,9 +140,9 @@ public class Paths {
         public static final PathPlannerTrajectory routineFiveBFull =
                 PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(11.0), Units.feetToMeters(4.5));
         public static final PathPlannerTrajectory pickupGShoot =
-                PathPlanner.loadPath("pickupGShoot", Units.feetToMeters(11), 2.0);
+                PathPlanner.loadPath("pickupGShoot", Units.feetToMeters(11), Units.feetToMeters(4.5));
         public static final PathPlannerTrajectory routineFiveBFullFast =
-                PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(11.0), 2.0);
+                PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(11.0), 3.5);
     }
 
     public static final class RoutineEight {

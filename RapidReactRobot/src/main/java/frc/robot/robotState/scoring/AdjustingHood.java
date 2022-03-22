@@ -14,7 +14,6 @@ import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.Shooter.kBarfHoodAngle;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterHoodPositionSetpointKey;
 import static frc.robot.OI.barfButton;
-import static frc.robot.OI.overrideAutoAimAndShootButton;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class AdjustingHood implements IState {
@@ -55,7 +54,7 @@ public class AdjustingHood implements IState {
             return new Disabled();
         }
 
-        if (!OI.shootButton.get() && !barfButton.get() && !overrideAutoAimAndShootButton.get()
+        if (!OI.shootButton.get() && !barfButton.get()
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
             return new ScoringMode();
@@ -63,14 +62,10 @@ public class AdjustingHood implements IState {
 
         godSubsystem.handleIntakingAndOuttaking();
 
-        if (barfButton.get()) {
+        if (barfButton.get()
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
+                || kIsInShooterTuningMode) {
             return new PreparingToShoot();
-        }
-
-        if ((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
-                || kIsInShooterTuningMode
-                || overrideAutoAimAndShootButton.get()) {
-            return new NudgingDown();
         }
 
         godSubsystem.handleIdleSpinUp();

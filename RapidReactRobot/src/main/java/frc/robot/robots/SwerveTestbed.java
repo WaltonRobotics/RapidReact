@@ -764,8 +764,7 @@ public class SwerveTestbed extends WaltRobot {
         // Encoder counts = inches * (1 output rev / 0.5*pi inches) * (36 extension motor rev / 1 output rev) * (2048 counts / 1 extension motor rev)
         // Tolerance: 0.1 in
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(0, 4694)); // 1 in
-        climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(960653, 4694)); // 21.467 in
-        climberExtensionTargets.put(HIGH_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(960653, 4694)); // 21.467 in
+        climberExtensionTargets.put(LINING_UP_TO_MID_BAR_LENGTH, new Target(960653, 4694)); // 21.467 in
         climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(469367, 4694)); // 11.0 in
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(93873, 4694)); // 3.0 in
         climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(1126481, 4694)); // 25 in

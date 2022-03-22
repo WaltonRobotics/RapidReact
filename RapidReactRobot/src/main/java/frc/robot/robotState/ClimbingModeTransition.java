@@ -1,6 +1,5 @@
 package frc.robot.robotState;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.commands.auton.TurnToAngle;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
@@ -17,9 +16,6 @@ public class ClimbingModeTransition implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
-        godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Brake);
-
         // Reload pivot reference
         godSubsystem.getClimber().zeroSensors();
 
@@ -41,8 +37,8 @@ public class ClimbingModeTransition implements IState {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
-//        new TurnToAngle(180).withTimeout(3.0)
-//                .withInterrupt(godSubsystem::isClimbingMovementOverride).schedule();
+        new TurnToAngle(180).withTimeout(3.0)
+                .withInterrupt(godSubsystem::isClimbingMovementOverride).schedule();
     }
 
     @Override

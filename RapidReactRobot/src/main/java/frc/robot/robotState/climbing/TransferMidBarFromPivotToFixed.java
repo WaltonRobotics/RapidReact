@@ -11,17 +11,16 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class TransferMidBarFromPivotToFixed implements IState {
 
-    private final Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.PIVOT_BACK_TO_TRANSFER);
+    private final Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.STOWED_ANGLE);
 
     @Override
     public void initialize() {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.PIVOT_BACK_TO_TRANSFER);
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
-        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.STOWED);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class TransferMidBarFromPivotToFixed implements IState {
 
     @Override
     public void finish() {
-        godSubsystem.getClimber().enableExtensionLowerLimit();
+
     }
 
 }

@@ -13,7 +13,6 @@ import static frc.robot.Constants.FieldConstants.kMoneyShotDistance;
 import static frc.robot.Constants.FieldConstants.kMoneyShotTolerance;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
-import static frc.robot.Constants.VisionConstants.kUseOdometryBackup;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -56,7 +55,9 @@ public class DriveCommand extends CommandBase {
             double vy = strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
 
             // Limit movement when climbing
-            if (faceClosestButton.get()) {
+            if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE && faceClimbButton.get()) {
+                drivetrain.faceDirection(vx, vy, Rotation2d.fromDegrees(180.0), isFieldRelative);
+            } else if (faceClosestButton.get()) {
                 drivetrain.faceClosest(vx, vy, isFieldRelative);
             } else if (isPositionalRotation && godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
                 double rotateX = -getRotateX() * 10;
@@ -71,20 +72,6 @@ public class DriveCommand extends CommandBase {
                 }
             } else if (trackTargetButton.get() && LimelightHelper.getTV() >= 1) {
                 double headingError = LimelightHelper.getTX();
-                double turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
-
-                turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
-                        Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
-                        drivetrain.getConfig().getMaxOmega());
-
-                if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
-                    turnRate = 0;
-                }
-
-                drivetrain.move(vx, vy, turnRate, isFieldRelative);
-            } else if (trackTargetButton.get() && kUseOdometryBackup) {
-                double headingError = UtilMethods.restrictAngle(
-                        drivetrain.getEstimatedAngleToHub().getDegrees(), -180, 180);
                 double turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
 
                 turnRate = Math.signum(turnRate) * UtilMethods.limitRange(

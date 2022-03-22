@@ -9,7 +9,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.Shooter.*;
-import static frc.robot.OI.*;
+import static frc.robot.OI.intakeButton;
+import static frc.robot.OI.outtakeButton;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOTING_SLOT;
 
@@ -36,7 +37,7 @@ public class Shooting implements IState {
             return new Disabled();
         }
 
-        if (!OI.shootButton.get() && !OI.barfButton.get() && !overrideAutoAimAndShootButton.get()
+        if (!OI.shootButton.get() && !OI.barfButton.get()
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
             return new SpinningDown();

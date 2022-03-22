@@ -21,8 +21,7 @@ public class TransferHighBarFromPivotToFixed implements IState {
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
-        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.STOWED);
     }
 
     @Override
@@ -49,7 +48,7 @@ public class TransferHighBarFromPivotToFixed implements IState {
 
     @Override
     public void finish() {
-        godSubsystem.getClimber().enableExtensionLowerLimit();
+
     }
 
 }

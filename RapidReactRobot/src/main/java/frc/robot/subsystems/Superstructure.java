@@ -8,13 +8,11 @@ import frc.robot.OI;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.auton.TurnToAngle;
 import frc.robot.robotState.Disabled;
-import frc.robot.stateMachine.IState;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.vision.LimelightHelper;
 
-import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DriverPreferences.*;
 import static frc.robot.Constants.FieldConstants.kSpinUpFlywheelDistanceFromHub;
@@ -22,6 +20,7 @@ import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
+import static frc.robot.RobotContainer.godSubsystem;
 
 public class Superstructure extends SubsystemBase {
 
@@ -33,7 +32,6 @@ public class Superstructure extends SubsystemBase {
 
     private boolean isEnabled = false;
     private CurrentMode currentMode = CurrentMode.SCORING_MODE;
-    private ClimbingTargetRung selectedRung = ClimbingTargetRung.MID_RUNG;
 
     private double currentTargetFlywheelVelocity = 0;
 
@@ -51,10 +49,6 @@ public class Superstructure extends SubsystemBase {
         stateMachine = new StateMachine("Superstructure", new Disabled());
     }
 
-    public IState getCurrentState() {
-        return stateMachine.getCurrentState();
-    }
-
     public CurrentMode getCurrentMode() {
         return currentMode;
     }
@@ -69,14 +63,6 @@ public class Superstructure extends SubsystemBase {
         } else {
             setCurrentMode(CurrentMode.SCORING_MODE);
         }
-    }
-
-    public ClimbingTargetRung getSelectedRung() {
-        return selectedRung;
-    }
-
-    public void setSelectedRung(ClimbingTargetRung rung) {
-        this.selectedRung = rung;
     }
 
     public Drivetrain getDrivetrain() {
@@ -167,17 +153,17 @@ public class Superstructure extends SubsystemBase {
 
     public void handleTransportConveyorManualOverride() {
         if (OI.overrideTransportConveyorButton.get()) {
-            getConveyor().setTransportDemand(conveyor.getConfig().getTransportIntakePercentOutput());
+            godSubsystem.getConveyor().setTransportDemand(conveyor.getConfig().getTransportIntakePercentOutput());
         } else {
-            getConveyor().setTransportDemand(0);
+            godSubsystem.getConveyor().setTransportDemand(0);
         }
     }
 
     public void handleFeedConveyorManualOverride() {
         if (OI.overrideFeedConveyorButton.get()) {
-            getConveyor().setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
+            godSubsystem.getConveyor().setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {
-            getConveyor().setFeedDemand(0);
+            godSubsystem.getConveyor().setFeedDemand(0);
         }
     }
 
@@ -297,10 +283,8 @@ public class Superstructure extends SubsystemBase {
 //                shooter.setFlywheelDemand(kIdleVelocityRawUnits);
 //            }
 
-            if (!kIsInShooterTuningMode) {
-                double hoodAngle = shooter.getEstimatedHoodAngleFromTarget();
-                shooter.setAdjustableHoodDutyCycleDemand(hoodAngle);
-            }
+            double hoodAngle = shooter.getEstimatedHoodAngleFromTarget();
+            shooter.setAdjustableHoodDutyCycleDemand(hoodAngle);
         }
 
         handleIdleSpinUp();
@@ -326,21 +310,21 @@ public class Superstructure extends SubsystemBase {
     public void periodic() {
         stateMachine.run();
 
+        SmartDashboard.putData(kDrivetrainPeriodicIOKey, drivetrain.getPeriodicIOSendable());
+        SmartDashboard.putData(kIntakePeriodicIOKey, intake.getPeriodicIOSendable());
+        SmartDashboard.putData(kConveyorPeriodicIOKey, conveyor.getPeriodicIOSendable());
+        SmartDashboard.putData(kShooterPeriodicIOKey, shooter.getPeriodicIOSendable());
+        SmartDashboard.putData(kClimberPeriodicIOKey, climber.getPeriodicIOSendable());
+
         SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, getCurrentTargetFlywheelVelocity());
         SmartDashboard.putNumber(kLimelightDistanceFeetKey, LimelightHelper.getDistanceToTargetFeet());
 
         SmartDashboard.putNumber(kClimberPivotAngleFromVerticalKey, climber.getPivotAngleFromVertical().getDegrees());
         SmartDashboard.putNumber(kClimberPivotAngleFromHorizontalKey, climber.getPivotAngleFromHorizontal().getDegrees());
-
-        SmartDashboard.putString(kDriverSelectedRungKey, getSelectedRung().name());
     }
 
     public enum CurrentMode {
         SCORING_MODE, CLIMBING_MODE
-    }
-
-    public enum ClimbingTargetRung {
-        MID_RUNG, HIGH_RUNG
     }
 
 }

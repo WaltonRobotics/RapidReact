@@ -8,7 +8,6 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.*;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
-import frc.robot.config.Target;
 import frc.robot.util.EnhancedBoolean;
 
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
@@ -316,10 +315,6 @@ public class Climber implements SubSubsystem {
         setPivotPositionDemandNU(pivotPositionDemandNU, 0);
     }
 
-    public void setPivotPositionDemand(Target target) {
-        setPivotPositionDemandNU(target.getTarget());
-    }
-
     public void setPivotPositionDemand(ClimberPivotPosition position) {
         setPivotPositionDemandNU(config.getClimberPivotTargets().get(position).getTarget());
     }
@@ -353,10 +348,6 @@ public class Climber implements SubSubsystem {
 
     public void setExtensionPositionDemandNU(double extensionPositionDemandNU) {
         periodicIO.extensionPositionDemandNU = extensionPositionDemandNU;
-    }
-
-    public void setExtensionPositionDemand(Target target) {
-        setExtensionPositionDemandNU(target.getTarget());
     }
 
     public void setExtensionPositionDemand(ClimberExtensionPosition position) {
@@ -463,19 +454,13 @@ public class Climber implements SubSubsystem {
         extensionController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
     }
 
-    public void configExtensionSmartMotion(double cruiseVelocity, double maxAcceleration) {
-        extensionController.configMotionCruiseVelocity(cruiseVelocity);
-        extensionController.configMotionAcceleration(maxAcceleration);
-    }
-
     public enum ClimberControlState {
         ZEROING, AUTO, OPEN_LOOP, DISABLED
     }
 
     public enum ClimberExtensionPosition {
         STOWED_HEIGHT,
-        MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH,
-        HIGH_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH,
+        LINING_UP_TO_MID_BAR_LENGTH,
         PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH,
         LENGTH_TO_DISENGAGE_FROM_MID_BAR,
         HOOKING_ONTO_HIGH_BAR_LENGTH,
@@ -499,7 +484,6 @@ public class Climber implements SubSubsystem {
         LINING_UP_FOR_MID_BAR,
         STOWED_ANGLE,
         ANGLE_HOOK_THETA_FOR_MID_BAR,
-        PIVOT_BACK_TO_TRANSFER,
         REACHING_FOR_HIGH_BAR_PIVOT_ANGLE,
         ANGLE_TO_HOOK_ONTO_HIGH_BAR,
         ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER,
