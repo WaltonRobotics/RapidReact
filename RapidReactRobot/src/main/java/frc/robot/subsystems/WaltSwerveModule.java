@@ -45,7 +45,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     private DriveControlState driveControlState = DriveControlState.OPEN_LOOP;
 
-    public static class PeriodicIO implements Sendable {
+    public static class PeriodicIO {
         // Outputs
         public double azimuthRelativeCountsDemand;
         public double driveDemand;
@@ -58,11 +58,6 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         public double azimuthRelativeCounts;
         public double driveVelocityNU;
         public double driveClosedLoopErrorNU;
-
-        @Override
-        public void initSendable(SendableBuilder builder) {
-
-        }
     }
 
     private enum DriveControlState {
@@ -117,8 +112,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     @Override
-    public Sendable updateShuffleboard() {
-        return periodicIO;
+    public void updateShuffleboard() {
+
     }
 
     @Override

@@ -258,13 +258,10 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new ParallelDeadlineGroup(
                     new ShootCargoTimed(1.25),
-                    new ParallelCommandGroup(
-                            new SequentialCommandGroup(
-                                    new SetLeftIntakeDeployed(true),
-                                    new SetRightIntakeDeployed(true),
-                                    new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true))
-                            ),
-                            new SetModuleStates(0.0, Rotation2d.fromDegrees(0), 2)
+                    new SequentialCommandGroup(
+                            new SetLeftIntakeDeployed(true),
+                            new SetRightIntakeDeployed(true),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true))
                     )
             ),
 

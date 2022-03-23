@@ -20,7 +20,7 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean kIsInCompetition = true;
+        public static final boolean kIsInCompetition = false;
         public static final boolean kIsInTuningMode = false;
         public static final boolean kIsInShooterTuningMode = false;
 
@@ -214,7 +214,7 @@ public final class Constants {
         public static final double kTargetHeightInches = 103.81;
         public static final double kSpinUpFlywheelDistanceFromHub = 10;
 
-        public static final double kMoneyShotDistance = 8.1145;
+        public static final double kMoneyShotDistance = 8.05;
         public static final double kMoneyShotTolerance = 0.25;
 
         public static final Pose2d kCenterOfHubPose = new Pose2d(8.23, 4.11, Rotation2d.fromDegrees(0.0));
