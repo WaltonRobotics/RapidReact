@@ -10,6 +10,6 @@ public interface SubSubsystem {
 
     void outputData();
 
-    Sendable getPeriodicIOSendable();
+    void updateShuffleboard();
 
 }

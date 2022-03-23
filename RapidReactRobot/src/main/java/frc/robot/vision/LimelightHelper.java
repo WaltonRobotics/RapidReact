@@ -30,8 +30,6 @@ public class LimelightHelper {
     }
 
     public static void updateData() {
-        double[] camtran = getCamtran();
-
         if (getTV() > 0) {
             mTxMovingAverage.addData(mTx.getDouble(0.0));
             mTyMovingAverage.addData(mTy.getDouble(0.0));

@@ -117,7 +117,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     @Override
-    public Sendable getPeriodicIOSendable() {
+    public Sendable updateShuffleboard() {
         return periodicIO;
     }
 

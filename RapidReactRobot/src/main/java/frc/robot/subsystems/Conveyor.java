@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ConveyorConfig;
 
 import static frc.robot.Constants.ContextFlags.kIsInCompetition;
@@ -71,8 +72,10 @@ public class Conveyor implements SubSubsystem {
     }
 
     @Override
-    public Sendable getPeriodicIOSendable() {
-        return periodicIO;
+    public void updateShuffleboard() {
+//        SmartDashboard.putString("Conveyor Control State", periodicIO.conveyorControlState.name());
+//        SmartDashboard.putNumber("Transport Demand", periodicIO.transportDemand);
+//        SmartDashboard.putNumber("Feed Demand", periodicIO.feedDemand);
     }
 
     public ConveyorControlState getConveyorControlState() {
@@ -133,7 +136,7 @@ public class Conveyor implements SubSubsystem {
         return config;
     }
 
-    public static class PeriodicIO implements Sendable {
+    public static class PeriodicIO {
         // Inputs
         public boolean hasTransportControllerResetOccurred;
         public boolean hasFeedControllerResetOccurred;
@@ -143,20 +146,6 @@ public class Conveyor implements SubSubsystem {
 
         public double transportDemand;
         public double feedDemand;
-
-        @Override
-        public void initSendable(SendableBuilder builder) {
-            builder.setSmartDashboardType("PeriodicIO");
-
-            if (!kIsInCompetition) {
-                builder.addStringProperty("Conveyor Control State", () -> conveyorControlState.name(), (x) -> {
-                });
-                builder.addDoubleProperty("Transport Demand", () -> transportDemand, (x) -> {
-                });
-                builder.addDoubleProperty("Feed Demand", () -> feedDemand, (x) -> {
-                });
-            }
-        }
     }
 
 }

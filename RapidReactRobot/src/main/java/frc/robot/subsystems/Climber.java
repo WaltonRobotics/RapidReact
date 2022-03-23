@@ -6,6 +6,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
 import frc.robot.config.Target;
@@ -14,6 +16,8 @@ import frc.robot.util.EnhancedBoolean;
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
 import static frc.robot.Constants.Climber.kFastExtensionZeroingPercentOutput;
 import static frc.robot.Constants.ContextFlags.kIsInCompetition;
+import static frc.robot.Constants.SmartDashboardKeys.kClimberPivotAngleFromHorizontalKey;
+import static frc.robot.Constants.SmartDashboardKeys.kClimberPivotAngleFromVerticalKey;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Climber implements SubSubsystem {
@@ -207,8 +211,28 @@ public class Climber implements SubSubsystem {
     }
 
     @Override
-    public Sendable getPeriodicIOSendable() {
-        return periodicIO;
+    public void updateShuffleboard() {
+        SmartDashboard.putString("Climber/Periodic IO/Pivot Control State", periodicIO.pivotControlState.name());
+        SmartDashboard.putString("Climber/Periodic IO/Extension Control State", periodicIO.extensionControlState.name());
+        SmartDashboard.putNumber("Climber/Periodic IO/Pivot Percent Output Demand", periodicIO.pivotPercentOutputDemand);
+        SmartDashboard.putNumber("Climber/Periodic IO/Pivot Feed Forward", periodicIO.pivotFeedForward);
+        SmartDashboard.putNumber("Climber/Periodic IO/Pivot Position Demand NU", periodicIO.pivotPositionDemandNU);
+        SmartDashboard.putNumber("Climber/Periodic IO/Extension Percent Output Demand", periodicIO.extensionPercentOutputDemand);
+        SmartDashboard.putNumber("Climber/Periodic IO/Extension Position Demand NU", periodicIO.extensionPositionDemandNU);
+        SmartDashboard.putBoolean("Climber/Periodic IO/Climber Lock State Demand", periodicIO.climberLockStateDemand);
+        SmartDashboard.putBoolean("Climber/Periodic IO/Climber Disc Brake State Demand", periodicIO.climberDiscBrakeStateDemand);
+        SmartDashboard.putNumber("Climber/Periodic IO/Pivot Absolute Encoder Position NU", periodicIO.pivotAbsoluteEncoderPositionNU);
+        SmartDashboard.putNumber("Climber/Periodic IO/Pivot Absolute Encoder Velocity NU", periodicIO.pivotAbsoluteEncoderPositionNU);
+        SmartDashboard.putNumber("Climber/Periodic IO/Pivot Integrated Encoder Position NU", periodicIO.pivotIntegratedEncoderPositionNU);
+        SmartDashboard.putBoolean("Climber/Periodic IO/Pivot Reverse Limit", periodicIO.pivotReverseSoftLimitBool.get());
+        SmartDashboard.putBoolean("Climber/Periodic IO/Pivot Forward Limit", periodicIO.pivotForwardSoftLimitBool.get());
+        SmartDashboard.putBoolean("Climber/Periodic IO/Is Left Extension Lower Limit Closed", periodicIO.isLeftExtensionLowerLimitClosed);
+        SmartDashboard.putBoolean("Climber/Periodic IO/Is Right Extension Lower Limit Closed", periodicIO.isRightExtensionLowerLimitClosed);
+        SmartDashboard.putNumber("Climber/Periodic IO/Extension Integrated Encoder Position", periodicIO.extensionIntegratedEncoderPosition);
+
+//        SmartDashboard.putNumber(kClimberPivotAngleFromVerticalKey, getPivotAngleFromVertical().getDegrees());
+//        SmartDashboard.putNumber(kClimberPivotAngleFromHorizontalKey, getPivotAngleFromHorizontal().getDegrees());
+
     }
 
     public void loadPivotVerticalReference() {
@@ -517,7 +541,7 @@ public class Climber implements SubSubsystem {
         PIVOT_PULL_UP_TO_TRAVERSAL_BAR, // Corresponds to ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR
     }
 
-    public static class PeriodicIO implements Sendable {
+    public static class PeriodicIO {
         // Inputs
         public boolean hasPivotControllerResetOccurred;
         public boolean hasExtensionControllerResetOccurred;
@@ -543,55 +567,13 @@ public class Climber implements SubSubsystem {
         public double extensionPositionDemandNU;
         public boolean climberLockStateDemand;
         public boolean climberDiscBrakeStateDemand;
-        private ClimberControlState pivotControlState = ClimberControlState.DISABLED;
-        private ClimberControlState extensionControlState = ClimberControlState.DISABLED;
+        public ClimberControlState pivotControlState = ClimberControlState.DISABLED;
+        public ClimberControlState extensionControlState = ClimberControlState.DISABLED;
         public boolean isFastZeroing;
         private boolean resetPivotNeutralMode;
         private NeutralMode pivotNeutralMode;
         private boolean resetExtensionNeutralMode;
         private NeutralMode extensionNeutralMode;
-
-        @Override
-        public void initSendable(SendableBuilder builder) {
-            builder.setSmartDashboardType("PeriodicIO");
-
-//            if (!kIsInCompetition) {
-                builder.addStringProperty("Pivot Control State", () -> pivotControlState.name(), (x) -> {
-                });
-                builder.addStringProperty("Extension Control State", () -> extensionControlState.name(), (x) -> {
-                });
-                builder.addDoubleProperty("Pivot Percent Output Demand", () -> pivotPercentOutputDemand, (x) -> {
-                });
-                builder.addDoubleProperty("Pivot Feed Forward", () -> pivotFeedForward, (x) -> {
-                });
-                builder.addDoubleProperty("Pivot Position Demand NU", () -> pivotPositionDemandNU, (x) -> {
-                });
-                builder.addDoubleProperty("Extension Percent Output Demand", () -> extensionPercentOutputDemand, (x) -> {
-                });
-                builder.addDoubleProperty("Extension Position Demand NU", () -> extensionPositionDemandNU, (x) -> {
-                });
-                builder.addBooleanProperty("Climber Lock State Demand", () -> climberLockStateDemand, (x) -> {
-                });
-                builder.addBooleanProperty("Climber Disc Brake State Demand", () -> climberDiscBrakeStateDemand, (x) -> {
-                });
-                builder.addDoubleProperty("Pivot Absolute Encoder Position NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
-                });
-                builder.addDoubleProperty("Pivot Absolute Encoder Velocity NU", () -> pivotAbsoluteEncoderPositionNU, (x) -> {
-                });
-                builder.addDoubleProperty("Pivot Integrated Encoder Position NU", () -> pivotIntegratedEncoderPositionNU, (x) -> {
-                });
-                builder.addBooleanProperty("Pivot Reverse Limit", () -> pivotReverseSoftLimitBool.get(), (x) -> {
-                });
-                builder.addBooleanProperty("Pivot Forward Limit", () -> pivotForwardSoftLimitBool.get(), (x) -> {
-                });
-                builder.addBooleanProperty("Is Left Extension Lower Limit Closed", () -> isLeftExtensionLowerLimitClosed, (x) -> {
-                });
-                builder.addBooleanProperty("Is Right Extension Lower Limit Closed", () -> isRightExtensionLowerLimitClosed, (x) -> {
-                });
-                builder.addDoubleProperty("Extension Integrated Encoder Position", () -> extensionIntegratedEncoderPosition, (x) -> {
-                });
-//            }
-        }
     }
 
 }

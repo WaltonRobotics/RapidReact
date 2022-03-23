@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -148,14 +147,8 @@ public class RobotContainer {
 
         SmartDashboard.putString(kDriverSelectedRungKey, godSubsystem.getSelectedRung().name());
 
-        SmartDashboard.putBoolean("Climber Pivot Coast Mode", false);
-        SmartDashboard.putBoolean("Climber Extension Coast Mode", false);
-
-        SmartDashboard.putData(kDrivetrainPeriodicIOKey, godSubsystem.getDrivetrain().getPeriodicIOSendable());
-        SmartDashboard.putData(kIntakePeriodicIOKey, godSubsystem.getIntake().getPeriodicIOSendable());
-        SmartDashboard.putData(kConveyorPeriodicIOKey, godSubsystem.getConveyor().getPeriodicIOSendable());
-        SmartDashboard.putData(kShooterPeriodicIOKey, godSubsystem.getShooter().getPeriodicIOSendable());
-        SmartDashboard.putData(kClimberPeriodicIOKey, godSubsystem.getClimber().getPeriodicIOSendable());
+        SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
+        SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
 
         if (kIsInTuningMode) {
             SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
@@ -179,9 +172,9 @@ public class RobotContainer {
                     new InstantCommand(() ->
                             godSubsystem.getDrivetrain().saveRightRearZero((int) SmartDashboard.getNumber(kDrivetrainRightRearZeroValueKey, 0.0))));
 
-            SmartDashboard.putData(kDriverForwardScaleKey, OI.forwardScale);
-            SmartDashboard.putData(kDriverStrafeScaleKey, OI.strafeScale);
-            SmartDashboard.putData(kDriverYawScaleKey, OI.yawScale);
+//            SmartDashboard.putData(kDriverForwardScaleKey, OI.forwardScale);
+//            SmartDashboard.putData(kDriverStrafeScaleKey, OI.strafeScale);
+//            SmartDashboard.putData(kDriverYawScaleKey, OI.yawScale);
 
             SmartDashboard.putData("kXController", currentRobot.getDrivetrainConfig().getXController());
             SmartDashboard.putData("kYController", currentRobot.getDrivetrainConfig().getYController());
