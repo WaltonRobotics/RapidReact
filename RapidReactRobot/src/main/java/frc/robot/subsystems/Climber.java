@@ -1,12 +1,11 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
@@ -15,9 +14,6 @@ import frc.robot.util.EnhancedBoolean;
 
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
 import static frc.robot.Constants.Climber.kFastExtensionZeroingPercentOutput;
-import static frc.robot.Constants.ContextFlags.kIsInCompetition;
-import static frc.robot.Constants.SmartDashboardKeys.kClimberPivotAngleFromHorizontalKey;
-import static frc.robot.Constants.SmartDashboardKeys.kClimberPivotAngleFromVerticalKey;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Climber implements SubSubsystem {
@@ -255,10 +251,11 @@ public class Climber implements SubSubsystem {
         return isZeroed.isRisingEdge();
     }
 
-    public double getPivotTemp(){
+    public double getPivotTemp() {
         return pivotController.getTemperature();
     }
-    public double getExtensionTemp(){
+
+    public double getExtensionTemp() {
         return extensionController.getTemperature();
     }
 

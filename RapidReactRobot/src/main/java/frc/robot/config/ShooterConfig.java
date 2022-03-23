@@ -5,8 +5,6 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.util.interpolation.InterpolatingTreeMap;
 
-import java.util.HashMap;
-
 public interface ShooterConfig {
 
     MotorConfig getFlywheelMasterControllerMotorConfig();
@@ -20,9 +18,11 @@ public interface ShooterConfig {
     MotorConfig getAdjustableHoodServoConfig();
 
     double getLimelightMountingHeightInches();
+
     double getLimelightMountingAngleDegrees();
 
     InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getFlywheelVelocityMap(Shooter.AimTarget target);
+
     InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getHoodAngleMap(Shooter.AimTarget target);
 
 }

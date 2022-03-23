@@ -5,8 +5,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,12 +15,10 @@ import frc.robot.vision.LimelightHelper;
 
 import java.util.logging.Level;
 
-import static frc.robot.Constants.ContextFlags.kIsInCompetition;
-import static frc.robot.Constants.PIDProfileSlots.kSpinningUpIndex;
 import static frc.robot.Constants.PIDProfileSlots.kShootingIndex;
+import static frc.robot.Constants.PIDProfileSlots.kSpinningUpIndex;
 import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterBallQualityAdditive;
-import static frc.robot.Constants.VisionConstants.kUseOdometryBackup;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.robotLogger;
 
@@ -213,7 +209,7 @@ public class Shooter implements SubSubsystem {
         return periodicIO.estimatedHoodPosition;
     }
 
-    public double getMasterTemp(){
+    public double getMasterTemp() {
         return flywheelMasterController.getTemperature();
     }
 
@@ -268,7 +264,7 @@ public class Shooter implements SubSubsystem {
                 SmartDashboard.getNumber(kShooterBallQualityAdditive, 0.0), 700);
 
         if (result != null) {
-            return UtilMethods.limitMagnitude(result.value + ballQualityAdditive, kAbsoluteMaximumVelocityNU) ;
+            return UtilMethods.limitMagnitude(result.value + ballQualityAdditive, kAbsoluteMaximumVelocityNU);
         } else {
             return kDefaultVelocityRawUnits;
         }

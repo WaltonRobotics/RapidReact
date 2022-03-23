@@ -9,7 +9,8 @@ import frc.robot.util.UtilMethods;
 
 import java.util.function.DoubleSupplier;
 
-import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.Constants.SmartDashboardKeys.kTurnToAngleErrorDegreesKey;
+import static frc.robot.Constants.SmartDashboardKeys.kTurnToAngleOmegaOutputKey;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class TurnToAngle extends CommandBase {

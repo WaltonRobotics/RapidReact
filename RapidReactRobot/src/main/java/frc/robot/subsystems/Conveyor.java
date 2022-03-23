@@ -4,12 +4,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ConveyorConfig;
 
-import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.RobotContainer.currentRobot;
 
 public class Conveyor implements SubSubsystem {

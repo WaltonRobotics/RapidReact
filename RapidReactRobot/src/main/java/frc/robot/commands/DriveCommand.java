@@ -9,9 +9,8 @@ import frc.robot.subsystems.Superstructure;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
-import static frc.robot.Constants.FieldConstants.kMoneyShotDistance;
-import static frc.robot.Constants.FieldConstants.kMoneyShotTolerance;
-import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainIsFieldRelativeKey;
+import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainIsPositionalRotationKey;
 import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
 import static frc.robot.Constants.VisionConstants.kUseOdometryBackup;
 import static frc.robot.OI.*;

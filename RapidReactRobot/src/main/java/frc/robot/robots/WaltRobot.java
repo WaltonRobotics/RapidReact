@@ -2,9 +2,6 @@ package frc.robot.robots;
 
 import frc.robot.config.*;
 import frc.robot.subsystems.Climber;
-import frc.robot.util.interpolation.InterpolatingDouble;
-import frc.robot.util.interpolation.InterpolatingTreeMap;
-import frc.robot.util.regression.PolynomialRegression;
 
 // Generic superclass for all Walton robots and their characteristics
 public abstract class WaltRobot {

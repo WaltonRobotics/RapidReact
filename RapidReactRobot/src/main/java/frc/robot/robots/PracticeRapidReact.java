@@ -20,12 +20,9 @@ import java.util.HashMap;
 import static frc.robot.Constants.Climber.kDefaultExtensionAcceleration;
 import static frc.robot.Constants.Climber.kDefaultExtensionCruiseVelocity;
 import static frc.robot.subsystems.Climber.ClimberExtensionLimits.*;
-import static frc.robot.subsystems.Climber.ClimberExtensionLimits.HIGH_BAR_TRANSFER_TO_FIXED_ARM;
 import static frc.robot.subsystems.Climber.ClimberExtensionPosition.*;
 import static frc.robot.subsystems.Climber.ClimberPivotLimits.*;
-import static frc.robot.subsystems.Climber.ClimberPivotLimits.PIVOT_PULL_UP_TO_TRAVERSAL_BAR;
 import static frc.robot.subsystems.Climber.ClimberPivotPosition.*;
-import static frc.robot.subsystems.Climber.ClimberPivotPosition.ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR;
 
 public class PracticeRapidReact extends WaltRobot {
 
@@ -89,13 +86,13 @@ public class PracticeRapidReact extends WaltRobot {
     private final TalonFXConfiguration flywheelSlaveTalonConfig = new TalonFXConfiguration();
 
     private final double[][] lowGoalMap = {
-        // Actual measured distance, Limelight distance, hood angle, velocity
+            // Actual measured distance, Limelight distance, hood angle, velocity
             {0, 3.879, -0.3, 5000},
             {0, 6.456, 0.15, 6200},
     };
 
     private final double[][] highGoalMap = {
-        // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
+            // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
 //            {28, 4.813, -0.672, 8800},
 //            {41, 5.906, -0.30, 8700},
 //            {49.5, 6.6612, -0.1, 8800},
@@ -108,7 +105,7 @@ public class PracticeRapidReact extends WaltRobot {
             {34.0 + 7.0 / 16.0, 5.332, -0.762, 8250},
             {41.25, 5.915, -0.6, 8150},
             {45.7, 6.331, -0.5, 8150},
-            {52 + 1.0/16.0, 6.878, -0.225, 8150},
+            {52 + 1.0 / 16.0, 6.878, -0.225, 8150},
             {57.5, 7.418, -0.17, 8150},
             {64, 7.930, -0.05, 8150}, // Money shot
             {70, 8.458, 0.17, 8150},

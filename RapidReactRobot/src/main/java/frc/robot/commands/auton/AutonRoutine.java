@@ -5,11 +5,9 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
 
 import static frc.robot.Paths.RoutineEight.pickupG;
-import static frc.robot.Paths.RoutineFiveFull.pickupGShoot;
-import static frc.robot.Paths.RoutineFiveFull.routineFiveBFull;
-import static frc.robot.Paths.RoutineFiveFull.routineFiveBFullFast;
+import static frc.robot.Paths.RoutineFiveFull.*;
 import static frc.robot.Paths.RoutineOne.gammaBackwards;
-import static frc.robot.Paths.RoutineSixG.*;
+import static frc.robot.Paths.RoutineSixG.gammaPickUpC;
 import static frc.robot.Paths.RoutineTwo.betaBackwards;
 import static frc.robot.Paths.TestTrajectories.*;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -17,9 +15,9 @@ import static frc.robot.RobotContainer.godSubsystem;
 public enum AutonRoutine {
 
     HALF_FOOT_BACKWARDS("Moves backwards 6 inches (it'll be off by .12 inches)", new SequentialCommandGroup(
-        new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-        new ResetPose(halfFootBackwards),
-        new SwerveTrajectoryCommand(halfFootBackwards)
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new ResetPose(halfFootBackwards),
+            new SwerveTrajectoryCommand(halfFootBackwards)
     )),
 
     DO_NOTHING("Do Nothing", new SequentialCommandGroup(
@@ -280,7 +278,7 @@ public enum AutonRoutine {
 //            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new AlignAndShootCargo(2,3.5),
+            new AlignAndShootCargo(2, 3.5),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(pickupG),

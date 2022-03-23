@@ -1,7 +1,5 @@
 package frc.robot.util;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -10,8 +8,8 @@ import static frc.robot.RobotContainer.robotLogger;
 
 public class UtilMethods {
 
-    public static void monitorTemp(double currentTemp, double maxTemp,String warningMsg){
-        if(currentTemp >= maxTemp) {
+    public static void monitorTemp(double currentTemp, double maxTemp, String warningMsg) {
+        if (currentTemp >= maxTemp) {
             robotLogger.log(Level.SEVERE, warningMsg);
         }
     }

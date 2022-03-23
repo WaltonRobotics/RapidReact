@@ -8,7 +8,7 @@ import static frc.robot.RobotContainer.godSubsystem;
 public class ShootCargoTimed extends CommandBase {
 
     private final Timer timer = new Timer();
-    private double totalTimeSeconds;
+    private final double totalTimeSeconds;
 
     public ShootCargoTimed(double timeSeconds) {
         totalTimeSeconds = timeSeconds;

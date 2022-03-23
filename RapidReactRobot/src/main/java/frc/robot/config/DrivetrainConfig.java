@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.util.AccelerationLimiter;
 
 public interface DrivetrainConfig {
@@ -35,6 +34,7 @@ public interface DrivetrainConfig {
     double getMaxSpeedMetersPerSecond();
 
     double getMaxOmega();
+
     double getMaxFaceDirectionOmega();
 
     double getDriveGearRatio();
@@ -42,7 +42,9 @@ public interface DrivetrainConfig {
     Translation2d[] getWheelLocationMeters();
 
     AccelerationLimiter getXLimiter();
+
     AccelerationLimiter getYLimiter();
+
     AccelerationLimiter getOmegaLimiter();
 
     // Pathing constants/controllers
@@ -55,13 +57,16 @@ public interface DrivetrainConfig {
     // Turn to angle and auto align constants
 
     PIDController getFaceDirectionController();
+
     PIDController getAutoAlignController();
+
     double getMinTurnOmega();
 
     ProfiledPIDController getTurnToAngleController();
 
     // Climbing-related constants
     double getClimbingMaxMetersPerSecond();
+
     double getClimbingMaxOmega();
 
 }
