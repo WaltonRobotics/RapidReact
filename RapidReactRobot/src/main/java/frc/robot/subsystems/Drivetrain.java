@@ -271,6 +271,38 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return Rotation2d.fromDegrees(ahrs.getPitch());
     }
 
+    public double getLeftFrontDriveTemp(){
+        return swerveModules[0].getDriveTalon().getTemperature();
+    }
+
+    public double getLeftFrontTurnTemp(){
+        return swerveModules[0].getAzimuthSparkMax().getMotorTemperature();
+    }
+
+    public double getRightFrontDriveTemp(){
+        return swerveModules[1].getDriveTalon().getTemperature();
+    }
+
+    public double getRightFrontTurnTemp(){
+        return swerveModules[1].getAzimuthSparkMax().getMotorTemperature();
+    }
+
+    public double getLeftBackDriveTemp(){
+        return swerveModules[2].getDriveTalon().getTemperature();
+    }
+
+    public double getLeftBackTurnTemp(){
+        return swerveModules[2].getAzimuthSparkMax().getMotorTemperature();
+    }
+
+    public double getRightBackDriveTemp(){
+        return swerveModules[3].getDriveTalon().getTemperature();
+    }
+
+    public double getRightBackTurnTemp(){
+        return swerveModules[3].getAzimuthSparkMax().getMotorTemperature();
+    }
+
     public void setBrakeNeutralMode() {
         for (WaltSwerveModule module : swerveModules) {
             module.setBrakeNeutralMode();

@@ -255,6 +255,13 @@ public class Climber implements SubSubsystem {
         return isZeroed.isRisingEdge();
     }
 
+    public double getPivotTemp(){
+        return pivotController.getTemperature();
+    }
+    public double getExtensionTemp(){
+        return extensionController.getTemperature();
+    }
+
     public ClimberControlState getPivotControlState() {
         return periodicIO.pivotControlState;
     }
