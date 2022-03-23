@@ -23,7 +23,7 @@ public class WaitForCargoShot extends CommandBase {
             double setpointVelocity = godSubsystem.getCurrentTargetFlywheelVelocity();
             double currentVelocity = godSubsystem.getShooter().getFlywheelVelocityNU();
 
-            flywheelOnTarget.set(Math.abs(setpointVelocity - currentVelocity) < kShootingToleranceRawUnits);
+            flywheelOnTarget.set(Math.abs(setpointVelocity - currentVelocity) <= kShootingToleranceRawUnits);
         } else {
             flywheelOnTarget.set(false);
         }

@@ -21,7 +21,7 @@ public final class Constants {
     public static final class ContextFlags {
 
         public static final boolean kIsInCompetition = true;
-        public static final boolean kIsInTuningMode = true;
+        public static final boolean kIsInTuningMode = false;
         public static final boolean kIsInShooterTuningMode = false;
 
     }
@@ -79,7 +79,7 @@ public final class Constants {
         public static final double kDefaultLowGoalHoodAngle = -0.08;
         public static final double kDefaultLowGoalVelocity = 5600;
 
-        public static final double kBarfHoodAngle = -0.672;
+        public static final double kBarfHoodAngle = -1.0;
 
         // The tolerance to exit the spinning up state and enter the shooting state
         public static final double kSpinningUpToleranceRawUnits = 150;
@@ -160,9 +160,9 @@ public final class Constants {
         public static final String kDrivetrainIsFieldRelativeKey = "Drivetrain/Is Field Relative";
         public static final String kDrivetrainIsPositionalRotationKey = "Drivetrain/Is Positional Rotation";
 
-        public static final String kDriverForwardScaleKey = "Driver/Forward Scale";
-        public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
-        public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
+//        public static final String kDriverForwardScaleKey = "Driver/Forward Scale";
+//        public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
+//        public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
 
         public static final String kDriverIsAlignedKey = "Driver/Is Aligned";
         public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
@@ -175,12 +175,6 @@ public final class Constants {
         public static final String kShooterTuningSetpointVelocityNUKey = "Shooter/Tuning Setpoint Velocity NU";
         public static final String kShooterHoodPositionSetpointKey = "Shooter/Hood Position Setpoint";
         public static final String kShooterBallQualityAdditive = "Shooter/Ball Quality Additive";
-
-        public static final String kDrivetrainPeriodicIOKey = "Drivetrain/Periodic IO";
-        public static final String kIntakePeriodicIOKey = "Intake/Periodic IO";
-        public static final String kConveyorPeriodicIOKey = "Conveyor/Periodic IO";
-        public static final String kShooterPeriodicIOKey = "Shooter/Periodic IO";
-        public static final String kClimberPeriodicIOKey = "Climber/Periodic IO";
 
         public static final String kLimelightAlignControllerKey = "Limelight Align Controller";
         public static final String kLimelightAlignErrorDegrees = "Limelight Align Error Deg";
@@ -195,6 +189,9 @@ public final class Constants {
         public static final String kRightIntakePercentOutputKey = "Right Intake Percent Output";
 
         public static final String kTrajectoryThetaPKey = "Trajectory/Theta P";
+
+        public static final String kClimberPivotCoastModeKey = "Climber Pivot Coast Mode";
+        public static final String kClimberExtensionCoastModeKey = "Climber Extension Coast Mode";
 
     }
 

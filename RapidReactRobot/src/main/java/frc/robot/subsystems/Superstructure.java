@@ -18,9 +18,10 @@ import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DriverPreferences.*;
-import static frc.robot.Constants.FieldConstants.kSpinUpFlywheelDistanceFromHub;
+import static frc.robot.Constants.FieldConstants.*;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
+import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 
@@ -335,17 +336,33 @@ public class Superstructure extends SubsystemBase {
         this.doesAutonNeedToTrackTarget = doesAutonNeedToTrackTarget;
     }
 
+    public void updateShuffleboard() {
+        drivetrain.updateShuffleboard();
+        intake.updateShuffleboard();
+        conveyor.updateShuffleboard();
+        shooter.updateShuffleboard();
+        climber.updateShuffleboard();
+
+        SmartDashboard.putString(kDriverSelectedRungKey, getSelectedRung().name());
+        SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, getCurrentTargetFlywheelVelocity());
+
+        boolean hasTarget = LimelightHelper.getTV() >= 1;
+        double limelightDistance = LimelightHelper.getDistanceToTargetFeet();
+
+        SmartDashboard.putNumber(kLimelightDistanceFeetKey, limelightDistance);
+
+        SmartDashboard.putBoolean(kDriverIsAlignedKey,
+                hasTarget &&
+                        UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees));
+
+        SmartDashboard.putBoolean(kDriverIsMoneyShotKey,
+                hasTarget && UtilMethods.isWithinTolerance(limelightDistance, kMoneyShotDistance,
+                        kMoneyShotTolerance));
+    }
+
     @Override
     public void periodic() {
         stateMachine.run();
-
-        SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, getCurrentTargetFlywheelVelocity());
-        SmartDashboard.putNumber(kLimelightDistanceFeetKey, LimelightHelper.getDistanceToTargetFeet());
-
-        SmartDashboard.putNumber(kClimberPivotAngleFromVerticalKey, climber.getPivotAngleFromVertical().getDegrees());
-        SmartDashboard.putNumber(kClimberPivotAngleFromHorizontalKey, climber.getPivotAngleFromHorizontal().getDegrees());
-
-        SmartDashboard.putString(kDriverSelectedRungKey, getSelectedRung().name());
     }
 
     public enum CurrentMode {

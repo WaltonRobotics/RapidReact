@@ -17,6 +17,8 @@ import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
+import static frc.robot.Constants.SmartDashboardKeys.kClimberExtensionCoastModeKey;
+import static frc.robot.Constants.SmartDashboardKeys.kClimberPivotCoastModeKey;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -66,6 +68,10 @@ public class Robot extends WaltTimesliceRobot {
         LimelightHelper.setLEDMode(kIsInTuningMode);
 
         PortForwarder.add(5801, "10.29.74.11", 5801);
+
+        // Schedule updating shuffleboard on a separate thread with lower frequency
+        // to prevent network latency
+        addPeriodic(godSubsystem::updateShuffleboard, 0.25);
     }
 
     /**
@@ -97,18 +103,19 @@ public class Robot extends WaltTimesliceRobot {
 
         godSubsystem.setInAuton(false);
 
-        godSubsystem.getDrivetrain().setCoastNeutralMode();
+        SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
+        SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
     }
 
     @Override
     public void disabledPeriodic() {
-        if (SmartDashboard.getBoolean("Climber Pivot Coast Mode", false)) {
+        if (SmartDashboard.getBoolean(kClimberPivotCoastModeKey, false)) {
             godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Coast);
         } else {
             godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
         }
 
-        if (SmartDashboard.getBoolean("Climber Extension Coast Mode", false)) {
+        if (SmartDashboard.getBoolean(kClimberExtensionCoastModeKey, false)) {
             godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Coast);
         } else {
             godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Brake);
@@ -132,8 +139,8 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setDoesAutonNeedToShoot(false);
         godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
 
-        SmartDashboard.putBoolean("Climber Pivot Coast Mode", false);
-        SmartDashboard.putBoolean("Climber Extension Coast Mode", false);
+        SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
+        SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
 
         if (kIsInShooterTuningMode) {
             godSubsystem.getDrivetrain().setCoastNeutralMode();
@@ -167,8 +174,8 @@ public class Robot extends WaltTimesliceRobot {
 
         godSubsystem.setInAuton(false);
 
-        SmartDashboard.putBoolean("Climber Pivot Coast Mode", false);
-        SmartDashboard.putBoolean("Climber Extension Coast Mode", false);
+        SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
+        SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
 
         if (kIsInShooterTuningMode) {
             godSubsystem.getDrivetrain().setCoastNeutralMode();

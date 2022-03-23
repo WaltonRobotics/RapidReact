@@ -10,6 +10,8 @@ import frc.robot.subsystems.Climber;
 import static edu.wpi.first.wpilibj.GenericHID.RumbleType.kLeftRumble;
 import static edu.wpi.first.wpilibj.GenericHID.RumbleType.kRightRumble;
 import static frc.robot.Constants.DriverPreferences.kFinishedClimbingRumbleValue;
+import static frc.robot.Constants.SmartDashboardKeys.kClimberExtensionCoastModeKey;
+import static frc.robot.Constants.SmartDashboardKeys.kClimberPivotCoastModeKey;
 import static frc.robot.OI.driveGamepad;
 import static frc.robot.OI.manipulationGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -18,8 +20,8 @@ public class FinalizeClimb implements IState {
 
     @Override
     public void initialize() {
-        SmartDashboard.putBoolean("Climber Pivot Coast Mode", false);
-        SmartDashboard.putBoolean("Climber Extension Coast Mode", false);
+        SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
+        SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
 
         double currentPivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
         double currentExtensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();

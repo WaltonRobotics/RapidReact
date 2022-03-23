@@ -8,6 +8,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.IntakeConfig;
 import frc.robot.util.EnhancedBoolean;
 
@@ -116,8 +117,12 @@ public class Intake implements SubSubsystem {
     }
 
     @Override
-    public Sendable getPeriodicIOSendable() {
-        return periodicIO;
+    public void updateShuffleboard() {
+//        SmartDashboard.putString("Intake/Periodic IO/Intake Control State", periodicIO.intakeControlState.name());
+//        SmartDashboard.putNumber("Intake/Periodic IO/Left Intake Demand", periodicIO.leftIntakeDemand);
+//        SmartDashboard.putNumber("Intake/Periodic IO/Right Intake Demand", periodicIO.rightIntakeDemand);
+        SmartDashboard.putBoolean("Intake/Periodic IO/Left Intake Deploy State Demand", periodicIO.leftIntakeDeployDemand);
+        SmartDashboard.putBoolean("Intake/Periodic IO/Right Intake Deploy State Demand", periodicIO.rightIntakeDeployDemand);
     }
 
     private boolean isLeftIntakeRollUpNeeded() {
@@ -212,7 +217,7 @@ public class Intake implements SubSubsystem {
         OPEN_LOOP, DISABLED
     }
 
-    public static class PeriodicIO implements Sendable {
+    public static class PeriodicIO {
         // Inputs
         public boolean hasLeftIntakeControllerResetOccurred;
         public boolean hasRightIntakeControllerResetOccurred;
@@ -227,23 +232,5 @@ public class Intake implements SubSubsystem {
         public IntakeControlState intakeControlState = IntakeControlState.DISABLED;
         public double leftIntakeRollUpTimeout;
         public double rightIntakeRollUpTimeout;
-
-        @Override
-        public void initSendable(SendableBuilder builder) {
-            builder.setSmartDashboardType("PeriodicIO");
-
-            if (!kIsInCompetition) {
-                builder.addStringProperty("Intake Control State", () -> intakeControlState.name(), (x) -> {
-                });
-                builder.addDoubleProperty("Left Intake Demand", () -> leftIntakeDemand, (x) -> {
-                });
-                builder.addDoubleProperty("Right Intake Demand", () -> rightIntakeDemand, (x) -> {
-                });
-                builder.addBooleanProperty("Left Intake Deploy State Demand", () -> leftIntakeDeployDemand, (x) -> {
-                });
-                builder.addBooleanProperty("Right Intake Deploy State Demand", () -> rightIntakeDeployDemand, (x) -> {
-                });
-            }
-        }
     }
 }
