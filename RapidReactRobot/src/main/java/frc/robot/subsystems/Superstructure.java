@@ -14,6 +14,7 @@ import frc.robot.util.UtilMethods;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DriverPreferences.*;
@@ -260,6 +261,18 @@ public class Superstructure extends SubsystemBase {
             climber.setPivotPercentOutputDemand(pivotJoystick);
         } else {
             climber.setPivotControlState(Climber.ClimberControlState.AUTO);
+
+            if (nudgePivotArmCCWButton.isRisingEdge()) {
+                double currentPivotAngle = climber.getPivotPositionDemandNU();
+
+                climber.setPivotPositionDemandNU(currentPivotAngle + kPivotArmNudgeIncrementNU);
+            }
+
+            if (nudgePivotArmCWButton.isRisingEdge()) {
+                double currentPivotAngle = climber.getPivotPositionDemandNU();
+
+                climber.setPivotPositionDemandNU(currentPivotAngle - kPivotArmNudgeIncrementNU);
+            }
         }
     }
 

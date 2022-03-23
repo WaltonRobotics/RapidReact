@@ -104,9 +104,13 @@ public class PracticeRapidReact extends WaltRobot {
 //            {85.5, 9.711, 0.9, 9050},
 //            {96, 10.674, 0.95, 9275},
 
-            {34.5, 5.477, -1, 8000}, // Needs to be recalibrated
-            {55.5, 7.909, 0.3, 8300}, // Money shot
-            {95, 10.64378, 0.95, 9000},
+            {24, 4.476, -1, 7900},
+            {34.0 + 7.0 / 16.0, 5.332, -0.762, 8250},
+            {41.25, 5.915, -0.6, 8150},
+            {45.7, 6.331, -0.5, 8150},
+            {52 + 1.0/16.0, 6.878, -0.225, 8150},
+            {57.5, 7.381, -0.175, 8150},
+            {64, 7.909, -0.175, 8150},
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -815,8 +819,8 @@ public class PracticeRapidReact extends WaltRobot {
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 75)); // 0 deg
         climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-2000, 75)); // -9.7 deg
         climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(11500, 75));
-        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(33000, 75)); // 23.4 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(5000, 75)); // 21.5 deg
+        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(25824, 75)); // 23.4 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(2000, 75)); // 21.5 deg
         climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-2000, 75)); // -10.4 deg
         climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(16000, 75)); // -1.0 deg
         climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(30265, 75)); // 26.6 deg

@@ -1,6 +1,7 @@
 package frc.robot.robotState.climbing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.LimitPair;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
@@ -17,6 +18,9 @@ public class FinalizeClimb implements IState {
 
     @Override
     public void initialize() {
+        SmartDashboard.putBoolean("Climber Pivot Coast Mode", false);
+        SmartDashboard.putBoolean("Climber Extension Coast Mode", false);
+
         double currentPivotAngle = godSubsystem.getClimber().getPivotAbsoluteEncoderPositionNU();
         double currentExtensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 

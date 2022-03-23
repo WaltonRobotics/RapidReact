@@ -555,7 +555,7 @@ public class Climber implements SubSubsystem {
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("PeriodicIO");
 
-            if (!kIsInCompetition) {
+//            if (!kIsInCompetition) {
                 builder.addStringProperty("Pivot Control State", () -> pivotControlState.name(), (x) -> {
                 });
                 builder.addStringProperty("Extension Control State", () -> extensionControlState.name(), (x) -> {
@@ -590,7 +590,7 @@ public class Climber implements SubSubsystem {
                 });
                 builder.addDoubleProperty("Extension Integrated Encoder Position", () -> extensionIntegratedEncoderPosition, (x) -> {
                 });
-            }
+//            }
         }
     }
 

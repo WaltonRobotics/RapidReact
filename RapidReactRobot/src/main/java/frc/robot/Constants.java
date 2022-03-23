@@ -110,6 +110,8 @@ public final class Constants {
         public static final double kSlowPullUpExtensionCruiseVelocity = 10500;
         public static final double kSlowPullUpExtensionAcceleration = 8000;
 
+        public static final double kPivotArmNudgeIncrementNU = 1137;
+
     }
 
     public static final class VisionConstants {

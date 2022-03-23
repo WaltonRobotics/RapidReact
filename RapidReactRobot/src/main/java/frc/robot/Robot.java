@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Superstructure;
@@ -100,6 +102,17 @@ public class Robot extends WaltTimesliceRobot {
 
     @Override
     public void disabledPeriodic() {
+        if (SmartDashboard.getBoolean("Climber Pivot Coast Mode", false)) {
+            godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Coast);
+        } else {
+            godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
+        }
+
+        if (SmartDashboard.getBoolean("Climber Extension Coast Mode", false)) {
+            godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Coast);
+        } else {
+            godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Brake);
+        }
     }
 
     /**
@@ -118,6 +131,9 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setDoesAutonNeedToIntake(false);
         godSubsystem.setDoesAutonNeedToShoot(false);
         godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
+
+        SmartDashboard.putBoolean("Climber Pivot Coast Mode", false);
+        SmartDashboard.putBoolean("Climber Extension Coast Mode", false);
 
         if (kIsInShooterTuningMode) {
             godSubsystem.getDrivetrain().setCoastNeutralMode();
@@ -150,6 +166,9 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setEnabled(true);
 
         godSubsystem.setInAuton(false);
+
+        SmartDashboard.putBoolean("Climber Pivot Coast Mode", false);
+        SmartDashboard.putBoolean("Climber Extension Coast Mode", false);
 
         if (kIsInShooterTuningMode) {
             godSubsystem.getDrivetrain().setCoastNeutralMode();

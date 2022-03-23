@@ -51,6 +51,8 @@ public class OI {
     public static final EnhancedJoystickButton advanceClimbingProcessButton = new EnhancedJoystickButton(manipulationGamepad, kA.value);
     public static final EnhancedJoystickButton selectMidRungButton = new EnhancedJoystickButton(manipulationGamepad, kBack.value);
     public static final EnhancedJoystickButton selectHighRungButton = new EnhancedJoystickButton(manipulationGamepad, kStart.value);
+    public static final EnhancedJoystickButton nudgePivotArmCCWButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_W);
+    public static final EnhancedJoystickButton nudgePivotArmCWButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_E);
 
     // Both modes
     public static final EnhancedJoystickButton resetDrivetrainButton = new EnhancedJoystickButton(driveGamepad, kLeftBumper.value);
