@@ -13,8 +13,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.SPI;
@@ -271,35 +269,35 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return Rotation2d.fromDegrees(ahrs.getPitch());
     }
 
-    public double getLeftFrontDriveTemp(){
+    public double getLeftFrontDriveTemp() {
         return swerveModules[0].getDriveTalon().getTemperature();
     }
 
-    public double getLeftFrontTurnTemp(){
+    public double getLeftFrontTurnTemp() {
         return swerveModules[0].getAzimuthSparkMax().getMotorTemperature();
     }
 
-    public double getRightFrontDriveTemp(){
+    public double getRightFrontDriveTemp() {
         return swerveModules[1].getDriveTalon().getTemperature();
     }
 
-    public double getRightFrontTurnTemp(){
+    public double getRightFrontTurnTemp() {
         return swerveModules[1].getAzimuthSparkMax().getMotorTemperature();
     }
 
-    public double getLeftBackDriveTemp(){
+    public double getLeftBackDriveTemp() {
         return swerveModules[2].getDriveTalon().getTemperature();
     }
 
-    public double getLeftBackTurnTemp(){
+    public double getLeftBackTurnTemp() {
         return swerveModules[2].getAzimuthSparkMax().getMotorTemperature();
     }
 
-    public double getRightBackDriveTemp(){
+    public double getRightBackDriveTemp() {
         return swerveModules[3].getDriveTalon().getTemperature();
     }
 
-    public double getRightBackTurnTemp(){
+    public double getRightBackTurnTemp() {
         return swerveModules[3].getAzimuthSparkMax().getMotorTemperature();
     }
 

@@ -29,7 +29,7 @@ public class Paths {
                 PathPlanner.loadPath("sCurveBackward", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
 
         public static final PathPlannerTrajectory halfFootBackwards =
-                PathPlanner.loadPath("halfFootBackwards", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration),true);
+                PathPlanner.loadPath("halfFootBackwards", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
 
     }
 
@@ -91,7 +91,7 @@ public class Paths {
         public static final PathPlannerTrajectory ballBToBallG =
                 PathPlanner.loadPath("ballBToBallG", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
         public static final PathPlannerTrajectory ballGToShootToBallC =
-                PathPlanner.loadPath("ballGToShootToBallC", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration),true);
+                PathPlanner.loadPath("ballGToShootToBallC", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration), true);
 
     }
 

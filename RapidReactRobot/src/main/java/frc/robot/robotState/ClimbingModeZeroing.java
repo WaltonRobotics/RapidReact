@@ -36,7 +36,7 @@ public class ClimbingModeZeroing implements IState {
         }
 
         godSubsystem.getClimber().setFastZeroing(fastZeroButton.get());
-        
+
         if (godSubsystem.getClimber().isLeftExtensionLowerLimitClosed()
                 || godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) {
             godSubsystem.getClimber().setZeroed(true);

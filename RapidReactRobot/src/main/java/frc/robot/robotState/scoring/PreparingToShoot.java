@@ -11,7 +11,6 @@ import frc.robot.subsystems.Shooter;
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.Shooter.kBarfVelocityRawUnits;
 import static frc.robot.Constants.Shooter.kDefaultVelocityRawUnits;
-import static frc.robot.Constants.SmartDashboardKeys.kShooterHoodPositionSetpointKey;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterTuningSetpointVelocityNUKey;
 import static frc.robot.OI.barfButton;
 import static frc.robot.RobotContainer.godSubsystem;

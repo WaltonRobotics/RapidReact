@@ -1,6 +1,6 @@
 package frc.robot.robots;
 
-import frc.robot.config.*;
+import frc.robot.config.Target;
 import frc.robot.subsystems.Climber;
 
 public class CompRapidReact extends WaltRobot {

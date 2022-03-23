@@ -9,9 +9,11 @@ public interface ConveyorConfig {
     double getTransportIntakePercentOutput();
 
     double getTransportOuttakePercentOutput();
+
     double getFeedOuttakePercentOutput();
 
     double getTransportShootPercentOutput();
+
     double getFeedShootPercentOutput();
 
 }

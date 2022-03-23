@@ -21,7 +21,6 @@ import static frc.robot.Constants.SmartDashboardKeys.kClimberExtensionCoastModeK
 import static frc.robot.Constants.SmartDashboardKeys.kClimberPivotCoastModeKey;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.RobotContainer.godSubsystem;
-import static frc.robot.util.UtilMethods.monitorTemp;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to

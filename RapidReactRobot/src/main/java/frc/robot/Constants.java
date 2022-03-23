@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean

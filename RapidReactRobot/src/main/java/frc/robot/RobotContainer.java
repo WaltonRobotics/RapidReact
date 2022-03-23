@@ -5,7 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -102,7 +104,7 @@ public class RobotContainer {
                     }
                 }
         ));
-        
+
         toggleClimberLocksButton.whenPressed(godSubsystem.getClimber()::toggleClimberLock);
 
         aimUpperButton.whenPressed(() -> godSubsystem.getShooter().setAimTarget(Shooter.AimTarget.HIGH_GOAL));
