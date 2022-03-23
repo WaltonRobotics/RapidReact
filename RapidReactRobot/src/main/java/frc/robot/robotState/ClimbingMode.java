@@ -33,7 +33,6 @@ public class ClimbingMode implements IState {
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setExtensionPositionDemand(
                 Climber.ClimberExtensionPosition.MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH);
-        godSubsystem.getClimber().configExtensionSmartMotion(13000, 10000);
 
         godSubsystem.getClimber().enableExtensionLowerLimit();
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);

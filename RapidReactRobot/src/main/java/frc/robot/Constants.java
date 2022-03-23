@@ -103,6 +103,7 @@ public final class Constants {
 
         public static final double kExtensionZeroingPercentOutput = -0.1;
         public static final double kFastExtensionZeroingPercentOutput = -0.2;
+        public static final double kTransferPercentOutput = -0.5;
 
         public static final double kDefaultExtensionCruiseVelocity = 11250;
         public static final double kDefaultExtensionAcceleration = 9000;

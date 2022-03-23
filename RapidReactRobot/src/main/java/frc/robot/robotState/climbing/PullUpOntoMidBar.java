@@ -5,6 +5,7 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.Constants.Climber.kTransferPercentOutput;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -35,7 +36,7 @@ public class PullUpOntoMidBar implements IState {
             return new TransferMidBarFromPivotToFixed();
         }
 
-        godSubsystem.getClimber().setExtensionPercentOutputDemand(-0.2);
+        godSubsystem.getClimber().setExtensionPercentOutputDemand(kTransferPercentOutput);
 
         return this;
     }

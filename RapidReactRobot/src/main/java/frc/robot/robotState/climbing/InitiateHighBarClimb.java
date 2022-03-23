@@ -5,6 +5,8 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.Constants.Climber.kDefaultExtensionAcceleration;
+import static frc.robot.Constants.Climber.kDefaultExtensionCruiseVelocity;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -23,6 +25,8 @@ public class InitiateHighBarClimb implements IState {
         godSubsystem.getClimber().setExtensionPositionDemand(
                 Climber.ClimberExtensionPosition.HOOKING_ONTO_HIGH_BAR_LENGTH);
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+
+        godSubsystem.getClimber().configExtensionSmartMotion(15000, 11000);
     }
 
     @Override
@@ -50,7 +54,8 @@ public class InitiateHighBarClimb implements IState {
 
     @Override
     public void finish() {
-
+        godSubsystem.getClimber().configExtensionSmartMotion(kDefaultExtensionCruiseVelocity,
+                kDefaultExtensionAcceleration);
     }
 
 }
