@@ -258,11 +258,13 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new ParallelDeadlineGroup(
                     new ShootCargoTimed(1.25),
-                    new SequentialCommandGroup(
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-                            new SetLeftIntakeDeployed(true),
-                            new SetRightIntakeDeployed(true)
+                    new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                    new SetLeftIntakeDeployed(true),
+                                    new SetRightIntakeDeployed(true),
+                                    new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true))
+                            ),
+                            new SetModuleStates(0.0, Rotation2d.fromDegrees(0), 2)
                     )
             ),
 
@@ -279,14 +281,6 @@ public enum AutonRoutine {
 //            new SetLeftIntakeDeployed(true),
 //            new SetRightIntakeDeployed(true),
 //            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new ParallelDeadlineGroup(
-                    new ShootCargo(1,2.0),
-                    new SequentialCommandGroup(
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-                            new SetLeftIntakeDeployed(true),
-                            new SetRightIntakeDeployed(true)
-                    )
-            ),
             new SwerveTrajectoryCommand(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new AlignAndShootCargo(2,3.5),
