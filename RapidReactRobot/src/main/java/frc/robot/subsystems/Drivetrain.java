@@ -324,10 +324,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     @Override
     public void updateShuffleboard() {
         // Absolute encoder data
-        SmartDashboard.putNumber("Left Front Absolute Counts", swerveModules[0].getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber("Right Front Absolute Counts", swerveModules[1].getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber("Left Rear Absolute Counts", swerveModules[2].getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber("Right Rear Absolute Counts", swerveModules[3].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Absolute Counts", swerveModules[0].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Absolute Counts", swerveModules[1].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Absolute Counts", swerveModules[2].getAzimuthAbsoluteEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Absolute Counts", swerveModules[3].getAzimuthAbsoluteEncoderCounts());
 
         // Relative encoder data
 //        SmartDashboard.putNumber("Left Front Relative Counts", swerveModules[0].getAzimuthRelativeEncoderCounts());

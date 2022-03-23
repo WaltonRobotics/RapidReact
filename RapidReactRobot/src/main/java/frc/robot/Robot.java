@@ -71,7 +71,7 @@ public class Robot extends WaltTimesliceRobot {
 
         // Schedule updating shuffleboard on a separate thread with lower frequency
         // to prevent network latency
-//        addPeriodic(godSubsystem::updateShuffleboard, 0.25);
+        addPeriodic(godSubsystem::updateShuffleboard, 0.25);
     }
 
     /**
