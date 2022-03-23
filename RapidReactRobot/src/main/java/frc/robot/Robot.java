@@ -73,6 +73,9 @@ public class Robot extends WaltTimesliceRobot {
         // Schedule updating shuffleboard on a separate thread with lower frequency
         // to prevent network latency
         addPeriodic(godSubsystem::updateShuffleboard, 0.25);
+
+        // Monitor motor temperatures every second
+        addPeriodic(godSubsystem::monitorTemperatures, 1.0);
     }
 
     /**
@@ -89,20 +92,6 @@ public class Robot extends WaltTimesliceRobot {
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-
-        monitorTemp(godSubsystem.getClimber().getPivotTemp(),60, "Pivot Overheating");
-        monitorTemp(godSubsystem.getClimber().getExtensionTemp(), 70, "Extension Overheating" );
-        monitorTemp(godSubsystem.getShooter().getMasterTemp(), 70, "Right Shooter Overheating" );
-        monitorTemp(godSubsystem.getShooter().getSlaveTemp(), 70, "Left Shooter Overheating");
-        monitorTemp(godSubsystem.getDrivetrain().getLeftFrontDriveTemp(),70, "Left Front Talon Overheating");
-        monitorTemp(godSubsystem.getDrivetrain().getLeftBackDriveTemp(),70, "Left Back Talon Overheating");
-        monitorTemp(godSubsystem.getDrivetrain().getRightFrontDriveTemp(),70, "Right Front Talon Overheating");
-        monitorTemp(godSubsystem.getDrivetrain().getRightBackDriveTemp(),70, "Right Back Talon Overheating");
-        monitorTemp(godSubsystem.getDrivetrain().getLeftFrontTurnTemp(),60, "Left Front NEO Overheating");
-        monitorTemp(godSubsystem.getDrivetrain().getLeftBackTurnTemp(),60, "Left Back NEO Overheating");
-        monitorTemp(godSubsystem.getDrivetrain().getRightFrontTurnTemp(),60, "Right Front NEO Overheating");
-        monitorTemp(godSubsystem.getDrivetrain().getRightBackTurnTemp(),60, "Right Back NEO Overheating");
-
 
 //    SmartDashboard.putNumber("kX Position Error", kXController.getPositionError());
 //    SmartDashboard.putNumber("kY Position Error", kYController.getPositionError());
