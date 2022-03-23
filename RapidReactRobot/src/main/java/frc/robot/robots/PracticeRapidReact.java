@@ -110,7 +110,7 @@ public class PracticeRapidReact extends WaltRobot {
             {45.7, 6.331, -0.5, 8150},
             {52 + 1.0/16.0, 6.878, -0.225, 8150},
             {57.5, 7.381, -0.175, 8150},
-            {64, 7.909, -0.175, 8150},
+            {64, 7.909, -0.175, 8150}, // Invalid
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
