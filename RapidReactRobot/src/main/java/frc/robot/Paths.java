@@ -142,10 +142,10 @@ public class Paths {
                 PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(11.0), Units.feetToMeters(4.5), true);
 
         public static final PathPlannerTrajectory pickupGShoot =
-                PathPlanner.loadPath("pickupGShoot", Units.feetToMeters(11), 2.0);
+                PathPlanner.loadPath("pickupGShoot", Units.feetToMeters(11), 1.75);
 
         public static final PathPlannerTrajectory routineFiveBFullFast =
-                PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(11.0), 2.0, true);
+                PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(11.0), 1.75, true);
     }
 
     public static final class RoutineEight {
@@ -157,7 +157,7 @@ public class Paths {
                 PathPlanner.loadPath("pickupG", Units.feetToMeters(11.0), Units.feetToMeters(4.5), true);
 
         public static final PathPlannerTrajectory pickupGFast =
-                PathPlanner.loadPath("pickupG", Units.feetToMeters(11.0), 2.0, true);
+                PathPlanner.loadPath("pickupG", Units.feetToMeters(11.0), 1.75, true);
 
     }
 

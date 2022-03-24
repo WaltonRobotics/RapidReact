@@ -283,7 +283,7 @@ public enum AutonRoutine {
 
     FIVE_BALL("Five ball auton", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new ResetPose(routineFiveBFull),
+            new ResetPose(routineFiveBFullFast),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new ParallelDeadlineGroup(
                     new ShootCargoTimed(1.25),
