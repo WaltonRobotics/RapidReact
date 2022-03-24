@@ -302,7 +302,7 @@ public enum AutonRoutine {
                     )
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new AlignAndShootCargo(2, 3.5),
+            new AlignAndShootCargo(2, 5),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),

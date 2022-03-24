@@ -11,8 +11,7 @@ import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
-import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
-import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
+import static frc.robot.Constants.ContextFlags.*;
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
 import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
 import static frc.robot.Constants.FieldConstants.kMoneyShotDistance;
@@ -336,9 +335,12 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void updateShuffleboard() {
+        if (!kIsInCompetition) {
+            intake.updateShuffleboard();
+            conveyor.updateShuffleboard();
+        }
+
         drivetrain.updateShuffleboard();
-        intake.updateShuffleboard();
-        conveyor.updateShuffleboard();
         shooter.updateShuffleboard();
         climber.updateShuffleboard();
 

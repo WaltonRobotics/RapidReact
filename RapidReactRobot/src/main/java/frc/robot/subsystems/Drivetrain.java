@@ -57,6 +57,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             azimuthSparkMax.setOpenLoopRampRate(0.0);
             azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
             azimuthSparkMax.setInverted(config.getAzimuthControllerInversions()[i]);
+            azimuthSparkMax.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+            azimuthSparkMax.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
 
             // 1.0 reported by the azimuth relative encoder should correspond to 1 full rotation of the wheel
             RelativeEncoder azimuthRelativeEncoder = azimuthSparkMax.getEncoder();

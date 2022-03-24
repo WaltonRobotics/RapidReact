@@ -143,7 +143,7 @@ public class Paths {
 
         public static final PathPlannerTrajectory pickupGShoot =
                 PathPlanner.loadPath("pickupGShoot", Units.feetToMeters(11), 2.0);
-        
+
         public static final PathPlannerTrajectory routineFiveBFullFast =
                 PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(11.0), 2.0, true);
     }

@@ -110,6 +110,7 @@ public class PracticeRapidReact extends WaltRobot {
             {64, 7.930, -0.05, 8150}, // Money shot
             {70, 8.458, 0.17, 8150},
             {76, 8.916, 0.25, 8200},
+            {82, 11.913, 1.0, 8725},
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -503,7 +504,7 @@ public class PracticeRapidReact extends WaltRobot {
 
         // Spinning up profile
         flywheelMasterTalonConfig.slot0.kF = 0.04942029;
-        flywheelMasterTalonConfig.slot0.kP = 0.06;
+        flywheelMasterTalonConfig.slot0.kP = 0.1;
         flywheelMasterTalonConfig.slot0.kI = 0.0001;
         flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
