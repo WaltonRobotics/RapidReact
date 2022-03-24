@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
 
 import static frc.robot.Paths.RoutineEight.pickupG;
+import static frc.robot.Paths.RoutineEight.pickupGFast;
 import static frc.robot.Paths.RoutineFiveFull.*;
 import static frc.robot.Paths.RoutineOne.gammaBackwards;
 import static frc.robot.Paths.RoutineSixG.gammaPickUpC;
@@ -262,23 +263,17 @@ public enum AutonRoutine {
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true))
                     )
             ),
-
-//            new ParallelDeadlineGroup(
-//                    new ShootCargoTimed(2.0),
-//                    new SetModuleStates(0, Rotation2d.fromDegrees(0), 2.0)
-//            ),
-
-//            new SequentialCommandGroup(
-//                    new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-//                    new SetLeftIntakeDeployed(true),
-//                    new SetRightIntakeDeployed(true)
-//            ),
-//            new SetLeftIntakeDeployed(true),
-//            new SetRightIntakeDeployed(true),
-//            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new SwerveTrajectoryCommand(routineFiveBFull),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
+            new ParallelDeadlineGroup(
+                    new SwerveTrajectoryCommand(routineFiveBFullFast),
+                    new ParallelCommandGroup(
+                            new WaitCommand(routineFiveBFullFast.getTotalTimeSeconds() * 0.75),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
+                    )
+            ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new AlignAndShootCargo(2, 3.5),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new SwerveTrajectoryCommand(pickupG),
@@ -288,16 +283,17 @@ public enum AutonRoutine {
 
     FIVE_BALL("Five ball auton", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new ResetPose(routineFiveBFullFast),
+            new ResetPose(routineFiveBFull),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new ParallelDeadlineGroup(
-                    new ShootCargoTimed(2.0), // Limelight distance: 6.322 ft
-                    new SetModuleStates(0, Rotation2d.fromDegrees(0), 2.0)
+                    new ShootCargoTimed(1.25),
+                    new SequentialCommandGroup(
+                            new SetLeftIntakeDeployed(true),
+                            new SetRightIntakeDeployed(true),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true))
+                    )
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
-            new SetLeftIntakeDeployed(true),
-            new SetRightIntakeDeployed(true),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(routineFiveBFullFast),
                     new ParallelCommandGroup(
@@ -306,20 +302,13 @@ public enum AutonRoutine {
                     )
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new AlignAndShootCargoTimed(3.5),
+            new AlignAndShootCargo(2, 3.5),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SetRightIntakeDeployed(false),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new ParallelDeadlineGroup(
-                    new SwerveTrajectoryCommand(pickupGShoot),
-                    new ParallelCommandGroup(
-                            new WaitCommand(pickupGShoot.getTotalTimeSeconds() * 0.75),
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
-                    )
-            ),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new AlignAndShootCargoTimed(3.5),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false))
+            new SwerveTrajectoryCommand(pickupGFast),
+            new WaitCommand(0.5),
+            new SwerveTrajectoryCommand(pickupGShoot)
     ));
 //
 //    ROUTINE_SEVEN("Start from gamma, pick up ball C, shoot 2, pick up ball B, pick up ball A, shoot 2", new SequentialCommandGroup(
