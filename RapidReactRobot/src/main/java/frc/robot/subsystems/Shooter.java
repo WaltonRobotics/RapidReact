@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -222,6 +223,8 @@ public class Shooter implements SubSubsystem {
     }
 
     public double getEstimatedHoodAngleFromTarget() {
+        LimelightHelper.takeSnapshot();
+
         if (LimelightHelper.getTV() <= 0) {
             robotLogger.log(Level.WARNING, "No target found for shooter. Using default hood angle");
 

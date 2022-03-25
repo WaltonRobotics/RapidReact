@@ -19,7 +19,7 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean kIsInCompetition = false;
+        public static final boolean kIsInCompetition = true;
         public static final boolean kIsInTuningMode = true;
         public static final boolean kIsInShooterTuningMode = false;
 
@@ -102,7 +102,7 @@ public final class Constants {
 
         public static final double kExtensionZeroingPercentOutput = -0.1;
         public static final double kFastExtensionZeroingPercentOutput = -0.2;
-        public static final double kTransferPercentOutput = -0.5;
+        public static final double kTransferPercentOutput = -0.35;
 
         public static final double kDefaultExtensionCruiseVelocity = 11250;
         public static final double kDefaultExtensionAcceleration = 9000;
@@ -131,6 +131,8 @@ public final class Constants {
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
         public static final boolean kUseOdometryBackup = false;
+
+        public static final double kLimelightOffsetFeet = -0.030874;
 
     }
 

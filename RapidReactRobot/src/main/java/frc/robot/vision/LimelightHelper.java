@@ -21,6 +21,7 @@ public class LimelightHelper {
     private static final NetworkTableEntry mLedMode = mTable.getEntry("ledMode");
     private static final NetworkTableEntry mCamMode = mTable.getEntry("camMode");
     private static final NetworkTableEntry mPipeline = mTable.getEntry("pipeline");
+    private static final NetworkTableEntry mSnapshot = mTable.getEntry("snapshot");
     private static final SimpleMovingAverage mTxMovingAverage = new SimpleMovingAverage(kTxWindowSize);
     private static final SimpleMovingAverage mTyMovingAverage = new SimpleMovingAverage(kTyWindowSize);
     private static boolean mIsLEDOn = false;
@@ -119,7 +120,11 @@ public class LimelightHelper {
     public static double getDistanceToTargetFeet() {
         return ((kTargetHeightInches - currentRobot.getShooterConfig().getLimelightMountingHeightInches()) /
                 (Math.tan(Units.degreesToRadians(currentRobot.getShooterConfig().getLimelightMountingAngleDegrees() + getTY()))
-                        * Math.cos(Units.degreesToRadians(getTX())))) / 12.0;
+                        * Math.cos(Units.degreesToRadians(getTX())))) / 12.0 + kLimelightOffsetFeet;
+    }
+
+    public static void takeSnapshot() {
+        mSnapshot.setNumber(1.0);
     }
 
 }

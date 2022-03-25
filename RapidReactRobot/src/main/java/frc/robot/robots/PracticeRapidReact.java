@@ -93,16 +93,27 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final double[][] highGoalMap = {
             // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
-            {24, 4.476, -1, 7900},
-            {34.0 + 7.0 / 16.0, 5.332, -0.762, 8250},
-            {41.25, 5.915, -0.6, 8150},
-            {45.7, 6.331, -0.5, 8150},
-            {52 + 1.0 / 16.0, 6.878, -0.225, 8150},
-            {57.5, 7.418, -0.17, 8150},
-            {64, 7.930, -0.05, 8150}, // Money shot
-            {70, 8.458, 0.17, 8150},
-            {76, 8.916, 0.25, 8200},
-            {82, 11.913, 1.0, 8725},
+//            {24, 4.476, -1, 7900},
+//            {34.0 + 7.0 / 16.0, 5.332, -0.762, 8250},
+//            {41.25, 5.915, -0.6, 8150},
+//            {45.7, 6.331, -0.5, 8150},
+//            {52 + 1.0 / 16.0, 6.878, -0.225, 8150},
+//            {57.5, 7.418, -0.17, 8150}, // Reported distance 7.448874 ft
+//            {64, 7.930, -0.05, 8150}, // Money shot reported 8.0326 ft
+//            {70, 8.458, 0.17, 8150},
+//            {76, 8.916, 0.25, 8200},
+//            {82, 11.913, 1.0, 8725},
+
+            {24, 4.476, -1, 8075},
+            {34.0 + 7.0 / 16.0, 5.332, -0.762, 8425},
+            {41.25, 5.915, -0.6, 8325},
+            {45.7, 6.331, -0.5, 8325},
+            {52 + 1.0 / 16.0, 6.878, -0.225, 8325},
+            {57.5, 7.418, -0.17, 8325}, // Reported distance 7.448874 ft
+            {64, 7.930, -0.05, 8325}, // Money shot reported 8.0326 ft
+            {70, 8.458, 0.17, 8325},
+            {76, 8.916, 0.25, 8375},
+            {82, 11.913, 1.0, 8900},
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -812,7 +823,7 @@ public class PracticeRapidReact extends WaltRobot {
         climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-2000, 75)); // -9.7 deg
         climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(11500, 75));
         climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(25824, 75)); // 23.4 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(2000, 75)); // 21.5 deg
+        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(-3675, 75)); // 21.5 deg
         climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-2000, 75)); // -10.4 deg
         climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(16000, 75)); // -1.0 deg
         climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(30265, 75)); // 26.6 deg

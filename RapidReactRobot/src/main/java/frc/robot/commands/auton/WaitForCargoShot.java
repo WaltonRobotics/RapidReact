@@ -11,6 +11,8 @@ import static frc.robot.RobotContainer.godSubsystem;
 public class WaitForCargoShot extends CommandBase {
 
     private final EnhancedBoolean flywheelOnTarget = new EnhancedBoolean();
+    private double setpointVelocity;
+    private double currentVelocity;
 
     @Override
     public void initialize() {
@@ -20,8 +22,8 @@ public class WaitForCargoShot extends CommandBase {
     @Override
     public void execute() {
         if (godSubsystem.getCurrentState() instanceof Shooting) {
-            double setpointVelocity = godSubsystem.getCurrentTargetFlywheelVelocity();
-            double currentVelocity = godSubsystem.getShooter().getFlywheelVelocityNU();
+            setpointVelocity = godSubsystem.getCurrentTargetFlywheelVelocity();
+            currentVelocity = godSubsystem.getShooter().getFlywheelVelocityNU();
 
             flywheelOnTarget.set(Math.abs(setpointVelocity - currentVelocity) <= kShootingToleranceRawUnits);
         } else {
@@ -33,7 +35,7 @@ public class WaitForCargoShot extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return flywheelOnTarget.isFallingEdge();
+        return flywheelOnTarget.isFallingEdge() && (currentVelocity < setpointVelocity);
     }
 
 }
