@@ -88,7 +88,7 @@ public class PracticeRapidReact extends WaltRobot {
     private final double[][] lowGoalMap = {
             // Actual measured distance, Limelight distance, hood angle, velocity
             {0, 3.879, -0.3, 5000},
-            {0, 6.456, 0.15, 6200},
+            {0, 6.456, 0.2, 6200},
     };
 
     private final double[][] highGoalMap = {
@@ -114,6 +114,8 @@ public class PracticeRapidReact extends WaltRobot {
             {70, 8.458, 0.17, 8325},
             {76, 8.916, 0.25, 8375},
             {82, 11.913, 1.0, 8900},
+
+            // 8.875 ft, 8370
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -821,7 +823,7 @@ public class PracticeRapidReact extends WaltRobot {
         climberPivotTargets.put(LINING_UP_FOR_MID_BAR, new Target(11375, 75));
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 75)); // 0 deg
         climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-2000, 75)); // -9.7 deg
-        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(11500, 75));
+        climberPivotTargets.put(PIVOT_BACK_TO_TRANSFER, new Target(13774, 75));
         climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(25824, 75)); // 23.4 deg
         climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(-3675, 75)); // 21.5 deg
         climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-2000, 75)); // -10.4 deg

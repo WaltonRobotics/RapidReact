@@ -6,6 +6,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -44,6 +45,8 @@ public class ClimbingModeTransition implements IState {
 //                .withInterrupt(godSubsystem::isClimbingMovementOverride).schedule();
 
         godSubsystem.getClimber().configExtensionSmartMotion(15000, 11000);
+
+        LimelightHelper.setLEDMode(false);
     }
 
     @Override

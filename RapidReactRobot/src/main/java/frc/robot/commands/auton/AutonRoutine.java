@@ -43,6 +43,12 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(sCurveBackward)
     )),
 
+    SHOOT_ONE("Shoot one cargo", new TimedAuton(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new ResetPose(gammaBackwards),
+            new ShootCargoTimed(10.0)
+    )),
+
     TAXI_FROM_TARMAC("Taxi from tarmac from gamma", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(gammaBackwards),
@@ -79,6 +85,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
 //            new TurnToAngle(90.0).withTimeout(2.0),
+            new WaitCommand(2.0),
             new AlignAndShootCargoTimed(10.0)
     )),
 

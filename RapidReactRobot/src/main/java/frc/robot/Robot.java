@@ -6,11 +6,13 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.util.net.PortForwarder;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.util.WaltTimesliceRobot;
 import frc.robot.vision.LimelightHelper;
@@ -20,6 +22,7 @@ import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.SmartDashboardKeys.kClimberExtensionCoastModeKey;
 import static frc.robot.Constants.SmartDashboardKeys.kClimberPivotCoastModeKey;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
+import static frc.robot.OI.driveGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
 
 /**
@@ -75,6 +78,8 @@ public class Robot extends WaltTimesliceRobot {
 
         // Monitor motor temperatures every second
         addPeriodic(godSubsystem::monitorTemperatures, 1.0);
+
+        LimelightHelper.setLEDMode(false);
     }
 
     /**
@@ -108,6 +113,10 @@ public class Robot extends WaltTimesliceRobot {
 
         SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
         SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
+
+        LimelightHelper.setLEDMode(false);
+
+        godSubsystem.getDrivetrain().setCoastNeutralMode();
     }
 
     @Override
@@ -152,7 +161,7 @@ public class Robot extends WaltTimesliceRobot {
         }
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
-        LimelightHelper.setLEDMode(kIsInTuningMode);
+        LimelightHelper.setLEDMode(true);
 
         autonomousCommand = robotContainer.getAutonomousCommand();
 
@@ -196,6 +205,14 @@ public class Robot extends WaltTimesliceRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+
+        new RunCommand( () -> {
+            driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.25);
+            driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0.25);
+        }).withTimeout(2.5).andThen(() -> {
+            driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+            driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0);
+        }).schedule();
     }
 
     /**

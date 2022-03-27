@@ -259,6 +259,7 @@ public class Shooter implements SubSubsystem {
         }
 
         double distanceFeet = LimelightHelper.getDistanceToTargetFeet();
+        robotLogger.log(Level.INFO, "Limelight distance: " + distanceFeet);
         InterpolatingDouble result;
 
         result = config.getFlywheelVelocityMap(getAimTarget()).getInterpolated(new InterpolatingDouble(distanceFeet));

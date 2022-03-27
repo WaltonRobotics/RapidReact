@@ -124,6 +124,7 @@ public class LimelightHelper {
     }
 
     public static void takeSnapshot() {
+        mSnapshot.setNumber(0.0);
         mSnapshot.setNumber(1.0);
     }
 

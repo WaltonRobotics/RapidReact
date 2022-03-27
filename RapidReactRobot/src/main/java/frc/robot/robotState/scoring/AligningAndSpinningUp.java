@@ -100,7 +100,7 @@ public class AligningAndSpinningUp implements IState {
         }
 
         if ((UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
-                || godSubsystem.getCurrentTime() >= timeout) &&
+                || godSubsystem.getCurrentTime() >= timeout || overrideAutoAimAndShootButton.get()) &&
                 godSubsystem.getCurrentTime() >= nudgeDownTimeout) {
             return new PreparingToShoot();
         }

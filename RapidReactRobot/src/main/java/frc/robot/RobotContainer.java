@@ -212,6 +212,8 @@ public class RobotContainer {
 
         SmartDashboard.putBoolean("Flywheel on target", false);
 
+        SmartDashboard.putBoolean("Is Ready For Match", !kIsInShooterTuningMode);
+
         NetworkTableInstance.getDefault().flush();
     }
 
