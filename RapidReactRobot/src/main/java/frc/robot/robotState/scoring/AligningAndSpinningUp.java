@@ -27,7 +27,6 @@ public class AligningAndSpinningUp implements IState {
     private final PIDController controller = drivetrain.getConfig().getAutoAlignController();
     private final Shooter shooter = godSubsystem.getShooter();
 
-    private double timeout;
     private double nudgeDownTimeout;
 
     @Override
@@ -50,7 +49,6 @@ public class AligningAndSpinningUp implements IState {
 
         controller.reset();
 
-        timeout = godSubsystem.getCurrentTime() + kAlignmentTimeoutSeconds;
         nudgeDownTimeout = godSubsystem.getCurrentTime() + kNudgeDownTimeSeconds;
     }
 
@@ -100,7 +98,7 @@ public class AligningAndSpinningUp implements IState {
         }
 
         if ((UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
-                || godSubsystem.getCurrentTime() >= timeout || overrideAutoAimAndShootButton.get()) &&
+                || overrideAutoAimAndShootButton.get()) &&
                 godSubsystem.getCurrentTime() >= nudgeDownTimeout) {
             return new PreparingToShoot();
         }
