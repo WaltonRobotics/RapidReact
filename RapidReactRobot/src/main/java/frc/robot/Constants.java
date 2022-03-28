@@ -85,6 +85,9 @@ public final class Constants {
         // The tolerance to maintain the shooting state
         public static final double kShootingToleranceRawUnits = 160;
 
+        // The tolerance needed to feed in the next ball
+        public static final double kRecoveryToleranceRawUnits = 300;
+
         // Short period of time after the shoot button is released where the flywheels
         // continue rotating to ensure last few shots don't go amiss
         public static final double kSpinDownTimeSeconds = 0.25;

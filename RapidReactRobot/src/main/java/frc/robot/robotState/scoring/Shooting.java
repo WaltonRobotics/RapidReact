@@ -9,6 +9,7 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+import static frc.robot.Constants.Shooter.kRecoveryToleranceRawUnits;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOTING_SLOT;
@@ -58,8 +59,12 @@ public class Shooting implements IState {
             godSubsystem.handleOuttaking();
         }
 
+        double flywheelError =
+                Math.abs(shooter.getFlywheelVelocityNU() - godSubsystem.getCurrentTargetFlywheelVelocity());
+
         // Wait for hood to move in position
-        if (shooter.getEstimatedHoodPosition() == shooter.getAdjustableHoodDutyCycleDemand()) {
+        if (shooter.getEstimatedHoodPosition() == shooter.getAdjustableHoodDutyCycleDemand()
+                && flywheelError <= kRecoveryToleranceRawUnits) {
             conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
             conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {
