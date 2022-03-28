@@ -108,8 +108,6 @@ public class AligningAndSpinningUp implements IState {
 
     @Override
     public void finish() {
-        DriveCommand.setIsEnabled(true);
-
         drivetrain.move(0, 0, 0, false);
 
         driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);

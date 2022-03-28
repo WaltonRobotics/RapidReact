@@ -1,6 +1,7 @@
 package frc.robot.robotState.scoring;
 
 import frc.robot.OI;
+import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
@@ -27,6 +28,8 @@ public class Shooting implements IState {
         shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
 
         conveyor.setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
+
+        DriveCommand.setIsEnabled(false);
     }
 
     @Override
@@ -46,6 +49,8 @@ public class Shooting implements IState {
 //        if (Math.abs(shooter.getFlywheelClosedLoopErrorNU()) > kShootingToleranceRawUnits) {
 //            return new SpinningUp();
 //        }
+
+        godSubsystem.getDrivetrain().xLockSwerveDrive();
 
         if (intakeButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToIntake())) {
             godSubsystem.handleIntaking();

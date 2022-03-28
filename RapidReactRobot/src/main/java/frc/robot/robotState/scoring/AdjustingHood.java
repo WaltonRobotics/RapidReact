@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
+import frc.robot.robotState.ScoringModeTransition;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
@@ -58,7 +59,7 @@ public class AdjustingHood implements IState {
         if (!OI.shootButton.get() && !barfButton.get() && !overrideAutoAimAndShootButton.get()
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
-            return new ScoringMode();
+            return new ScoringModeTransition();
         }
 
         godSubsystem.handleIntakingAndOuttaking();
