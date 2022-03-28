@@ -70,8 +70,13 @@ public class Robot extends WaltTimesliceRobot {
 
         LimelightHelper.setLEDMode(kIsInTuningMode);
 
+        PortForwarder.add(5800, "10.29.74.11", 5800);
         PortForwarder.add(5801, "10.29.74.11", 5801);
-
+        PortForwarder.add(5802, "10.29.74.11", 5802);
+        PortForwarder.add(5803, "10.29.74.11", 5803);
+        PortForwarder.add(5804, "10.29.74.11", 5804);
+        PortForwarder.add(5805, "10.29.74.11", 5805);
+        
         // Schedule updating shuffleboard on a separate thread with lower frequency
         // to prevent network latency
         addPeriodic(godSubsystem::updateShuffleboard, 0.25);
