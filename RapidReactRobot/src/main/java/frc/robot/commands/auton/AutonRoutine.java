@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
 
+import static frc.robot.Paths.NewFiveBallRoutine.*;
 import static frc.robot.Paths.RoutineEight.pickupG;
 import static frc.robot.Paths.RoutineEight.pickupGFast;
 import static frc.robot.Paths.RoutineFiveFull.*;
@@ -316,7 +317,42 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(pickupGFast),
             new WaitCommand(0.5),
             new SwerveTrajectoryCommand(pickupGShoot)
+    )),
+
+    NEW_FIVE_BALL("Pick up & shoot 2, shoot 1, pick up & shoot 2", new TimedAuton(
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new ResetPose(fiveBall1),
+            new ParallelDeadlineGroup(
+                    new SwerveTrajectoryCommand(fiveBall1),
+                    new ParallelCommandGroup(
+                            new SetRightIntakeDeployed(true),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+                            new WaitCommand(fiveBall1.getTotalTimeSeconds()*0.75),  //spin up 75% through path
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
+                            new SetRightIntakeDeployed(false),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
+                    )),
+            new ParallelDeadlineGroup(
+                    new ShootCargoTimed(2), //intake & shoot ballB while shooting
+                    new ParallelCommandGroup(
+                            new SetLeftIntakeDeployed(true),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true))
+                    )
+            ),
+            new SwerveTrajectoryCommand(fiveBall2),
+            new WaitCommand(1.0),   //wait for human player
+            new ParallelDeadlineGroup(
+                    new SwerveTrajectoryCommand(fiveBall3),
+                    new ParallelCommandGroup(
+                            new SetLeftIntakeDeployed(false),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+                            new WaitCommand(fiveBall3.getTotalTimeSeconds()*0.75),  //spin up 75% through path
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
+                    )
+            ),
+            new AlignAndShootCargoTimed(10)
     ));
+    
 //
 //    ROUTINE_SEVEN("Start from gamma, pick up ball C, shoot 2, pick up ball B, pick up ball A, shoot 2", new SequentialCommandGroup(
 //            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
