@@ -64,12 +64,12 @@ public class Shooter implements SubSubsystem {
     }
 
     @Override
-    public void zeroSensors() {
+    public synchronized void zeroSensors() {
 
     }
 
     @Override
-    public void collectData() {
+    public synchronized void collectData() {
         periodicIO.flywheelVelocityNU = flywheelMasterController.getSelectedSensorVelocity();
         periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
         LimelightHelper.updateData();
@@ -93,7 +93,7 @@ public class Shooter implements SubSubsystem {
     }
 
     @Override
-    public void outputData() {
+    public synchronized void outputData() {
         int masterID = config.getFlywheelMasterControllerMotorConfig().getChannelOrID();
 
         if (periodicIO.hasFlywheelMasterControllerResetOccurred) {

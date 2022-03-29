@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.team254.lib.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -23,6 +24,11 @@ import frc.lib.strykeforce.swerve.SwerveDrive;
 import frc.robot.config.DrivetrainConfig;
 import frc.robot.config.SmartMotionConstants;
 import frc.robot.util.UtilMethods;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.Constants.DriverPreferences.kFaceDirectionToleranceDegrees;
@@ -39,6 +45,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
     private final WaltSwerveModule[] swerveModules;
+
+    // Odometry
+    private com.team254.lib.geometry.Pose2d pose;
+    double distanceTraveled;
 
     public Drivetrain() {
         var moduleBuilder =
@@ -115,6 +125,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                 swerveModules);
 
         SmartDashboard.putData("Field", field);
+
+        zeroSensors();
+
+        resetPose(new Pose2d(), new PathPlannerTrajectory.PathPlannerState());
     }
 
     public void saveLeftFrontZero(int absoluteCounts) {
@@ -150,10 +164,6 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveDrive.reloadAzimuthZeros();
     }
 
-    public void zeroDriveEncoders() {
-        swerveDrive.resetDriveEncoders();
-    }
-
     public void zeroHeading() {
         setHeadingOffset(Rotation2d.fromDegrees(0.0));
         swerveDrive.resetGyro();
@@ -168,8 +178,11 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state) {
         setHeadingOffset(state.holonomicRotation.minus(Rotation2d.fromDegrees(180)));
-        Pose2d holonomicPose = new Pose2d(pose.getX(), pose.getY(), state.holonomicRotation);
-        swerveDrive.resetOdometry(holonomicPose);
+
+        for (WaltSwerveModule module : swerveModules) {
+            module.zeroSensors(new com.team254.lib.geometry.Pose2d(pose.getX(), pose.getY(),
+                    new com.team254.lib.geometry.Rotation2d(state.holonomicRotation.getDegrees())));
+        }
     }
 
     /**
@@ -179,6 +192,64 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
      */
     public Pose2d getPoseMeters() {
         return swerveDrive.getPoseMeters();
+    }
+
+    /** Playing around with different methods of odometry. This will require the use of all four modules, however. */
+    public synchronized void alternatePoseUpdate(){
+        double x = 0.0;
+        double y = 0.0;
+
+        double[][] distances = new double[4][2];
+
+        int moduleID = 0;
+        for(WaltSwerveModule m : swerveModules) {
+            m.updatePose(getHeading());
+            double distance = m.getEstimatedRobotPose().getTranslation().distance(pose.getTranslation());
+            distances[moduleID][0] = moduleID;
+            distances[moduleID][1] = distance;
+            moduleID++;
+        }
+
+        Arrays.sort(distances, Comparator.comparingDouble(a -> a[1]));
+
+        List<WaltSwerveModule> modulesToUse = new ArrayList<>();
+
+        double firstDifference = distances[1][1] - distances[0][1];
+        double secondDifference = distances[2][1] - distances[1][1];
+        double thirdDifference = distances[3][1] - distances[2][1];
+
+        if(secondDifference > (1.5 * firstDifference)){
+            modulesToUse.add(swerveModules[(int)distances[0][0]]);
+            modulesToUse.add(swerveModules[(int)distances[1][0]]);
+        } else if(thirdDifference > (1.5 * firstDifference)){
+            modulesToUse.add(swerveModules[(int)distances[0][0]]);
+            modulesToUse.add(swerveModules[(int)distances[1][0]]);
+            modulesToUse.add(swerveModules[(int)distances[2][0]]);
+        } else {
+            modulesToUse.add(swerveModules[(int)distances[0][0]]);
+            modulesToUse.add(swerveModules[(int)distances[1][0]]);
+            modulesToUse.add(swerveModules[(int)distances[2][0]]);
+            modulesToUse.add(swerveModules[(int)distances[3][0]]);
+        }
+
+        SmartDashboard.putNumber("Modules Used", modulesToUse.size());
+
+        for(WaltSwerveModule m : modulesToUse){
+            x += m.getEstimatedRobotPose().getTranslation().x();
+            y += m.getEstimatedRobotPose().getTranslation().y();
+        }
+
+        com.team254.lib.geometry.Pose2d updatedPose;
+        updatedPose = new com.team254.lib.geometry.Pose2d(new Translation2d(x / modulesToUse.size(), y / modulesToUse.size()),
+                new com.team254.lib.geometry.Rotation2d(getHeading().getDegrees()));
+
+        double deltaPos = updatedPose.getTranslation().distance(pose.getTranslation());
+        distanceTraveled += deltaPos;
+        pose = updatedPose;
+
+        for (WaltSwerveModule m : swerveModules) {
+            m.resetPose(pose);
+        }
     }
 
     /**
@@ -326,21 +397,20 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     @Override
-    public void zeroSensors() {
+    public synchronized void zeroSensors() {
         reloadAzimuthZeros();
-        zeroDriveEncoders();
         zeroHeading();
     }
 
     @Override
-    public void collectData() {
+    public synchronized void collectData() {
         for (WaltSwerveModule module : swerveModules) {
             module.collectData();
         }
     }
 
     @Override
-    public void outputData() {
+    public synchronized void outputData() {
         for (WaltSwerveModule module : swerveModules) {
             module.outputData();
         }
@@ -373,10 +443,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Position Error", swerveModules[3].getAzimuthPositionErrorNU());
 
         // Drive velocity data
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Velocity Msec", swerveModules[0].getDriveMetersPerSecond());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Velocity Msec", swerveModules[1].getDriveMetersPerSecond());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Velocity Msec", swerveModules[2].getDriveMetersPerSecond());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Velocity Msec", swerveModules[3].getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Position Meters", swerveModules[0].getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Position Meters", swerveModules[1].getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Position Meters", swerveModules[2].getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Position Meters", swerveModules[3].getDriveMetersPerSecond());
 
         // Drive velocity error data
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Velocity Error", swerveModules[0].getDriveVelocityErrorNU());
