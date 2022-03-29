@@ -85,6 +85,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             driveTalon.configFactoryDefault(10);
             driveTalon.configAllSettings(driveConfig, 10);
             driveTalon.enableVoltageCompensation(true);
+            driveTalon.configVoltageCompSaturation(12.0);
             driveTalon.setNeutralMode(NeutralMode.Coast);
 
             driveTalon.setInverted(config.getDriveControllerInversions()[i]);
