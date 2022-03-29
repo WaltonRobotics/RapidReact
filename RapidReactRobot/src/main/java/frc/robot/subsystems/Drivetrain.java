@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
+import frc.robot.commands.auton.LiveDashboardHelper;
 import frc.robot.config.DrivetrainConfig;
 import frc.robot.config.SmartMotionConstants;
 import frc.robot.util.UtilMethods;
@@ -191,11 +192,12 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
      * @return the pose of the robot (x and y ane in meters)
      */
     public Pose2d getPoseMeters() {
-        return swerveDrive.getPoseMeters();
+        return new Pose2d(pose.getTranslation().x(), pose.getTranslation().y(),
+                new Rotation2d(pose.getRotation().getRadians()));
     }
 
     /** Playing around with different methods of odometry. This will require the use of all four modules, however. */
-    public synchronized void alternatePoseUpdate(){
+    public synchronized void alternatePoseUpdate() {
         double x = 0.0;
         double y = 0.0;
 
@@ -257,13 +259,15 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
      */
     @Override
     public void periodic() {
-        swerveDrive.periodic();
-
-        field.setRobotPose(getPoseMeters());
-//        LiveDashboardHelper.putRobotData(getPoseMeters());
+//        swerveDrive.periodic();
 
 //        SmartDashboard.putNumber("Robot pitch angle", ahrs.getPitch());
 //        SmartDashboard.putNumber("Robot roll angle", ahrs.getRoll());
+//        field.setRobotPose(getPoseMeters());
+
+        alternatePoseUpdate();
+
+        LiveDashboardHelper.putRobotData(getPoseMeters());
     }
 
     /**
