@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -222,6 +223,13 @@ public final class Constants {
         public static final double kMoneyShotTolerance = 0.25;
 
         public static final Pose2d kCenterOfHubPose = new Pose2d(8.23, 4.11, Rotation2d.fromDegrees(0.0));
+
+    }
+
+    public static final class PathFollowing {
+
+        public static final double kPathLookaheadTime = 0.25;  // seconds to look ahead along the path for steering 0.4
+        public static final double kPathMinLookaheadDistance = Units.inchesToMeters(6.0);  // inches 24.0 (we've been using 3.0)
 
     }
 
