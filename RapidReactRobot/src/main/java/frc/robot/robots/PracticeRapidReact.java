@@ -160,8 +160,8 @@ public class PracticeRapidReact extends WaltRobot {
             driveConfig.slot0.integralZone = 750;
             driveConfig.slot0.maxIntegralAccumulator = 75_000;
             driveConfig.slot0.allowableClosedloopError = 0;
-            driveConfig.velocityMeasurementPeriod = SensorVelocityMeasPeriod.Period_100Ms;
-            driveConfig.velocityMeasurementWindow = 64;
+            driveConfig.velocityMeasurementPeriod = SensorVelocityMeasPeriod.Period_50Ms;
+            driveConfig.velocityMeasurementWindow = 32;
             driveConfig.voltageCompSaturation = 12;
 
             driveControllerConfigs[i] = driveConfig;

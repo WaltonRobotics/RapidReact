@@ -88,8 +88,6 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             driveTalon.enableVoltageCompensation(true);
             driveTalon.configVoltageCompSaturation(12.0);
             driveTalon.setNeutralMode(NeutralMode.Coast);
-            driveTalon.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_50Ms, 1000);
-            driveTalon.configVelocityMeasurementWindow(32, 1000);
 
             driveTalon.setInverted(config.getDriveControllerInversions()[i]);
             driveTalon.setSensorPhase(config.getDriveControllerInversions()[i]);
