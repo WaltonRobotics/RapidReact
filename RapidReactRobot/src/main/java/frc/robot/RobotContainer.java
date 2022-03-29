@@ -114,7 +114,10 @@ public class RobotContainer {
     public void initShuffleboard() {
         LiveWindow.disableAllTelemetry();
 
-        SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SetModuleStates());
+        SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SequentialCommandGroup(
+                new InstantCommand(() -> godSubsystem.getDrivetrain().reloadAzimuthZeros()),
+                new SetModuleStates()
+        ));
 
         SmartDashboard.putData(kDrivetrainResetKey, new InstantCommand(godSubsystem.getDrivetrain()::zeroSensors));
 

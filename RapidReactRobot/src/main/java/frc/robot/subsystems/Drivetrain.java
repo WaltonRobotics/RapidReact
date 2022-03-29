@@ -52,7 +52,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         for (int i = 0; i < 4; i++) {
             var azimuthSparkMax = new CANSparkMax(config.getAzimuthControllerIDs()[i], CANSparkMaxLowLevel.MotorType.kBrushless);
             azimuthSparkMax.restoreFactoryDefaults();
-            azimuthSparkMax.enableVoltageCompensation(12.0);
+            azimuthSparkMax.enableVoltageCompensation(8.0);
             azimuthSparkMax.setSmartCurrentLimit(25);
             azimuthSparkMax.setOpenLoopRampRate(0.0);
             azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
@@ -67,21 +67,13 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             azimuthRelativeEncoder.setPositionConversionFactor(config.getRelativeEncoderRotationsPerTick());
             azimuthRelativeEncoder.setVelocityConversionFactor(config.getRelativeEncoderRotationsPerTick());
 
-            SmartMotionConstants azimuthConfig = config.getAzimuthControllerConfigs()[i];
-
             // Smart Motion Configuration
-            azimuthPID.setP(azimuthConfig.getVelocityPID().getP());
-            azimuthPID.setI(azimuthConfig.getVelocityPID().getI());
-            azimuthPID.setD(azimuthConfig.getVelocityPID().getD());
-            azimuthPID.setIZone(azimuthConfig.getIZone());
-            azimuthPID.setFF(azimuthConfig.getFeedforward());
-            azimuthPID.setOutputRange(azimuthConfig.getMinOutput(), azimuthConfig.getMaxOutput());
-
-            int smartMotionSlot = 0;
-            azimuthPID.setSmartMotionMaxVelocity(azimuthConfig.getMaxVelocity(), smartMotionSlot);
-            azimuthPID.setSmartMotionMinOutputVelocity(azimuthConfig.getMinOutputVelocity(), smartMotionSlot);
-            azimuthPID.setSmartMotionMaxAccel(azimuthConfig.getMaxAccel(), smartMotionSlot);
-            azimuthPID.setSmartMotionAllowedClosedLoopError(azimuthConfig.getAllowedClosedLoopError(), smartMotionSlot);
+            azimuthPID.setP(config.getAzimuthPositionalPID().getP());
+            azimuthPID.setI(config.getAzimuthPositionalPID().getI());
+            azimuthPID.setD(config.getAzimuthPositionalPID().getD());
+            azimuthPID.setIZone(0);
+            azimuthPID.setFF(0);
+            azimuthPID.setOutputRange(-1, 1);
 
             if (kIsInCompetition) {
                 azimuthSparkMax.burnFlash();
@@ -255,7 +247,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     public void setModuleStates(SwerveModuleState state) {
         for (WaltSwerveModule module : swerveModules) {
             module.setDriveClosedLoopMetersPerSecond(state.speedMetersPerSecond);
-            module.setAzimuthRotation2d(state.angle);
+            module.setAbsoluteAzimuthRotation2d(state.angle);
         }
     }
 

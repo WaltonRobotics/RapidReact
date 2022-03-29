@@ -45,7 +45,6 @@ public class PracticeRapidReact extends WaltRobot {
     // 16: Climber extension
 
     // Drivetrain constants
-    private final SmartMotionConstants[] azimuthControllerConfigs = new SmartMotionConstants[4];
     private final TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
 
     // Bumper-bumper length: 33.489 in
@@ -73,7 +72,7 @@ public class PracticeRapidReact extends WaltRobot {
                     3.5,
                     0,
                     0,
-                    new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
+                    new TrapezoidProfile.Constraints(kMaxOmega / 2.0, kMaxOmega));
 
     private final PIDController faceDirectionController = new PIDController(0.09, 0, 0);
     private final PIDController autoAlignController = new PIDController(0.05, 0, 0);
@@ -145,55 +144,6 @@ public class PracticeRapidReact extends WaltRobot {
     @Override
     public void configDrivetrain() {
         for (int i = 0; i < 4; i++) {
-            SmartMotionConstants azimuthConfig = new SmartMotionConstants() {
-                private final PIDController velocityPID = new PIDController(0.00082, 0, 0.0);
-
-                @Override
-                public PIDController getVelocityPID() {
-                    return velocityPID;
-                }
-
-                @Override
-                public double getIZone() {
-                    return 10.0;
-                }
-
-                @Override
-                public double getFeedforward() {
-                    return 0.00627162;
-                }
-
-                @Override
-                public double getMinOutput() {
-                    return -1;
-                }
-
-                @Override
-                public double getMaxOutput() {
-                    return 1;
-                }
-
-                @Override
-                public double getMaxVelocity() {
-                    return 145;
-                }
-
-                @Override
-                public double getMinOutputVelocity() {
-                    return 0;
-                }
-
-                @Override
-                public double getMaxAccel() {
-                    return 500;
-                }
-
-                @Override
-                public double getAllowedClosedLoopError() {
-                    return 0;
-                }
-            };
-
             TalonFXConfiguration driveConfig = new TalonFXConfiguration();
             driveConfig.supplyCurrLimit.currentLimit = 0.04;
             driveConfig.supplyCurrLimit.triggerThresholdCurrent = 45;
@@ -214,7 +164,6 @@ public class PracticeRapidReact extends WaltRobot {
             driveConfig.velocityMeasurementWindow = 64;
             driveConfig.voltageCompSaturation = 12;
 
-            azimuthControllerConfigs[i] = azimuthConfig;
             driveControllerConfigs[i] = driveConfig;
         }
 
@@ -233,8 +182,8 @@ public class PracticeRapidReact extends WaltRobot {
 
         drivetrainConfig = new DrivetrainConfig() {
             @Override
-            public SmartMotionConstants[] getAzimuthControllerConfigs() {
-                return azimuthControllerConfigs;
+            public PIDController getAzimuthPositionalPID() {
+                return new PIDController(22.8, 0.0, 0.0);
             }
 
             @Override

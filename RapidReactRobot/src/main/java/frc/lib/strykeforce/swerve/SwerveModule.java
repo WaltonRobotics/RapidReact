@@ -52,6 +52,8 @@ public interface SwerveModule {
    */
   void setAzimuthRotation2d(Rotation2d rotation);
 
+  void setAbsoluteAzimuthRotation2d(Rotation2d angle);
+
   /**
    * Get the angle of the swerve drive azimuth.
    *
