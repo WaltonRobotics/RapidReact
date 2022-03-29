@@ -1,6 +1,7 @@
 package frc.robot.robotState.scoring;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
@@ -21,6 +22,9 @@ public class PreparingToShoot implements IState {
 
     @Override
     public void initialize() {
+        // Disable driver control to lock drivetrain in place
+        DriveCommand.setIsEnabled(false);
+
         godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.OPEN_LOOP);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.VELOCITY);
@@ -54,6 +58,8 @@ public class PreparingToShoot implements IState {
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
         godSubsystem.handleIntakingAndOuttaking();
+
+        godSubsystem.getDrivetrain().xLockSwerveDrive();
 
         return new SpinningUp();
     }

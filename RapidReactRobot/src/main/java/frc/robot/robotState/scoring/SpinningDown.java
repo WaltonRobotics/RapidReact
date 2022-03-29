@@ -1,7 +1,9 @@
 package frc.robot.robotState.scoring;
 
+import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringMode;
+import frc.robot.robotState.ScoringModeTransition;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
@@ -33,6 +35,8 @@ public class SpinningDown implements IState {
         conveyor.setConveyorControlState(Conveyor.ConveyorControlState.OPEN_LOOP);
 
         timeout = godSubsystem.getCurrentTime() + kSpinDownTimeSeconds;
+
+        DriveCommand.setIsEnabled(true);
     }
 
     @Override
@@ -42,7 +46,7 @@ public class SpinningDown implements IState {
         }
 
         if (godSubsystem.getCurrentTime() >= timeout) {
-            return new ScoringMode();
+            return new ScoringModeTransition();
         }
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());

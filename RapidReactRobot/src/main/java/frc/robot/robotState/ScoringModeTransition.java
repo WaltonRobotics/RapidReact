@@ -1,5 +1,6 @@
 package frc.robot.robotState;
 
+import frc.robot.commands.DriveCommand;
 import frc.robot.stateMachine.IState;
 
 import static frc.robot.RobotContainer.godSubsystem;
@@ -13,6 +14,9 @@ public class ScoringModeTransition implements IState {
         godSubsystem.getClimber().setClimberLockStateDemand(false);
 
         godSubsystem.getClimber().setClimberDiscBrakeStateDemand(false);
+
+        // Enable driver control
+        DriveCommand.setIsEnabled(true);
     }
 
     @Override
