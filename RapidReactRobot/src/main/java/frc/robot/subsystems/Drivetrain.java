@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.revrobotics.CANSparkMax;
@@ -87,6 +88,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             driveTalon.enableVoltageCompensation(true);
             driveTalon.configVoltageCompSaturation(12.0);
             driveTalon.setNeutralMode(NeutralMode.Coast);
+            driveTalon.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_50Ms, 1000);
+            driveTalon.configVelocityMeasurementWindow(32, 1000);
 
             driveTalon.setInverted(config.getDriveControllerInversions()[i]);
             driveTalon.setSensorPhase(config.getDriveControllerInversions()[i]);
