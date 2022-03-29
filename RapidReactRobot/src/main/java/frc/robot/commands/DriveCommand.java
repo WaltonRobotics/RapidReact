@@ -36,7 +36,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (enabled) {
+        if (enabled && !godSubsystem.isInAuton()) {
             if (toggleFieldRelativeModeButton.isRisingEdge()) {
                 isFieldRelative = !isFieldRelative;
             }
