@@ -274,7 +274,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(routineFiveBFullFast),
-                    new ParallelCommandGroup(
+                    new SequentialCommandGroup(
                             new WaitCommand(routineFiveBFullFast.getTotalTimeSeconds() * 0.75),
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
                     )
@@ -322,31 +322,33 @@ public enum AutonRoutine {
     NEW_FIVE_BALL("Pick up & shoot 2, shoot 1, pick up & shoot 2", new TimedAuton(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(fiveBall1),
+            new SetRightIntakeDeployed(true),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(fiveBall1),
-                    new ParallelCommandGroup(
-                            new SetRightIntakeDeployed(true),
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-                            new WaitCommand(fiveBall1.getTotalTimeSeconds()*0.75),  //spin up 75% through path
+                    new SequentialCommandGroup(
+                            new WaitCommand(fiveBall1.getTotalTimeSeconds() * 0.75),  // spin up 75% through path
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
                             new SetRightIntakeDeployed(false),
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
                     )),
-            new ParallelDeadlineGroup(
+            new ParallelCommandGroup(
                     new ShootCargoTimed(2), //intake & shoot ballB while shooting
-                    new ParallelCommandGroup(
+                    new SequentialCommandGroup(
+//                            new WaitCommand(0.5),
                             new SetLeftIntakeDeployed(true),
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true))
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+                            new WaitCommand(1.5) // Wait for intaking ball
                     )
             ),
             new SwerveTrajectoryCommand(fiveBall2),
-            new WaitCommand(1.0),   //wait for human player
+            new WaitCommand(1.0),   // wait for human player
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(fiveBall3),
-                    new ParallelCommandGroup(
+                    new SequentialCommandGroup(
+                            new WaitCommand(fiveBall3.getTotalTimeSeconds() * 0.5),  // spin up 50% through path
                             new SetLeftIntakeDeployed(false),
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-                            new WaitCommand(fiveBall3.getTotalTimeSeconds()*0.75),  //spin up 75% through path
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
                     )
             ),
