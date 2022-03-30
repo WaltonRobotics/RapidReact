@@ -136,6 +136,13 @@ public class Paths {
 //
 //    }
 
+    public static final class TwoBallThrowRoutine{
+        public static final PathPlannerTrajectory twoBall =
+                PathPlanner.loadPath("twoBall", Units.feetToMeters(11.0), Units.feetToMeters(4.5), true);
+        public static final PathPlannerTrajectory twoBallThrow =
+                PathPlanner.loadPath("twoBallThrow", Units.feetToMeters(11.0), Units.feetToMeters(4.5));
+    }
+
     public static final class RoutineFiveFull {
 
         public static final PathPlannerTrajectory routineFiveBFull =
