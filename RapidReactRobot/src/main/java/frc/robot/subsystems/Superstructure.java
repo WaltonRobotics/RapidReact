@@ -44,6 +44,7 @@ public class Superstructure extends SubsystemBase {
     private boolean doesAutonNeedToIntake = false;
     private boolean doesAutonNeedToShoot = false;
     private boolean doesAutonNeedToAlignAndShoot = false;
+    private boolean doesAutonNeedToBarf = false;
 
     private final StateMachine stateMachine;
 
@@ -137,6 +138,14 @@ public class Superstructure extends SubsystemBase {
 
     public void setDoesAutonNeedToShoot(boolean needsToShoot) {
         this.doesAutonNeedToShoot = needsToShoot;
+    }
+
+    public boolean doesAutonNeedToBarf(){
+        return doesAutonNeedToBarf;
+    }
+
+    public void setDoesAutonNeedToBarf(boolean doesAutonNeedToBarf){
+        this.doesAutonNeedToBarf = doesAutonNeedToBarf;
     }
 
     public boolean doesAutonNeedToAlignAndShoot() {
