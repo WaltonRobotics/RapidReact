@@ -8,9 +8,10 @@ import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
+import com.team254.lib.geometry.Pose2d;
+import com.team254.lib.geometry.Translation2d;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycle;
@@ -35,8 +36,13 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final double wheelCircumferenceMeters;
     private final double driveDeadbandMetersPerSecond;
     private final double driveMaximumMetersPerSecond;
-    private final Translation2d wheelLocationMeters;
+    private final edu.wpi.first.math.geometry.Translation2d wheelLocationMeters;
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.74425, 2.3973, 0.072907);
+
+    private double previousEncDistance = 0;
+    private Translation2d position;
+    private Translation2d startingPosition;
+    private Pose2d estimatedRobotPose = new Pose2d();
 
     private final PeriodicIO periodicIO = new PeriodicIO();
     private Rotation2d previousAngle = new Rotation2d();
@@ -55,6 +61,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         public double azimuthAbsoluteOutput;
         public double azimuthRelativeCounts;
         public double driveVelocityNU;
+        public double drivePositionNU;
         public double driveClosedLoopErrorNU;
     }
 
@@ -74,26 +81,43 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         driveDeadbandMetersPerSecond = builder.driveDeadbandMetersPerSecond;
         driveMaximumMetersPerSecond = builder.driveMaximumMetersPerSecond;
         wheelLocationMeters = builder.wheelLocationMeters;
-    }
 
-    @Override
-    public void zeroSensors() {
-        loadAndSetAzimuthZeroReference();
+        previousEncDistance = 0;
+
+        Translation2d startingPose = new Translation2d(builder.wheelLocationMeters.getX(),
+                builder.wheelLocationMeters.getY());
+
         resetDriveEncoder();
+
+        position = startingPose;
+        this.startingPosition = startingPose;
     }
 
     @Override
-    public void collectData() {
+    public synchronized void zeroSensors() {
+        zeroSensors(new Pose2d());
+    }
+
+    public synchronized void zeroSensors(Pose2d robotPose) {
+        loadAndSetAzimuthZeroReference();
+        resetPose(robotPose);
+        estimatedRobotPose = robotPose;
+        previousEncDistance = getDrivePositionMeters();
+    }
+
+    @Override
+    public synchronized void collectData() {
         periodicIO.hasDriveControllerReset = driveTalon.hasResetOccurred();
         periodicIO.azimuthAbsoluteFrequency = azimuthAbsoluteEncoderPWM.getFrequency();
         periodicIO.azimuthAbsoluteOutput = azimuthAbsoluteEncoderPWM.getOutput();
         periodicIO.azimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
+        periodicIO.drivePositionNU = driveTalon.getSelectedSensorPosition();
         periodicIO.driveVelocityNU = driveTalon.getSelectedSensorVelocity();
         periodicIO.driveClosedLoopErrorNU = driveTalon.getClosedLoopError();
     }
 
     @Override
-    public void outputData() {
+    public synchronized void outputData() {
         if (periodicIO.hasDriveControllerReset) {
             configDriveStatusFrames();
         }
@@ -120,7 +144,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     @Override
-    public Translation2d getWheelLocationMeters() {
+    public edu.wpi.first.math.geometry.Translation2d getWheelLocationMeters() {
         return wheelLocationMeters;
     }
 
@@ -253,6 +277,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return new Rotation2d(radians);
     }
 
+    public Rotation2d getFieldCentricAngle(Rotation2d robotHeading) {
+        Rotation2d normalizedAngle = getAzimuthRotation2d();
+        return normalizedAngle.rotateBy(robotHeading);
+    }
+
     @Override
     public void setAzimuthRotation2d(Rotation2d angle) {
         setAzimuthOptimizedState(new SwerveModuleState(0.0, angle));
@@ -287,7 +316,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         double encoderCounts = periodicIO.drivePositionNU;
         double motorRotations = encoderCounts / driveCountsPerRev;
         double wheelRotations = motorRotations * driveGearRatio;
-        return wheelRotations * wheelCircumferenceMeters;
+        double meters = wheelRotations * wheelCircumferenceMeters;
+        return meters;
     }
 
     public double getDriveMetersPerSecond() {
@@ -372,12 +402,12 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         previousEncDistance = currentEncDistance;
     }
 
-    public synchronized void resetPose(Pose2d robotPose) {
+    public synchronized void resetPose(Pose2d robotPose){
         Translation2d modulePosition = robotPose.transformBy(Pose2d.fromTranslation(startingPosition)).getTranslation();
         position = modulePosition;
     }
 
-    public synchronized void resetPose() {
+    public synchronized void resetPose(){
         position = startingPosition;
     }
 
@@ -416,7 +446,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         private int driveCountsPerRev = kDefaultTalonFXCountsPerRev;
         private double driveDeadbandMetersPerSecond = -1.0;
         private double driveMaximumMetersPerSecond;
-        private Translation2d wheelLocationMeters;
+        private edu.wpi.first.math.geometry.Translation2d wheelLocationMeters;
 
         public Builder() {
         }
@@ -482,7 +512,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             return this;
         }
 
-        public Builder wheelLocationMeters(Translation2d locationMeters) {
+        public Builder wheelLocationMeters(edu.wpi.first.math.geometry.Translation2d locationMeters) {
             wheelLocationMeters = locationMeters;
             return this;
         }
