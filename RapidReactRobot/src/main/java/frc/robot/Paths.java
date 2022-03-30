@@ -20,7 +20,7 @@ public class Paths {
 
 
         public static final PathPlannerTrajectory fiveFeetForward =
-                PathPlanner.loadPath("fiveFeetForward", Units.feetToMeters(3.0), Units.feetToMeters(2.0));
+                PathPlanner.loadPath("fiveFeetForward", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration));
 
         public static final PathPlannerTrajectory sCurveForward =
                 PathPlanner.loadPath("sCurveForward", Units.feetToMeters(maxVelocity), Units.feetToMeters(maxAcceleration));
