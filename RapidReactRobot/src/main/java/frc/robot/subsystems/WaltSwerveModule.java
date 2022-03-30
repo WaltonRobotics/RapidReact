@@ -98,7 +98,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             configDriveStatusFrames();
         }
 
-        azimuthSparkMax.getPIDController().setReference(periodicIO.azimuthRelativeCountsDemand, CANSparkMax.ControlType.kSmartMotion);
+        azimuthSparkMax.getPIDController().setReference(periodicIO.azimuthRelativeCountsDemand, CANSparkMax.ControlType.kPosition);
 
         if (driveControlState == DriveControlState.OPEN_LOOP) {
             driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand,
@@ -256,6 +256,15 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     @Override
     public void setAzimuthRotation2d(Rotation2d angle) {
         setAzimuthOptimizedState(new SwerveModuleState(0.0, angle));
+    }
+
+    @Override
+    public void setAbsoluteAzimuthRotation2d(Rotation2d angle) {
+        // set the azimuth wheel position
+        double countsBefore = getAzimuthRelativeEncoderCounts();
+        double countsFromAngle = angle.getRadians() / (2.0 * Math.PI);
+        double countsDelta = Math.IEEEremainder(countsFromAngle - countsBefore, 1.0);
+        periodicIO.azimuthRelativeCountsDemand = countsBefore + countsDelta;
     }
 
     private SwerveModuleState setAzimuthOptimizedState(SwerveModuleState desiredState) {
