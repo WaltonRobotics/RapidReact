@@ -283,6 +283,13 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return optimizedState;
     }
 
+    public double getDrivePositionMeters() {
+        double encoderCounts = periodicIO.drivePositionNU;
+        double motorRotations = encoderCounts / driveCountsPerRev;
+        double wheelRotations = motorRotations * driveGearRatio;
+        return wheelRotations * wheelCircumferenceMeters;
+    }
+
     public double getDriveMetersPerSecond() {
         double encoderCountsPer100ms = periodicIO.driveVelocityNU;
         double motorRotationsPer100ms = encoderCountsPer100ms / driveCountsPerRev;
@@ -336,6 +343,46 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             return 2;
         }
         return 3;
+    }
+
+    public Translation2d getPosition(){
+        return position;
+    }
+
+    public Pose2d getEstimatedRobotPose(){
+        return estimatedRobotPose;
+    }
+
+    public synchronized void updatePose(Rotation2d robotHeading){
+        double currentEncDistance = getDrivePositionMeters();
+        double deltaEncDistance = (currentEncDistance - previousEncDistance);
+        Rotation2d currentWheelAngle = getFieldCentricAngle(robotHeading);
+        Translation2d deltaPosition = new Translation2d(currentWheelAngle.getCos()*deltaEncDistance,
+                currentWheelAngle.getSin()*deltaEncDistance);
+
+
+        deltaPosition = new Translation2d(deltaPosition.x(),
+                deltaPosition.y());
+        Translation2d updatedPosition = position.translateBy(deltaPosition);
+        Pose2d staticWheelPose = new Pose2d(updatedPosition, new com.team254.lib.geometry.Rotation2d(
+                robotHeading.getDegrees()));
+        Pose2d robotPose = staticWheelPose.transformBy(Pose2d.fromTranslation(startingPosition).inverse());
+        position = updatedPosition;
+        estimatedRobotPose = robotPose;
+        previousEncDistance = currentEncDistance;
+    }
+
+    public synchronized void resetPose(Pose2d robotPose) {
+        Translation2d modulePosition = robotPose.transformBy(Pose2d.fromTranslation(startingPosition)).getTranslation();
+        position = modulePosition;
+    }
+
+    public synchronized void resetPose() {
+        position = startingPosition;
+    }
+
+    public synchronized void resetLastEncoderReading(){
+        previousEncDistance = getDrivePositionMeters();
     }
 
     private void configDriveStatusFrames() {

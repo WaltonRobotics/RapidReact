@@ -116,6 +116,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                 swerveModules);
 
         SmartDashboard.putData("Field", field);
+
+        zeroSensors();
     }
 
     public void saveLeftFrontZero(int absoluteCounts) {
@@ -168,9 +170,15 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state) {
-        setHeadingOffset(state.holonomicRotation.minus(Rotation2d.fromDegrees(180)));
-        Pose2d holonomicPose = new Pose2d(pose.getX(), pose.getY(), state.holonomicRotation);
-        swerveDrive.resetOdometry(holonomicPose);
+        zeroHeading();
+        setHeadingOffset(state.holonomicRotation);
+
+        System.out.println("Resetting pose to " + pose);
+
+        for (WaltSwerveModule module : swerveModules) {
+            module.zeroSensors(new com.team254.lib.geometry.Pose2d(pose.getX(), pose.getY(),
+                    new com.team254.lib.geometry.Rotation2d(state.holonomicRotation.getDegrees())));
+        }
     }
 
     /**
@@ -374,10 +382,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Position Error", swerveModules[3].getAzimuthPositionErrorNU());
 
         // Drive velocity data
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Velocity Msec", swerveModules[0].getDriveMetersPerSecond());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Velocity Msec", swerveModules[1].getDriveMetersPerSecond());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Velocity Msec", swerveModules[2].getDriveMetersPerSecond());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Velocity Msec", swerveModules[3].getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Position Meters", swerveModules[0].getDrivePositionMeters());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Position Meters", swerveModules[1].getDrivePositionMeters());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Position Meters", swerveModules[2].getDrivePositionMeters());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Position Meters", swerveModules[3].getDrivePositionMeters());
 
         // Drive velocity error data
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Velocity Error", swerveModules[0].getDriveVelocityErrorNU());
