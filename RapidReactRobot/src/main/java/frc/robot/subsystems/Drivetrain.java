@@ -49,7 +49,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     private final WaltSwerveModule[] swerveModules;
 
     // Odometry
-    private com.team254.lib.geometry.Pose2d pose;
+    private com.team254.lib.geometry.Pose2d pose = new com.team254.lib.geometry.Pose2d();
     double distanceTraveled;
 
     public Drivetrain() {
@@ -179,7 +179,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state) {
-        setHeadingOffset(state.holonomicRotation.minus(Rotation2d.fromDegrees(180)));
+        zeroHeading();
+        setHeadingOffset(state.holonomicRotation);
 
         for (WaltSwerveModule module : swerveModules) {
             module.zeroSensors(new com.team254.lib.geometry.Pose2d(pose.getX(), pose.getY(),

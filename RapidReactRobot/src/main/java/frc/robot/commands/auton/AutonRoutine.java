@@ -341,6 +341,7 @@ public enum AutonRoutine {
                             new WaitCommand(1.5) // Wait for intaking ball
                     )
             ),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new SwerveTrajectoryCommand(fiveBall2),
             new WaitCommand(1.0),   // wait for human player
             new ParallelDeadlineGroup(
@@ -352,7 +353,8 @@ public enum AutonRoutine {
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
                     )
             ),
-            new AlignAndShootCargoTimed(10)
+            new AlignAndShootCargoTimed(10),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false))
     ));
     
 //

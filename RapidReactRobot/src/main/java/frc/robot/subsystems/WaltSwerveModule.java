@@ -87,7 +87,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         Translation2d startingPose = new Translation2d(builder.wheelLocationMeters.getX(),
                 builder.wheelLocationMeters.getY());
 
-        driveTalon.setSelectedSensorPosition(0.0);
+        resetDriveEncoder();
 
         position = startingPose;
         this.startingPosition = startingPose;
@@ -313,11 +313,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     public double getDrivePositionMeters() {
-        double encoderCountsPer100ms = periodicIO.drivePositionNU;
-        double motorRotationsPer100ms = encoderCountsPer100ms / driveCountsPerRev;
-        double wheelRotationsPer100ms = motorRotationsPer100ms * driveGearRatio;
-        double metersPer100ms = wheelRotationsPer100ms * wheelCircumferenceMeters;
-        return metersPer100ms * k100msPerSecond;
+        double encoderCounts = periodicIO.drivePositionNU;
+        double motorRotations = encoderCounts / driveCountsPerRev;
+        double wheelRotations = motorRotations * driveGearRatio;
+        double meters = wheelRotations * wheelCircumferenceMeters;
+        return meters;
     }
 
     public double getDriveMetersPerSecond() {
