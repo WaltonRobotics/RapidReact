@@ -59,7 +59,9 @@ public class PreparingToShoot implements IState {
 
         godSubsystem.handleIntakingAndOuttaking();
 
-        godSubsystem.getDrivetrain().xLockSwerveDrive();
+        if (!godSubsystem.isInAuton()) {
+            godSubsystem.getDrivetrain().xLockSwerveDrive();
+        }
 
         return new SpinningUp();
     }
