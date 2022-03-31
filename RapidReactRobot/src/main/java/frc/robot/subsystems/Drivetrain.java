@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.revrobotics.CANSparkMax;
@@ -22,11 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
-import frc.lib.strykeforce.swerve.SwerveModule;
 import frc.robot.commands.auton.LiveDashboardHelper;
-import frc.robot.commands.auton.LiveDashboardTable;
 import frc.robot.config.DrivetrainConfig;
-import frc.robot.config.SmartMotionConstants;
 import frc.robot.util.UtilMethods;
 
 import java.util.ArrayList;
@@ -58,8 +54,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     public Drivetrain() {
         var moduleBuilder =
                 new WaltSwerveModule.Builder()
-                        .driveGearRatio(config.getDriveGearRatio())
-                        .wheelDiameterInches(config.getWheelDiameterInches())
+                        .driveMetersPerNU(config.getDriveMetersPerNU())
                         .driveMaximumMetersPerSecond(config.getMaxSpeedMetersPerSecond());
 
         for (int i = 0; i < 4; i++) {

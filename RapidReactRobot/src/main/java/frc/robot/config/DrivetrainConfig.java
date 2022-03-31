@@ -29,15 +29,13 @@ public interface DrivetrainConfig {
     // Kinematics-related constants
     double getRelativeEncoderRotationsPerTick();
 
-    double getWheelDiameterInches();
-
     double getMaxSpeedMetersPerSecond();
 
     double getMaxOmega();
 
     double getMaxFaceDirectionOmega();
 
-    double getDriveGearRatio();
+    double getDriveMetersPerNU();
 
     Translation2d[] getWheelLocationMeters();
 

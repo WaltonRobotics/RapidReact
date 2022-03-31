@@ -227,11 +227,6 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public double getWheelDiameterInches() {
-                return 3.0;
-            }
-
-            @Override
             public double getMaxSpeedMetersPerSecond() {
                 return kMaxSpeedMetersPerSecond;
             }
@@ -247,13 +242,9 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public double getDriveGearRatio() {
-                final double kDriveMotorOutputGear = 12;
-                final double kDriveInputGear = 21;
-                final double kBevelInputGear = 15;
-                final double kBevelOutputGear = 45;
-
-                return (kDriveMotorOutputGear / kDriveInputGear) * (kBevelInputGear / kBevelOutputGear);
+            public double getDriveMetersPerNU() {
+                // GR / CPR * Circumference
+                return (1.0 / 5.25) / 2048.0 * Math.PI * Units.inchesToMeters(3.0);
             }
 
             @Override
