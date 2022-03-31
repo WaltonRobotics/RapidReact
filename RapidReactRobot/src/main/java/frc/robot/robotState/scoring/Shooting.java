@@ -51,7 +51,9 @@ public class Shooting implements IState {
 //            return new SpinningUp();
 //        }
 
-        godSubsystem.getDrivetrain().xLockSwerveDrive();
+        if (!godSubsystem.isInAuton()) {
+            godSubsystem.getDrivetrain().xLockSwerveDrive();
+        }
 
         if (intakeButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToIntake())) {
             godSubsystem.handleIntaking();

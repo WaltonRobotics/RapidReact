@@ -37,6 +37,7 @@ import static frc.robot.Constants.ContextFlags.kIsInCompetition;
 import static frc.robot.Constants.DriverPreferences.kFaceDirectionToleranceDegrees;
 import static frc.robot.Constants.FieldConstants.kCenterOfHubPose;
 import static frc.robot.RobotContainer.currentRobot;
+import static frc.robot.RobotContainer.godSubsystem;
 
 public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
@@ -98,7 +99,6 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             driveTalon.configFactoryDefault(10);
             driveTalon.configAllSettings(driveConfig, 10);
             driveTalon.enableVoltageCompensation(true);
-            driveTalon.configVoltageCompSaturation(12.0);
             driveTalon.setNeutralMode(NeutralMode.Coast);
 
             driveTalon.setInverted(config.getDriveControllerInversions()[i]);
@@ -393,16 +393,22 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public void xLockSwerveDrive() {
-        swerveModules[0].setAzimuthRotation2d(Rotation2d.fromDegrees(45));
-        swerveModules[1].setAzimuthRotation2d(Rotation2d.fromDegrees(-45));
-        swerveModules[2].setAzimuthRotation2d(Rotation2d.fromDegrees(-45));
-        swerveModules[3].setAzimuthRotation2d(Rotation2d.fromDegrees(45));
+        if (!godSubsystem.isInAuton()) {
+            swerveModules[0].setAzimuthRotation2d(Rotation2d.fromDegrees(45));
+            swerveModules[1].setAzimuthRotation2d(Rotation2d.fromDegrees(-45));
+            swerveModules[2].setAzimuthRotation2d(Rotation2d.fromDegrees(-45));
+            swerveModules[3].setAzimuthRotation2d(Rotation2d.fromDegrees(45));
+        }
     }
 
     public Rotation2d getEstimatedAngleToHub() {
         Pose2d targetRobotRelative = kCenterOfHubPose.relativeTo(getPoseMeters());
 
         return new Rotation2d(Math.atan2(targetRobotRelative.getY(), targetRobotRelative.getX()));
+    }
+
+    public WaltSwerveModule[] getModules() {
+        return swerveModules;
     }
 
     @Override
