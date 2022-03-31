@@ -223,7 +223,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getRelativeEncoderRotationsPerTick() {
-                return 1.0 / (5.33 * 12.0);
+                return 1.0 / 64.0;
             }
 
             @Override

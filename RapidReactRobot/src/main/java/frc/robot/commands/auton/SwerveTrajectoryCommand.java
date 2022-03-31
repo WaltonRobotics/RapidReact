@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.WaltSwerveModule;
 import frc.robot.util.UtilMethods;
@@ -71,11 +72,11 @@ public class SwerveTrajectoryCommand extends CommandBase {
         SmartDashboard.putBoolean("Are modules ready", areModulesReady);
 
         if (!areModulesReady) {
-            drivetrain.setModuleStates(new SwerveModuleState(0, initialModuleAngle));
-
             boolean areAllModulesAligned = true;
 
             for (WaltSwerveModule module : drivetrain.getSwerveModules()) {
+                module.setAbsoluteAzimuthRotation2d(initialModuleAngle);
+
                 double moduleAngle = UtilMethods.restrictAngle(module.getAzimuthRotation2d().getDegrees(),
                         -180.0, 180.0);
 
