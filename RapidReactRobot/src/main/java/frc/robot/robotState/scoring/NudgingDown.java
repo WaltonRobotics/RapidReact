@@ -64,9 +64,7 @@ public class NudgingDown implements IState {
         godSubsystem.getConveyor().setFeedDemand(
                 godSubsystem.getConveyor().getConfig().getFeedOuttakePercentOutput());
 
-        if (!godSubsystem.isInAuton()) {
-            godSubsystem.getDrivetrain().xLockSwerveDrive();
-        }
+        godSubsystem.getDrivetrain().xLockSwerveDrive();
 
         if (godSubsystem.getCurrentTime() >= timeout) {
             return new PreparingToShoot();

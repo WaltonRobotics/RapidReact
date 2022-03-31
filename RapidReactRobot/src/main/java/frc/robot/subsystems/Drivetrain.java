@@ -179,14 +179,17 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return swerveModules;
     }
 
-    public void resetPose(Pose2d pose, PathPlannerTrajectory.PathPlannerState state) {
+    public void resetPose(Pose2d robotPose, PathPlannerTrajectory.PathPlannerState state) {
         zeroHeading();
         setHeadingOffset(state.holonomicRotation);
 
-        for (WaltSwerveModule module : swerveModules) {
-            module.zeroSensors(new com.team254.lib.geometry.Pose2d(pose.getX(), pose.getY(),
-                    new com.team254.lib.geometry.Rotation2d(state.holonomicRotation.getDegrees())));
-        }
+        com.team254.lib.geometry.Pose2d startingPose = new com.team254.lib.geometry.Pose2d(robotPose.getX(),
+                robotPose.getY(), new com.team254.lib.geometry.Rotation2d(state.holonomicRotation.getDegrees()));
+
+        swerveModules.forEach(m -> m.zeroSensors(startingPose));
+
+        pose = startingPose;
+        distanceTraveled = 0;
     }
 
     /**
@@ -251,9 +254,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         distanceTraveled += deltaPos;
         pose = updatedPose;
 
-        for (WaltSwerveModule m : swerveModules) {
-            m.resetPose(pose);
-        }
+        swerveModules.forEach(m -> m.resetPose(pose));
     }
 
     /**
@@ -374,15 +375,11 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public void setBrakeNeutralMode() {
-        for (WaltSwerveModule module : swerveModules) {
-            module.setBrakeNeutralMode();
-        }
+        swerveModules.forEach(WaltSwerveModule::setBrakeNeutralMode);
     }
 
     public void setCoastNeutralMode() {
-        for (WaltSwerveModule module : swerveModules) {
-            module.setCoastNeutralMode();
-        }
+        swerveModules.forEach(WaltSwerveModule::setCoastNeutralMode);
     }
 
     public DrivetrainConfig getConfig() {
@@ -412,16 +409,12 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     @Override
     public synchronized void collectData() {
-        for (WaltSwerveModule module : swerveModules) {
-            module.collectData();
-        }
+        swerveModules.forEach(WaltSwerveModule::collectData);
     }
 
     @Override
     public synchronized void outputData() {
-        for (WaltSwerveModule module : swerveModules) {
-            module.outputData();
-        }
+        swerveModules.forEach(WaltSwerveModule::outputData);
     }
 
     @Override

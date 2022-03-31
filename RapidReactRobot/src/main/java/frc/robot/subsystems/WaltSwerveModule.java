@@ -99,7 +99,6 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     public synchronized void zeroSensors(Pose2d robotPose) {
-        loadAndSetAzimuthZeroReference();
         resetPose(robotPose);
         estimatedRobotPose = robotPose;
         previousEncDistance = getDrivePositionMeters();
