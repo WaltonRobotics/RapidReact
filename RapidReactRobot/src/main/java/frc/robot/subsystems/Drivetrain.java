@@ -426,10 +426,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Absolute Counts", swerveModules.get(3).getAzimuthAbsoluteEncoderCounts());
 
         // Relative encoder data
-//        SmartDashboard.putNumber("Left Front Relative Counts", swerveModules[0].getAzimuthRelativeEncoderCounts());
-//        SmartDashboard.putNumber("Right Front Relative Counts", swerveModules[1].getAzimuthRelativeEncoderCounts());
-//        SmartDashboard.putNumber("Left Rear Relative Counts", swerveModules[2].getAzimuthRelativeEncoderCounts());
-//        SmartDashboard.putNumber("Right Rear Relative Counts", swerveModules[3].getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Left Front Relative Counts", swerveModules.get(0).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Right Front Relative Counts", swerveModules.get(1).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Left Rear Relative Counts", swerveModules.get(2).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Right Rear Relative Counts", swerveModules.get(3).getAzimuthRelativeEncoderCounts());
 
         // Azimuth degree data
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Angle Degrees", swerveModules.get(0).getAzimuthRotation2d().getDegrees());
