@@ -51,7 +51,7 @@ public class Shooter implements SubSubsystem {
         flywheelSlaveController.setSensorPhase(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setNeutralMode(NeutralMode.Coast);
         flywheelSlaveController.enableVoltageCompensation(false);
-        flywheelSlaveController.follow(flywheelMasterController);
+        configFollower();
 
         configFlywheelMasterStatusFrames();
         configFlywheelSlaveStatusFrames();
@@ -145,6 +145,10 @@ public class Shooter implements SubSubsystem {
         SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Velocity NU", periodicIO.flywheelVelocityNU);
         SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Closed Loop Error NU", periodicIO.flywheelClosedLoopErrorNU);
         SmartDashboard.putNumber("Shooter/Periodic IO/Estimated Hood Position", periodicIO.estimatedHoodPosition);
+    }
+
+    public void configFollower() {
+        flywheelSlaveController.follow(flywheelMasterController);
     }
 
     public AimTarget getAimTarget() {

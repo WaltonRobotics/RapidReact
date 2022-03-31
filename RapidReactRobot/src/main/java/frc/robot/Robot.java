@@ -165,6 +165,9 @@ public class Robot extends WaltTimesliceRobot {
             godSubsystem.getDrivetrain().setBrakeNeutralMode();
         }
 
+        // Config follower due to bug in testing mode
+        godSubsystem.getShooter().configFollower();
+
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(true);
 
@@ -199,6 +202,9 @@ public class Robot extends WaltTimesliceRobot {
         } else {
             godSubsystem.getDrivetrain().setBrakeNeutralMode();
         }
+
+        // Config follower due to bug in testing mode
+        godSubsystem.getShooter().configFollower();
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(true);
