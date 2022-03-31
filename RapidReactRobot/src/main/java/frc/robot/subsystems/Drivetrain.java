@@ -68,7 +68,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             azimuthSparkMax.enableVoltageCompensation(8.0);
             azimuthSparkMax.setSmartCurrentLimit(25);
             azimuthSparkMax.setOpenLoopRampRate(0.0);
-            azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
+            azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
             azimuthSparkMax.setInverted(config.getAzimuthControllerInversions()[i]);
             azimuthSparkMax.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
             azimuthSparkMax.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
@@ -405,6 +405,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     public synchronized void zeroSensors() {
         reloadAzimuthZeros();
         zeroHeading();
+        swerveModules.forEach(m -> m.resetDriveEncoder());
     }
 
     @Override

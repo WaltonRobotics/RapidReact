@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Superstructure;
+import frc.robot.subsystems.WaltSwerveModule;
 import frc.robot.util.WaltTimesliceRobot;
 import frc.robot.vision.LimelightHelper;
 
@@ -200,11 +201,7 @@ public class Robot extends WaltTimesliceRobot {
         SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
         SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
 
-        if (kIsInShooterTuningMode) {
-            godSubsystem.getDrivetrain().setCoastNeutralMode();
-        } else {
-            godSubsystem.getDrivetrain().setBrakeNeutralMode();
-        }
+        godSubsystem.getDrivetrain().getSwerveModules().forEach(WaltSwerveModule::setAzimuthBrakeDriveCoastNeutralMode);
 
         // Config follower due to bug in testing mode
         godSubsystem.getShooter().configFollower();

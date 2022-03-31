@@ -361,6 +361,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         driveTalon.setNeutralMode(NeutralMode.Coast);
     }
 
+    public void setAzimuthBrakeDriveCoastNeutralMode() {
+        azimuthSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        driveTalon.setNeutralMode(NeutralMode.Coast);
+    }
+
     public int getWheelIndex() {
         if (wheelLocationMeters.getX() > 0 && wheelLocationMeters.getY() > 0) {
             return 0;
