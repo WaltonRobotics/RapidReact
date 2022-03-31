@@ -21,6 +21,9 @@ public class WaitForCargoShot extends CommandBase {
 
     @Override
     public void execute() {
+        setpointVelocity = godSubsystem.getCurrentTargetFlywheelVelocity();
+        currentVelocity = godSubsystem.getShooter().getFlywheelVelocityNU();
+
         if (godSubsystem.getCurrentState() instanceof Shooting) {
             setpointVelocity = godSubsystem.getCurrentTargetFlywheelVelocity();
             currentVelocity = godSubsystem.getShooter().getFlywheelVelocityNU();

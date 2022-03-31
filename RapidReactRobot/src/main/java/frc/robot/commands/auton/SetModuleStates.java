@@ -38,4 +38,14 @@ public class SetModuleStates extends SequentialCommandGroup {
         );
     }
 
+    public SetModuleStates(double driveVelocity, Rotation2d azimuthAngle) {
+        addRequirements(drivetrain);
+
+        addCommands(
+                new RunCommand(() -> {
+                    drivetrain.setModuleStates(new SwerveModuleState(driveVelocity, azimuthAngle));
+                })
+        );
+    }
+
 }
