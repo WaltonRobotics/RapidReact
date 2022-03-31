@@ -133,7 +133,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
         resetPose(kCenterOfHubPose, new PathPlannerTrajectory.PathPlannerState());
 
-        LiveDashboardTable.getInstance().setFollowingPath(true);
+//        LiveDashboardTable.getInstance().setFollowingPath(true);
     }
 
     public void saveLeftFrontZero(int absoluteCounts) {
@@ -208,13 +208,12 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
         double[][] distances = new double[4][2];
 
-        int moduleID = 0;
         for(WaltSwerveModule m : swerveModules) {
             m.updatePose(getHeading());
             double distance = m.getEstimatedRobotPose().getTranslation().distance(pose.getTranslation());
+            int moduleID = m.getWheelIndex();
             distances[moduleID][0] = moduleID;
             distances[moduleID][1] = distance;
-            moduleID++;
         }
 
         Arrays.sort(distances, Comparator.comparingDouble(a -> a[1]));
@@ -452,16 +451,16 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Angle Degrees", swerveModules[3].getAzimuthRotation2d().getDegrees());
 
         // Azimuth position error data
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Position Error", swerveModules[0].getAzimuthPositionErrorNU());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Position Error", swerveModules[1].getAzimuthPositionErrorNU());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Position Error", swerveModules[2].getAzimuthPositionErrorNU());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Position Error", swerveModules[3].getAzimuthPositionErrorNU());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Angle Error", swerveModules[0].getAzimuthPositionErrorNU());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Angle Error", swerveModules[1].getAzimuthPositionErrorNU());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Angle Error", swerveModules[2].getAzimuthPositionErrorNU());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Angle Error", swerveModules[3].getAzimuthPositionErrorNU());
 
         // Drive velocity data
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Position Meters", swerveModules[0].getDriveMetersPerSecond());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Position Meters", swerveModules[1].getDriveMetersPerSecond());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Position Meters", swerveModules[2].getDriveMetersPerSecond());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Position Meters", swerveModules[3].getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Position Meters", swerveModules[0].getDrivePositionMeters());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Position Meters", swerveModules[1].getDrivePositionMeters());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Position Meters", swerveModules[2].getDrivePositionMeters());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Position Meters", swerveModules[3].getDrivePositionMeters());
 
         // Drive velocity error data
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Velocity Error", swerveModules[0].getDriveVelocityErrorNU());
