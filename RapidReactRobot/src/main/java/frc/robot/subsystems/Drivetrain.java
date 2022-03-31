@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
 import frc.robot.commands.auton.LiveDashboardHelper;
+import frc.robot.commands.auton.LiveDashboardTable;
 import frc.robot.config.DrivetrainConfig;
 import frc.robot.config.SmartMotionConstants;
 import frc.robot.util.UtilMethods;
@@ -130,7 +131,9 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
         zeroSensors();
 
-        resetPose(new Pose2d(), new PathPlannerTrajectory.PathPlannerState());
+        resetPose(kCenterOfHubPose, new PathPlannerTrajectory.PathPlannerState());
+
+        LiveDashboardTable.getInstance().setFollowingPath(true);
     }
 
     public void saveLeftFrontZero(int absoluteCounts) {
