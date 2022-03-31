@@ -374,7 +374,9 @@ public enum AutonRoutine {
                     )
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
-            new SwerveTrajectoryCommand(fiveBall2),
+            new SwerveTrajectoryCommand(fiveBall2Full),
+            //new SwerveTrajectoryCommand(fiveBall2),
+            //new SwerveTrajectoryCommand(fiveBall2Half),
             new WaitCommand(1.0),   // wait for human player
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(fiveBall3),
