@@ -448,9 +448,9 @@ public class PracticeRapidReact extends WaltRobot {
         flywheelSlaveTalonConfig.voltageCompSaturation = 12.0;
 
         // Spinning up profile
-        flywheelMasterTalonConfig.slot0.kF = 0.0515;
-        flywheelMasterTalonConfig.slot0.kP = 0.0011;
-        flywheelMasterTalonConfig.slot0.kI = 1.4E-05;
+        flywheelMasterTalonConfig.slot0.kF = 0.0514998436;
+        flywheelMasterTalonConfig.slot0.kP = 0.00085;
+        flywheelMasterTalonConfig.slot0.kI = 1.38282776E-05;
         flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot0.integralZone = 300;
@@ -458,9 +458,9 @@ public class PracticeRapidReact extends WaltRobot {
         flywheelMasterTalonConfig.slot0.closedLoopPeakOutput = 1.0;
 
         // Shooting profile
-        flywheelMasterTalonConfig.slot1.kF = 0.0515;
-        flywheelMasterTalonConfig.slot1.kP = 0.0011;
-        flywheelMasterTalonConfig.slot1.kI = 1.4E-05;
+        flywheelMasterTalonConfig.slot1.kF = 0.0514998436;
+        flywheelMasterTalonConfig.slot1.kP = 0.00088;
+        flywheelMasterTalonConfig.slot1.kI = 1.38282776E-05;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot1.integralZone = 300;
