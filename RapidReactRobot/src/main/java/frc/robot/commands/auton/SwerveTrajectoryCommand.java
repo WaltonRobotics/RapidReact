@@ -125,7 +125,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(trajectory.getTotalTimeSeconds());
+        return areModulesReady && timer.hasElapsed(trajectory.getTotalTimeSeconds());
     }
 
     @Override

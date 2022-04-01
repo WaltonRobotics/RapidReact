@@ -222,8 +222,6 @@ public class RobotContainer {
         SmartDashboard.putBoolean("Is Ready For Match", !kIsInShooterTuningMode);
 
         NetworkTableInstance.getDefault().flush();
-
-        SmartDashboard.putBoolean("Shot", false);
     }
 
     /**
