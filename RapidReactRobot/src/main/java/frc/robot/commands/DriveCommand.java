@@ -48,18 +48,34 @@ public class DriveCommand extends CommandBase {
             SmartDashboard.putBoolean(kDrivetrainIsFieldRelativeKey, isFieldRelative);
             SmartDashboard.putBoolean(kDrivetrainIsPositionalRotationKey, isPositionalRotation);
 
-            double forward = OI.forwardScale.apply(getForward());
-            double strafe = OI.strafeScale.apply(getStrafe());
+            double forward = OI.forwardScale.apply(godSubsystem.getForward());
+            double strafe = OI.strafeScale.apply(godSubsystem.getStrafe());
 
             double vx = forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
             double vy = strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
+
+            double yaw = OI.yawScale.apply(godSubsystem.getRotateX());
+            double omega = 0;
+
+            // Ensure at least the minimum turn omega is supplied to the drivetrain to prevent stalling
+            if (Math.abs(godSubsystem.getRotateX()) > yawScale.getDeadband()) {
+                omega = Math.signum(yaw) * Math.max(Math.abs(yaw * drivetrain.getConfig().getMaxOmega()),
+                        drivetrain.getConfig().getMinTurnOmega());
+            }
+
+            // Limit movement when climbing
+            if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
+                vx = UtilMethods.limitMagnitude(vx, drivetrain.getConfig().getClimbingMaxMetersPerSecond());
+                vy = UtilMethods.limitMagnitude(vy, drivetrain.getConfig().getClimbingMaxMetersPerSecond());
+                omega = UtilMethods.limitMagnitude(omega, drivetrain.getConfig().getClimbingMaxOmega());
+            }
 
             // Limit movement when climbing
             if (faceClosestButton.get()) {
                 drivetrain.faceClosest(vx, vy, isFieldRelative);
             } else if (isPositionalRotation && godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
-                double rotateX = -getRotateX() * 10;
-                double rotateY = getRotateY() * 10;
+                double rotateX = -godSubsystem.getRotateX() * 10;
+                double rotateY = godSubsystem.getRotateY() * 10;
 
                 if (Math.abs(rotateX) > 1 || Math.abs(rotateY) > 1) {
                     drivetrain.faceDirection(vx, vy,
@@ -68,70 +84,13 @@ public class DriveCommand extends CommandBase {
                 } else {
                     drivetrain.move(vx, vy, 0, isFieldRelative);
                 }
-            } else if (trackTargetButton.get() && LimelightHelper.getTV() >= 1) {
-                double headingError = LimelightHelper.getTX();
-                double turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
-
-                turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
-                        Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
-                        drivetrain.getConfig().getMaxOmega());
-
-                if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
-                    turnRate = 0;
-                }
-
-                drivetrain.move(vx, vy, turnRate, isFieldRelative);
-            } else if (trackTargetButton.get() && kUseOdometryBackup) {
-                double headingError = UtilMethods.restrictAngle(
-                        drivetrain.getEstimatedAngleToHub().getDegrees(), -180, 180);
-                double turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
-
-                turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
-                        Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
-                        drivetrain.getConfig().getMaxOmega());
-
-                if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
-                    turnRate = 0;
-                }
-
-                drivetrain.move(vx, vy, turnRate, isFieldRelative);
+            } else if (trackTargetButton.get()) {
+                godSubsystem.handleAutoAlign(vx, vy, omega, isFieldRelative);
             } else {
-                double yaw = OI.yawScale.apply(getRotateX());
-                double omega = 0;
-
-                // Ensure at least the minimum turn omega is supplied to the drivetrain to prevent stalling
-                if (Math.abs(getRotateX()) > yawScale.getDeadband()) {
-                    omega = Math.signum(yaw) * Math.max(Math.abs(yaw * drivetrain.getConfig().getMaxOmega()),
-                            drivetrain.getConfig().getMinTurnOmega());
-                }
-
-                // Limit movement when climbing
-                if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
-                    vx = UtilMethods.limitMagnitude(vx, drivetrain.getConfig().getClimbingMaxMetersPerSecond());
-                    vy = UtilMethods.limitMagnitude(vy, drivetrain.getConfig().getClimbingMaxMetersPerSecond());
-                    omega = UtilMethods.limitMagnitude(omega, drivetrain.getConfig().getClimbingMaxOmega());
-                }
-
                 drivetrain.move(vx, vy, omega, isFieldRelative);
 //            drivetrain.move(0, 0, SmartDashboard.getNumber("Minimum omega command", 0.1), true);
             }
         }
-    }
-
-    public double getForward() {
-        return -driveGamepad.getLeftY();
-    }
-
-    public double getStrafe() {
-        return -driveGamepad.getLeftX();
-    }
-
-    public double getRotateX() {
-        return -driveGamepad.getRightX();
-    }
-
-    public double getRotateY() {
-        return -driveGamepad.getRightY();
     }
 
 }

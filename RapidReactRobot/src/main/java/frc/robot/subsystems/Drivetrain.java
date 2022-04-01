@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
+import frc.lib.strykeforce.swerve.SwerveModule;
 import frc.robot.commands.auton.LiveDashboardHelper;
 import frc.robot.config.DrivetrainConfig;
 import frc.robot.util.UtilMethods;
@@ -116,9 +117,11 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                             .wheelLocationMeters(config.getWheelLocationMeters()[i])
                             .build());
         }
+        SwerveModule[] modules = new SwerveModule[swerveModules.size()];
+        modules = swerveModules.toArray(modules);
 
         swerveDrive = new SwerveDrive(ahrs, config.getXLimiter(), config.getYLimiter(), config.getOmegaLimiter(),
-                (WaltSwerveModule[])swerveModules.toArray());
+                modules);
 
         SmartDashboard.putData("Field", field);
 
@@ -388,12 +391,6 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             swerveModules.get(2).setAzimuthRotation2d(Rotation2d.fromDegrees(-45));
             swerveModules.get(3).setAzimuthRotation2d(Rotation2d.fromDegrees(45));
         }
-    }
-
-    public Rotation2d getEstimatedAngleToHub() {
-        Pose2d targetRobotRelative = kCenterOfHubPose.relativeTo(getPoseMeters());
-
-        return new Rotation2d(Math.atan2(targetRobotRelative.getY(), targetRobotRelative.getX()));
     }
 
     @Override

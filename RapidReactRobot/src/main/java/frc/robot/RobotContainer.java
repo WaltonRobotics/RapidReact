@@ -49,6 +49,7 @@ public class RobotContainer {
     public static final Superstructure godSubsystem;
     public static final Logger robotLogger = Logger.getLogger("frc.robot");
     public static final SendableChooser<AutonRoutine> autonChooser = new SendableChooser<>();
+    public static final SendableChooser<Superstructure.AllianceColor> allianceColorChooser = new SendableChooser<>();
 
     static {
         currentRobot = RobotIdentifier.findByInputs(new DigitalInput(kRobotID1).get(),
@@ -146,6 +147,9 @@ public class RobotContainer {
         Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
         autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
         SmartDashboard.putData("Auton Selector", autonChooser);
+
+        Arrays.stream(Superstructure.AllianceColor.values()).forEach(n -> allianceColorChooser.addOption(n.name(), n));
+        SmartDashboard.putData(kAllianceColorKey, allianceColorChooser);
 
         SmartDashboard.putBoolean(kDriverIsAlignedKey, false);
         SmartDashboard.putBoolean(kDriverIsMoneyShotKey, false);

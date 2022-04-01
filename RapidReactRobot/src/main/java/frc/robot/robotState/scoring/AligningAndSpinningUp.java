@@ -16,8 +16,7 @@ import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignErrorDegrees;
 import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignOmegaOutputKey;
 import static frc.robot.Constants.VisionConstants.*;
-import static frc.robot.OI.driveGamepad;
-import static frc.robot.OI.overrideAutoAimAndShootButton;
+import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
 
@@ -65,23 +64,21 @@ public class AligningAndSpinningUp implements IState {
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
-        double headingError = LimelightHelper.getTX();
-        double turnRate = controller.calculate(headingError, 0.0);
+        double yaw = OI.yawScale.apply(godSubsystem.getRotateX());
+        double omega = 0;
 
-        turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
-                Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
-                drivetrain.getConfig().getMaxOmega());
+        // Ensure at least the minimum turn omega is supplied to the drivetrain to prevent stalling
+        if (Math.abs(godSubsystem.getRotateX()) > yawScale.getDeadband()) {
+            omega = Math.signum(yaw) * Math.max(Math.abs(yaw * drivetrain.getConfig().getMaxOmega()),
+                    drivetrain.getConfig().getMinTurnOmega());
+        }
 
-        SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, turnRate);
-
-        SmartDashboard.putNumber(kLimelightAlignErrorDegrees, controller.getPositionError());
+        godSubsystem.handleAutoAlign(0, 0, omega, false);
 
         if (LimelightHelper.getTV() >= 1) {
-            drivetrain.move(0, 0, turnRate, false);
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
             driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0);
         } else {
-            drivetrain.move(0, 0, 0, false);
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.15);
             driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0.15);
         }
@@ -97,7 +94,7 @@ public class AligningAndSpinningUp implements IState {
             godSubsystem.handleIntakingAndOuttaking();
         }
 
-        if ((UtilMethods.isWithinTolerance(headingError, 0, kAlignmentToleranceDegrees)
+        if ((UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees)
                 || overrideAutoAimAndShootButton.get()) &&
                 godSubsystem.getCurrentTime() >= nudgeDownTimeout) {
             return new PreparingToShoot();

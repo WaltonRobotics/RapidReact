@@ -134,7 +134,7 @@ public final class Constants {
         public static final double kAlignmentToleranceDegrees = 1.5;
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
-        public static final boolean kUseOdometryBackup = false;
+        public static final boolean kUseOdometryBackup = true;
 
         public static final double kLimelightOffsetFeet = -0.030874;
 
@@ -198,6 +198,8 @@ public final class Constants {
 
         public static final String kClimberPivotCoastModeKey = "Climber Pivot Coast Mode";
         public static final String kClimberExtensionCoastModeKey = "Climber Extension Coast Mode";
+
+        public static final String kAllianceColorKey = "Alliance Color";
 
     }
 

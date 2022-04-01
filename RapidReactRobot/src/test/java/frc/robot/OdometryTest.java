@@ -11,7 +11,14 @@ public class OdometryTest {
     @Test
     public void testAimToHub() {
         Pose2d hubPose = kCenterOfHubPose;
-        Pose2d robotPose = new Pose2d(7.65, 1.75, Rotation2d.fromDegrees(0.0));
+
+        Pose2d robotPose = new Pose2d(8.85, 6.94, Rotation2d.fromDegrees(0).minus(Rotation2d.fromDegrees(180)));
+
+        Pose2d targetRobotRelative = kCenterOfHubPose.relativeTo(robotPose);
+
+        Rotation2d theta = new Rotation2d(Math.atan2(targetRobotRelative.getY(), targetRobotRelative.getX()));
+
+        System.out.println(theta);
     }
 
 }
