@@ -82,9 +82,9 @@ public final class Constants {
         public static final double kBarfHoodAngle = -1.0;
 
         // The tolerance to exit the spinning up state and enter the shooting state
-        public static final double kSpinningUpToleranceRawUnits = 100;
+        public static final double kSpinningUpToleranceRawUnits = 150;
         // The tolerance to maintain the shooting state
-        public static final double kShootingToleranceRawUnits = 125;
+        public static final double kShootingToleranceRawUnits = 160;
 
         // The tolerance needed to feed in the next ball
         public static final double kRecoveryToleranceRawUnits = 300;
