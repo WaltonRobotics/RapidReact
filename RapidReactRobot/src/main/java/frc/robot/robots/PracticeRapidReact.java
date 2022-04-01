@@ -448,22 +448,22 @@ public class PracticeRapidReact extends WaltRobot {
         flywheelSlaveTalonConfig.voltageCompSaturation = 12.0;
 
         // Spinning up profile
-        flywheelMasterTalonConfig.slot0.kF = 0.04942029;
-        flywheelMasterTalonConfig.slot0.kP = 0.1;
-        flywheelMasterTalonConfig.slot0.kI = 0.0001;
+        flywheelMasterTalonConfig.slot0.kF = 0.0515;
+        flywheelMasterTalonConfig.slot0.kP = 0.0011;
+        flywheelMasterTalonConfig.slot0.kI = 1.4E-05;
         flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
-        flywheelMasterTalonConfig.slot0.integralZone = 200;
+        flywheelMasterTalonConfig.slot0.integralZone = 300;
         flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 75000;
         flywheelMasterTalonConfig.slot0.closedLoopPeakOutput = 1.0;
 
         // Shooting profile
-        flywheelMasterTalonConfig.slot1.kF = 0.04942029;
-        flywheelMasterTalonConfig.slot1.kP = 0.06;
-        flywheelMasterTalonConfig.slot1.kI = 0.0001;
+        flywheelMasterTalonConfig.slot1.kF = 0.0515;
+        flywheelMasterTalonConfig.slot1.kP = 0.0011;
+        flywheelMasterTalonConfig.slot1.kI = 1.4E-05;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
-        flywheelMasterTalonConfig.slot1.integralZone = 200;
+        flywheelMasterTalonConfig.slot1.integralZone = 300;
         flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 75000;
         flywheelMasterTalonConfig.slot1.closedLoopPeakOutput = 1.0;
 

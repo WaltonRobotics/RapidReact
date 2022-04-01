@@ -120,7 +120,7 @@ public class Robot extends WaltTimesliceRobot {
         SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
         SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
 
-        LimelightHelper.setLEDMode(false);
+//        LimelightHelper.setLEDMode(false);
 
         godSubsystem.getDrivetrain().setCoastNeutralMode();
     }

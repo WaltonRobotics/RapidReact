@@ -316,10 +316,12 @@ public class Superstructure extends SubsystemBase {
             if (!kIsInShooterTuningMode) {
                 double hoodAngle = shooter.getEstimatedHoodAngleFromTarget();
                 shooter.setAdjustableHoodDutyCycleDemand(hoodAngle);
-            } else {
-                shooter.setAdjustableHoodDutyCycleDemand(
-                        SmartDashboard.getNumber(kShooterHoodPositionSetpointKey, 0.0));
             }
+        }
+
+        if (kIsInShooterTuningMode) {
+            shooter.setAdjustableHoodDutyCycleDemand(
+                    SmartDashboard.getNumber(kShooterHoodPositionSetpointKey, 0.0));
         }
 
         handleIdleSpinUp();
