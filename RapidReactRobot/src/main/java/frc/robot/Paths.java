@@ -183,7 +183,7 @@ public class Paths {
 
         public static final PathPlannerTrajectory fiveBall2Full =
                 (PathPlannerTrajectory) fiveBall2.concatenate(fiveBall2Half);
-        
+
         public static final PathPlannerTrajectory fiveBall3 =
                 PathPlanner.loadPath("fiveBall3", Units.feetToMeters(11.0), Units.feetToMeters(7.0));
 
