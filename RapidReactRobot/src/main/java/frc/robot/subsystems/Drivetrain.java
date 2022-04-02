@@ -269,8 +269,6 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 //        field.setRobotPose(getPoseMeters());
 
         alternatePoseUpdate();
-
-        LiveDashboardHelper.putRobotData(getPoseMeters());
     }
 
     /**
