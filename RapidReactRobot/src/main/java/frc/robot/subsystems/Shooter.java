@@ -5,9 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpilibj.PneumaticHub;
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ShooterConfig;
 import frc.robot.util.UtilMethods;
@@ -147,6 +145,9 @@ public class Shooter implements SubSubsystem {
         SmartDashboard.putNumber("Shooter/Periodic IO/Estimated Hood Position", periodicIO.estimatedHoodPosition);
     }
 
+    public void configFollower() {
+        flywheelSlaveController.follow(flywheelMasterController);
+    }
     public AimTarget getAimTarget() {
         return periodicIO.aimTarget;
     }

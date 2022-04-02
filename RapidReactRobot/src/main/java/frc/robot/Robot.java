@@ -83,6 +83,7 @@ public class Robot extends WaltTimesliceRobot {
 
         // Monitor motor temperatures every second
         addPeriodic(godSubsystem::monitorTemperatures, 1.0);
+        addPeriodic(godSubsystem::handleLEDLights, .25);
 
         LimelightHelper.setLEDMode(false);
     }
