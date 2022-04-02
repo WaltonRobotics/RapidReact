@@ -116,6 +116,8 @@ public class SwerveTrajectoryCommand extends CommandBase {
             drivetrain.move(
                     speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false);
 
+//            drivetrain.faceDirection(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, state.holonomicRotation, false);
+
             LiveDashboardHelper.putRobotData(drivetrain.getPoseMeters());
             LiveDashboardHelper.putTrajectoryData(trajectory.sample(currentTime).poseMeters);
 
