@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -333,8 +334,17 @@ public class Superstructure extends SubsystemBase {
         if (getInferredAllianceColor() == AllianceColor.BLUE) {
             targetRobotRelative = kCenterOfHubPose.relativeTo(drivetrain.getPoseMeters());
         } else {
+            Translation2d oldTranslation = drivetrain.getPoseMeters().getTranslation();
+
+            // Reflect robot translation over origin if on red
+            double dx = kCenterOfHubPose.getX() - oldTranslation.getX();
+            double dy = kCenterOfHubPose.getY() - oldTranslation.getY();
+
+            Translation2d newTranslation = new Translation2d(kCenterOfHubPose.getX() + dx,
+                    kCenterOfHubPose.getY() + dy);
+
             // Flip the robot heading since the robot 0 is now facing in the direction of the blue alliance
-            Pose2d newRobotPose = new Pose2d(drivetrain.getPoseMeters().getTranslation(),
+            Pose2d newRobotPose = new Pose2d(newTranslation,
                     drivetrain.getPoseMeters().getRotation().minus(Rotation2d.fromDegrees(180)));
 
             targetRobotRelative = kCenterOfHubPose.relativeTo(newRobotPose);
