@@ -3,6 +3,7 @@ package frc.robot;
 import com.team254.lib.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.util.UtilMethods;
 import org.junit.Test;
 
 import static frc.robot.Constants.FieldConstants.kCenterOfHubPose;
@@ -15,13 +16,16 @@ public class OdometryTest {
     private com.team254.lib.geometry.Pose2d estimatedRobotPose = new com.team254.lib.geometry.Pose2d();
 
     public Rotation2d getAzimuthRotation2d() {
-        double azimuthCounts = 0.5;
+        double azimuthCounts = -5.0 / 8.0;
         double radians = 2.0 * Math.PI * azimuthCounts;
         return new Rotation2d(radians);
     }
 
     public Rotation2d getFieldCentricAngle(Rotation2d robotHeading) {
-        Rotation2d normalizedAngle = getAzimuthRotation2d();
+        Rotation2d angle = getAzimuthRotation2d();
+        Rotation2d normalizedAngle = Rotation2d.fromDegrees(UtilMethods.restrictAngle(angle.getDegrees(),
+                0, 360));
+
         return normalizedAngle.rotateBy(robotHeading);
     }
 
@@ -51,7 +55,7 @@ public class OdometryTest {
     public synchronized void zeroSensors(com.team254.lib.geometry.Pose2d robotPose) {
         resetPose(robotPose);
         estimatedRobotPose = robotPose;
-        previousEncDistance = 0;
+        previousEncDistance = 0.0;
     }
 
     @Test
@@ -77,9 +81,9 @@ public class OdometryTest {
         this.startingPosition = startingPose;
 
         zeroSensors(new com.team254.lib.geometry.Pose2d(0, 0,
-                com.team254.lib.geometry.Rotation2d.fromDegrees(45.0)));
+                com.team254.lib.geometry.Rotation2d.fromDegrees(0.0)));
 
-        updatePose(Rotation2d.fromDegrees(45.0));
+        updatePose(Rotation2d.fromDegrees(0.0));
 
         System.out.println(estimatedRobotPose);
     }

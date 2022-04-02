@@ -18,6 +18,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.Preferences;
 import frc.lib.strykeforce.swerve.SwerveModule;
+import frc.robot.util.UtilMethods;
 
 import java.util.logging.Level;
 
@@ -270,7 +271,10 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     public Rotation2d getFieldCentricAngle(Rotation2d robotHeading) {
-        Rotation2d normalizedAngle = getAzimuthRotation2d();
+        Rotation2d angle = getAzimuthRotation2d();
+        Rotation2d normalizedAngle = Rotation2d.fromDegrees(UtilMethods.restrictAngle(angle.getDegrees(),
+                0, 360));
+
         return normalizedAngle.rotateBy(robotHeading);
     }
 
