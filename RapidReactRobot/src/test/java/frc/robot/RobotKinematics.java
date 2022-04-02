@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import static frc.robot.Constants.PathFollowing.kPathLookaheadTime;
 import static frc.robot.Paths.NewFiveBallRoutine.fiveBall1;
+import static frc.robot.Paths.NewFiveBallRoutine.fiveBall2;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class RobotKinematics {
@@ -46,6 +47,7 @@ public class RobotKinematics {
                 drivetrain.getConfig().getThetaController());
 
         PathPlannerTrajectory.PathPlannerState state = (PathPlannerTrajectory.PathPlannerState)fiveBall1.sample(kPathLookaheadTime);
+
         ChassisSpeeds speeds = controller.calculate(new Pose2d(state.poseMeters.getX(), state.poseMeters.getY(),
                 state.holonomicRotation), state, state.holonomicRotation);
 
@@ -53,7 +55,7 @@ public class RobotKinematics {
 
         System.out.println(initialAngle);
 
-        Assert.assertEquals(initialAngle.getDegrees(), -90, 0.5);
+        Assert.assertEquals(-90, initialAngle.getDegrees(), 0.5);
     }
 
 }
