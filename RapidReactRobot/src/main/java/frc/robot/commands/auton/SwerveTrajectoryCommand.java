@@ -139,8 +139,11 @@ public class SwerveTrajectoryCommand extends CommandBase {
     private boolean moduleAnglesOnTarget() {
         boolean onTarget = true;
 
-        for(WaltSwerveModule m : drivetrain.getSwerveModules()){
-            onTarget &= Math.abs(m.getAzimuthPositionErrorNU()) < 0.002;
+        for(WaltSwerveModule m : drivetrain.getSwerveModules()) {
+            double currentAngle = UtilMethods.restrictAngle(m.getAzimuthRotation2d().getDegrees(), -180, 180);
+            double targetAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees(), -180, 180);
+
+            onTarget &= Math.abs(targetAngle - currentAngle) < 1.0;
         }
 
         return onTarget;
