@@ -65,7 +65,7 @@ public final class Constants {
 
     public static final class Shooter {
 
-        public static final double kDefaultHoodAngle = -0.189;
+        public static final double kDefaultHoodAngle = 0;
 
         public static final double kAbsoluteMaximumVelocityNU = 15000;
 
@@ -76,10 +76,10 @@ public final class Constants {
 
         public static final double kDefaultHighGoalHoodAngle = 0.35;
         public static final double kDefaultHighGoalVelocity = 8850;
-        public static final double kDefaultLowGoalHoodAngle = -0.08;
+        public static final double kDefaultLowGoalHoodAngle = 0;
         public static final double kDefaultLowGoalVelocity = 5600;
 
-        public static final double kBarfHoodAngle = -1.0;
+        public static final double kBarfHoodAngle = 0;
 
         // The tolerance to exit the spinning up state and enter the shooting state
         public static final double kSpinningUpToleranceRawUnits = 150;
@@ -95,10 +95,13 @@ public final class Constants {
 
         public static final double kNudgeDownTimeSeconds = 0.15;
 
+        // Limits
+        public static final double kHoodLowerLimit = 0;
+
         // Time it takes for the hood to change positions
-        public static final double kHoodTransitionTimeSeconds = 2.3;
+        public static final double kHoodTransitionTimeSeconds = 1.3;
         // The full range of angles for the hood
-        public static final double kFullHoodAngleRange = 2.0;
+        public static final double kFullHoodAngleRange = 1.0;
 
     }
 
