@@ -14,6 +14,8 @@ import frc.robot.subsystems.WaltSwerveModule;
 import frc.robot.util.UtilMethods;
 import frc.robot.util.averages.CumulativeAverage;
 
+import java.util.ArrayList;
+
 import static frc.robot.Constants.SmartDashboardKeys.kTrajectoryThetaPKey;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -74,7 +76,9 @@ public class SwerveTrajectoryCommand extends CommandBase {
         if (!areModulesReady) {
             boolean areAllModulesAligned = true;
 
-            for (WaltSwerveModule module : drivetrain.getSwerveModules()) {
+            ArrayList<WaltSwerveModule> modules = drivetrain.getSwerveModules();
+
+            for (WaltSwerveModule module : modules) {
                 module.setAbsoluteAzimuthRotation2d(initialModuleAngle);
 
                 double moduleAngle = UtilMethods.restrictAngle(module.getAzimuthRotation2d().getDegrees(),
@@ -93,6 +97,8 @@ public class SwerveTrajectoryCommand extends CommandBase {
             if (areModulesReady) {
                 timer.reset();
                 timer.start();
+
+                modules.forEach(WaltSwerveModule::resetLastEncoderReading);
             }
         } else {
             double thetaP = SmartDashboard.getNumber(kTrajectoryThetaPKey, drivetrain.getConfig().getThetaController().getP());
