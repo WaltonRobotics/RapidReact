@@ -106,7 +106,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
             yPositionErrorAverage.addData(kYInstantPositionError);
             thetaPositionErrorAverage.addData(kThetaInstantPositionError);
         } else if (!moduleConfigRequested) {
-            drivetrain.getSwerveModules().forEach(m -> m.setAzimuthRotation2d(initialModuleAngle));
+            drivetrain.getSwerveModules().forEach(m -> m.setAbsoluteAzimuthRotation2d(initialModuleAngle));
 
             moduleConfigRequested = true;
         }
