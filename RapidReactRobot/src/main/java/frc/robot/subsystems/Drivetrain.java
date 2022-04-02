@@ -52,6 +52,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     private com.team254.lib.geometry.Pose2d pose = new com.team254.lib.geometry.Pose2d();
     double distanceTraveled;
 
+    private final double[] azimuthFactors = new double[]{ 1.0, 1.0, 1.0, 1.0 };
+
     public Drivetrain() {
         var moduleBuilder =
                 new WaltSwerveModule.Builder()
@@ -73,8 +75,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             RelativeEncoder azimuthRelativeEncoder = azimuthSparkMax.getEncoder();
             SparkMaxPIDController azimuthPID = azimuthSparkMax.getPIDController();
 
-            azimuthRelativeEncoder.setPositionConversionFactor(config.getRelativeEncoderRotationsPerTick());
-            azimuthRelativeEncoder.setVelocityConversionFactor(config.getRelativeEncoderRotationsPerTick());
+            azimuthRelativeEncoder.setPositionConversionFactor(config.getRelativeEncoderRotationsPerTick() * azimuthFactors[i]);
+            azimuthRelativeEncoder.setVelocityConversionFactor(config.getRelativeEncoderRotationsPerTick() * azimuthFactors[i]);
 
             // Smart Motion Configuration
             azimuthPID.setP(config.getAzimuthPositionalPID().getP());
