@@ -130,7 +130,8 @@ public class Shooter implements SubSubsystem {
             periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
         }
 
-        adjustableHoodServo.setSpeed(periodicIO.adjustableHoodDutyCycleDemand);
+        adjustableHoodServo.setSpeed(
+                UtilMethods.limitRange(periodicIO.adjustableHoodDutyCycleDemand, kHoodLowerLimit, 1.0));
 
         periodicIO.lastAdjustableHoodDutyCycleDemand = periodicIO.adjustableHoodDutyCycleDemand;
     }
@@ -190,8 +191,8 @@ public class Shooter implements SubSubsystem {
         return periodicIO.adjustableHoodDutyCycleDemand;
     }
 
-    public void setAdjustableHoodDutyCycleDemand(double leftAdjustableHoodDutyCycleDemand) {
-        periodicIO.adjustableHoodDutyCycleDemand = leftAdjustableHoodDutyCycleDemand;
+    public void setAdjustableHoodDutyCycleDemand(double adjustableHoodDutyCycleDemand) {
+        periodicIO.adjustableHoodDutyCycleDemand = adjustableHoodDutyCycleDemand;
     }
 
     public double getLastAdjustableHoodChangeFPGATime() {

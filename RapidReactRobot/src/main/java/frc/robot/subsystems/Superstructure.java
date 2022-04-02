@@ -2,11 +2,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
+import frc.robot.commands.auton.LiveDashboardHelper;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.stateMachine.StateMachine;
@@ -327,18 +329,30 @@ public class Superstructure extends SubsystemBase {
         handleIdleSpinUp();
     }
 
-    public Rotation2d getEstimatedAngleToHub() {
-        Pose2d targetRobotRelative;
-
+    // Takes care of reflecting the robot position and returns the actual pose of the robot on the field
+    // This is done because red alliance trajectories and blue alliance trajectories use the same points
+    public Pose2d getAllianceSpecificPose() {
         if (getInferredAllianceColor() == AllianceColor.BLUE) {
-            targetRobotRelative = kCenterOfHubPose.relativeTo(drivetrain.getPoseMeters());
+            return drivetrain.getPoseMeters();
         } else {
-            // Flip the robot heading since the robot 0 is now facing in the direction of the blue alliance
-            Pose2d newRobotPose = new Pose2d(drivetrain.getPoseMeters().getTranslation(),
-                    drivetrain.getPoseMeters().getRotation().minus(Rotation2d.fromDegrees(180)));
+            Translation2d oldTranslation = drivetrain.getPoseMeters().getTranslation();
 
-            targetRobotRelative = kCenterOfHubPose.relativeTo(newRobotPose);
+            // Reflect robot translation over origin if on red
+            double dx = kCenterOfHubPose.getX() - oldTranslation.getX();
+            double dy = kCenterOfHubPose.getY() - oldTranslation.getY();
+
+            Translation2d newTranslation = new Translation2d(kCenterOfHubPose.getX() + dx,
+                    kCenterOfHubPose.getY() + dy);
+
+            // Flip the robot heading since the robot 0 is now facing in the direction of the blue alliance
+
+            return new Pose2d(newTranslation,
+                    drivetrain.getPoseMeters().getRotation().minus(Rotation2d.fromDegrees(180)));
         }
+    }
+
+    public Rotation2d getEstimatedAngleToHub() {
+        Pose2d targetRobotRelative = kCenterOfHubPose.relativeTo(getAllianceSpecificPose());
 
         return new Rotation2d(Math.atan2(targetRobotRelative.getY(), targetRobotRelative.getX()));
     }
@@ -459,6 +473,8 @@ public class Superstructure extends SubsystemBase {
     @Override
     public void periodic() {
         stateMachine.run();
+
+        LiveDashboardHelper.putRobotData(getAllianceSpecificPose());
     }
 
     public enum CurrentMode {

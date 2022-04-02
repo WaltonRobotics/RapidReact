@@ -53,7 +53,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
         LiveDashboardTable.getInstance().setFollowingPath(true);
 
-        LiveDashboardHelper.putRobotData(drivetrain.getPoseMeters());
+        LiveDashboardHelper.putRobotData(godSubsystem.getAllianceSpecificPose());
         LiveDashboardHelper.putTrajectoryData(trajectory.getInitialPose());
 
         drivetrain.getField().getObject("traj").setTrajectory(trajectory);
@@ -95,7 +95,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
             drivetrain.faceDirection(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, state.holonomicRotation, false);
 
-            LiveDashboardHelper.putRobotData(drivetrain.getPoseMeters());
+            LiveDashboardHelper.putRobotData(godSubsystem.getAllianceSpecificPose());
             LiveDashboardHelper.putTrajectoryData(trajectory.sample(currentTime).poseMeters);
 
             SmartDashboard.putNumber("kX Position Error", kXInstantPositionError);
@@ -143,7 +143,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
             double currentAngle = UtilMethods.restrictAngle(m.getAzimuthRotation2d().getDegrees(), -180, 180);
             double targetAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees(), -180, 180);
 
-            onTarget &= Math.abs(targetAngle - currentAngle) < 1.0;
+            onTarget &= Math.abs(targetAngle - currentAngle) < 0.25;
         }
 
         return onTarget;
