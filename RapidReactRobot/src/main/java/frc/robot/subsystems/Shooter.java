@@ -74,10 +74,13 @@ public class Shooter implements SubSubsystem {
         periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
         LimelightHelper.updateData();
 
-        double displacement = periodicIO.adjustableHoodDutyCycleDemand - periodicIO.lastAdjustableHoodDutyCycleDemand;
+        double displacement = periodicIO.adjustableHoodDutyCycleDemand - periodicIO.savedLastDemand;
         double timeToMove = (kHoodTransitionTimeSeconds / kFullHoodAngleRange) *
                 Math.abs(displacement);
         double currentTime = Timer.getFPGATimestamp();
+
+//        SmartDashboard.putNumber("Displacement", displacement);
+//        SmartDashboard.putNumber("Time to move", timeToMove);
 
         if (currentTime - periodicIO.lastAdjustableHoodChangeFPGATime < timeToMove) {
             // Hood is in motion
@@ -128,12 +131,12 @@ public class Shooter implements SubSubsystem {
 
         if (periodicIO.lastAdjustableHoodDutyCycleDemand != periodicIO.adjustableHoodDutyCycleDemand) {
             periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
+            periodicIO.savedLastDemand = periodicIO.lastAdjustableHoodDutyCycleDemand;
+            periodicIO.lastAdjustableHoodDutyCycleDemand = periodicIO.adjustableHoodDutyCycleDemand;
         }
 
         adjustableHoodServo.setSpeed(
                 UtilMethods.limitRange(periodicIO.adjustableHoodDutyCycleDemand, kHoodLowerLimit, 1.0));
-
-        periodicIO.lastAdjustableHoodDutyCycleDemand = periodicIO.adjustableHoodDutyCycleDemand;
     }
 
     @Override
@@ -344,6 +347,7 @@ public class Shooter implements SubSubsystem {
         public double flywheelDemand;
         public double adjustableHoodDutyCycleDemand;
         public double lastAdjustableHoodDutyCycleDemand;
+        public double savedLastDemand;
         public double lastAdjustableHoodChangeFPGATime;
     }
 

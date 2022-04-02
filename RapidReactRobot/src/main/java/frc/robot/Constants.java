@@ -22,7 +22,7 @@ public final class Constants {
 
         public static final boolean kIsInCompetition = true;
         public static final boolean kIsInTuningMode = true;
-        public static final boolean kIsInShooterTuningMode = true;
+        public static final boolean kIsInShooterTuningMode = false;
 
     }
 
@@ -67,7 +67,7 @@ public final class Constants {
 
         public static final double kDefaultHoodAngle = 0;
 
-        public static final double kAbsoluteMaximumVelocityNU = 15000;
+        public static final double kAbsoluteMaximumVelocityNU = 15500;
 
         public static final double kDefaultVelocityRawUnits = 8850;
         public static final double kBarfVelocityRawUnits = 4500;
@@ -87,7 +87,7 @@ public final class Constants {
         public static final double kShootingToleranceRawUnits = 160;
 
         // The tolerance needed to feed in the next ball
-        public static final double kRecoveryToleranceRawUnits = 300;
+        public static final double kRecoveryToleranceRawUnits = 500;
 
         // Short period of time after the shoot button is released where the flywheels
         // continue rotating to ensure last few shots don't go amiss

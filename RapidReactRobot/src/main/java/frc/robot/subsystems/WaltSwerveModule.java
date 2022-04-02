@@ -46,6 +46,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     private final PeriodicIO periodicIO = new PeriodicIO();
     private Rotation2d previousAngle = new Rotation2d();
+    private double azimuthAbsoluteZeroReference = 0;
 
     private DriveControlState driveControlState = DriveControlState.OPEN_LOOP;
 
@@ -204,6 +205,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         }
         robotLogger.log(Level.INFO, "swerve module {0}: loaded azimuth zero reference = {1}", new Object[]{index, reference});
 
+        azimuthAbsoluteZeroReference = reference;
+
         double azimuthAbsoluteCounts = getAzimuthAbsoluteEncoderCounts();
 
         if (isAzimuthAbsoluteEncoderValid()) {
@@ -265,15 +268,14 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     @Override
     public Rotation2d getAzimuthRotation2d() {
-        double azimuthCounts = getAzimuthRelativeEncoderCounts();
+        double azimuthCounts = (getAzimuthAbsoluteEncoderCounts() - azimuthAbsoluteZeroReference)
+                / azimuthAbsoluteCountsPerRev;
         double radians = 2.0 * Math.PI * azimuthCounts;
         return new Rotation2d(radians);
     }
 
     public Rotation2d getFieldCentricAngle(Rotation2d robotHeading) {
-        Rotation2d angle = getAzimuthRotation2d();
-        Rotation2d normalizedAngle = Rotation2d.fromDegrees(UtilMethods.restrictAngle(angle.getDegrees(),
-                0, 360));
+        Rotation2d normalizedAngle = getAzimuthRotation2d();
 
         return normalizedAngle.rotateBy(robotHeading);
     }

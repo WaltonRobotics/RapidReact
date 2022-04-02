@@ -86,35 +86,28 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final double[][] lowGoalMap = {
             // Actual measured distance, Limelight distance, hood angle, velocity
-            {0, 3.879, -0.3, 5000},
-            {0, 6.456, 0.2, 6200},
+            {0, 3.879, 0, 5000},
+            {0, 6.456, 0, 6200},
     };
 
     private final double[][] highGoalMap = {
             // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
-//            {24, 4.476, -1, 7900},
-//            {34.0 + 7.0 / 16.0, 5.332, -0.762, 8250},
-//            {41.25, 5.915, -0.6, 8150},
-//            {45.7, 6.331, -0.5, 8150},
-//            {52 + 1.0 / 16.0, 6.878, -0.225, 8150},
-//            {57.5, 7.418, -0.17, 8150}, // Reported distance 7.448874 ft
-//            {64, 7.930, -0.05, 8150}, // Money shot reported 8.0326 ft
-//            {70, 8.458, 0.17, 8150},
-//            {76, 8.916, 0.25, 8200},
-//            {82, 11.913, 1.0, 8725},
-
-            {24, 4.476, -1, 8075},
-            {34.0 + 7.0 / 16.0, 5.332, -0.762, 8425},
-            {41.25, 5.915, -0.6, 8325},
-            {45.7, 6.331, -0.5, 8325},
-            {52 + 1.0 / 16.0, 6.878, -0.225, 8325},
-            {57.5, 7.418, -0.17, 8325}, // Reported distance 7.448874 ft
-            {64, 7.930, -0.05, 8325}, // Money shot reported 8.0326 ft
-            {70, 8.458, 0.17, 8325},
-            {76, 8.916, 0.25, 8375},
-            {82, 11.913, 1.0, 8900},
-
-            // 8.875 ft, 8370
+            {-1, 5.109, 0, 8800},
+            {-1, 6.080, 0.2, 8850},
+            {-1, 7.021, 0.4, 9000},
+            {-1, 8.133, 0.7, 9177},
+            {-1, 8.949, 0.75, 9370},
+            {-1, 9.846, 0.75, 9600},
+            {-1, 10.931, 0.75, 10050},
+            {-1, 11.918, 0.75, 10400},
+            {-1, 12.843, 0.75, 10679},
+            {-1, 13.748, 0.9, 11000},
+            {-1, 14.921, 1.0, 11390},
+            {-1, 15.827, 1.0, 11718},
+            {-1, 16.648, 1.0, 12001},
+            {-1, 17.810, 1.0, 12403},
+            {-1, 19.358, 1.0, 13000},
+            {-1, 20.223, 1.0, 13350},
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -448,23 +441,23 @@ public class PracticeRapidReact extends WaltRobot {
         flywheelSlaveTalonConfig.voltageCompSaturation = 12.0;
 
         // Spinning up profile
-        flywheelMasterTalonConfig.slot0.kF = 0.0514998436;
+        flywheelMasterTalonConfig.slot0.kF = 0.05;
         flywheelMasterTalonConfig.slot0.kP = 0.00085;
         flywheelMasterTalonConfig.slot0.kI = 1.38282776E-05;
         flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot0.integralZone = 300;
-        flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 75000;
+        flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 300000;
         flywheelMasterTalonConfig.slot0.closedLoopPeakOutput = 1.0;
 
         // Shooting profile
-        flywheelMasterTalonConfig.slot1.kF = 0.0514998436;
+        flywheelMasterTalonConfig.slot1.kF = 0.05;
         flywheelMasterTalonConfig.slot1.kP = 0.00088;
         flywheelMasterTalonConfig.slot1.kI = 1.38282776E-05;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot1.integralZone = 300;
-        flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 75000;
+        flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 300000;
         flywheelMasterTalonConfig.slot1.closedLoopPeakOutput = 1.0;
 
         shooterConfig = new ShooterConfig() {

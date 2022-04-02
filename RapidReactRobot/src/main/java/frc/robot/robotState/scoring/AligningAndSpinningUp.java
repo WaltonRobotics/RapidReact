@@ -83,20 +83,21 @@ public class AligningAndSpinningUp implements IState {
             driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0.15);
         }
 
-        if (godSubsystem.getCurrentTime() < nudgeDownTimeout) {
-            godSubsystem.handleIntaking();
+//        if (godSubsystem.getCurrentTime() < nudgeDownTimeout) {
+//            godSubsystem.handleIntaking();
+//
+//            godSubsystem.getConveyor().setTransportDemand(
+//                    godSubsystem.getConveyor().getConfig().getTransportOuttakePercentOutput());
+//            godSubsystem.getConveyor().setFeedDemand(
+//                    godSubsystem.getConveyor().getConfig().getFeedOuttakePercentOutput());
+//        } else {
+//            godSubsystem.handleIntakingAndOuttaking();
+//        }
 
-            godSubsystem.getConveyor().setTransportDemand(
-                    godSubsystem.getConveyor().getConfig().getTransportOuttakePercentOutput());
-            godSubsystem.getConveyor().setFeedDemand(
-                    godSubsystem.getConveyor().getConfig().getFeedOuttakePercentOutput());
-        } else {
-            godSubsystem.handleIntakingAndOuttaking();
-        }
+        godSubsystem.handleIntakingAndOuttaking();
 
         if ((UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees)
-                || overrideAutoAimAndShootButton.get()) &&
-                godSubsystem.getCurrentTime() >= nudgeDownTimeout) {
+                || overrideAutoAimAndShootButton.get())) {
             return new PreparingToShoot();
         }
 

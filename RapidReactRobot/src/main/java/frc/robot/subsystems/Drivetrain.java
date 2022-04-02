@@ -52,6 +52,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     private com.team254.lib.geometry.Pose2d pose = new com.team254.lib.geometry.Pose2d();
     double distanceTraveled;
 
+    // { 3367.0 / 3455.0, 3035.0 / 2948.0, 2931.0 / 2814.0, 2331.0 / 2442.0};
     private final double[] azimuthFactors = new double[]{ 1.0, 1.0, 1.0, 1.0 };
 
     public Drivetrain() {
