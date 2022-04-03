@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -61,6 +60,7 @@ public class Shooter implements SubSubsystem {
 
         periodicIO.adjustableHoodDutyCycleDemand = kDefaultHoodAngle;
         periodicIO.lastAdjustableHoodDutyCycleDemand = kDefaultHoodAngle;
+        periodicIO.estimatedHoodPosition = kDefaultHoodAngle;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class Shooter implements SubSubsystem {
         periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
         LimelightHelper.updateData();
 
-        double displacement = periodicIO.adjustableHoodDutyCycleDemand - periodicIO.savedLastDemand;
+        double displacement = periodicIO.estimatedHoodPosition - periodicIO.savedLastPosition;
         double timeToMove = (kHoodTransitionTimeSeconds / kFullHoodAngleRange) *
                 Math.abs(displacement);
         double currentTime = Timer.getFPGATimestamp();
@@ -131,7 +131,7 @@ public class Shooter implements SubSubsystem {
 
         if (periodicIO.lastAdjustableHoodDutyCycleDemand != periodicIO.adjustableHoodDutyCycleDemand) {
             periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
-            periodicIO.savedLastDemand = periodicIO.lastAdjustableHoodDutyCycleDemand;
+            periodicIO.savedLastPosition = periodicIO.lastAdjustableHoodDutyCycleDemand;
             periodicIO.lastAdjustableHoodDutyCycleDemand = periodicIO.adjustableHoodDutyCycleDemand;
         }
 
@@ -347,7 +347,7 @@ public class Shooter implements SubSubsystem {
         public double flywheelDemand;
         public double adjustableHoodDutyCycleDemand;
         public double lastAdjustableHoodDutyCycleDemand;
-        public double savedLastDemand;
+        public double savedLastPosition;
         public double lastAdjustableHoodChangeFPGATime;
     }
 

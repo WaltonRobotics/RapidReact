@@ -65,7 +65,7 @@ public final class Constants {
 
     public static final class Shooter {
 
-        public static final double kDefaultHoodAngle = 0;
+        public static final double kDefaultHoodAngle = 0.247;
 
         public static final double kAbsoluteMaximumVelocityNU = 15500;
 
