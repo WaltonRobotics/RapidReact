@@ -174,18 +174,14 @@ public class Paths {
     public static final class NewFiveBallRoutine {
 
         public static final PathPlannerTrajectory fiveBall1 =
-                PathPlanner.loadPath("fiveBall1", Units.feetToMeters(11.0), Units.feetToMeters(7.0), true);
+                PathPlanner.loadPath("fiveBall1", Units.feetToMeters(6), Units.feetToMeters(4), true);
 
-        public static final PathPlannerTrajectory fiveBall2Half =
-                PathPlanner.loadPath("fiveBallTwoHalf", Units.feetToMeters(11.0), Units.feetToMeters(7.0));
         public static final PathPlannerTrajectory fiveBall2 =
-                PathPlanner.loadPath("fiveBall2", Units.feetToMeters(11.0), Units.feetToMeters(7.0));
+                PathPlanner.loadPath("fiveBall2", Units.feetToMeters(6), Units.feetToMeters(4));
 
-        public static final PathPlannerTrajectory fiveBall2Full =
-                (PathPlannerTrajectory) fiveBall2.concatenate(fiveBall2Half);
 
         public static final PathPlannerTrajectory fiveBall3 =
-                PathPlanner.loadPath("fiveBall3", Units.feetToMeters(11.0), Units.feetToMeters(7.0));
+                PathPlanner.loadPath("fiveBall3", Units.feetToMeters(6), Units.feetToMeters(4));
 
     }
 
