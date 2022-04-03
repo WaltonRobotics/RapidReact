@@ -344,19 +344,7 @@ public class Superstructure extends SubsystemBase {
         if (getInferredAllianceColor() == AllianceColor.BLUE) {
             return drivetrain.getPoseMeters();
         } else {
-            Translation2d oldTranslation = drivetrain.getPoseMeters().getTranslation();
-
-            // Reflect robot translation over origin if on red
-            double dx = kCenterOfHubPose.getX() - oldTranslation.getX();
-            double dy = kCenterOfHubPose.getY() - oldTranslation.getY();
-
-            Translation2d newTranslation = new Translation2d(kCenterOfHubPose.getX() + dx,
-                    kCenterOfHubPose.getY() + dy);
-
-            // Flip the robot heading since the robot 0 is now facing in the direction of the blue alliance
-
-            return new Pose2d(newTranslation,
-                    drivetrain.getPoseMeters().getRotation().minus(Rotation2d.fromDegrees(180)));
+            return LiveDashboardHelper.reflectPose(drivetrain.getPoseMeters());
         }
     }
 
