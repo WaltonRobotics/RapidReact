@@ -355,38 +355,35 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(fiveBall1),
             new SetRightIntakeDeployed(true),
+            new SetLeftIntakeDeployed(true),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new ParallelDeadlineGroup(
-                    new SwerveTrajectoryCommand(fiveBall1),
-                    new SequentialCommandGroup(
-                            new WaitCommand(fiveBall1.getTotalTimeSeconds() * 0.75),  // spin up 75% through path
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
-                            new SetRightIntakeDeployed(false),
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
-                    )),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
+            new SwerveTrajectoryCommand(fiveBall1),
+            new SetRightIntakeDeployed(false),
             new ParallelCommandGroup(
-                    new ShootCargo(3, 1.0), //intake & shoot ballB while shooting
+                    new ShootCargo(3, 3.0),
                     new SequentialCommandGroup(
-//                            new WaitCommand(0.5),
-                            new SetLeftIntakeDeployed(true),
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-                            new WaitCommand(1.5) // Wait for intaking ball
+                            new WaitCommand(1.0),
+                            new SetLeftIntakeDeployed(false)
                     )
             ),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
+            new SetLeftIntakeDeployed(true),
             new SwerveTrajectoryCommand(fiveBall2),
-            new WaitCommand(1.0),   // wait for human player
+            new WaitCommand(1.2),   // wait for human player
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(fiveBall3),
                     new SequentialCommandGroup(
                             new WaitCommand(fiveBall3.getTotalTimeSeconds() * 0.5),  // spin up 50% through path
                             new SetLeftIntakeDeployed(false),
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
                     )
             ),
-            new AlignAndShootCargo(2, 5),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false))
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
+            new AlignAndShootCargo(2, 4.0)
+    )),
+
+    STRAIGHT("Straight", new SequentialCommandGroup(
+            new Straight()
     ));
     
 //

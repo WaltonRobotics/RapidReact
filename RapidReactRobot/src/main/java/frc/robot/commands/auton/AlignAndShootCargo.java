@@ -7,11 +7,11 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class AlignAndShootCargo extends SequentialCommandGroup {
 
-    public AlignAndShootCargo(int numberOfBalls, double timeout) {
+    public AlignAndShootCargo(int numberOfBalls, double timeoutPerBall) {
         addCommands(new InstantCommand(() -> godSubsystem.setDoesAutonNeedToAlignAndShoot(true)));
 
         for (int i = 0; i < numberOfBalls; i++) {
-            addCommands(new WaitForCargoShot().withTimeout(timeout));
+            addCommands(new WaitForCargoShot().withTimeout(timeoutPerBall));
         }
 
         addCommands(new InstantCommand(() -> godSubsystem.setDoesAutonNeedToAlignAndShoot(false)));

@@ -364,6 +364,9 @@ public class Superstructure extends SubsystemBase {
             if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
                 turnRate = 0;
             }
+
+            turnRate = Math.signum(turnRate) * Math.max(Math.abs(turnRate),
+                    drivetrain.getConfig().getMinTurnOmega());
         } else if (kUseOdometryBackup) {
             double headingError = UtilMethods.restrictAngle(
                     getEstimatedAngleToHub().getDegrees(), -180, 180);
@@ -371,6 +374,9 @@ public class Superstructure extends SubsystemBase {
             if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
                 turnRate = 0;
             }
+
+            turnRate = Math.signum(turnRate) * Math.max(Math.abs(turnRate),
+                    drivetrain.getConfig().getMinTurnOmega());
         } else {
             turnRate = manualOmega;
         }

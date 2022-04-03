@@ -37,7 +37,8 @@ public class TakeControl implements IState {
 
         if (
 //                angleTarget.isWithinTolerance(pivotAngle, 100) &&
-                godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
+                godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE
+                        || godSubsystem.isInAuton()) {
             return new ScoringModeTransition();
         } else if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
             return new ClimbingModeTransition();

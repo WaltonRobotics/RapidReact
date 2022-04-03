@@ -89,7 +89,7 @@ public final class Constants {
         public static final double kShootingToleranceRawUnits = 160;
 
         // The tolerance needed to feed in the next ball
-        public static final double kRecoveryToleranceRawUnits = 500;
+        public static final double kRecoveryToleranceRawUnits = 350;
 
         // Short period of time after the shoot button is released where the flywheels
         // continue rotating to ensure last few shots don't go amiss
@@ -136,7 +136,7 @@ public final class Constants {
 
         public static final int kAlignmentPipeline = 0;
 
-        public static final double kAlignmentToleranceDegrees = 1.5;
+        public static final double kAlignmentToleranceDegrees = 2.0;
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
         public static final boolean kUseOdometryBackup = true;

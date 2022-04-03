@@ -122,7 +122,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(trajectory.getTotalTimeSeconds());
+        return modulesReady && timer.hasElapsed(trajectory.getTotalTimeSeconds());
     }
 
     @Override
@@ -139,11 +139,13 @@ public class SwerveTrajectoryCommand extends CommandBase {
     private boolean moduleAnglesOnTarget() {
         boolean onTarget = true;
 
+//        SmartDashboard.putNumber("Initial module angle", initialModuleAngle.getDegrees());
+
         for(WaltSwerveModule m : drivetrain.getSwerveModules()) {
             double currentAngle = UtilMethods.restrictAngle(m.getAzimuthRotation2d().getDegrees(), -180, 180);
             double targetAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees(), -180, 180);
 
-            onTarget &= Math.abs(targetAngle - currentAngle) < 0.25;
+            onTarget &= Math.abs(targetAngle - currentAngle) < 5.0;
         }
 
         return onTarget;

@@ -38,7 +38,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final double driveDeadbandMetersPerSecond;
     private final double driveMaximumMetersPerSecond;
     private final edu.wpi.first.math.geometry.Translation2d wheelLocationMeters;
-    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.74425, 2.3973, 0.072907);
+//    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.74425, 2.3973, 0.072907);
 
     private double previousEncDistance = 0;
     private Translation2d position;
@@ -56,7 +56,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         // Outputs
         public double azimuthAbsoluteCountsDemand;
         public double driveDemand;
-        public double driveFeedforward;
+//        public double driveFeedforward;
 
         // Inputs
         public boolean hasDriveControllerReset;
@@ -151,11 +151,9 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         }
 
         if (driveControlState == DriveControlState.OPEN_LOOP) {
-            driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand,
-                    DemandType.ArbitraryFeedForward, periodicIO.driveFeedforward);
+            driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand);
         } else if (driveControlState == DriveControlState.VELOCITY) {
-            driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand,
-                    DemandType.ArbitraryFeedForward, periodicIO.driveFeedforward);
+            driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand);
         }
     }
 
@@ -354,7 +352,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         }
 
         periodicIO.driveDemand = metersPerSecond / driveMaximumMetersPerSecond;
-        periodicIO.driveFeedforward = 0;
+//        periodicIO.driveFeedforward = 0;
     }
 
     public void setDriveClosedLoopMetersPerSecond(double metersPerSecond) {
@@ -364,7 +362,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         }
 
         periodicIO.driveDemand = metersPerSecond / driveMetersPerNU / k100msPerSecond;
-        periodicIO.driveFeedforward = feedforward.calculate(metersPerSecond) / 12.0;
+//        periodicIO.driveFeedforward = feedforward.calculate(metersPerSecond) / 12.0;
     }
 
     public void setBrakeNeutralMode() {
