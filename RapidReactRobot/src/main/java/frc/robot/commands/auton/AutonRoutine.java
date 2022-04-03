@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
+import frc.robot.subsystems.Superstructure;
 
 import static frc.robot.Paths.NewFiveBallRoutine.*;
 import static frc.robot.Paths.RoutineEight.pickupG;
@@ -13,6 +14,8 @@ import static frc.robot.Paths.RoutineOne.gammaBackwards;
 import static frc.robot.Paths.RoutineSixG.gammaPickUpC;
 import static frc.robot.Paths.RoutineTwo.betaBackwards;
 import static frc.robot.Paths.TestTrajectories.*;
+import static frc.robot.Paths.TwoBallThrowRoutine.twoBall;
+import static frc.robot.Paths.TwoBallThrowRoutine.twoBallThrow;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public enum AutonRoutine {
@@ -89,6 +92,34 @@ public enum AutonRoutine {
 //            new TurnToAngle(90.0).withTimeout(2.0),
             new WaitCommand(2.0),
             new AlignAndShootCargoTimed(10.0)
+    )),
+
+    TWO_BALL_THROW("Start from gamma, pick up ballC, shoot 2, throw enemy ball into hanger", new TimedAuton(
+            //normal two ball
+            new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
+            new ResetPose(twoBall),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
+            new SetLeftIntakeDeployed(true),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
+            new SwerveTrajectoryCommand(twoBall),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+            new SetLeftIntakeDeployed(false),
+            new ShootCargo(2),
+            //throw enemy ball
+            new ParallelDeadlineGroup(
+                    new SwerveTrajectoryCommand(twoBallThrow),
+                    new ParallelCommandGroup(
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
+                            new SetLeftIntakeDeployed(true),
+                            new WaitCommand(twoBallThrow.getTotalTimeSeconds()*0.5),  //spin up 50% through path
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
+                    )
+            ),
+            new ParallelCommandGroup(
+                    new ShootCargo(1),
+                    new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
+                    new SetLeftIntakeDeployed(false)
+            )
     )),
 
 //    //FOUR_B is the same except picks up 2 balls from G
@@ -343,7 +374,9 @@ public enum AutonRoutine {
                     )
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
-            new SwerveTrajectoryCommand(fiveBall2),
+            new SwerveTrajectoryCommand(fiveBall2Full),
+            //new SwerveTrajectoryCommand(fiveBall2),
+            //new SwerveTrajectoryCommand(fiveBall2Half),
             new WaitCommand(1.0),   // wait for human player
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(fiveBall3),
