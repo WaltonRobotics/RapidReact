@@ -25,6 +25,7 @@ public class LimelightHelper {
     private static final SimpleMovingAverage mTxMovingAverage = new SimpleMovingAverage(kTxWindowSize);
     private static final SimpleMovingAverage mTyMovingAverage = new SimpleMovingAverage(kTyWindowSize);
     private static boolean mIsLEDOn = false;
+    private static int resetCount;
 
     private LimelightHelper() {
 
@@ -34,6 +35,10 @@ public class LimelightHelper {
         if (getTV() > 0) {
             mTxMovingAverage.addData(mTx.getDouble(0.0));
             mTyMovingAverage.addData(mTy.getDouble(0.0));
+        }
+        resetCount --;
+        if(resetCount == 0){
+            resetSnapshot();
         }
     }
 
@@ -124,8 +129,12 @@ public class LimelightHelper {
     }
 
     public static void takeSnapshot() {
-        mSnapshot.setNumber(0.0);
-        mSnapshot.setNumber(1.0);
+        mSnapshot.setNumber(1);
+        resetCount = 10;
+    }
+
+    public static void resetSnapshot(){
+        mSnapshot.setNumber(0);
     }
 
 }

@@ -2,18 +2,24 @@ package frc.robot.commands.auton;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.WaltSwerveModule;
 import frc.robot.util.UtilMethods;
 import frc.robot.util.averages.CumulativeAverage;
 
+import java.util.ArrayList;
+
+import static frc.robot.Constants.PathFollowing.kPathLookaheadTime;
 import static frc.robot.Constants.SmartDashboardKeys.kTrajectoryThetaPKey;
+import static frc.robot.Paths.NewFiveBallRoutine.fiveBall1;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class SwerveTrajectoryCommand extends CommandBase {
@@ -26,19 +32,14 @@ public class SwerveTrajectoryCommand extends CommandBase {
     private final CumulativeAverage yPositionErrorAverage = new CumulativeAverage();
     private final CumulativeAverage thetaPositionErrorAverage = new CumulativeAverage();
     private HolonomicDriveController holonomicDriveController;
-    private final Rotation2d initialModuleAngle;
-    private boolean waitUntilModulesReady;
-    private boolean areModulesReady = false;
+
+    private boolean modulesReady = false;
+    private boolean moduleConfigRequested = false;
+    private Rotation2d initialModuleAngle;
 
     public SwerveTrajectoryCommand(PathPlannerTrajectory trajectory) {
-        this(trajectory, Rotation2d.fromDegrees(0), false);
-    }
-
-    public SwerveTrajectoryCommand(PathPlannerTrajectory trajectory, Rotation2d initialModuleAngle, boolean waitUntilModulesReady) {
         addRequirements(drivetrain);
         this.trajectory = trajectory;
-        this.initialModuleAngle = initialModuleAngle;
-        this.waitUntilModulesReady = waitUntilModulesReady;
     }
 
     public void initialize() {
@@ -52,48 +53,31 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
         LiveDashboardTable.getInstance().setFollowingPath(true);
 
-        LiveDashboardHelper.putRobotData(drivetrain.getPoseMeters());
+        LiveDashboardHelper.putRobotData(godSubsystem.getAllianceSpecificPose());
         LiveDashboardHelper.putTrajectoryData(trajectory.getInitialPose());
 
         drivetrain.getField().getObject("traj").setTrajectory(trajectory);
-
-        timer.reset();
-        timer.start();
 
         xPositionErrorAverage.clear();
         yPositionErrorAverage.clear();
         thetaPositionErrorAverage.clear();
 
-        areModulesReady = !waitUntilModulesReady;
+        modulesReady = false;
+        moduleConfigRequested = false;
+
+        PathPlannerTrajectory.PathPlannerState state = (PathPlannerTrajectory.PathPlannerState)
+                trajectory.sample(kPathLookaheadTime);
+
+        ChassisSpeeds speeds = holonomicDriveController.calculate(drivetrain.getPoseMeters(),
+                state, state.holonomicRotation);
+
+        initialModuleAngle = drivetrain.getSwerveDriveKinematics().toSwerveModuleStates(speeds)[0].angle;
     }
 
     public void execute() {
-        SmartDashboard.putBoolean("Are modules ready", areModulesReady);
+        SmartDashboard.putBoolean("Are modules ready", modulesReady);
 
-        if (!areModulesReady) {
-            drivetrain.setModuleStates(new SwerveModuleState(0, initialModuleAngle));
-
-            boolean areAllModulesAligned = true;
-
-            for (WaltSwerveModule module : drivetrain.getSwerveModules()) {
-                double moduleAngle = UtilMethods.restrictAngle(module.getAzimuthRotation2d().getDegrees(),
-                        -180.0, 180.0);
-
-                double desiredAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees(),
-                        -180.0, 180.0);
-
-                if (!UtilMethods.isWithinTolerance(moduleAngle, desiredAngle, 5)) {
-                    areAllModulesAligned = false;
-                }
-            }
-
-            areModulesReady = areAllModulesAligned;
-
-            if (areModulesReady) {
-                timer.reset();
-                timer.start();
-            }
-        } else {
+        if (modulesReady) {
             double thetaP = SmartDashboard.getNumber(kTrajectoryThetaPKey, drivetrain.getConfig().getThetaController().getP());
 
             drivetrain.getConfig().getThetaController().setP(thetaP);
@@ -106,10 +90,12 @@ public class SwerveTrajectoryCommand extends CommandBase {
             PathPlannerTrajectory.PathPlannerState state = (PathPlannerTrajectory.PathPlannerState) trajectory.sample(currentTime);
             ChassisSpeeds speeds = holonomicDriveController.calculate(drivetrain.getPoseMeters(), state, state.holonomicRotation);
 
-            drivetrain.move(
-                    speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false);
+//            drivetrain.move(
+//                    speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false);
 
-            LiveDashboardHelper.putRobotData(drivetrain.getPoseMeters());
+            drivetrain.faceDirection(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, state.holonomicRotation, false);
+
+            LiveDashboardHelper.putRobotData(godSubsystem.getAllianceSpecificPose());
             LiveDashboardHelper.putTrajectoryData(trajectory.sample(currentTime).poseMeters);
 
             SmartDashboard.putNumber("kX Position Error", kXInstantPositionError);
@@ -119,6 +105,18 @@ public class SwerveTrajectoryCommand extends CommandBase {
             xPositionErrorAverage.addData(kXInstantPositionError);
             yPositionErrorAverage.addData(kYInstantPositionError);
             thetaPositionErrorAverage.addData(kThetaInstantPositionError);
+        } else if (!moduleConfigRequested) {
+            drivetrain.getSwerveModules().forEach(m -> m.setAbsoluteAzimuthRotation2d(initialModuleAngle));
+
+            moduleConfigRequested = true;
+        }
+
+        if (moduleAnglesOnTarget() && !modulesReady) {
+            drivetrain.getSwerveModules().forEach(WaltSwerveModule::resetLastEncoderReading);
+            modulesReady = true;
+
+            timer.reset();
+            timer.start();
         }
     }
 
@@ -136,6 +134,19 @@ public class SwerveTrajectoryCommand extends CommandBase {
         SmartDashboard.putNumber("X Error Average", xPositionErrorAverage.getMean());
         SmartDashboard.putNumber("Y Error Average", yPositionErrorAverage.getMean());
         SmartDashboard.putNumber("Theta Error Average", Math.toDegrees(thetaPositionErrorAverage.getMean()));
+    }
+
+    private boolean moduleAnglesOnTarget() {
+        boolean onTarget = true;
+
+        for(WaltSwerveModule m : drivetrain.getSwerveModules()) {
+            double currentAngle = UtilMethods.restrictAngle(m.getAzimuthRotation2d().getDegrees(), -180, 180);
+            double targetAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees(), -180, 180);
+
+            onTarget &= Math.abs(targetAngle - currentAngle) < 0.25;
+        }
+
+        return onTarget;
     }
 
 }

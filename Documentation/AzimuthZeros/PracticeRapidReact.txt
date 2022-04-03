@@ -1,5 +1,5 @@
 Module, Zero Absolute Counts
 LF, 3367
 RF, 3035
-LR, 2365
-RR, 2937
+LR, 2916
+RR, 2288

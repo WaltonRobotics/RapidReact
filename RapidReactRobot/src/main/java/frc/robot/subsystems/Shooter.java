@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,7 +50,7 @@ public class Shooter implements SubSubsystem {
         flywheelSlaveController.setSensorPhase(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setNeutralMode(NeutralMode.Coast);
         flywheelSlaveController.enableVoltageCompensation(false);
-        flywheelSlaveController.follow(flywheelMasterController);
+        configFollower();
 
         configFlywheelMasterStatusFrames();
         configFlywheelSlaveStatusFrames();
@@ -61,23 +60,27 @@ public class Shooter implements SubSubsystem {
 
         periodicIO.adjustableHoodDutyCycleDemand = kDefaultHoodAngle;
         periodicIO.lastAdjustableHoodDutyCycleDemand = kDefaultHoodAngle;
+        periodicIO.estimatedHoodPosition = kDefaultHoodAngle;
     }
 
     @Override
-    public void zeroSensors() {
+    public synchronized void zeroSensors() {
 
     }
 
     @Override
-    public void collectData() {
+    public synchronized void collectData() {
         periodicIO.flywheelVelocityNU = flywheelMasterController.getSelectedSensorVelocity();
-        periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
+//        periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
         LimelightHelper.updateData();
 
-        double displacement = periodicIO.adjustableHoodDutyCycleDemand - periodicIO.lastAdjustableHoodDutyCycleDemand;
+        double displacement = periodicIO.adjustableHoodDutyCycleDemand - periodicIO.savedLastPosition;
         double timeToMove = (kHoodTransitionTimeSeconds / kFullHoodAngleRange) *
                 Math.abs(displacement);
         double currentTime = Timer.getFPGATimestamp();
+
+//        SmartDashboard.putNumber("Displacement", displacement);
+//        SmartDashboard.putNumber("Time to move", timeToMove);
 
         if (currentTime - periodicIO.lastAdjustableHoodChangeFPGATime < timeToMove) {
             // Hood is in motion
@@ -86,14 +89,18 @@ public class Shooter implements SubSubsystem {
                     * (kFullHoodAngleRange / kHoodTransitionTimeSeconds);
 
             periodicIO.estimatedHoodPosition += dx;
+
+            SmartDashboard.putBoolean("Hood ready", false);
         } else {
             // Hood has reached setpoint
             periodicIO.estimatedHoodPosition = periodicIO.adjustableHoodDutyCycleDemand;
+
+            SmartDashboard.putBoolean("Hood ready", true);
         }
     }
 
     @Override
-    public void outputData() {
+    public synchronized void outputData() {
         int masterID = config.getFlywheelMasterControllerMotorConfig().getChannelOrID();
 
         if (periodicIO.hasFlywheelMasterControllerResetOccurred) {
@@ -128,11 +135,12 @@ public class Shooter implements SubSubsystem {
 
         if (periodicIO.lastAdjustableHoodDutyCycleDemand != periodicIO.adjustableHoodDutyCycleDemand) {
             periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
+            periodicIO.savedLastPosition = periodicIO.estimatedHoodPosition;
+            periodicIO.lastAdjustableHoodDutyCycleDemand = periodicIO.adjustableHoodDutyCycleDemand;
         }
 
-        adjustableHoodServo.setSpeed(periodicIO.adjustableHoodDutyCycleDemand);
-
-        periodicIO.lastAdjustableHoodDutyCycleDemand = periodicIO.adjustableHoodDutyCycleDemand;
+        adjustableHoodServo.setSpeed(
+                UtilMethods.limitRange(periodicIO.adjustableHoodDutyCycleDemand, kHoodLowerLimit, 1.0));
     }
 
     @Override
@@ -143,8 +151,12 @@ public class Shooter implements SubSubsystem {
         SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Demand", periodicIO.flywheelDemand);
         SmartDashboard.putNumber("Shooter/Periodic IO/Adjustable Hood Demand", periodicIO.adjustableHoodDutyCycleDemand);
         SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Velocity NU", periodicIO.flywheelVelocityNU);
-        SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Closed Loop Error NU", periodicIO.flywheelClosedLoopErrorNU);
+//        SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Closed Loop Error NU", periodicIO.flywheelClosedLoopErrorNU);
         SmartDashboard.putNumber("Shooter/Periodic IO/Estimated Hood Position", periodicIO.estimatedHoodPosition);
+    }
+
+    public void configFollower() {
+        flywheelSlaveController.follow(flywheelMasterController);
     }
 
     public AimTarget getAimTarget() {
@@ -186,8 +198,8 @@ public class Shooter implements SubSubsystem {
         return periodicIO.adjustableHoodDutyCycleDemand;
     }
 
-    public void setAdjustableHoodDutyCycleDemand(double leftAdjustableHoodDutyCycleDemand) {
-        periodicIO.adjustableHoodDutyCycleDemand = leftAdjustableHoodDutyCycleDemand;
+    public void setAdjustableHoodDutyCycleDemand(double adjustableHoodDutyCycleDemand) {
+        periodicIO.adjustableHoodDutyCycleDemand = adjustableHoodDutyCycleDemand;
     }
 
     public double getLastAdjustableHoodChangeFPGATime() {
@@ -202,9 +214,9 @@ public class Shooter implements SubSubsystem {
         return periodicIO.flywheelVelocityNU;
     }
 
-    public double getFlywheelClosedLoopErrorNU() {
-        return periodicIO.flywheelClosedLoopErrorNU;
-    }
+//    public double getFlywheelClosedLoopErrorNU() {
+//        return periodicIO.flywheelClosedLoopErrorNU;
+//    }
 
     public double getEstimatedHoodPosition() {
         return periodicIO.estimatedHoodPosition;
@@ -327,7 +339,7 @@ public class Shooter implements SubSubsystem {
         public boolean hasFlywheelMasterControllerResetOccurred;
         public boolean hasFlywheelSlaveControllerResetOccurred;
         public double flywheelVelocityNU;
-        public double flywheelClosedLoopErrorNU;
+//        public double flywheelClosedLoopErrorNU;
         public double estimatedHoodPosition;
 
         // Outputs
@@ -339,6 +351,7 @@ public class Shooter implements SubSubsystem {
         public double flywheelDemand;
         public double adjustableHoodDutyCycleDemand;
         public double lastAdjustableHoodDutyCycleDemand;
+        public double savedLastPosition;
         public double lastAdjustableHoodChangeFPGATime;
     }
 

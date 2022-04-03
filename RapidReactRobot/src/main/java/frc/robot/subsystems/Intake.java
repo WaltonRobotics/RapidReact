@@ -43,12 +43,12 @@ public class Intake implements SubSubsystem {
     }
 
     @Override
-    public void zeroSensors() {
+    public synchronized void zeroSensors() {
 
     }
 
     @Override
-    public void collectData() {
+    public synchronized void collectData() {
         double currentTime = Timer.getFPGATimestamp();
 
         periodicIO.hasLeftIntakeControllerResetOccurred = leftIntakeController.hasResetOccurred();
@@ -70,7 +70,7 @@ public class Intake implements SubSubsystem {
     }
 
     @Override
-    public void outputData() {
+    public synchronized void outputData() {
         // Reconfigure status frames when controllers reset
         if (periodicIO.hasLeftIntakeControllerResetOccurred) {
             configLeftIntakeStatusFrames();

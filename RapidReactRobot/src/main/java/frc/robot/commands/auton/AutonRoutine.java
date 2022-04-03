@@ -86,7 +86,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new SetLeftIntakeDeployed(true),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new SwerveTrajectoryCommand(gammaPickUpC, Rotation2d.fromDegrees(90), true),
+            new SwerveTrajectoryCommand(gammaPickUpC),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
 //            new TurnToAngle(90.0).withTimeout(2.0),
@@ -357,7 +357,7 @@ public enum AutonRoutine {
             new SetRightIntakeDeployed(true),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new ParallelDeadlineGroup(
-                    new SwerveTrajectoryCommand(fiveBall1, Rotation2d.fromDegrees(90), true),
+                    new SwerveTrajectoryCommand(fiveBall1),
                     new SequentialCommandGroup(
                             new WaitCommand(fiveBall1.getTotalTimeSeconds() * 0.75),  // spin up 75% through path
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),

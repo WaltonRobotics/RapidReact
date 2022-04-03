@@ -35,18 +35,18 @@ public class Conveyor implements SubSubsystem {
     }
 
     @Override
-    public void zeroSensors() {
+    public synchronized void zeroSensors() {
 
     }
 
     @Override
-    public void collectData() {
+    public synchronized void collectData() {
         periodicIO.hasTransportControllerResetOccurred = transportController.hasResetOccurred();
         periodicIO.hasFeedControllerResetOccurred = feedController.hasResetOccurred();
     }
 
     @Override
-    public void outputData() {
+    public synchronized void outputData() {
         if (periodicIO.hasTransportControllerResetOccurred) {
             configTransportStatusFrame();
         }

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.util.WaltTimesliceRobot;
 import frc.robot.vision.LimelightHelper;
@@ -119,7 +120,7 @@ public class Robot extends WaltTimesliceRobot {
         SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
         SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
 
-        LimelightHelper.setLEDMode(false);
+//        LimelightHelper.setLEDMode(false);
 
         godSubsystem.getDrivetrain().setCoastNeutralMode();
     }
@@ -165,6 +166,11 @@ public class Robot extends WaltTimesliceRobot {
             godSubsystem.getDrivetrain().setBrakeNeutralMode();
         }
 
+        // Config follower due to bug in testing mode
+        godSubsystem.getShooter().configFollower();
+
+        godSubsystem.getShooter().setAimTarget(Shooter.AimTarget.HIGH_GOAL);
+
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(true);
 
@@ -199,6 +205,9 @@ public class Robot extends WaltTimesliceRobot {
         } else {
             godSubsystem.getDrivetrain().setBrakeNeutralMode();
         }
+
+        // Config follower due to bug in testing mode
+        godSubsystem.getShooter().configFollower();
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(true);

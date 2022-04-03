@@ -1,9 +1,14 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
+import frc.robot.commands.auton.LiveDashboardHelper;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.stateMachine.StateMachine;
@@ -14,12 +19,13 @@ import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.*;
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
 import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
-import static frc.robot.Constants.FieldConstants.kMoneyShotDistance;
-import static frc.robot.Constants.FieldConstants.kMoneyShotTolerance;
+import static frc.robot.Constants.FieldConstants.*;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
+import static frc.robot.Constants.VisionConstants.kUseOdometryBackup;
 import static frc.robot.OI.*;
+import static frc.robot.RobotContainer.allianceColorChooser;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.util.UtilMethods.monitorTemp;
 
@@ -324,7 +330,69 @@ public class Superstructure extends SubsystemBase {
             }
         }
 
+        if (kIsInShooterTuningMode) {
+            shooter.setAdjustableHoodDutyCycleDemand(
+                    SmartDashboard.getNumber(kShooterHoodPositionSetpointKey, 0.0));
+        }
+
         handleIdleSpinUp();
+    }
+
+    // Takes care of reflecting the robot position and returns the actual pose of the robot on the field
+    // This is done because red alliance trajectories and blue alliance trajectories use the same points
+    public Pose2d getAllianceSpecificPose() {
+        if (getInferredAllianceColor() == AllianceColor.BLUE) {
+            return drivetrain.getPoseMeters();
+        } else {
+            Translation2d oldTranslation = drivetrain.getPoseMeters().getTranslation();
+
+            // Reflect robot translation over origin if on red
+            double dx = kCenterOfHubPose.getX() - oldTranslation.getX();
+            double dy = kCenterOfHubPose.getY() - oldTranslation.getY();
+
+            Translation2d newTranslation = new Translation2d(kCenterOfHubPose.getX() + dx,
+                    kCenterOfHubPose.getY() + dy);
+
+            // Flip the robot heading since the robot 0 is now facing in the direction of the blue alliance
+
+            return new Pose2d(newTranslation,
+                    drivetrain.getPoseMeters().getRotation().minus(Rotation2d.fromDegrees(180)));
+        }
+    }
+
+    public Rotation2d getEstimatedAngleToHub() {
+        Pose2d targetRobotRelative = kCenterOfHubPose.relativeTo(getAllianceSpecificPose());
+
+        return new Rotation2d(Math.atan2(targetRobotRelative.getY(), targetRobotRelative.getX()));
+    }
+
+    public void handleAutoAlign(double vx, double vy, double manualOmega, boolean isFieldRelative) {
+        double turnRate = 0;
+
+        if (LimelightHelper.getTV() >= 1) {
+            double headingError = LimelightHelper.getTX();
+            turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
+
+            if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
+                turnRate = 0;
+            }
+        } else if (kUseOdometryBackup) {
+            double headingError = UtilMethods.restrictAngle(
+                    getEstimatedAngleToHub().getDegrees(), -180, 180);
+
+            if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
+                turnRate = 0;
+            }
+        } else {
+            turnRate = manualOmega;
+        }
+
+        SmartDashboard.putNumber(kLimelightAlignOmegaOutputKey, turnRate);
+
+        SmartDashboard.putNumber(kLimelightAlignErrorDegrees,
+                drivetrain.getConfig().getAutoAlignController().getPositionError());
+
+        drivetrain.move(vx, vy, turnRate, isFieldRelative);
     }
 
     public boolean doesAutonNeedToIdleSpinUp() {
@@ -385,9 +453,37 @@ public class Superstructure extends SubsystemBase {
         monitorTemp(drivetrain.getRightBackTurnTemp(), 60, "Right Back NEO Overheating");
     }
 
+    public AllianceColor getInferredAllianceColor() {
+        if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
+            return AllianceColor.RED;
+        } else if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
+            return AllianceColor.BLUE;
+        } else {
+            return allianceColorChooser.getSelected();
+        }
+    }
+
+    public double getForward() {
+        return -driveGamepad.getLeftY();
+    }
+
+    public double getStrafe() {
+        return -driveGamepad.getLeftX();
+    }
+
+    public double getRotateX() {
+        return -driveGamepad.getRightX();
+    }
+
+    public double getRotateY() {
+        return -driveGamepad.getRightY();
+    }
+
     @Override
     public void periodic() {
         stateMachine.run();
+
+        LiveDashboardHelper.putRobotData(getAllianceSpecificPose());
     }
 
     public enum CurrentMode {
@@ -396,6 +492,10 @@ public class Superstructure extends SubsystemBase {
 
     public enum ClimbingTargetRung {
         MID_RUNG, HIGH_RUNG
+    }
+
+    public enum AllianceColor {
+        RED, BLUE
     }
 
 }

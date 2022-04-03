@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -31,6 +32,8 @@ public final class Constants {
             public static final int kDriveXboxControllerPort = 0;
             public static final int kManipulationXboxControllerPort = 1;
         }
+
+        public static final boolean kUseAzimuthDeadband = false;
 
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;
@@ -64,9 +67,9 @@ public final class Constants {
 
     public static final class Shooter {
 
-        public static final double kDefaultHoodAngle = -0.189;
+        public static final double kDefaultHoodAngle = 0.247;
 
-        public static final double kAbsoluteMaximumVelocityNU = 15000;
+        public static final double kAbsoluteMaximumVelocityNU = 15500;
 
         public static final double kDefaultVelocityRawUnits = 8850;
         public static final double kBarfVelocityRawUnits = 4500;
@@ -75,10 +78,10 @@ public final class Constants {
 
         public static final double kDefaultHighGoalHoodAngle = 0.35;
         public static final double kDefaultHighGoalVelocity = 8850;
-        public static final double kDefaultLowGoalHoodAngle = -0.08;
+        public static final double kDefaultLowGoalHoodAngle = 0;
         public static final double kDefaultLowGoalVelocity = 5600;
 
-        public static final double kBarfHoodAngle = -1.0;
+        public static final double kBarfHoodAngle = 0;
 
         // The tolerance to exit the spinning up state and enter the shooting state
         public static final double kSpinningUpToleranceRawUnits = 150;
@@ -86,7 +89,7 @@ public final class Constants {
         public static final double kShootingToleranceRawUnits = 160;
 
         // The tolerance needed to feed in the next ball
-        public static final double kRecoveryToleranceRawUnits = 300;
+        public static final double kRecoveryToleranceRawUnits = 500;
 
         // Short period of time after the shoot button is released where the flywheels
         // continue rotating to ensure last few shots don't go amiss
@@ -94,10 +97,13 @@ public final class Constants {
 
         public static final double kNudgeDownTimeSeconds = 0.15;
 
+        // Limits
+        public static final double kHoodLowerLimit = 0;
+
         // Time it takes for the hood to change positions
-        public static final double kHoodTransitionTimeSeconds = 2.3;
+        public static final double kHoodTransitionTimeSeconds = 1.3;
         // The full range of angles for the hood
-        public static final double kFullHoodAngleRange = 2.0;
+        public static final double kFullHoodAngleRange = 1.0;
 
     }
 
@@ -133,9 +139,9 @@ public final class Constants {
         public static final double kAlignmentToleranceDegrees = 1.5;
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
-        public static final boolean kUseOdometryBackup = false;
+        public static final boolean kUseOdometryBackup = true;
 
-        public static final double kLimelightOffsetFeet = -0.030874;
+        public static final double kLimelightOffsetFeet = 0;
 
     }
 
@@ -198,6 +204,8 @@ public final class Constants {
         public static final String kClimberPivotCoastModeKey = "Climber Pivot Coast Mode";
         public static final String kClimberExtensionCoastModeKey = "Climber Extension Coast Mode";
 
+        public static final String kAllianceColorKey = "Alliance Color";
+
     }
 
     public static final class LiveDashboardKeys {
@@ -222,6 +230,13 @@ public final class Constants {
         public static final double kMoneyShotTolerance = 0.25;
 
         public static final Pose2d kCenterOfHubPose = new Pose2d(8.23, 4.11, Rotation2d.fromDegrees(0.0));
+
+    }
+
+    public static final class PathFollowing {
+
+        public static final double kPathLookaheadTime = 0.1;  // seconds to look ahead along the path for steering 0.4
+        public static final double kPathMinLookaheadDistance = Units.inchesToMeters(6.0);  // inches 24.0 (we've been using 3.0)
 
     }
 

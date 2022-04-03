@@ -65,12 +65,12 @@ public class Climber implements SubSubsystem {
     }
 
     @Override
-    public void zeroSensors() {
+    public synchronized void zeroSensors() {
         loadPivotVerticalReference();
     }
 
     @Override
-    public void collectData() {
+    public synchronized void collectData() {
         periodicIO.hasPivotControllerResetOccurred = pivotController.hasResetOccurred();
         periodicIO.hasExtensionControllerResetOccurred = extensionController.hasResetOccurred();
 
@@ -110,7 +110,7 @@ public class Climber implements SubSubsystem {
     }
 
     @Override
-    public void outputData() {
+    public synchronized void outputData() {
         if (periodicIO.hasPivotControllerResetOccurred) {
             configPivotStatusFrames();
         }

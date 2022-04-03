@@ -1,6 +1,7 @@
 package frc.robot.robotState;
 
 import frc.robot.OI;
+import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.scoring.AdjustingHood;
 import frc.robot.robotState.scoring.Intaking;
 import frc.robot.robotState.scoring.Outtaking;
@@ -22,6 +23,8 @@ public class ScoringMode implements IState {
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.VELOCITY);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
+
+        DriveCommand.setIsEnabled(true);
     }
 
     @Override

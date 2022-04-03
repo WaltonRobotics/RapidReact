@@ -1,7 +1,7 @@
 package frc.lib.strykeforce.swerve;
 
+import com.team254.lib.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 /** Represents a Third Coast swerve module. */
@@ -19,7 +19,7 @@ public interface SwerveModule {
    *
    * @return wheel location in meters relative to center of robot
    */
-  Translation2d getWheelLocationMeters();
+  edu.wpi.first.math.geometry.Translation2d getWheelLocationMeters();
 
   /**
    * Gets the current state of the swerve module.
@@ -60,6 +60,8 @@ public interface SwerveModule {
    * @return the angle of the azimuth rotation.
    */
   Rotation2d getAzimuthRotation2d();
+
+  Rotation2d getFieldCentricAngle(Rotation2d robotHeading);
 
   /** Resets the drive encoders to currently read a position of 0. */
   void resetDriveEncoder();
