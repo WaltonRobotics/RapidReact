@@ -243,7 +243,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     public double getAzimuthPositionErrorNU() {
-        return periodicIO.azimuthAbsoluteCountsDemand - getAzimuthAbsoluteEncoderCounts();
+        return azimuthController.getPositionError();
     }
 
     public double getDriveVelocityErrorNU() {
