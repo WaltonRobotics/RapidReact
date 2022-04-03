@@ -74,7 +74,7 @@ public class Shooter implements SubSubsystem {
         periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
         LimelightHelper.updateData();
 
-        double displacement = periodicIO.estimatedHoodPosition - periodicIO.savedLastPosition;
+        double displacement = periodicIO.adjustableHoodDutyCycleDemand - periodicIO.savedLastPosition;
         double timeToMove = (kHoodTransitionTimeSeconds / kFullHoodAngleRange) *
                 Math.abs(displacement);
         double currentTime = Timer.getFPGATimestamp();
@@ -89,9 +89,13 @@ public class Shooter implements SubSubsystem {
                     * (kFullHoodAngleRange / kHoodTransitionTimeSeconds);
 
             periodicIO.estimatedHoodPosition += dx;
+
+            SmartDashboard.putBoolean("Hood ready", false);
         } else {
             // Hood has reached setpoint
             periodicIO.estimatedHoodPosition = periodicIO.adjustableHoodDutyCycleDemand;
+
+            SmartDashboard.putBoolean("Hood ready", true);
         }
     }
 
@@ -131,7 +135,7 @@ public class Shooter implements SubSubsystem {
 
         if (periodicIO.lastAdjustableHoodDutyCycleDemand != periodicIO.adjustableHoodDutyCycleDemand) {
             periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
-            periodicIO.savedLastPosition = periodicIO.lastAdjustableHoodDutyCycleDemand;
+            periodicIO.savedLastPosition = periodicIO.estimatedHoodPosition;
             periodicIO.lastAdjustableHoodDutyCycleDemand = periodicIO.adjustableHoodDutyCycleDemand;
         }
 
