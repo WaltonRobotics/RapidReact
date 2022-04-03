@@ -10,18 +10,18 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.team254.lib.geometry.Pose2d;
 import com.team254.lib.geometry.Translation2d;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.Preferences;
 import frc.lib.strykeforce.swerve.SwerveModule;
-import frc.robot.util.UtilMethods;
 
 import java.util.logging.Level;
 
+import static frc.robot.Constants.DriverPreferences.kUseAzimuthDeadband;
 import static frc.robot.RobotContainer.robotLogger;
 
 public class WaltSwerveModule implements SubSubsystem, SwerveModule {
@@ -47,12 +47,13 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final PeriodicIO periodicIO = new PeriodicIO();
     private Rotation2d previousAngle = new Rotation2d();
     private double azimuthAbsoluteZeroReference = 0;
+    private final PIDController azimuthController;
 
     private DriveControlState driveControlState = DriveControlState.OPEN_LOOP;
 
     public static class PeriodicIO {
         // Outputs
-        public double azimuthRelativeCountsDemand;
+        public double azimuthAbsoluteCountsDemand;
         public double driveDemand;
         public double driveFeedforward;
 
@@ -60,7 +61,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         public boolean hasDriveControllerReset;
         public int azimuthAbsoluteFrequency;
         public double azimuthAbsoluteOutput;
-        public double azimuthRelativeCounts;
+//        public double azimuthRelativeCounts;
         public double driveVelocityNU;
         public double drivePositionNU;
         public double driveClosedLoopErrorNU;
@@ -72,6 +73,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     public WaltSwerveModule(Builder builder) {
         azimuthSparkMax = builder.azimuthSparkMax;
+        azimuthController = builder.azimuthController;
         driveTalon = builder.driveTalon;
         azimuthAbsoluteEncoderPWM = builder.azimuthAbsoluteEncoderPWM;
         isAzimuthAbsoluteEncoderInverted = builder.isAzimuthAbsoluteEncoderInverted;
@@ -108,7 +110,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         periodicIO.hasDriveControllerReset = driveTalon.hasResetOccurred();
         periodicIO.azimuthAbsoluteFrequency = azimuthAbsoluteEncoderPWM.getFrequency();
         periodicIO.azimuthAbsoluteOutput = azimuthAbsoluteEncoderPWM.getOutput();
-        periodicIO.azimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
+//        periodicIO.azimuthRelativeCounts = azimuthSparkMax.getEncoder().getPosition();
         periodicIO.drivePositionNU = driveTalon.getSelectedSensorPosition();
         periodicIO.driveVelocityNU = driveTalon.getSelectedSensorVelocity();
         periodicIO.driveClosedLoopErrorNU = driveTalon.getClosedLoopError();
@@ -120,7 +122,16 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             configDriveStatusFrames();
         }
 
-        azimuthSparkMax.getPIDController().setReference(periodicIO.azimuthRelativeCountsDemand, CANSparkMax.ControlType.kPosition);
+//        azimuthSparkMax.getPIDController().setReference(periodicIO.relativeCountsDemand, CANSparkMax.ControlType.kPosition);
+
+        double output = azimuthController.calculate(getAzimuthAbsoluteEncoderCounts(),
+                periodicIO.azimuthAbsoluteCountsDemand);
+
+        if (azimuthController.atSetpoint() && kUseAzimuthDeadband) {
+            azimuthSparkMax.set(0);
+        } else {
+            azimuthSparkMax.set(output);
+        }
 
         if (driveControlState == DriveControlState.OPEN_LOOP) {
             driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand,
@@ -210,11 +221,14 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         double azimuthAbsoluteCounts = getAzimuthAbsoluteEncoderCounts();
 
         if (isAzimuthAbsoluteEncoderValid()) {
-            double azimuthSetpoint = (azimuthAbsoluteCounts - reference) / azimuthAbsoluteCountsPerRev;
+//            double azimuthSetpoint = (azimuthAbsoluteCounts - reference) / azimuthAbsoluteCountsPerRev;
+//
+//            azimuthSparkMax.getEncoder().setPosition(azimuthSetpoint);
 
-            azimuthSparkMax.getEncoder().setPosition(azimuthSetpoint);
+            azimuthController.reset();
+            azimuthController.setSetpoint(azimuthAbsoluteCounts);
 
-            periodicIO.azimuthRelativeCountsDemand = azimuthSetpoint;
+            periodicIO.azimuthAbsoluteCountsDemand = azimuthAbsoluteCounts;
         } else {
             robotLogger.log(Level.SEVERE, "failed to zero swerve module {0} due to invalid absolute encoder data", index);
         }
@@ -229,7 +243,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     }
 
     public double getAzimuthPositionErrorNU() {
-        return getAzimuthRelativeEncoderCounts() - periodicIO.azimuthRelativeCountsDemand;
+        return periodicIO.azimuthAbsoluteCountsDemand - getAzimuthAbsoluteEncoderCounts();
     }
 
     public double getDriveVelocityErrorNU() {
@@ -262,10 +276,6 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return position;
     }
 
-    public double getAzimuthRelativeEncoderCounts() {
-        return periodicIO.azimuthRelativeCounts;
-    }
-
     @Override
     public Rotation2d getAzimuthRotation2d() {
         double azimuthCounts = (getAzimuthAbsoluteEncoderCounts() - azimuthAbsoluteZeroReference)
@@ -288,10 +298,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     @Override
     public void setAbsoluteAzimuthRotation2d(Rotation2d angle) {
         // set the azimuth wheel position
-        double countsBefore = getAzimuthRelativeEncoderCounts();
-        double countsFromAngle = angle.getRadians() / (2.0 * Math.PI);
-        double countsDelta = Math.IEEEremainder(countsFromAngle - countsBefore, 1.0);
-        periodicIO.azimuthRelativeCountsDemand = countsBefore + countsDelta;
+        double countsFromAngle = angle.getRadians() / (2.0 * Math.PI) * azimuthAbsoluteCountsPerRev
+                + azimuthAbsoluteZeroReference;
+
+        periodicIO.azimuthAbsoluteCountsDemand = MathUtil.inputModulus(countsFromAngle, 0,
+                azimuthAbsoluteCountsPerRev);
     }
 
     private SwerveModuleState setAzimuthOptimizedState(SwerveModuleState desiredState) {
@@ -300,10 +311,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, currentAngle);
 
         // set the azimuth wheel position
-        double countsBefore = getAzimuthRelativeEncoderCounts();
-        double countsFromAngle = optimizedState.angle.getRadians() / (2.0 * Math.PI);
-        double countsDelta = Math.IEEEremainder(countsFromAngle - countsBefore, 1.0);
-        periodicIO.azimuthRelativeCountsDemand = countsBefore + countsDelta;
+        double countsFromAngle = optimizedState.angle.getRadians() / (2.0 * Math.PI) * azimuthAbsoluteCountsPerRev
+                + azimuthAbsoluteZeroReference;
+
+        periodicIO.azimuthAbsoluteCountsDemand = MathUtil.inputModulus(countsFromAngle, 0,
+                azimuthAbsoluteCountsPerRev);
 
         // save previous angle for use if inside deadband in setDesiredState()
         previousAngle = optimizedState.angle;
@@ -424,6 +436,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         public static final int kDefaultTalonFXCountsPerRev = 2048;
         private final int azimuthAbsoluteCountsPerRev = kDefaultTalonSRXCountsPerRev;
         private CANSparkMax azimuthSparkMax;
+        private PIDController azimuthController;
         private BaseTalon driveTalon;
         private DutyCycle azimuthAbsoluteEncoderPWM;
         private boolean isAzimuthAbsoluteEncoderInverted;
@@ -437,6 +450,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
         public Builder azimuthSparkMax(CANSparkMax azimuthSparkMax) {
             this.azimuthSparkMax = azimuthSparkMax;
+            return this;
+        }
+
+        public Builder azimuthController(PIDController controller) {
+            this.azimuthController = controller;
             return this;
         }
 
@@ -501,6 +519,10 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         private void validateWaltonSwerveModuleObject(WaltSwerveModule module) {
             if (module.azimuthSparkMax == null) {
                 throw new IllegalArgumentException("azimuth spark max must be set.");
+            }
+
+            if (module.azimuthController == null) {
+                throw new IllegalArgumentException("azimuth controller must be set.");
             }
 
             if (module.azimuthAbsoluteEncoderPWM == null) {

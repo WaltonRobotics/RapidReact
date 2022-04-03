@@ -52,9 +52,6 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     private com.team254.lib.geometry.Pose2d pose = new com.team254.lib.geometry.Pose2d();
     double distanceTraveled;
 
-    // { 3367.0 / 3455.0, 3035.0 / 2948.0, 2931.0 / 2814.0, 2331.0 / 2442.0};
-    private final double[] azimuthFactors = new double[]{ 1.0, 1.0, 1.0, 1.0 };
-
     public Drivetrain() {
         var moduleBuilder =
                 new WaltSwerveModule.Builder()
@@ -76,13 +73,13 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             RelativeEncoder azimuthRelativeEncoder = azimuthSparkMax.getEncoder();
             SparkMaxPIDController azimuthPID = azimuthSparkMax.getPIDController();
 
-            azimuthRelativeEncoder.setPositionConversionFactor(config.getRelativeEncoderRotationsPerTick() * azimuthFactors[i]);
-            azimuthRelativeEncoder.setVelocityConversionFactor(config.getRelativeEncoderRotationsPerTick() * azimuthFactors[i]);
+            azimuthRelativeEncoder.setPositionConversionFactor(config.getRelativeEncoderRotationsPerTick());
+            azimuthRelativeEncoder.setVelocityConversionFactor(config.getRelativeEncoderRotationsPerTick());
 
             // Smart Motion Configuration
-            azimuthPID.setP(config.getAzimuthPositionalPID().getP());
-            azimuthPID.setI(config.getAzimuthPositionalPID().getI());
-            azimuthPID.setD(config.getAzimuthPositionalPID().getD());
+            azimuthPID.setP(config.getAzimuthPositionalPID().getP() * 4096.0);
+            azimuthPID.setI(config.getAzimuthPositionalPID().getI() * 4096.0);
+            azimuthPID.setD(config.getAzimuthPositionalPID().getD() * 4096.0);
             azimuthPID.setIZone(0);
             azimuthPID.setFF(0);
             azimuthPID.setOutputRange(-1, 1);
@@ -114,6 +111,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
             swerveModules.add(moduleBuilder
                             .azimuthSparkMax(azimuthSparkMax)
+                            .azimuthController(config.getAzimuthPositionalPID())
                             .driveTalon(driveTalon)
                             .azimuthAbsoluteEncoderPWM(encoderPWM)
                             .isAzimuthAbsoluteEncoderInverted(config.getAbsoluteEncoderInversions()[i])
@@ -164,9 +162,9 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return swerveDrive.getKinematics();
     }
 
-    public void reloadAzimuthZeros() {
-        swerveDrive.reloadAzimuthZeros();
-    }
+//    public void reloadAzimuthZeros() {
+//        swerveDrive.reloadAzimuthZeros();
+//    }
 
     public void zeroHeading() {
         setHeadingOffset(Rotation2d.fromDegrees(0.0));
@@ -396,7 +394,6 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     @Override
     public synchronized void zeroSensors() {
-        reloadAzimuthZeros();
         zeroHeading();
     }
 
@@ -419,10 +416,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Absolute Counts", swerveModules.get(3).getAzimuthAbsoluteEncoderCounts());
 
         // Relative encoder data
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Relative Counts", swerveModules.get(0).getAzimuthRelativeEncoderCounts());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Relative Counts", swerveModules.get(1).getAzimuthRelativeEncoderCounts());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Relative Counts", swerveModules.get(2).getAzimuthRelativeEncoderCounts());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Relative Counts", swerveModules.get(3).getAzimuthRelativeEncoderCounts());
+//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Relative Counts", swerveModules.get(0).getAzimuthRelativeEncoderCounts());
+//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Relative Counts", swerveModules.get(1).getAzimuthRelativeEncoderCounts());
+//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Relative Counts", swerveModules.get(2).getAzimuthRelativeEncoderCounts());
+//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Relative Counts", swerveModules.get(3).getAzimuthRelativeEncoderCounts());
 
         // Azimuth degree data
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Angle Degrees", swerveModules.get(0).getAzimuthRotation2d().getDegrees());

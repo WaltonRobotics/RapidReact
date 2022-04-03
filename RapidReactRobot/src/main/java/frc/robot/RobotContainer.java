@@ -116,7 +116,6 @@ public class RobotContainer {
         LiveWindow.disableAllTelemetry();
 
         SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SequentialCommandGroup(
-                new InstantCommand(() -> godSubsystem.getDrivetrain().reloadAzimuthZeros()),
                 new SetModuleStates()
         ));
 

@@ -45,6 +45,7 @@ public class PracticeRapidReact extends WaltRobot {
     // 16: Climber extension
 
     // Drivetrain constants
+    private final PIDController azimuthController = new PIDController(50.0 / 4096.0, 0.0, 0.0);
     private final TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
 
     // Bumper-bumper length: 33.489 in
@@ -168,6 +169,8 @@ public class PracticeRapidReact extends WaltRobot {
         wheelLocationMeters[2] = new Translation2d(-x, y); // left rear
         wheelLocationMeters[3] = new Translation2d(-x, -y); // right rear
 
+        azimuthController.setTolerance(1);
+
         turnToAngleController.enableContinuousInput(-180.0, 180.0);
         turnToAngleController.setTolerance(1.5, 1.0);
         faceDirectionController.enableContinuousInput(-180, 180);
@@ -176,7 +179,7 @@ public class PracticeRapidReact extends WaltRobot {
         drivetrainConfig = new DrivetrainConfig() {
             @Override
             public PIDController getAzimuthPositionalPID() {
-                return new PIDController(50.0, 0.0, 0.0);
+                return azimuthController;
             }
 
             @Override

@@ -71,7 +71,7 @@ public class Shooter implements SubSubsystem {
     @Override
     public synchronized void collectData() {
         periodicIO.flywheelVelocityNU = flywheelMasterController.getSelectedSensorVelocity();
-        periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
+//        periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
         LimelightHelper.updateData();
 
         double displacement = periodicIO.adjustableHoodDutyCycleDemand - periodicIO.savedLastPosition;
@@ -151,7 +151,7 @@ public class Shooter implements SubSubsystem {
         SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Demand", periodicIO.flywheelDemand);
         SmartDashboard.putNumber("Shooter/Periodic IO/Adjustable Hood Demand", periodicIO.adjustableHoodDutyCycleDemand);
         SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Velocity NU", periodicIO.flywheelVelocityNU);
-        SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Closed Loop Error NU", periodicIO.flywheelClosedLoopErrorNU);
+//        SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Closed Loop Error NU", periodicIO.flywheelClosedLoopErrorNU);
         SmartDashboard.putNumber("Shooter/Periodic IO/Estimated Hood Position", periodicIO.estimatedHoodPosition);
     }
 
@@ -214,9 +214,9 @@ public class Shooter implements SubSubsystem {
         return periodicIO.flywheelVelocityNU;
     }
 
-    public double getFlywheelClosedLoopErrorNU() {
-        return periodicIO.flywheelClosedLoopErrorNU;
-    }
+//    public double getFlywheelClosedLoopErrorNU() {
+//        return periodicIO.flywheelClosedLoopErrorNU;
+//    }
 
     public double getEstimatedHoodPosition() {
         return periodicIO.estimatedHoodPosition;
@@ -339,7 +339,7 @@ public class Shooter implements SubSubsystem {
         public boolean hasFlywheelMasterControllerResetOccurred;
         public boolean hasFlywheelSlaveControllerResetOccurred;
         public double flywheelVelocityNU;
-        public double flywheelClosedLoopErrorNU;
+//        public double flywheelClosedLoopErrorNU;
         public double estimatedHoodPosition;
 
         // Outputs

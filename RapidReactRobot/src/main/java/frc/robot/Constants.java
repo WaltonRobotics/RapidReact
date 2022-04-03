@@ -33,6 +33,8 @@ public final class Constants {
             public static final int kManipulationXboxControllerPort = 1;
         }
 
+        public static final boolean kUseAzimuthDeadband = false;
+
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;
         public static final double kExtensionManualOverrideDeadband = 0.1;
