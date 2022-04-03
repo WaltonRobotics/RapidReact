@@ -45,7 +45,7 @@ public class PracticeRapidReact extends WaltRobot {
     // 16: Climber extension
 
     // Drivetrain constants
-    private final PIDController azimuthController = new PIDController(50.0 / 4096.0, 0.0, 0.0);
+    private final PIDController azimuthController = new PIDController(15.0 / 4096.0, 0.0, 0.0);
     private final TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
 
     // Bumper-bumper length: 33.489 in

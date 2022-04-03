@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.strykeforce.swerve.SwerveModule;
 
 import java.util.logging.Level;
@@ -73,7 +74,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     public WaltSwerveModule(Builder builder) {
         azimuthSparkMax = builder.azimuthSparkMax;
-        azimuthController = builder.azimuthController;
+
         driveTalon = builder.driveTalon;
         azimuthAbsoluteEncoderPWM = builder.azimuthAbsoluteEncoderPWM;
         isAzimuthAbsoluteEncoderInverted = builder.isAzimuthAbsoluteEncoderInverted;
@@ -82,6 +83,20 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         driveDeadbandMetersPerSecond = builder.driveDeadbandMetersPerSecond;
         driveMaximumMetersPerSecond = builder.driveMaximumMetersPerSecond;
         wheelLocationMeters = builder.wheelLocationMeters;
+
+        PIDController referenceController = builder.azimuthController;
+
+//        if (getWheelIndex() == 1) {
+//            azimuthController = new PIDController(8.0, 0, 0);
+//        } else {
+//
+//        }
+
+        azimuthController = new PIDController(referenceController.getP(),
+                referenceController.getI(), referenceController.getD());
+
+        azimuthController.setTolerance(1);
+        azimuthController.enableContinuousInput(0, azimuthAbsoluteCountsPerRev);
 
         previousEncDistance = 0;
 
@@ -121,6 +136,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         if (periodicIO.hasDriveControllerReset) {
             configDriveStatusFrames();
         }
+
+//        SmartDashboard.putNumber("Module " + getWheelIndex() + " absolute demand", periodicIO.azimuthAbsoluteCountsDemand);
 
 //        azimuthSparkMax.getPIDController().setReference(periodicIO.relativeCountsDemand, CANSparkMax.ControlType.kPosition);
 

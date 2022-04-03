@@ -118,6 +118,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                             .wheelLocationMeters(config.getWheelLocationMeters()[i])
                             .build());
         }
+
         SwerveModule[] modules = new SwerveModule[swerveModules.size()];
         modules = swerveModules.toArray(modules);
 
@@ -129,6 +130,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         zeroSensors();
 
         resetPose(kCenterOfHubPose, new PathPlannerTrajectory.PathPlannerState());
+
+        swerveModules.forEach(WaltSwerveModule::loadAndSetAzimuthZeroReference);
 
 //        LiveDashboardTable.getInstance().setFollowingPath(true);
     }
@@ -162,9 +165,9 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return swerveDrive.getKinematics();
     }
 
-//    public void reloadAzimuthZeros() {
-//        swerveDrive.reloadAzimuthZeros();
-//    }
+    public void reloadAzimuthZeros() {
+        swerveDrive.reloadAzimuthZeros();
+    }
 
     public void zeroHeading() {
         setHeadingOffset(Rotation2d.fromDegrees(0.0));
@@ -395,6 +398,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     @Override
     public synchronized void zeroSensors() {
         zeroHeading();
+        reloadAzimuthZeros();
     }
 
     @Override
