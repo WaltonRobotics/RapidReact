@@ -139,7 +139,7 @@ public final class Constants {
 
         public static final boolean kUseOdometryBackup = true;
 
-        public static final double kLimelightOffsetFeet = -0.030874;
+        public static final double kLimelightOffsetFeet = 0;
 
     }
 
