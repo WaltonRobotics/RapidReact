@@ -107,6 +107,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
         position = startingPose;
         this.startingPosition = startingPose;
+
+        SmartDashboard.putNumber("Wheel " + getWheelIndex() + " p", azimuthController.getP());
     }
 
     @Override
@@ -140,6 +142,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 //        SmartDashboard.putNumber("Module " + getWheelIndex() + " absolute demand", periodicIO.azimuthAbsoluteCountsDemand);
 
 //        azimuthSparkMax.getPIDController().setReference(periodicIO.relativeCountsDemand, CANSparkMax.ControlType.kPosition);
+
+        azimuthController.setP(SmartDashboard.getNumber("Wheel " + getWheelIndex() + " p", azimuthController.getP()));
 
         double output = azimuthController.calculate(getAzimuthAbsoluteEncoderCounts(),
                 periodicIO.azimuthAbsoluteCountsDemand);
