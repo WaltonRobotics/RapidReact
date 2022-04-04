@@ -1,6 +1,7 @@
 package frc.robot.commands.auton;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
@@ -382,8 +383,12 @@ public enum AutonRoutine {
             new AlignAndShootCargo(2, 4.0)
     )),
 
-    STRAIGHT("Straight", new SequentialCommandGroup(
-            new Straight()
+    STRAIGHT_FORWARD("Straight", new SequentialCommandGroup(
+            new Straight(Units.feetToMeters(6.0))
+    )),
+
+    STRAIGHT_BACKWARD("Straight", new SequentialCommandGroup(
+            new Straight(-Units.feetToMeters(6.0))
     ));
     
 //

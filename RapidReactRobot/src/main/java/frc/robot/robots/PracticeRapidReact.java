@@ -86,8 +86,11 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final double[][] lowGoalMap = {
             // Actual measured distance, Limelight distance, hood angle, velocity
-            {0, 3.879, 0, 5000},
-            {0, 6.456, 0, 6200},
+            {0, 3.803, 0, 5100},
+            {0, 6.105, 0.2, 6500},
+            {0, 8.754, 0.4, 7500},
+            {0, 9.037, 0.419, 7800},
+            {0, 15.407, 0.85, 10050},
     };
 
     private final double[][] highGoalMap = {
@@ -150,37 +153,37 @@ public class PracticeRapidReact extends WaltRobot {
         }
 
         // Front-left
-        driveControllerConfigs[0].slot0.kP = 0.075;
+        driveControllerConfigs[0].slot0.kP = 0.0095;
         driveControllerConfigs[0].slot0.kI = 0;
         driveControllerConfigs[0].slot0.kD = 0;
-        driveControllerConfigs[0].slot0.kF = 0.0468875;
+        driveControllerConfigs[0].slot0.kF = 0.04878923;
         driveControllerConfigs[0].slot0.integralZone = 750;
         driveControllerConfigs[0].slot0.maxIntegralAccumulator = 75_000;
         driveControllerConfigs[0].slot0.allowableClosedloopError = 0;
 
         // Front-right
-        driveControllerConfigs[1].slot0.kP = 0.075;
+        driveControllerConfigs[1].slot0.kP = 0.0048;
         driveControllerConfigs[1].slot0.kI = 0;
         driveControllerConfigs[1].slot0.kD = 0;
-        driveControllerConfigs[1].slot0.kF = 0.0468875;
+        driveControllerConfigs[1].slot0.kF = 0.04836;
         driveControllerConfigs[1].slot0.integralZone = 750;
         driveControllerConfigs[1].slot0.maxIntegralAccumulator = 75_000;
         driveControllerConfigs[1].slot0.allowableClosedloopError = 0;
 
         // Left-rear
-        driveControllerConfigs[2].slot0.kP = 0.075;
+        driveControllerConfigs[2].slot0.kP = 0.008;
         driveControllerConfigs[2].slot0.kI = 0;
         driveControllerConfigs[2].slot0.kD = 0;
-        driveControllerConfigs[2].slot0.kF = 0.0468875;
+        driveControllerConfigs[2].slot0.kF = 0.046872;
         driveControllerConfigs[2].slot0.integralZone = 750;
         driveControllerConfigs[2].slot0.maxIntegralAccumulator = 75_000;
         driveControllerConfigs[2].slot0.allowableClosedloopError = 0;
 
         // Right-rear
-        driveControllerConfigs[3].slot0.kP = 0.075;
+        driveControllerConfigs[3].slot0.kP = 0.005;
         driveControllerConfigs[3].slot0.kI = 0;
         driveControllerConfigs[3].slot0.kD = 0;
-        driveControllerConfigs[3].slot0.kF = 0.0468875;
+        driveControllerConfigs[3].slot0.kF = 0.04636619;
         driveControllerConfigs[3].slot0.integralZone = 750;
         driveControllerConfigs[3].slot0.maxIntegralAccumulator = 75_000;
         driveControllerConfigs[3].slot0.allowableClosedloopError = 0;
@@ -320,7 +323,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getMinTurnOmega() {
-                return 0.4;
+                return 0.6;
             }
 
             @Override
@@ -473,7 +476,7 @@ public class PracticeRapidReact extends WaltRobot {
         // Spinning up profile
         flywheelMasterTalonConfig.slot0.kF = 0.05;
         flywheelMasterTalonConfig.slot0.kP = 0.00085;
-        flywheelMasterTalonConfig.slot0.kI = 1.38282776E-05;
+        flywheelMasterTalonConfig.slot0.kI = 9E-05;
         flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot0.integralZone = 300;
@@ -483,7 +486,7 @@ public class PracticeRapidReact extends WaltRobot {
         // Shooting profile
         flywheelMasterTalonConfig.slot1.kF = 0.05;
         flywheelMasterTalonConfig.slot1.kP = 0.00088;
-        flywheelMasterTalonConfig.slot1.kI = 1.38282776E-05;
+        flywheelMasterTalonConfig.slot1.kI = 9E-05;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot1.integralZone = 300;

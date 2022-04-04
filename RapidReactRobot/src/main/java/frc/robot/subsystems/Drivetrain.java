@@ -447,6 +447,11 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Velocity Error", swerveModules.get(1).getDriveVelocityErrorNU());
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Velocity Error", swerveModules.get(2).getDriveVelocityErrorNU());
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Velocity Error", swerveModules.get(3).getDriveVelocityErrorNU());
+
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Velocity", swerveModules.get(0).getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Velocity", swerveModules.get(1).getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Velocity", swerveModules.get(2).getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Velocity", swerveModules.get(3).getDriveMetersPerSecond());
     }
 
     public double getAngularVelocityDegreesPerSec() {

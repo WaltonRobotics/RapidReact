@@ -44,7 +44,7 @@ public class ClimbingModeTransition implements IState {
 //        new TurnToAngle(180).withTimeout(3.0)
 //                .withInterrupt(godSubsystem::isClimbingMovementOverride).schedule();
 
-        godSubsystem.getClimber().configExtensionSmartMotion(15000, 11000);
+        godSubsystem.getClimber().configExtensionSmartMotion(20000, 40000);
 
         LimelightHelper.setLEDMode(false);
     }
