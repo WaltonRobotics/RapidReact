@@ -171,8 +171,13 @@ public class SwerveTestbed extends WaltRobot {
 
         drivetrainConfig = new DrivetrainConfig() {
             @Override
-            public PIDController getAzimuthPositionalPID() {
-                return new PIDController(1.0, 0.0, 0.0);
+            public PIDController[] getAzimuthPositionalPIDs() {
+                return new PIDController[] {
+                        new PIDController(1.0, 0.0, 0.0),
+                        new PIDController(1.0, 0.0, 0.0),
+                        new PIDController(1.0, 0.0, 0.0),
+                        new PIDController(1.0, 0.0, 0.0),
+                };
             }
 
             @Override

@@ -10,7 +10,7 @@ public interface DrivetrainConfig {
 
     // Control-related constants
     // All arrays are in order of modules: left-front, right-front, left-rear, right-rear
-    PIDController getAzimuthPositionalPID();
+    PIDController[] getAzimuthPositionalPIDs();
 
     TalonFXConfiguration[] getDriveControllerConfigs();
 

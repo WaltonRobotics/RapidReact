@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
 import frc.lib.strykeforce.swerve.SwerveModule;
-import frc.robot.commands.auton.LiveDashboardHelper;
 import frc.robot.config.DrivetrainConfig;
 import frc.robot.util.UtilMethods;
 
@@ -71,18 +70,18 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
             // 1.0 reported by the azimuth relative encoder should correspond to 1 full rotation of the wheel
             RelativeEncoder azimuthRelativeEncoder = azimuthSparkMax.getEncoder();
-            SparkMaxPIDController azimuthPID = azimuthSparkMax.getPIDController();
+//            SparkMaxPIDController azimuthPID = azimuthSparkMax.getPIDController();
 
             azimuthRelativeEncoder.setPositionConversionFactor(config.getRelativeEncoderRotationsPerTick());
             azimuthRelativeEncoder.setVelocityConversionFactor(config.getRelativeEncoderRotationsPerTick());
 
             // Smart Motion Configuration
-            azimuthPID.setP(config.getAzimuthPositionalPID().getP() * 4096.0);
-            azimuthPID.setI(config.getAzimuthPositionalPID().getI() * 4096.0);
-            azimuthPID.setD(config.getAzimuthPositionalPID().getD() * 4096.0);
-            azimuthPID.setIZone(0);
-            azimuthPID.setFF(0);
-            azimuthPID.setOutputRange(-1, 1);
+//            azimuthPID.setP(config.getAzimuthPositionalPIDs().getP() * 4096.0);
+//            azimuthPID.setI(config.getAzimuthPositionalPIDs().getI() * 4096.0);
+//            azimuthPID.setD(config.getAzimuthPositionalPIDs().getD() * 4096.0);
+//            azimuthPID.setIZone(0);
+//            azimuthPID.setFF(0);
+//            azimuthPID.setOutputRange(-1, 1);
 
             if (kIsInCompetition) {
                 azimuthSparkMax.burnFlash();
@@ -111,7 +110,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
             swerveModules.add(moduleBuilder
                             .azimuthSparkMax(azimuthSparkMax)
-                            .azimuthController(config.getAzimuthPositionalPID())
+                            .azimuthController(config.getAzimuthPositionalPIDs()[i])
                             .driveTalon(driveTalon)
                             .azimuthAbsoluteEncoderPWM(encoderPWM)
                             .isAzimuthAbsoluteEncoderInverted(config.getAbsoluteEncoderInversions()[i])

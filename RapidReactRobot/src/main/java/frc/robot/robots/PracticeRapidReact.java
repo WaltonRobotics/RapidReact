@@ -45,7 +45,6 @@ public class PracticeRapidReact extends WaltRobot {
     // 16: Climber extension
 
     // Drivetrain constants
-    private final PIDController azimuthController = new PIDController(15.0 / 4096.0, 0.0, 0.0);
     private final TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
 
     // Bumper-bumper length: 33.489 in
@@ -143,23 +142,48 @@ public class PracticeRapidReact extends WaltRobot {
             driveConfig.supplyCurrLimit.triggerThresholdCurrent = 45;
             driveConfig.supplyCurrLimit.triggerThresholdTime = 40;
             driveConfig.supplyCurrLimit.enable = true;
-            driveConfig.slot0.kP = 0.075;
-            driveConfig.slot0.kI = 0;
-            driveConfig.slot0.kD = 0;
-            driveConfig.slot0.kF = 0.0468875;
-//            driveConfig.slot0.kP = 0.045;
-//            driveConfig.slot0.kI = 0.0005;
-//            driveConfig.slot0.kD = 0.000;
-//            driveConfig.slot0.kF = 0.047;
-            driveConfig.slot0.integralZone = 750;
-            driveConfig.slot0.maxIntegralAccumulator = 75_000;
-            driveConfig.slot0.allowableClosedloopError = 0;
             driveConfig.velocityMeasurementPeriod = SensorVelocityMeasPeriod.Period_50Ms;
             driveConfig.velocityMeasurementWindow = 32;
             driveConfig.voltageCompSaturation = 12;
 
             driveControllerConfigs[i] = driveConfig;
         }
+
+        // Front-left
+        driveControllerConfigs[0].slot0.kP = 0.075;
+        driveControllerConfigs[0].slot0.kI = 0;
+        driveControllerConfigs[0].slot0.kD = 0;
+        driveControllerConfigs[0].slot0.kF = 0.0468875;
+        driveControllerConfigs[0].slot0.integralZone = 750;
+        driveControllerConfigs[0].slot0.maxIntegralAccumulator = 75_000;
+        driveControllerConfigs[0].slot0.allowableClosedloopError = 0;
+
+        // Front-right
+        driveControllerConfigs[1].slot0.kP = 0.075;
+        driveControllerConfigs[1].slot0.kI = 0;
+        driveControllerConfigs[1].slot0.kD = 0;
+        driveControllerConfigs[1].slot0.kF = 0.0468875;
+        driveControllerConfigs[1].slot0.integralZone = 750;
+        driveControllerConfigs[1].slot0.maxIntegralAccumulator = 75_000;
+        driveControllerConfigs[1].slot0.allowableClosedloopError = 0;
+
+        // Left-rear
+        driveControllerConfigs[2].slot0.kP = 0.075;
+        driveControllerConfigs[2].slot0.kI = 0;
+        driveControllerConfigs[2].slot0.kD = 0;
+        driveControllerConfigs[2].slot0.kF = 0.0468875;
+        driveControllerConfigs[2].slot0.integralZone = 750;
+        driveControllerConfigs[2].slot0.maxIntegralAccumulator = 75_000;
+        driveControllerConfigs[2].slot0.allowableClosedloopError = 0;
+
+        // Right-rear
+        driveControllerConfigs[3].slot0.kP = 0.075;
+        driveControllerConfigs[3].slot0.kI = 0;
+        driveControllerConfigs[3].slot0.kD = 0;
+        driveControllerConfigs[3].slot0.kF = 0.0468875;
+        driveControllerConfigs[3].slot0.integralZone = 750;
+        driveControllerConfigs[3].slot0.maxIntegralAccumulator = 75_000;
+        driveControllerConfigs[3].slot0.allowableClosedloopError = 0;
 
         final double x = kDistanceBetweenWheelsLengthWiseMeters / 2.0; // front-back, was ROBOT_LENGTH
         final double y = kDistanceBetweenWheelsWidthWiseMeters / 2.0; // left-right, was ROBOT_WIDTH
@@ -169,8 +193,6 @@ public class PracticeRapidReact extends WaltRobot {
         wheelLocationMeters[2] = new Translation2d(-x, y); // left rear
         wheelLocationMeters[3] = new Translation2d(-x, -y); // right rear
 
-        azimuthController.setTolerance(1);
-
         turnToAngleController.enableContinuousInput(-180.0, 180.0);
         turnToAngleController.setTolerance(1.5, 1.0);
         faceDirectionController.enableContinuousInput(-180, 180);
@@ -178,8 +200,13 @@ public class PracticeRapidReact extends WaltRobot {
 
         drivetrainConfig = new DrivetrainConfig() {
             @Override
-            public PIDController getAzimuthPositionalPID() {
-                return azimuthController;
+            public PIDController[] getAzimuthPositionalPIDs() {
+                return new PIDController[]{
+                        new PIDController(15.0 / 4096.0, 0.0, 0.0),
+                        new PIDController(15.0 / 4096.0, 0.0, 0.0),
+                        new PIDController(15.0 / 4096.0, 0.0, 0.0),
+                        new PIDController(15.0 / 4096.0, 0.0, 0.0),
+                };
             }
 
             @Override
