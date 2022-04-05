@@ -149,15 +149,20 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new SwerveTrajectoryCommand(fiveBall1),
             new SetRightIntakeDeployed(false),
-            new ParallelCommandGroup(
+            new ParallelDeadlineGroup(
                     new ShootCargo(3, 3.0),
                     new SequentialCommandGroup(
-                            new WaitCommand(1.0),
+                            new WaitCommand(0.1),
                             new SetLeftIntakeDeployed(false)
                     )
             ),
-            new SetLeftIntakeDeployed(true),
-            new SwerveTrajectoryCommand(fiveBall2),
+            new ParallelCommandGroup(
+                    new SwerveTrajectoryCommand(fiveBall2),
+                    new SequentialCommandGroup(
+                            new WaitCommand(fiveBall2.getTotalTimeSeconds() * 0.4),
+                            new SetLeftIntakeDeployed(true)
+                    )
+            ),
             new WaitCommand(1.2),   // wait for human player
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(fiveBall3),
