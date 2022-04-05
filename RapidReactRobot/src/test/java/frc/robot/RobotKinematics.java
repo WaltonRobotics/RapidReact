@@ -15,7 +15,6 @@ import org.junit.Test;
 import static frc.robot.Constants.PathFollowing.kPathLookaheadTime;
 import static frc.robot.Paths.FiveBallRoutine.fiveBall1;
 import static frc.robot.Paths.FiveBallRoutine.fiveBall2;
-import static frc.robot.Paths.TwoBallThrowRoutine.twoBall;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class RobotKinematics {
