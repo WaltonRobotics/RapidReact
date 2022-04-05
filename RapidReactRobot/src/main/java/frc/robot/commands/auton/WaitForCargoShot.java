@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.robotState.scoring.Shooting;
 import frc.robot.util.EnhancedBoolean;
 
+import static frc.robot.Constants.Shooter.kRecoveryToleranceRawUnits;
 import static frc.robot.Constants.Shooter.kShootingToleranceRawUnits;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -28,7 +29,7 @@ public class WaitForCargoShot extends CommandBase {
             setpointVelocity = godSubsystem.getCurrentTargetFlywheelVelocity();
             currentVelocity = godSubsystem.getShooter().getFlywheelVelocityNU();
 
-            flywheelOnTarget.set(Math.abs(setpointVelocity - currentVelocity) <= kShootingToleranceRawUnits);
+            flywheelOnTarget.set(Math.abs(setpointVelocity - currentVelocity) <= kRecoveryToleranceRawUnits);
         } else {
             flywheelOnTarget.set(false);
         }

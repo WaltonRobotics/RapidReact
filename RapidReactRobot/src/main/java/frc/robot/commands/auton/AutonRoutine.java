@@ -66,25 +66,30 @@ public enum AutonRoutine {
     TWO_BALL_THROW("Start from gamma, pick up ballC, shoot 2, throw enemy ball into hanger", new TimedAuton(
             //normal two ball
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
-            new ResetPose(twoBall),
+            new ResetPose(gammaPickUpC),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new SetLeftIntakeDeployed(true),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new SwerveTrajectoryCommand(twoBall),
+            new ParallelCommandGroup(
+                    new SwerveTrajectoryCommand(gammaPickUpC),
+                    new SequentialCommandGroup(
+                            new WaitCommand(gammaPickUpC.getTotalTimeSeconds() * 0.75),
+                            new SetLeftIntakeDeployed(false)
+                    )
+            ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new SetLeftIntakeDeployed(false),
             new ShootCargo(2, 3.0),
             //throw enemy ball
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(twoBallThrow),
                     new ParallelCommandGroup(
-                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
                             new SetLeftIntakeDeployed(true),
                             new WaitCommand(twoBallThrow.getTotalTimeSeconds()*0.5),  //spin up 50% through path
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
                     )
             ),
-            new TurnToAngle(180).withTimeout(2.0),
+            new TurnToAngle(190).withTimeout(2.0),
             new ParallelCommandGroup(
                     new BarfBall(1, 5.0),
                     new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
@@ -174,6 +179,10 @@ public enum AutonRoutine {
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
             new AlignAndShootCargo(2, 4.0)
+    )),
+
+    TEST_SHOOT_TWO("Test", new SequentialCommandGroup(
+       new ShootCargo(2, 3.0)
     )),
 
     STRAIGHT_FORWARD("Straight", new SequentialCommandGroup(

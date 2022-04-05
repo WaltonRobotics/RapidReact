@@ -44,6 +44,7 @@ public class Superstructure extends SubsystemBase {
     private double currentTargetFlywheelVelocity = 0;
 
     private boolean isInAuton = false;
+    private boolean isInPitCheckMode = false;
 
     private boolean doesAutonNeedToTrackTarget = false;
     private boolean doesAutonNeedToIdleSpinUp = false;
@@ -128,6 +129,14 @@ public class Superstructure extends SubsystemBase {
 
     public void setInAuton(boolean inAuton) {
         isInAuton = inAuton;
+    }
+
+    public boolean isInPitCheckMode() {
+        return isInPitCheckMode;
+    }
+
+    public void setIsInPitCheckMode(boolean inPitCheckMode) {
+        isInPitCheckMode = inPitCheckMode;
     }
 
     public boolean doesAutonNeedToIntake() {
