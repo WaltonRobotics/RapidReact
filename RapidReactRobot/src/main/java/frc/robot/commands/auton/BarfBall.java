@@ -30,7 +30,7 @@ public class BarfBall extends CommandBase {
         godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
     }
 
-    @Override
+    @Override   
     public boolean isFinished() {
         return timer.hasElapsed(totalTimeSeconds);
     }

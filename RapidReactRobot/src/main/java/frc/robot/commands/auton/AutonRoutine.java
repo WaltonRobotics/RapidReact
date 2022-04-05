@@ -7,13 +7,13 @@ import frc.robot.Paths;
 import frc.robot.subsystems.Superstructure;
 
 import static frc.robot.Paths.NewFiveBallRoutine.*;
-import static frc.robot.Paths.RoutineEight.pickupG;
-import static frc.robot.Paths.RoutineEight.pickupGFast;
-import static frc.robot.Paths.RoutineFiveFull.*;
+import static frc.robot.Paths.ThreeBallPickUpTwo.*;
+
 import static frc.robot.Paths.RoutineOne.gammaBackwards;
-import static frc.robot.Paths.RoutineSixG.gammaPickUpC;
+
 import static frc.robot.Paths.RoutineTwo.betaBackwards;
 import static frc.robot.Paths.TestTrajectories.*;
+import static frc.robot.Paths.TwoBall.gammaPickUpC;
 import static frc.robot.Paths.TwoBallThrowRoutine.twoBall;
 import static frc.robot.Paths.TwoBallThrowRoutine.twoBallThrow;
 import static frc.robot.RobotContainer.godSubsystem;
