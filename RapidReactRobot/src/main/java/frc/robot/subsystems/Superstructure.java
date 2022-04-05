@@ -427,9 +427,9 @@ public class Superstructure extends SubsystemBase {
                 hasTarget &&
                         UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees));
 
-        SmartDashboard.putBoolean(kDriverIsMoneyShotKey,
-                hasTarget && UtilMethods.isWithinTolerance(limelightDistance, kMoneyShotDistance,
-                        kMoneyShotTolerance));
+//        SmartDashboard.putBoolean(kDriverIsMoneyShotKey,
+//                hasTarget && UtilMethods.isWithinTolerance(limelightDistance, kMoneyShotDistance,
+//                        kMoneyShotTolerance));
     }
 
     public void monitorTemperatures() {

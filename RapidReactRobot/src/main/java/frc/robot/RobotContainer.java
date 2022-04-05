@@ -151,7 +151,7 @@ public class RobotContainer {
         SmartDashboard.putData(kAllianceColorKey, allianceColorChooser);
 
         SmartDashboard.putBoolean(kDriverIsAlignedKey, false);
-        SmartDashboard.putBoolean(kDriverIsMoneyShotKey, false);
+//        SmartDashboard.putBoolean(kDriverIsMoneyShotKey, false);
 
         SmartDashboard.putString(kDriverSelectedRungKey, godSubsystem.getSelectedRung().name());
 

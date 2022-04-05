@@ -714,7 +714,7 @@ public class SwerveTestbed extends WaltRobot {
 
         climberExtensionLimits.put(STOWED, new LimitPair(-4694, 4694));
         climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(-4694, 965347));
-        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(464673, 474061));
+        climberExtensionLimits.put(MID_BAR_FINALIZE_CLIMB, new LimitPair(464673, 474061));
         climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(582015, 591403));
     }
 

@@ -17,8 +17,7 @@ import frc.robot.util.interpolation.InterpolatingTreeMap;
 
 import java.util.HashMap;
 
-import static frc.robot.Constants.Climber.kDefaultExtensionAcceleration;
-import static frc.robot.Constants.Climber.kDefaultExtensionCruiseVelocity;
+import static frc.robot.Constants.Climber.*;
 import static frc.robot.subsystems.Climber.ClimberExtensionLimits.*;
 import static frc.robot.subsystems.Climber.ClimberExtensionPosition.*;
 import static frc.robot.subsystems.Climber.ClimberPivotLimits.*;
@@ -596,8 +595,8 @@ public class PracticeRapidReact extends WaltRobot {
         pivotControllerTalonConfig.slot0.integralZone = 300; // 750
         pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 250_000;
         pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
-        pivotControllerTalonConfig.motionCruiseVelocity = 700;
-        pivotControllerTalonConfig.motionAcceleration = 600;
+        pivotControllerTalonConfig.motionCruiseVelocity = kDefaultPivotCruiseVelocity;
+        pivotControllerTalonConfig.motionAcceleration = kDefaultPivotAcceleration;
         pivotControllerTalonConfig.motionCurveStrength = 3;
 
         extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
@@ -751,14 +750,14 @@ public class PracticeRapidReact extends WaltRobot {
     public void defineLimits() {
         climberPivotLimits.put(PIVOT_STOWED, new LimitPair(956, 1006));
         climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(969, 1065));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(969, 1065));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(969, 1006));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(969, 1065));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(969, 1065));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(969, 1065));
 
         climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));
         climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 470081));
-        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(5000, 470081));
+        climberExtensionLimits.put(MID_BAR_FINALIZE_CLIMB, new LimitPair(5000, 470081));
         climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(5000, 470081));
     }
 
@@ -806,7 +805,8 @@ public class PracticeRapidReact extends WaltRobot {
         climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
         climberExtensionTargets.put(HIGH_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(369664, 1877)); // 21.467 in
         climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(120000, 1877)); // 11.0 in
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(40549, 1877)); // 3.0 in
+        climberExtensionTargets.put(CLOSE_IN_TO_ZERO_LENGTH, new Target(15000, 1877));
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(50000, 1877)); // 3.0 in
         climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(469500, 1877)); // 25 in
         climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(120000, 1877)); // 13.50 in
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(40549, 1877)); // 3.0 in

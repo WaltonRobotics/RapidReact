@@ -3,7 +3,8 @@ package frc.robot.robotState;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.OI;
 import frc.robot.config.Target;
-import frc.robot.robotState.climbing.PullUpToHookOntoMidBar;
+import frc.robot.robotState.climbing.HighBarClimbPullUpToMidBar;
+import frc.robot.robotState.climbing.MidBarClimbPullUp;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Superstructure;
@@ -58,7 +59,7 @@ public class ClimbingMode implements IState {
             godSubsystem.getClimber().setExtensionPositionDemand(hookingLength);
         } else if (selectHighRungButton.isRisingEdge()) {
             godSubsystem.setSelectedRung(Superstructure.ClimbingTargetRung.HIGH_RUNG);
-            stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.STOWED_ANGLE);
+            stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.ANGLE_HOOK_THETA_FOR_MID_BAR);
             godSubsystem.getClimber().setPivotPositionDemand(stowedAngle);
 
             hookingLength = currentRobot.getExtensionTarget(
@@ -71,7 +72,11 @@ public class ClimbingMode implements IState {
 
         if ((stowedAngle.isWithinTolerance(pivotAngle) && hookingLength.isWithinTolerance(extensionHeight)
                 && advanceClimbingProcessButton.get()) || overrideNextClimbStateButton.isRisingEdge()) {
-            return new PullUpToHookOntoMidBar();
+            if (godSubsystem.getSelectedRung() == Superstructure.ClimbingTargetRung.MID_RUNG) {
+                return new MidBarClimbPullUp();
+            } else {
+                return new HighBarClimbPullUpToMidBar();
+            }
         }
 
         godSubsystem.handleExtensionManualOverride();
@@ -82,8 +87,8 @@ public class ClimbingMode implements IState {
 
     @Override
     public void finish() {
-        godSubsystem.getClimber().configExtensionSmartMotion(kDefaultExtensionCruiseVelocity,
-                kDefaultExtensionAcceleration);
+//        godSubsystem.getClimber().configExtensionSmartMotion(kDefaultExtensionCruiseVelocity,
+//                kDefaultExtensionAcceleration);
     }
 
 }

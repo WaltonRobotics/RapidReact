@@ -5,6 +5,8 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.Constants.Climber.kDefaultPivotAcceleration;
+import static frc.robot.Constants.Climber.kDefaultPivotCruiseVelocity;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -24,6 +26,8 @@ public class RotatePivotForHighBar implements IState {
 
         godSubsystem.getClimber().setPivotPositionDemand(
                 Climber.ClimberPivotPosition.REACHING_FOR_HIGH_BAR_PIVOT_ANGLE);
+
+        godSubsystem.getClimber().configPivotSmartMotion(2100, 2400);
     }
 
     @Override
@@ -44,13 +48,14 @@ public class RotatePivotForHighBar implements IState {
         }
 
         godSubsystem.handleExtensionManualOverride();
+        godSubsystem.handlePivotManualOverride();
 
         return this;
     }
 
     @Override
     public void finish() {
-
+        godSubsystem.getClimber().configPivotSmartMotion(kDefaultPivotCruiseVelocity, kDefaultPivotAcceleration);
     }
 
 }

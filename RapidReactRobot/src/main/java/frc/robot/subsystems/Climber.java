@@ -496,6 +496,11 @@ public class Climber implements SubSubsystem {
         extensionController.configMotionAcceleration(maxAcceleration);
     }
 
+    public void configPivotSmartMotion(double cruiseVelocity, double maxAcceleration) {
+        pivotController.configMotionCruiseVelocity(cruiseVelocity);
+        pivotController.configMotionAcceleration(maxAcceleration);
+    }
+
     public enum ClimberControlState {
         ZEROING, AUTO, OPEN_LOOP, DISABLED
     }
@@ -505,6 +510,7 @@ public class Climber implements SubSubsystem {
         MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH,
         HIGH_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH,
         PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH,
+        CLOSE_IN_TO_ZERO_LENGTH,
         LENGTH_TO_DISENGAGE_FROM_MID_BAR,
         HOOKING_ONTO_HIGH_BAR_LENGTH,
         PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH,
@@ -516,7 +522,7 @@ public class Climber implements SubSubsystem {
     public enum ClimberExtensionLimits {
         STOWED, // Corresponds to STOWED_HEIGHT
         EXTENSION_FULL_ROM,
-        MID_BAR_POSITION_FIXED_ARM, // Corresponds to PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH
+        MID_BAR_FINALIZE_CLIMB, // Corresponds to PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH
         HIGH_BAR_TRANSFER_TO_FIXED_ARM, // Corresponds to PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH
     }
 

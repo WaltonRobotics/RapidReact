@@ -71,15 +71,15 @@ public final class Constants {
 
         public static final double kAbsoluteMaximumVelocityNU = 15500;
 
-        public static final double kDefaultVelocityRawUnits = 8850;
+        public static final double kDefaultVelocityRawUnits = 9100;
         public static final double kBarfVelocityRawUnits = 4500;
         public static final double kIdleVelocityRawUnits = 6000;
         public static final double kOuttakeVelocityRawUnits = -4500;
 
-        public static final double kDefaultHighGoalHoodAngle = 0.35;
-        public static final double kDefaultHighGoalVelocity = 8850;
-        public static final double kDefaultLowGoalHoodAngle = 0;
-        public static final double kDefaultLowGoalVelocity = 5600;
+        public static final double kDefaultHighGoalHoodAngle = 0.6;
+        public static final double kDefaultHighGoalVelocity = 9100;
+        public static final double kDefaultLowGoalHoodAngle = 0.2;
+        public static final double kDefaultLowGoalVelocity = 6500;
 
         public static final double kBarfHoodAngle = 0;
 
@@ -111,10 +111,13 @@ public final class Constants {
 
         public static final double kExtensionZeroingPercentOutput = -0.1;
         public static final double kFastExtensionZeroingPercentOutput = -0.2;
-        public static final double kTransferPercentOutput = -0.35;
+        public static final double kTransferPercentOutput = -0.2;
 
         public static final double kDefaultExtensionCruiseVelocity = 11250;
         public static final double kDefaultExtensionAcceleration = 9000;
+
+        public static final double kDefaultPivotCruiseVelocity = 700;
+        public static final double kDefaultPivotAcceleration = 800;
 
         public static final double kSlowPullUpExtensionCruiseVelocity = 10500;
         public static final double kSlowPullUpExtensionAcceleration = 8000;
@@ -176,7 +179,7 @@ public final class Constants {
 //        public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
 
         public static final String kDriverIsAlignedKey = "Driver/Is Aligned";
-        public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
+//        public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
         public static final String kDriverSelectedRungKey = "Driver/Selected Rung";
 
         public static final String kClimberPivotAngleFromVerticalKey = "Climber/Angle From Vertical Deg";

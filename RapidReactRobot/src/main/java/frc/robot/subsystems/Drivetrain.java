@@ -130,8 +130,6 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
         resetPose(kCenterOfHubPose, new PathPlannerTrajectory.PathPlannerState());
 
-        swerveModules.forEach(WaltSwerveModule::loadAndSetAzimuthZeroReference);
-
 //        LiveDashboardTable.getInstance().setFollowingPath(true);
     }
 
