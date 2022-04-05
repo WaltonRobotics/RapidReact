@@ -84,6 +84,7 @@ public enum AutonRoutine {
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
                     )
             ),
+            new TurnToAngle(180).withTimeout(2.0),
             new ParallelCommandGroup(
                     new BarfBall(1, 5.0),
                     new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
