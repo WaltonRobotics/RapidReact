@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.auton.SetModuleStates;
-import frc.robot.config.Target;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Superstructure;
@@ -24,7 +23,6 @@ import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainSetpointVelocityKey;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.OI.driveGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -241,7 +239,7 @@ public class Robot extends WaltTimesliceRobot {
             autonomousCommand.cancel();
         }
 
-        new RunCommand( () -> {
+        new RunCommand(() -> {
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.25);
             driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0.25);
         }).withTimeout(2.5).andThen(() -> {

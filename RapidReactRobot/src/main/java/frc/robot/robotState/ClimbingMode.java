@@ -9,8 +9,6 @@ import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Superstructure;
 
-import static frc.robot.Constants.Climber.kDefaultExtensionAcceleration;
-import static frc.robot.Constants.Climber.kDefaultExtensionCruiseVelocity;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;

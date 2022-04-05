@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +18,7 @@ import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.*;
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
 import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
-import static frc.robot.Constants.FieldConstants.*;
+import static frc.robot.Constants.FieldConstants.kCenterOfHubPose;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
@@ -155,11 +154,11 @@ public class Superstructure extends SubsystemBase {
         this.doesAutonNeedToShoot = needsToShoot;
     }
 
-    public boolean doesAutonNeedToBarf(){
+    public boolean doesAutonNeedToBarf() {
         return doesAutonNeedToBarf;
     }
 
-    public void setDoesAutonNeedToBarf(boolean doesAutonNeedToBarf){
+    public void setDoesAutonNeedToBarf(boolean doesAutonNeedToBarf) {
         this.doesAutonNeedToBarf = doesAutonNeedToBarf;
     }
 

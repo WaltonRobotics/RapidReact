@@ -4,9 +4,6 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.util.Units;
 
-import java.nio.file.Path;
-import java.util.ArrayList;
-
 public class Paths {
 
     private static final double maxVelocity = 9.5; //ft/s
@@ -44,12 +41,13 @@ public class Paths {
     }
 
 
-    public static final class TwoBallThrowRoutine{
+    public static final class TwoBallThrowRoutine {
         public static final PathPlannerTrajectory twoBall =
                 PathPlanner.loadPath("twoBall", Units.feetToMeters(11.0), Units.feetToMeters(4.5), true);
         public static final PathPlannerTrajectory twoBallThrow =
                 PathPlanner.loadPath("twoBallThrow", Units.feetToMeters(11.0), Units.feetToMeters(4.5));
     }
+
     public static final class ThreeBallPickUpTwo {
 
         public static final PathPlannerTrajectory routineFiveBFull =

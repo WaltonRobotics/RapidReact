@@ -1,21 +1,15 @@
 package frc.robot.commands.auton;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
-import frc.robot.subsystems.Superstructure;
 
 import static frc.robot.Paths.FiveBallRoutine.*;
-import static frc.robot.Paths.ThreeBallPickUpTwo.*;
-
 import static frc.robot.Paths.RoutineOne.gammaBackwards;
-
 import static frc.robot.Paths.RoutineTwo.betaBackwards;
-import static frc.robot.Paths.TestTrajectories.*;
+import static frc.robot.Paths.TestTrajectories.fiveFeetForward;
+import static frc.robot.Paths.ThreeBallPickUpTwo.*;
 import static frc.robot.Paths.TwoBall.gammaPickUpC;
-import static frc.robot.Paths.TwoBallThrowRoutine.twoBall;
 import static frc.robot.Paths.TwoBallThrowRoutine.twoBallThrow;
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -85,7 +79,7 @@ public enum AutonRoutine {
                     new ParallelCommandGroup(
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
                             new SetLeftIntakeDeployed(true),
-                            new WaitCommand(twoBallThrow.getTotalTimeSeconds()*0.5),  //spin up 50% through path
+                            new WaitCommand(twoBallThrow.getTotalTimeSeconds() * 0.5),  //spin up 50% through path
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
                     )
             ),

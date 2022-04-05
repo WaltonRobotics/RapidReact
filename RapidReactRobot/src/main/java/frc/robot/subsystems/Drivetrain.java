@@ -8,7 +8,6 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.team254.lib.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -109,13 +108,13 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 //            controller.enableContinuousInput(-90 * 4096.0, 90 * 4096.0);
 
             swerveModules.add(moduleBuilder
-                            .azimuthSparkMax(azimuthSparkMax)
-                            .azimuthController(config.getAzimuthPositionalPIDs()[i])
-                            .driveTalon(driveTalon)
-                            .azimuthAbsoluteEncoderPWM(encoderPWM)
-                            .isAzimuthAbsoluteEncoderInverted(config.getAbsoluteEncoderInversions()[i])
-                            .wheelLocationMeters(config.getWheelLocationMeters()[i])
-                            .build());
+                    .azimuthSparkMax(azimuthSparkMax)
+                    .azimuthController(config.getAzimuthPositionalPIDs()[i])
+                    .driveTalon(driveTalon)
+                    .azimuthAbsoluteEncoderPWM(encoderPWM)
+                    .isAzimuthAbsoluteEncoderInverted(config.getAbsoluteEncoderInversions()[i])
+                    .wheelLocationMeters(config.getWheelLocationMeters()[i])
+                    .build());
         }
 
         SwerveModule[] modules = new SwerveModule[swerveModules.size()];
@@ -201,14 +200,16 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                 new Rotation2d(pose.getRotation().getRadians()));
     }
 
-    /** Playing around with different methods of odometry. This will require the use of all four modules, however. */
+    /**
+     * Playing around with different methods of odometry. This will require the use of all four modules, however.
+     */
     public synchronized void alternatePoseUpdate() {
         double x = 0.0;
         double y = 0.0;
 
         double[][] distances = new double[4][2];
 
-        for(WaltSwerveModule m : swerveModules) {
+        for (WaltSwerveModule m : swerveModules) {
             m.updatePose(getHeading());
             double distance = m.getEstimatedRobotPose().getTranslation().distance(pose.getTranslation());
             int moduleID = m.getWheelIndex();
@@ -224,23 +225,23 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         double secondDifference = distances[2][1] - distances[1][1];
         double thirdDifference = distances[3][1] - distances[2][1];
 
-        if(secondDifference > (1.5 * firstDifference)){
-            modulesToUse.add(swerveModules.get((int)distances[0][0]));
-            modulesToUse.add(swerveModules.get((int)distances[1][0]));
-        }else if(thirdDifference > (1.5 * firstDifference)){
-            modulesToUse.add(swerveModules.get((int)distances[0][0]));
-            modulesToUse.add(swerveModules.get((int)distances[1][0]));
-            modulesToUse.add(swerveModules.get((int)distances[2][0]));
-        }else{
-            modulesToUse.add(swerveModules.get((int)distances[0][0]));
-            modulesToUse.add(swerveModules.get((int)distances[1][0]));
-            modulesToUse.add(swerveModules.get((int)distances[2][0]));
-            modulesToUse.add(swerveModules.get((int)distances[3][0]));
+        if (secondDifference > (1.5 * firstDifference)) {
+            modulesToUse.add(swerveModules.get((int) distances[0][0]));
+            modulesToUse.add(swerveModules.get((int) distances[1][0]));
+        } else if (thirdDifference > (1.5 * firstDifference)) {
+            modulesToUse.add(swerveModules.get((int) distances[0][0]));
+            modulesToUse.add(swerveModules.get((int) distances[1][0]));
+            modulesToUse.add(swerveModules.get((int) distances[2][0]));
+        } else {
+            modulesToUse.add(swerveModules.get((int) distances[0][0]));
+            modulesToUse.add(swerveModules.get((int) distances[1][0]));
+            modulesToUse.add(swerveModules.get((int) distances[2][0]));
+            modulesToUse.add(swerveModules.get((int) distances[3][0]));
         }
 
         SmartDashboard.putNumber("Modules Used", modulesToUse.size());
 
-        for(WaltSwerveModule m : modulesToUse){
+        for (WaltSwerveModule m : modulesToUse) {
             x += m.getEstimatedRobotPose().getTranslation().x();
             y += m.getEstimatedRobotPose().getTranslation().y();
         }

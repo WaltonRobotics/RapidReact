@@ -2,7 +2,6 @@ package frc.robot.robotState.scoring;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
@@ -13,9 +12,8 @@ import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
-import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignErrorDegrees;
-import static frc.robot.Constants.SmartDashboardKeys.kLimelightAlignOmegaOutputKey;
-import static frc.robot.Constants.VisionConstants.*;
+import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
+import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;

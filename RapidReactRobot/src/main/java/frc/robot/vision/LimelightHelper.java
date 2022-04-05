@@ -36,8 +36,8 @@ public class LimelightHelper {
             mTxMovingAverage.addData(mTx.getDouble(0.0));
             mTyMovingAverage.addData(mTy.getDouble(0.0));
         }
-        resetCount --;
-        if(resetCount == 0){
+        resetCount--;
+        if (resetCount == 0) {
             resetSnapshot();
         }
     }
@@ -133,7 +133,7 @@ public class LimelightHelper {
         resetCount = 10;
     }
 
-    public static void resetSnapshot(){
+    public static void resetSnapshot() {
         mSnapshot.setNumber(0);
     }
 

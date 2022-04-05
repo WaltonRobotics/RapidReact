@@ -339,7 +339,7 @@ public class Shooter implements SubSubsystem {
         public boolean hasFlywheelMasterControllerResetOccurred;
         public boolean hasFlywheelSlaveControllerResetOccurred;
         public double flywheelVelocityNU;
-//        public double flywheelClosedLoopErrorNU;
+        //        public double flywheelClosedLoopErrorNU;
         public double estimatedHoodPosition;
 
         // Outputs

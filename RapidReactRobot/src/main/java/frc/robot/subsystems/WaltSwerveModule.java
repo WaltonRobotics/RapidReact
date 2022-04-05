@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
@@ -12,12 +11,10 @@ import com.team254.lib.geometry.Pose2d;
 import com.team254.lib.geometry.Translation2d;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.strykeforce.swerve.SwerveModule;
 
 import java.util.logging.Level;
@@ -42,7 +39,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     private double previousEncDistance = 0;
     private Translation2d position;
-    private Translation2d startingPosition;
+    private final Translation2d startingPosition;
     private Pose2d estimatedRobotPose = new Pose2d();
 
     private final PeriodicIO periodicIO = new PeriodicIO();
@@ -62,7 +59,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         public boolean hasDriveControllerReset;
         public int azimuthAbsoluteFrequency;
         public double azimuthAbsoluteOutput;
-//        public double azimuthRelativeCounts;
+        //        public double azimuthRelativeCounts;
         public double driveVelocityNU;
         public double drivePositionNU;
         public double driveClosedLoopErrorNU;
@@ -402,20 +399,20 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return 3;
     }
 
-    public Translation2d getPosition(){
+    public Translation2d getPosition() {
         return position;
     }
 
-    public Pose2d getEstimatedRobotPose(){
+    public Pose2d getEstimatedRobotPose() {
         return estimatedRobotPose;
     }
 
-    public synchronized void updatePose(Rotation2d robotHeading){
+    public synchronized void updatePose(Rotation2d robotHeading) {
         double currentEncDistance = getDrivePositionMeters();
         double deltaEncDistance = (currentEncDistance - previousEncDistance);
         Rotation2d currentWheelAngle = getFieldCentricAngle(robotHeading);
-        Translation2d deltaPosition = new Translation2d(currentWheelAngle.getCos()*deltaEncDistance,
-                currentWheelAngle.getSin()*deltaEncDistance);
+        Translation2d deltaPosition = new Translation2d(currentWheelAngle.getCos() * deltaEncDistance,
+                currentWheelAngle.getSin() * deltaEncDistance);
 
 
         deltaPosition = new Translation2d(deltaPosition.x(),
@@ -429,16 +426,16 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         previousEncDistance = currentEncDistance;
     }
 
-    public synchronized void resetPose(Pose2d robotPose){
+    public synchronized void resetPose(Pose2d robotPose) {
         Translation2d modulePosition = robotPose.transformBy(Pose2d.fromTranslation(startingPosition)).getTranslation();
         position = modulePosition;
     }
 
-    public synchronized void resetPose(){
+    public synchronized void resetPose() {
         position = startingPosition;
     }
 
-    public synchronized void resetLastEncoderReading(){
+    public synchronized void resetLastEncoderReading() {
         previousEncDistance = getDrivePositionMeters();
     }
 

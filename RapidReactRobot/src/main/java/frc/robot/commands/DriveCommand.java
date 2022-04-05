@@ -7,12 +7,9 @@ import frc.robot.OI;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.util.UtilMethods;
-import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainIsFieldRelativeKey;
 import static frc.robot.Constants.SmartDashboardKeys.kDrivetrainIsPositionalRotationKey;
-import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
-import static frc.robot.Constants.VisionConstants.kUseOdometryBackup;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 

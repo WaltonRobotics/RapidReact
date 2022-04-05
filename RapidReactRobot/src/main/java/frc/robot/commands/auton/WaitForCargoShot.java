@@ -6,7 +6,6 @@ import frc.robot.robotState.scoring.Shooting;
 import frc.robot.util.EnhancedBoolean;
 
 import static frc.robot.Constants.Shooter.kRecoveryToleranceRawUnits;
-import static frc.robot.Constants.Shooter.kShootingToleranceRawUnits;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class WaitForCargoShot extends CommandBase {

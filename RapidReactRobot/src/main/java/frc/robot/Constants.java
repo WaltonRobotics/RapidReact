@@ -180,7 +180,7 @@ public final class Constants {
 //        public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
 
         public static final String kDriverIsAlignedKey = "Driver/Is Aligned";
-//        public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
+        //        public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
         public static final String kDriverSelectedRungKey = "Driver/Selected Rung";
 
         public static final String kClimberPivotAngleFromVerticalKey = "Climber/Angle From Vertical Deg";

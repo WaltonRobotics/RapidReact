@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import static frc.robot.RobotContainer.godSubsystem;
+
 public class BarfBall extends SequentialCommandGroup {
 
     public BarfBall(int numberOfBalls, double timeout) {

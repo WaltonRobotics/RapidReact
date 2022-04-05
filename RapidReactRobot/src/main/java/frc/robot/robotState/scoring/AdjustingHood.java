@@ -3,7 +3,6 @@ package frc.robot.robotState.scoring;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.robotState.Disabled;
-import frc.robot.robotState.ScoringMode;
 import frc.robot.robotState.ScoringModeTransition;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;

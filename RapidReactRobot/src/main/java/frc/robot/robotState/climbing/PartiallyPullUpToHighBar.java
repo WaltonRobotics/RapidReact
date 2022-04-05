@@ -11,7 +11,6 @@ import static frc.robot.OI.overrideNextClimbStateButton;
 import static frc.robot.OI.stopClimbButton;
 import static frc.robot.RobotContainer.currentRobot;
 import static frc.robot.RobotContainer.godSubsystem;
-import static frc.robot.subsystems.Climber.ClimberPivotPosition.ANGLE_HOOK_THETA_FOR_MID_BAR;
 import static frc.robot.subsystems.Climber.ClimberPivotPosition.ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER;
 
 public class PartiallyPullUpToHighBar implements IState {
