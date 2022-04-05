@@ -73,6 +73,7 @@ public class Paths {
                 PathPlanner.loadPath("fiveBall2", Units.feetToMeters(11.0), Units.feetToMeters(7.0));
 
 
+        // Possibly revert final shooting angle back to 22.75 deg
         public static final PathPlannerTrajectory fiveBall3 =
                 PathPlanner.loadPath("fiveBall3", Units.feetToMeters(11.0), Units.feetToMeters(7.0));
 

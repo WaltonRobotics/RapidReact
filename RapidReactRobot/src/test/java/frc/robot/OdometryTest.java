@@ -62,7 +62,7 @@ public class OdometryTest {
     public void testAimToHub() {
         Pose2d hubPose = kCenterOfHubPose;
 
-        Pose2d robotPose = new Pose2d(8.85, 6.94, Rotation2d.fromDegrees(0).minus(Rotation2d.fromDegrees(180)));
+        Pose2d robotPose = new Pose2d(3.56, 1.51, Rotation2d.fromDegrees(29.11));
 
         Pose2d targetRobotRelative = kCenterOfHubPose.relativeTo(robotPose);
 
@@ -86,8 +86,6 @@ public class OdometryTest {
         updatePose(Rotation2d.fromDegrees(0.0));
 
         System.out.println(estimatedRobotPose);
-
-
     }
 
 }

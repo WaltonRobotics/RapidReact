@@ -108,7 +108,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         position = startingPose;
         this.startingPosition = startingPose;
 
-        SmartDashboard.putNumber("Wheel " + getWheelIndex() + " p", azimuthController.getP());
+//        SmartDashboard.putNumber("Wheel " + getWheelIndex() + " p", azimuthController.getP());
     }
 
     @Override
@@ -143,7 +143,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
 //        azimuthSparkMax.getPIDController().setReference(periodicIO.relativeCountsDemand, CANSparkMax.ControlType.kPosition);
 
-        azimuthController.setP(SmartDashboard.getNumber("Wheel " + getWheelIndex() + " p", azimuthController.getP()));
+//        azimuthController.setP(SmartDashboard.getNumber("Wheel " + getWheelIndex() + " p", azimuthController.getP()));
 
         double output = azimuthController.calculate(getAzimuthAbsoluteEncoderCounts(),
                 periodicIO.azimuthAbsoluteCountsDemand);
@@ -349,7 +349,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return periodicIO.driveVelocityNU * driveMetersPerNU * k100msPerSecond;
     }
 
-    private void setDriveOpenLoopMetersPerSecond(double metersPerSecond) {
+    public void setDriveOpenLoopMetersPerSecond(double metersPerSecond) {
         if (driveControlState != DriveControlState.OPEN_LOOP) {
             robotLogger.log(Level.FINEST, "Switching swerve module index {0} to open loop", new Object[]{getWheelIndex()});
             driveControlState = DriveControlState.OPEN_LOOP;
@@ -366,6 +366,16 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         }
 
         periodicIO.driveDemand = metersPerSecond / driveMetersPerNU / k100msPerSecond;
+//        periodicIO.driveFeedforward = feedforward.calculate(metersPerSecond) / 12.0;
+    }
+
+    public void setDriveClosedLoopVelocityNU(double velocityNU) {
+        if (driveControlState != DriveControlState.VELOCITY) {
+            robotLogger.log(Level.FINEST, "Switching swerve module index {0} to velocity", new Object[]{getWheelIndex()});
+            driveControlState = DriveControlState.VELOCITY;
+        }
+
+        periodicIO.driveDemand = velocityNU;
 //        periodicIO.driveFeedforward = feedforward.calculate(metersPerSecond) / 12.0;
     }
 

@@ -4,19 +4,28 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.WaltSwerveModule;
 
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class Straight extends CommandBase {
 
-    public Straight() {
+    private final double velocity;
+
+    public Straight(double velocity) {
+        this.velocity = velocity;
         addRequirements(godSubsystem.getDrivetrain());
     }
 
     @Override
     public void execute() {
-        godSubsystem.getDrivetrain().setModuleStates(new SwerveModuleState(Units.feetToMeters(6.0),
-                Rotation2d.fromDegrees(0)));
+//        godSubsystem.getDrivetrain().setModuleStates(new SwerveModuleState(velocity,
+//                Rotation2d.fromDegrees(0)));
+
+        for (WaltSwerveModule swerveModule : godSubsystem.getDrivetrain().getSwerveModules()) {
+            swerveModule.setAbsoluteAzimuthRotation2d(Rotation2d.fromDegrees(0));
+            swerveModule.setDriveClosedLoopVelocityNU(5000);
+        }
     }
 
     @Override

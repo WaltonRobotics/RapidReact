@@ -1,6 +1,7 @@
 package frc.robot.commands.auton;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
@@ -58,7 +59,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
 //            new TurnToAngle(90.0).withTimeout(2.0),
-            new WaitCommand(2.0),
+//            new WaitCommand(2.0),
             new AlignAndShootCargoTimed(10.0)
     )),
 
@@ -72,7 +73,7 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(twoBall),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
-            new ShootCargo(2),
+            new ShootCargo(2, 3.0),
             //throw enemy ball
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(twoBallThrow),
@@ -83,8 +84,9 @@ public enum AutonRoutine {
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true))
                     )
             ),
+            new TurnToAngle(180).withTimeout(2.0),
             new ParallelCommandGroup(
-                    new ShootCargo(1),
+                    new BarfBall(1, 5.0),
                     new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
                     new SetLeftIntakeDeployed(false)
             )
@@ -169,8 +171,12 @@ public enum AutonRoutine {
             new AlignAndShootCargo(2, 4.0)
     )),
 
-    STRAIGHT("Straight", new SequentialCommandGroup(
-            new Straight()
+    STRAIGHT_FORWARD("Straight", new SequentialCommandGroup(
+            new Straight(Units.feetToMeters(6.0))
+    )),
+
+    STRAIGHT_BACKWARD("Straight", new SequentialCommandGroup(
+            new Straight(-Units.feetToMeters(6.0))
     ));
 
     private final String description;

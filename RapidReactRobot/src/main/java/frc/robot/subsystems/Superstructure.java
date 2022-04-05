@@ -412,8 +412,8 @@ public class Superstructure extends SubsystemBase {
         }
 
         drivetrain.updateShuffleboard();
-//        shooter.updateShuffleboard();
-//        climber.updateShuffleboard();
+        shooter.updateShuffleboard();
+        climber.updateShuffleboard();
 
         SmartDashboard.putString(kDriverSelectedRungKey, getSelectedRung().name());
         SmartDashboard.putNumber(kShooterCurrentTargetVelocityKey, getCurrentTargetFlywheelVelocity());
