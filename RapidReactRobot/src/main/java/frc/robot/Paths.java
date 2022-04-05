@@ -64,7 +64,7 @@ public class Paths {
     }
 
 
-    public static final class NewFiveBallRoutine {
+    public static final class FiveBallRoutine {
 
         public static final PathPlannerTrajectory fiveBall1 =
                 PathPlanner.loadPath("fiveBall1", Units.feetToMeters(11.0), Units.feetToMeters(7.0), true);

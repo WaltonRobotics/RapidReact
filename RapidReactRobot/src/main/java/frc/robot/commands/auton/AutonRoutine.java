@@ -140,7 +140,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
     )),
 
-    NEW_FIVE_BALL("Pick up & shoot 2, shoot 1, pick up & shoot 2", new SequentialCommandGroup(
+    FIVE_BALL("Pick up & shoot 2, shoot 1, pick up & shoot 2", new SequentialCommandGroup(
             new InstantCommand(() -> godSubsystem.getDrivetrain().zeroSensors()),
             new ResetPose(fiveBall1),
             new SetRightIntakeDeployed(true),
