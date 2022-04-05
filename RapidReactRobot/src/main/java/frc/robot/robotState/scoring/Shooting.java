@@ -69,7 +69,8 @@ public class Shooting implements IState {
             conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
             conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {
-            godSubsystem.handleTransportConveyorManualOverride();
+//            godSubsystem.handleTransportConveyorManualOverride();
+            conveyor.setTransportDemand(conveyor.getConfig().getTransportIntakePercentOutput());
             godSubsystem.handleFeedConveyorManualOverride();
         }
 

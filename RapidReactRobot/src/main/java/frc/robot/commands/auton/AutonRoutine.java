@@ -181,10 +181,6 @@ public enum AutonRoutine {
             new AlignAndShootCargo(2, 4.0)
     )),
 
-    TEST_SHOOT_TWO("Test", new SequentialCommandGroup(
-       new ShootCargo(2, 3.0)
-    )),
-
     STRAIGHT_FORWARD("Straight", new SequentialCommandGroup(
             new Straight(Units.feetToMeters(6.0))
     )),

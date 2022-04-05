@@ -364,7 +364,7 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void handleAutoAlign(double vx, double vy, double manualOmega, boolean isFieldRelative) {
-        double turnRate = 0;
+        double turnRate;
 
         if (LimelightHelper.getTV() >= 1) {
             double headingError = LimelightHelper.getTX();
@@ -379,6 +379,8 @@ public class Superstructure extends SubsystemBase {
         } else if (kUseOdometryBackup) {
             double headingError = UtilMethods.restrictAngle(
                     getEstimatedAngleToHub().getDegrees(), -180, 180);
+
+            turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
 
             if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
                 turnRate = 0;

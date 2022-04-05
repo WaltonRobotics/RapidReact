@@ -59,6 +59,9 @@ public class SpinningUp implements IState {
             return new Shooting();
         }
 
+        godSubsystem.getConveyor().setTransportDemand(godSubsystem.getConveyor().getConfig().getTransportIntakePercentOutput());
+        godSubsystem.getConveyor().setFeedDemand(0);
+
         return this;
     }
 
