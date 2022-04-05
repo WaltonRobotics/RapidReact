@@ -48,7 +48,8 @@ public class ScoringMode implements IState {
 
         if (shootButton.isRisingEdge() || barfButton.isRisingEdge()
                 || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
-                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot())) {
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot())
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
             return new AdjustingHood();
         }
 

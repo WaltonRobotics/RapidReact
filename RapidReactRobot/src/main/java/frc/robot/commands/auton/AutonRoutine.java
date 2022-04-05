@@ -59,7 +59,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
 //            new TurnToAngle(90.0).withTimeout(2.0),
-            new WaitCommand(2.0),
+//            new WaitCommand(2.0),
             new AlignAndShootCargoTimed(10.0)
     )),
 
@@ -73,7 +73,7 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(twoBall),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
-            new ShootCargo(2),
+            new ShootCargo(2, 3.0),
             //throw enemy ball
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(twoBallThrow),
@@ -85,7 +85,7 @@ public enum AutonRoutine {
                     )
             ),
             new ParallelCommandGroup(
-                    new ShootCargo(1),
+                    new BarfBall(1, 5.0),
                     new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
                     new SetLeftIntakeDeployed(false)
             )

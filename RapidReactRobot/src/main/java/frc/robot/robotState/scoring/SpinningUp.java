@@ -41,7 +41,8 @@ public class SpinningUp implements IState {
 
         if (!OI.shootButton.get() && !OI.barfButton.get() && !overrideAutoAimAndShootButton.get()
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))
-                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf()))) {
             return new ScoringModeTransition();
         }
 

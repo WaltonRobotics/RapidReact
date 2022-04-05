@@ -164,6 +164,7 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setDoesAutonNeedToIntake(false);
         godSubsystem.setDoesAutonNeedToShoot(false);
         godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
+        godSubsystem.setDoesAutonNeedToBarf(false);
 
         SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
         SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
