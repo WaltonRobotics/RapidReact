@@ -36,7 +36,7 @@ public class Paths {
 
     }
 
-    public static final class RoutineSixG {
+    public static final class TwoBall {
 
         public static final PathPlannerTrajectory gammaPickUpC =
                 PathPlanner.loadPath("gammaPickUpC", Units.feetToMeters(4.0), Units.feetToMeters(maxAcceleration), true);
@@ -50,26 +50,21 @@ public class Paths {
         public static final PathPlannerTrajectory twoBallThrow =
                 PathPlanner.loadPath("twoBallThrow", Units.feetToMeters(11.0), Units.feetToMeters(4.5));
     }
-
-    public static final class RoutineFiveFull {
+    public static final class ThreeBallPickUpTwo {
 
         public static final PathPlannerTrajectory routineFiveBFull =
                 PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(11.0), Units.feetToMeters(4.5), true);
 
         public static final PathPlannerTrajectory routineFiveBFullFast =
                 PathPlanner.loadPath("routineFiveBFull", Units.feetToMeters(11.0), 1.75, true);
-    }
-
-    public static final class RoutineEight {
         public static final PathPlannerTrajectory pickupG =
                 PathPlanner.loadPath("pickupG", Units.feetToMeters(11.0), Units.feetToMeters(4.5), true);
-
         public static final PathPlannerTrajectory pickupGFast =
                 PathPlanner.loadPath("pickupG", Units.feetToMeters(11.0), 1.75, true);
-
     }
 
-    public static final class NewFiveBallRoutine {
+
+    public static final class FiveBallRoutine {
 
         public static final PathPlannerTrajectory fiveBall1 =
                 PathPlanner.loadPath("fiveBall1", Units.feetToMeters(11.0), Units.feetToMeters(7.0), true);
@@ -78,6 +73,7 @@ public class Paths {
                 PathPlanner.loadPath("fiveBall2", Units.feetToMeters(11.0), Units.feetToMeters(7.0));
 
 
+        // Possibly revert final shooting angle back to 22.75 deg
         public static final PathPlannerTrajectory fiveBall3 =
                 PathPlanner.loadPath("fiveBall3", Units.feetToMeters(11.0), Units.feetToMeters(7.0));
 
