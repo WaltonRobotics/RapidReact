@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
 import frc.robot.subsystems.Superstructure;
 
-import static frc.robot.Paths.NewFiveBallRoutine.*;
+import static frc.robot.Paths.FiveBallRoutine.*;
 import static frc.robot.Paths.ThreeBallPickUpTwo.*;
 
 import static frc.robot.Paths.RoutineOne.gammaBackwards;

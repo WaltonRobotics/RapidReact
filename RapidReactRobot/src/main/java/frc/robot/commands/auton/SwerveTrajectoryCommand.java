@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import static frc.robot.Constants.PathFollowing.kPathLookaheadTime;
 import static frc.robot.Constants.SmartDashboardKeys.kTrajectoryThetaPKey;
-import static frc.robot.Paths.NewFiveBallRoutine.fiveBall1;
+import static frc.robot.Paths.FiveBallRoutine.fiveBall1;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class SwerveTrajectoryCommand extends CommandBase {
