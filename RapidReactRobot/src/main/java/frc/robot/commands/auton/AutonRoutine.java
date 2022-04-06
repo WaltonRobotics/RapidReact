@@ -88,7 +88,8 @@ public enum AutonRoutine {
                     new BarfBall(1, 5.0),
                     new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
                     new SetLeftIntakeDeployed(false)
-            )
+            ),
+            new TurnToAngle(-90).withTimeout(2.0)
     )),
 
     THREE_BALL("ROUTINE_FIVE_B in one complete path", new TimedAuton(
