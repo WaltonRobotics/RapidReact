@@ -239,7 +239,7 @@ public final class Constants {
 
     public static final class PathFollowing {
 
-        public static final double kPathLookaheadTime = 0.1;  // seconds to look ahead along the path for steering 0.4
+        public static final double kPathLookaheadTime = 0.25;  // seconds to look ahead along the path for steering 0.4
         public static final double kPathMinLookaheadDistance = Units.inchesToMeters(6.0);  // inches 24.0 (we've been using 3.0)
 
     }
