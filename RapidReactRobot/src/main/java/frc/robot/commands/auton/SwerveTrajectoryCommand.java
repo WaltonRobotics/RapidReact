@@ -100,7 +100,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
             yPositionErrorAverage.addData(kYInstantPositionError);
             thetaPositionErrorAverage.addData(kThetaInstantPositionError);
         } else if (!moduleConfigRequested) {
-            drivetrain.getSwerveModules().forEach(m -> m.setAbsoluteAzimuthRotation2d(initialModuleAngle));
+            drivetrain.getSwerveModules().forEach(m -> m.setAzimuthRotation2d(initialModuleAngle));
 
             moduleConfigRequested = true;
         }
@@ -137,9 +137,11 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
         for (WaltSwerveModule m : drivetrain.getSwerveModules()) {
             double currentAngle = UtilMethods.restrictAngle(m.getAzimuthRotation2d().getDegrees(), -180, 180);
-            double targetAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees(), -180, 180);
+            double firstTargetAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees(), -180, 180);
+            double secondTargetAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees() - 180, -180, 180);
 
-            onTarget &= Math.abs(targetAngle - currentAngle) < 5.0;
+            onTarget &= Math.abs(firstTargetAngle - currentAngle) < 5.0
+                    || Math.abs(secondTargetAngle - currentAngle) < 5.0;
         }
 
         return onTarget;
