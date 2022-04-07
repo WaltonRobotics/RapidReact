@@ -13,6 +13,7 @@ import frc.robot.stateMachine.IState;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
+import frc.robot.vision.IndicatorLights;
 
 import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.*;
@@ -35,6 +36,7 @@ public class Superstructure extends SubsystemBase {
     private final Conveyor conveyor = new Conveyor();
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
+    private final IndicatorLights lights = new IndicatorLights();
 
     private boolean isEnabled = false;
     private CurrentMode currentMode = CurrentMode.SCORING_MODE;
@@ -104,6 +106,10 @@ public class Superstructure extends SubsystemBase {
 
     public Climber getClimber() {
         return climber;
+    }
+
+    public IndicatorLights getLights(){
+        return lights;
     }
 
     public boolean isEnabled() {
@@ -201,6 +207,32 @@ public class Superstructure extends SubsystemBase {
             getConveyor().setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {
             getConveyor().setFeedDemand(0);
+        }
+    }
+
+    /**
+     * purple if both intakes, red if right intake
+     * blue if left intake, green if aligned
+     * no color else wise
+     */
+    public void handleLEDLights() {
+        if(intake.isLeftIntakeDeployed() && intake.isRightIntakeDeployed()){
+            lights.setPurple();
+        }
+        else if(intake.isRightIntakeDeployed()){
+            lights.setRed();
+        }
+        else if(intake.isLeftIntakeDeployed()){
+            lights.setBlue();
+        }
+        else{
+            if(LimelightHelper.getTV() >= 1 &&
+                    UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees)){
+                lights.setGreen();
+            }
+            else{
+                lights.setOff();
+            }
         }
     }
 

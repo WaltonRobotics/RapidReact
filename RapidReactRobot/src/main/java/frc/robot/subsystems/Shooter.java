@@ -158,7 +158,6 @@ public class Shooter implements SubSubsystem {
     public void configFollower() {
         flywheelSlaveController.follow(flywheelMasterController);
     }
-
     public AimTarget getAimTarget() {
         return periodicIO.aimTarget;
     }
