@@ -14,10 +14,10 @@ public class InterpolationTest {
         WaltRobot robot = new PracticeRapidReact();
 
         double hoodAngle = robot.getShooterConfig().getHoodAngleMap(Shooter.AimTarget.HIGH_GOAL)
-                .getInterpolated(new InterpolatingDouble(8.05)).value;
+                .getInterpolated(new InterpolatingDouble(7.051874 + 0.2)).value;
 
         double rpm = robot.getShooterConfig().getFlywheelVelocityMap(Shooter.AimTarget.HIGH_GOAL)
-                .getInterpolated(new InterpolatingDouble(8.05)).value;
+                .getInterpolated(new InterpolatingDouble(7.051874 + 0.2)).value;
 
 //        Assert.assertEquals(hoodAngle, -0.189, 0.1);
 

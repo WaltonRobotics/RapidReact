@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticHub;
@@ -88,7 +90,7 @@ public class Robot extends WaltTimesliceRobot {
 
         // Monitor motor temperatures every second
         addPeriodic(godSubsystem::monitorTemperatures, 1.0);
-        addPeriodic(godSubsystem::handleLEDLights, .25);
+//        addPeriodic(godSubsystem::handleLEDLights, .25);
 
         LimelightHelper.setLEDMode(false);
     }
@@ -296,5 +298,10 @@ public class Robot extends WaltTimesliceRobot {
 
             pitCheckConfigureClimber = false;
         }
+
+        godSubsystem.getDrivetrain().setModuleStates(new SwerveModuleState(
+                SmartDashboard.getNumber(kDrivetrainSetpointVelocityKey, 0.0),
+                Rotation2d.fromDegrees(SmartDashboard.getNumber(kDrivetrainSetpointAngleDegreesKey, 0.0))
+        ));
     }
 }

@@ -74,7 +74,7 @@ public final class Constants {
         public static final double kDefaultVelocityRawUnits = 9100;
         public static final double kBarfVelocityRawUnits = 4500;
         public static final double kAutonBarfVelocityRawUnits = 5250;
-        public static final double kIdleVelocityRawUnits = 6000;
+        public static final double kIdleVelocityRawUnits = 8500;
         public static final double kOuttakeVelocityRawUnits = -4500;
 
         public static final double kDefaultHighGoalHoodAngle = 0.6;
@@ -145,7 +145,7 @@ public final class Constants {
 
         public static final boolean kUseOdometryBackup = true;
 
-        public static final double kLimelightOffsetFeet = 0;
+        public static final double kLimelightOffsetFeet = 0.10748657;
 
     }
 

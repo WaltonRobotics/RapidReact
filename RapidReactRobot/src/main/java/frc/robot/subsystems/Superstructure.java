@@ -36,7 +36,7 @@ public class Superstructure extends SubsystemBase {
     private final Conveyor conveyor = new Conveyor();
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
-    private final IndicatorLights lights = new IndicatorLights();
+//    private final IndicatorLights lights = new IndicatorLights();
 
     private boolean isEnabled = false;
     private CurrentMode currentMode = CurrentMode.SCORING_MODE;
@@ -108,9 +108,9 @@ public class Superstructure extends SubsystemBase {
         return climber;
     }
 
-    public IndicatorLights getLights(){
-        return lights;
-    }
+//    public IndicatorLights getLights(){
+//        return lights;
+//    }
 
     public boolean isEnabled() {
         return isEnabled;
@@ -215,26 +215,26 @@ public class Superstructure extends SubsystemBase {
      * blue if left intake, green if aligned
      * no color else wise
      */
-    public void handleLEDLights() {
-        if(intake.isLeftIntakeDeployed() && intake.isRightIntakeDeployed()){
-            lights.setPurple();
-        }
-        else if(intake.isRightIntakeDeployed()){
-            lights.setRed();
-        }
-        else if(intake.isLeftIntakeDeployed()){
-            lights.setBlue();
-        }
-        else{
-            if(LimelightHelper.getTV() >= 1 &&
-                    UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees)){
-                lights.setGreen();
-            }
-            else{
-                lights.setOff();
-            }
-        }
-    }
+//    public void handleLEDLights() {
+//        if(intake.isLeftIntakeDeployed() && intake.isRightIntakeDeployed()){
+//            lights.setPurple();
+//        }
+//        else if(intake.isRightIntakeDeployed()){
+//            lights.setRed();
+//        }
+//        else if(intake.isLeftIntakeDeployed()){
+//            lights.setBlue();
+//        }
+//        else{
+//            if(LimelightHelper.getTV() >= 1 &&
+//                    UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees)){
+//                lights.setGreen();
+//            }
+//            else{
+//                lights.setOff();
+//            }
+//        }
+//    }
 
     public void handleIntaking() {
         if (intake.isLeftIntakeDeployed()) {
@@ -449,9 +449,10 @@ public class Superstructure extends SubsystemBase {
 
     public void updateShuffleboard() {
         if (!kIsInCompetition) {
-            intake.updateShuffleboard();
             conveyor.updateShuffleboard();
         }
+
+        intake.updateShuffleboard();
 
         drivetrain.updateShuffleboard();
         shooter.updateShuffleboard();

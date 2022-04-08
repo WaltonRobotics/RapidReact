@@ -118,8 +118,8 @@ public class Intake implements SubSubsystem {
 //        SmartDashboard.putString("Intake/Periodic IO/Intake Control State", periodicIO.intakeControlState.name());
 //        SmartDashboard.putNumber("Intake/Periodic IO/Left Intake Demand", periodicIO.leftIntakeDemand);
 //        SmartDashboard.putNumber("Intake/Periodic IO/Right Intake Demand", periodicIO.rightIntakeDemand);
-        SmartDashboard.putBoolean("Intake/Periodic IO/Left Intake Deploy State Demand", periodicIO.leftIntakeDeployDemand);
-        SmartDashboard.putBoolean("Intake/Periodic IO/Right Intake Deploy State Demand", periodicIO.rightIntakeDeployDemand);
+        SmartDashboard.putBoolean("Intake/Periodic IO/Left Intake", periodicIO.leftIntakeDeployDemand);
+        SmartDashboard.putBoolean("Intake/Periodic IO/Right Intake", periodicIO.rightIntakeDeployDemand);
     }
 
     private boolean isLeftIntakeRollUpNeeded() {
