@@ -152,7 +152,7 @@ public enum AutonRoutine {
             new ParallelDeadlineGroup(
                     new ShootCargo(3, 3.0),
                     new SequentialCommandGroup(
-                            new WaitCommand(0.1),
+                            new WaitCommand(0.5),
                             new SetLeftIntakeDeployed(false)
                     )
             ),
