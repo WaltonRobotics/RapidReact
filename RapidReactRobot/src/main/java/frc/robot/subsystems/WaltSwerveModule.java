@@ -158,6 +158,10 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         }
     }
 
+    public double getDriveVoltage() {
+        return driveTalon.getBusVoltage();
+    }
+
     @Override
     public void updateShuffleboard() {
 

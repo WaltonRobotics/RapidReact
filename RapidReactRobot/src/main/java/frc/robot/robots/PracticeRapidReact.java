@@ -241,7 +241,7 @@ public class PracticeRapidReact extends WaltRobot {
             public PIDController[] getAzimuthPositionalPIDs() {
                 return new PIDController[]{
                         new PIDController(13.0 / 4096.0, 0.0, 0.0), // left front
-                        new PIDController(15.5 / 4096.0, 0.0, 0.0), // right front
+                        new PIDController(15.1 / 4096.0, 0.0, 0.0), // right front
                         new PIDController(15.0 / 4096.0, 0.0, 0.0), // left rear
                         new PIDController(15.0 / 4096.0, 0.0, 0.0), // right rear
                 };

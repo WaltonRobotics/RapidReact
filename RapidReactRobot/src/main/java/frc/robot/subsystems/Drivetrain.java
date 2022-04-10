@@ -411,6 +411,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     @Override
     public void updateShuffleboard() {
+//        SmartDashboard.putNumber("Left front voltage", getSwerveModules().get(0).getDriveVoltage());
         // Absolute encoder data
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Absolute Counts", swerveModules.get(0).getAzimuthAbsoluteEncoderCounts());
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Absolute Counts", swerveModules.get(1).getAzimuthAbsoluteEncoderCounts());

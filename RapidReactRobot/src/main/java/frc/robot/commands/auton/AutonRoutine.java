@@ -53,7 +53,7 @@ public enum AutonRoutine {
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
 //            new TurnToAngle(90.0).withTimeout(2.0),
-//            new WaitCommand(2.0),
+            new WaitCommand(0.7),
             new AlignAndShootCargoTimed(10.0)
     )),
 
