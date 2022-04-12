@@ -9,11 +9,16 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.WaltSwerveModule;
+import frc.robot.util.AccelerationLimiter;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static frc.robot.RobotContainer.godSubsystem;
 
 /** Control a Third Coast swerve drive. */
 public class SwerveDrive {
@@ -23,6 +28,10 @@ public class SwerveDrive {
   private final SwerveDriveOdometry odometry;
   private final Gyro gyro;
   private final double maxSpeedMetersPerSecond;
+  private final AccelerationLimiter xLimiter;
+  private final AccelerationLimiter yLimiter;
+  private final AccelerationLimiter omegaLimiter;
+
   private Rotation2d gyroOffset = new Rotation2d();
   private boolean hasGyroOffset = false;
 
@@ -33,8 +42,12 @@ public class SwerveDrive {
    * @param gyro the gyro to use for field-oriented driving
    * @param swerveModules the swerve modules
    */
-  public SwerveDrive(Gyro gyro, SwerveModule... swerveModules) {
+  public SwerveDrive(Gyro gyro, AccelerationLimiter xLimiter, AccelerationLimiter yLimiter,
+                     AccelerationLimiter omegaLimiter, SwerveModule... swerveModules) {
     this.gyro = gyro;
+    this.xLimiter = xLimiter;
+    this.yLimiter = yLimiter;
+    this.omegaLimiter = omegaLimiter;
     this.swerveModules = swerveModules;
     final List<Translation2d> locations =
         Arrays.stream(swerveModules)
@@ -67,8 +80,9 @@ public class SwerveDrive {
    *
    * @param swerveModules the swerve modules
    */
-  public SwerveDrive(SwerveModule... swerveModules) {
-    this(new AHRS(), swerveModules);
+  public SwerveDrive(AccelerationLimiter xLimiter, AccelerationLimiter yLimiter,
+                     AccelerationLimiter omegaLimiter, SwerveModule... swerveModules) {
+    this(new AHRS(), xLimiter, yLimiter, omegaLimiter, swerveModules);
   }
 
   /**
@@ -169,13 +183,6 @@ public class SwerveDrive {
     odometry.resetPosition(pose, gyro.getRotation2d().rotateBy(gyroOffset));
   }
 
-  /** Resets the drive encoders to currently read a position of 0. */
-  public void resetDriveEncoders() {
-    for (int i = 0; i < 4; i++) {
-      swerveModules[i].resetDriveEncoder();
-    }
-  }
-
   /** Resets the gyro to a heading of zero. */
   public void resetGyro() {
     gyro.reset();
@@ -255,6 +262,14 @@ public class SwerveDrive {
                 omegaRadiansPerSecond,
                 hasGyroOffset ? gyro.getRotation2d().rotateBy(gyroOffset) : gyro.getRotation2d())
             : new ChassisSpeeds(vxMetersPerSecond, vyMetersPerSecond, omegaRadiansPerSecond);
+
+//    SmartDashboard.putNumber("Vy", chassisSpeeds.vyMetersPerSecond);
+
+    if (!godSubsystem.isInAuton()) {
+      chassisSpeeds.vxMetersPerSecond = xLimiter.calculate(chassisSpeeds.vxMetersPerSecond);
+      chassisSpeeds.vyMetersPerSecond = yLimiter.calculate(chassisSpeeds.vyMetersPerSecond);
+      chassisSpeeds.omegaRadiansPerSecond = omegaLimiter.calculate(chassisSpeeds.omegaRadiansPerSecond);
+    }
 
     var swerveModuleStates = kinematics.toSwerveModuleStates(chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxSpeedMetersPerSecond);

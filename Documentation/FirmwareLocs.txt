@@ -1,0 +1,2 @@
+CTRE firmware: C:\Users\Public\Documents\FRC
+Rev firmware: C:\Users\<user>\AppData\Roaming\REV Hardware Client\downloads

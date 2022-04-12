@@ -8,4 +8,6 @@ public interface SubSubsystem {
 
     void outputData();
 
+    void updateShuffleboard();
+
 }

@@ -2,13 +2,16 @@ package frc.robot.util;
 
 public class WaltTimesliceRobot extends WaltTimedRobot {
 
+    private final double m_controllerPeriod;
+    private double m_nextOffset;
+
     /**
      * Constructor for WaltTimesliceRobot.
      *
      * @param robotPeriodicAllocation The allocation in seconds to give the TimesliceRobot periodic
-     *     functions.
-     * @param controllerPeriod The controller period in seconds. The sum of all scheduler allocations
-     *     should be less than or equal to this value.
+     *                                functions.
+     * @param controllerPeriod        The controller period in seconds. The sum of all scheduler allocations
+     *                                should be less than or equal to this value.
      */
     public WaltTimesliceRobot(double robotPeriodicAllocation, double controllerPeriod) {
         m_nextOffset = robotPeriodicAllocation;
@@ -23,7 +26,7 @@ public class WaltTimesliceRobot extends WaltTimedRobot {
      * will be thrown since that means the TimesliceRobot periodic functions and the given function
      * will have conflicting timeslices.
      *
-     * @param func Function to schedule.
+     * @param func       Function to schedule.
      * @param allocation The function's runtime allocation in seconds out of the controller period.
      */
     public void schedule(Runnable func, double allocation) {
@@ -41,8 +44,5 @@ public class WaltTimesliceRobot extends WaltTimedRobot {
         addPeriodic(func, m_controllerPeriod, m_nextOffset);
         m_nextOffset += allocation;
     }
-
-    private double m_nextOffset;
-    private final double m_controllerPeriod;
 
 }

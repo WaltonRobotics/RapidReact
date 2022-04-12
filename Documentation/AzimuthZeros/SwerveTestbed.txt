@@ -1,0 +1,5 @@
+Module, Zero Absolute Counts
+LF, 1713
+LR, 1384
+RF, 3447
+RR, 430

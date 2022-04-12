@@ -4,12 +4,8 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -24,23 +20,28 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean kIsInCompetition = false;
-        public static final boolean kIsInTuningMode = false;
+        public static final boolean kIsInCompetition = true;
+        public static final boolean kIsInTuningMode = true;
+        public static final boolean kIsInShooterTuningMode = false;
 
     }
 
-    public static final class ControllerPorts {
+    public static final class DriverPreferences {
 
-        public static final class GamepadsConfigPorts {
-            public static final int kDriveGamepadPort = 0;
-            public static final int kManipulationGamepadPort = 1;
+        public static final class XboxConfigPorts {
+            public static final int kDriveXboxControllerPort = 0;
+            public static final int kManipulationXboxControllerPort = 1;
         }
 
-        public static final class JoysticksConfigPorts {
-            public static final int kLeftJoystickPort = 0;
-            public static final int kRightJoystickPort = 1;
-            public static final int kManipulationGamepadPort = 2;
-        }
+        public static final boolean kUseAzimuthDeadband = true;
+
+        // Climbing
+        public static final double kPivotManualOverrideDeadband = 0.1;
+        public static final double kExtensionManualOverrideDeadband = 0.1;
+
+        public static final double kFinishedClimbingRumbleValue = 1.0;
+
+        public static final double kFaceDirectionToleranceDegrees = 2.0;
 
     }
 
@@ -51,102 +52,110 @@ public final class Constants {
 
     }
 
-    public static final class SwerveDriveConfig {
-        // TODO: verify diameter and run calibration
-        // 500 cm calibration = actual / odometry
-        public static final double kWheelDiameterInches = 3.0;
+    public static final class PIDProfileSlots {
 
-        // From: https://github.com/strykeforce/axis-config/
-        public static final double kMaxSpeedMetersPerSecond = 3.889;
+        public static final int kSpinningUpIndex = 0;
+        public static final int kShootingIndex = 1;
 
-        public static final double kDistanceBetweenWheelsWidthWiseMeters = Units.inchesToMeters(16.0 + 17.0 / 32.0 + 1.761652 * 2.0); // 20.055 in
-        public static final double kDistanceBetweenWheelsLengthWiseMeters = Units.inchesToMeters(15.0 + 1.0 / 16.0 + 1.761652 * 2.0); // 18.586 in
+    }
 
-        public static final double kMaxOmega =
-                (kMaxSpeedMetersPerSecond / Math.hypot(kDistanceBetweenWheelsLengthWiseMeters / 2.0,
-                        kDistanceBetweenWheelsWidthWiseMeters / 2.0))
-                        / 2.0; // wheel locations below
+    public static final class Intake {
 
-        // From: https://github.com/strykeforce/axis-config/
-        static final double kDriveMotorOutputGear = 12;
-        static final double kDriveInputGear = 21;
-        static final double kBevelInputGear = 15;
-        static final double kBevelOutputGear = 45;
-        public static final int kTalonConfigTimeout = 10; // ms
-        public static final double kDriveGearRatio =
-                (kDriveMotorOutputGear / kDriveInputGear) * (kBevelInputGear / kBevelOutputGear);
+        public static final double rollUpTimeoutSeconds = 1.0;
 
-        // Pathing constants/controllers
-        static final double kTranslationalP = 6.0;
-        static final double kTranslationalD = kTranslationalP / 100.0;
-        public static final PIDController kXController = new PIDController(kTranslationalP, 0.0, kTranslationalD);
-        public static final PIDController kYController = new PIDController(kTranslationalP, 0.0, kTranslationalD);
-        public static final ProfiledPIDController kThetaController =
-                new ProfiledPIDController(
-                        3.0,
-                        0,
-                        0,
-                        new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
+    }
 
-        public static Translation2d[] getWheelLocationMeters() {
-            final double x = kDistanceBetweenWheelsLengthWiseMeters / 2.0; // front-back, was ROBOT_LENGTH
-            final double y = kDistanceBetweenWheelsWidthWiseMeters / 2.0; // left-right, was ROBOT_WIDTH
-            Translation2d[] locs = new Translation2d[4];
-            locs[0] = new Translation2d(x, y); // left front
-            locs[1] = new Translation2d(x, -y); // right front
-            locs[2] = new Translation2d(-x, y); // left rear
-            locs[3] = new Translation2d(-x, -y); // right rear
-            return locs;
-        }
+    public static final class Shooter {
 
-        public static TalonFXConfiguration getDriveTalonConfig() {
-            TalonFXConfiguration driveConfig = new TalonFXConfiguration();
-            driveConfig.supplyCurrLimit.currentLimit = 0.04;
-            driveConfig.supplyCurrLimit.triggerThresholdCurrent = 45;
-            driveConfig.supplyCurrLimit.triggerThresholdTime = 40;
-            driveConfig.supplyCurrLimit.enable = true;
-            driveConfig.slot0.kP = 0.0051;
-            driveConfig.slot0.kI = 3.01E-05;
-            driveConfig.slot0.kD = 0.000;
-            driveConfig.slot0.kF = 0.0455603184323331;
-//            driveConfig.slot0.kP = 0.045;
-//            driveConfig.slot0.kI = 0.0005;
-//            driveConfig.slot0.kD = 0.000;
-//            driveConfig.slot0.kF = 0.047;
-            driveConfig.slot0.integralZone = 500;
-            driveConfig.slot0.maxIntegralAccumulator = 75_000;
-            driveConfig.slot0.allowableClosedloopError = 0;
-            driveConfig.velocityMeasurementPeriod = SensorVelocityMeasPeriod.Period_100Ms;
-            driveConfig.velocityMeasurementWindow = 64;
-            driveConfig.voltageCompSaturation = 12;
-            return driveConfig;
-        }
+        public static final double kDefaultHoodAngle = 0.247;
+
+        public static final double kAbsoluteMaximumVelocityNU = 15500;
+
+        public static final double kDefaultVelocityRawUnits = 9100;
+        public static final double kBarfVelocityRawUnits = 4500;
+        public static final double kAutonBarfVelocityRawUnits = 5250;
+        public static final double kIdleVelocityRawUnits = 8500;
+        public static final double kOuttakeVelocityRawUnits = -4500;
+
+        public static final double kDefaultHighGoalHoodAngle = 0.6;
+        public static final double kDefaultHighGoalVelocity = 9100;
+        public static final double kDefaultLowGoalHoodAngle = 0.2;
+        public static final double kDefaultLowGoalVelocity = 6500;
+
+        public static final double kBarfHoodAngle = 0;
+
+        // The tolerance to exit the spinning up state and enter the shooting state
+        public static final double kSpinningUpToleranceRawUnits = 150;
+        // The tolerance to maintain the shooting state
+        public static final double kShootingToleranceRawUnits = 160;
+
+        // The tolerance needed to feed in the next ball
+        public static final double kRecoveryToleranceRawUnits = 350;
+
+        // Short period of time after the shoot button is released where the flywheels
+        // continue rotating to ensure last few shots don't go amiss
+        public static final double kSpinDownTimeSeconds = 0.25;
+
+        public static final double kNudgeDownTimeSeconds = 0.15;
+
+        // Limits
+        public static final double kHoodLowerLimit = 0;
+
+        // Time it takes for the hood to change positions
+        public static final double kHoodTransitionTimeSeconds = 1.3;
+        // The full range of angles for the hood
+        public static final double kFullHoodAngleRange = 1.0;
+
+    }
+
+    public static final class Climber {
+
+        public static final double kExtensionZeroingPercentOutput = -0.1;
+        public static final double kFastExtensionZeroingPercentOutput = -0.2;
+        public static final double kTransferPercentOutput = -0.2;
+
+        public static final double kDefaultExtensionCruiseVelocity = 11250;
+        public static final double kDefaultExtensionAcceleration = 9000;
+
+        public static final double kDefaultPivotCruiseVelocity = 700;
+        public static final double kDefaultPivotAcceleration = 800;
+
+        public static final double kSlowPullUpExtensionCruiseVelocity = 10500;
+        public static final double kSlowPullUpExtensionAcceleration = 8000;
+
+        public static final double kPivotArmNudgeIncrementNU = 1137;
+
+    }
+
+    public static final class VisionConstants {
+
+        public static final int kLEDsOff = 1;
+        public static final int kLEDsOn = 3;
+
+        public static final int kVisionMode = 0;
+        public static final int kDriverMode = 1;
+
+        public static final int kTxWindowSize = 1;
+        public static final int kTyWindowSize = 5;
+
+        public static final int kAlignmentPipeline = 0;
+
+        public static final double kAlignmentToleranceDegrees = 2.5;
+        public static final double kAlignmentTimeoutSeconds = 1.5;
+
+        public static final boolean kUseOdometryBackup = true;
+
+        public static final double kLimelightOffsetFeet = 0.10748657;
+
     }
 
     public static final class SmartDashboardKeys {
 
-        public static final String kDrivetrainRotateModulesToAngleKey = "Drivetrain/Rotate Modules To Angle";
+        public static final String kDrivetrainSetModuleStatesKey = "Drivetrain/Set Module States";
         public static final String kDrivetrainSetpointAngleDegreesKey = "Drivetrain/Setpoint Angle Degrees";
+        public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity MPS";
 
-        public static final String kDrivetrainLeftFrontAbsolutePositionKey = "Drivetrain/Left Front Absolute Counts";
-        public static final String kDrivetrainRightFrontAbsolutePositionKey = "Drivetrain/Right Front Absolute Counts";
-        public static final String kDrivetrainLeftRearAbsolutePositionKey = "Drivetrain/Left Rear Absolute Counts";
-        public static final String kDrivetrainRightRearAbsolutePositionKey = "Drivetrain/Right Rear Absolute Counts";
-
-        public static final String kDrivetrainLeftFrontRelativePositionKey = "Drivetrain/Left Front Relative Counts";
-        public static final String kDrivetrainRightFrontRelativePositionKey = "Drivetrain/Right Front Relative Counts";
-        public static final String kDrivetrainLeftRearRelativePositionKey = "Drivetrain/Left Rear Relative Counts";
-        public static final String kDrivetrainRightRearRelativePositionKey = "Drivetrain/Right Rear Relative Counts";
-
-        public static final String kDrivetrainLeftFrontAngleDegreesKey = "Drivetrain/Left Front Angle Degrees";
-        public static final String kDrivetrainRightFrontAngleDegreesKey = "Drivetrain/Right Front Angle Degrees";
-        public static final String kDrivetrainLeftRearAngleDegreesKey = "Drivetrain/Left Rear Angle Degrees";
-        public static final String kDrivetrainRightRearAngleDegreesKey = "Drivetrain/Right Rear Angle Degrees";
-
-        public static final String kDrivetrainLeftFrontVelocityErrorKey = "Drivetrain/Left Front Velocity Error";
-        public static final String kDrivetrainRightFrontVelocityErrorKey = "Drivetrain/Right Front Velocity Error";
-        public static final String kDrivetrainLeftRearVelocityErrorKey = "Drivetrain/Left Rear Velocity Error";
-        public static final String kDrivetrainRightRearVelocityErrorKey = "Drivetrain/Right Rear Velocity Error";
+        public static final String kDrivetrainResetKey = "Drivetrain/Reset";
 
         public static final String kDrivetrainLeftFrontZeroValueKey = "Drivetrain/Left Front Azimuth Zero Value";
         public static final String kDrivetrainRightFrontZeroValueKey = "Drivetrain/Right Front Azimuth Zero Value";
@@ -158,13 +167,52 @@ public final class Constants {
         public static final String kDrivetrainSaveLeftRearZeroKey = "Drivetrain/Save Left Rear Azimuth Zero";
         public static final String kDrivetrainSaveRightRearZeroKey = "Drivetrain/Save Right Rear Azimuth Zero";
 
-        public static final String kDriverForwardScale = "Driver/Forward Scale";
-        public static final String kDriverStrafeScale = "Driver/Strafe Scale";
-        public static final String kDriverYawScale = "Driver/Yaw Scale";
+        public static final String kDrivetrainHeadingDegrees = "Drivetrain/Heading Degrees";
+        public static final String kDrivetrainAngularVelocity = "Drivetrain/Angular Velocity DPS";
+        public static final String kDrivetrainPitchDegrees = "Drivetrain/Pitch Degrees";
+        public static final String kDrivetrainRollDegrees = "Drivetrain/Roll Degrees";
+
+        public static final String kDrivetrainIsFieldRelativeKey = "Drivetrain/Is Field Relative";
+        public static final String kDrivetrainIsPositionalRotationKey = "Drivetrain/Is Positional Rotation";
+
+//        public static final String kDriverForwardScaleKey = "Driver/Forward Scale";
+//        public static final String kDriverStrafeScaleKey = "Driver/Strafe Scale";
+//        public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
+
+        public static final String kDriverIsAlignedKey = "Driver/Is Aligned";
+        //        public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
+        public static final String kDriverSelectedRungKey = "Driver/Selected Rung";
+
+        public static final String kClimberPivotAngleFromVerticalKey = "Climber/Angle From Vertical Deg";
+        public static final String kClimberPivotAngleFromHorizontalKey = "Climber/Angle From Horizontal Deg";
+
+        public static final String kShooterCurrentTargetVelocityKey = "Shooter/Current Target Velocity NU";
+        public static final String kShooterTuningSetpointVelocityNUKey = "Shooter/Tuning Setpoint Velocity NU";
+        public static final String kShooterHoodPositionSetpointKey = "Shooter/Hood Position Setpoint";
+        public static final String kShooterBallQualityAdditive = "Shooter/Ball Quality Additive";
+
+        public static final String kLimelightAlignControllerKey = "Limelight Align Controller";
+        public static final String kLimelightAlignErrorDegrees = "Limelight Align Error Deg";
+        public static final String kLimelightAlignOmegaOutputKey = "Limelight Align Omega Output";
+        public static final String kLimelightDistanceFeetKey = "Limelight Distance Feet";
+
+        public static final String kTurnToAngleControllerKey = "Turn to Angle Controller";
+        public static final String kTurnToAngleErrorDegreesKey = "Turn to Angle Error Deg";
+        public static final String kTurnToAngleOmegaOutputKey = "Turn to Angle Omega Output";
+
+        public static final String kLeftIntakePercentOutputKey = "Left Intake Percent Output";
+        public static final String kRightIntakePercentOutputKey = "Right Intake Percent Output";
+
+        public static final String kTrajectoryThetaPKey = "Trajectory/Theta P";
+
+        public static final String kClimberPivotCoastModeKey = "Climber Pivot Coast Mode";
+        public static final String kClimberExtensionCoastModeKey = "Climber Extension Coast Mode";
+
+        public static final String kAllianceColorKey = "Alliance Color";
 
     }
 
-    public static class LiveDashboardKeys {
+    public static final class LiveDashboardKeys {
 
         public static final String kLiveDashboardTableName = "Live_Dashboard";
         public static final String kRobotXKey = "robotX";
@@ -174,6 +222,25 @@ public final class Constants {
         public static final String kPathXKey = "pathX";
         public static final String kPathYKey = "pathY";
         public static final String kPathHeadingKey = "pathHeading";
+
+    }
+
+    public static final class FieldConstants {
+
+        public static final double kTargetHeightInches = 103.81;
+        public static final double kSpinUpFlywheelDistanceFromHub = 10;
+
+        public static final double kMoneyShotDistance = 8.05;
+        public static final double kMoneyShotTolerance = 0.25;
+
+        public static final Pose2d kCenterOfHubPose = new Pose2d(8.23, 4.11, Rotation2d.fromDegrees(0.0));
+
+    }
+
+    public static final class PathFollowing {
+
+        public static final double kPathLookaheadTime = 0.25;  // seconds to look ahead along the path for steering 0.4
+        public static final double kPathMinLookaheadDistance = Units.inchesToMeters(6.0);  // inches 24.0 (we've been using 3.0)
 
     }
 
