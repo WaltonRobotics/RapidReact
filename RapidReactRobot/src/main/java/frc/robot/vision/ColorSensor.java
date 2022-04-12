@@ -15,7 +15,7 @@ public class ColorSensor {
     private static final Color redTarget = new Color(0.361, 0.524, 0.113);
     private static final int targetDistanceLimit = 200;
 
-    public static void loadColorMatcher(){
+    public static void loadColorMatcher() {
         colorMatcher.addColorMatch(blueTarget);
         colorMatcher.addColorMatch(greenTarget);
         colorMatcher.addColorMatch(redTarget);
@@ -40,8 +40,8 @@ public class ColorSensor {
         return "Unknown";
     }
 
-    public static boolean[] allAligned(){
-        boolean[] statuses = new boolean [3];
+    public static boolean[] allAligned() {
+        boolean[] statuses = new boolean[3];
         //TODO: check if all 3 sensors match the color and return array
         //use for loop to check color match for each sensor
         //set arrays indices to if each sensor matches (left to right)
@@ -49,11 +49,11 @@ public class ColorSensor {
 
     }
 
-    private static Color getColor(){
+    private static Color getColor() {
         return colorSensor.getColor();
     }
 
-    private static double getRawIR(){
+    private static double getRawIR() {
         return colorSensor.getIR();
     }
 
