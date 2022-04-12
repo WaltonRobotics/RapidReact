@@ -406,7 +406,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     public synchronized void collectData() {
         swerveModules.forEach(WaltSwerveModule::collectData);
 
-        periodicIO.robotHeading = swerveDrive.getHeading();;
+        periodicIO.robotHeading = swerveDrive.getHeading();
     }
 
     @Override
