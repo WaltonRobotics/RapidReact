@@ -51,6 +51,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     private com.team254.lib.geometry.Pose2d pose = new com.team254.lib.geometry.Pose2d();
     double distanceTraveled;
 
+    private final PeriodicIO periodicIO = new PeriodicIO();
+
     public Drivetrain() {
         var moduleBuilder =
                 new WaltSwerveModule.Builder()
@@ -334,7 +336,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public Rotation2d getHeading() {
-        return swerveDrive.getHeading();
+        return periodicIO.robotHeading;
     }
 
     public Rotation2d getPitch() {
@@ -403,6 +405,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     @Override
     public synchronized void collectData() {
         swerveModules.forEach(WaltSwerveModule::collectData);
+
+        periodicIO.robotHeading = swerveDrive.getHeading();;
     }
 
     @Override
@@ -413,17 +417,20 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     @Override
     public void updateShuffleboard() {
 //        SmartDashboard.putNumber("Left front voltage", getSwerveModules().get(0).getDriveVoltage());
+
         // Absolute encoder data
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Absolute Counts", swerveModules.get(0).getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Absolute Counts", swerveModules.get(1).getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Absolute Counts", swerveModules.get(2).getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Absolute Counts", swerveModules.get(3).getAzimuthAbsoluteEncoderCounts());
+        if (swerveModules.parallelStream().allMatch(WaltSwerveModule::isAzimuthAbsoluteEncoderValid)) {
+            SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Absolute Counts", swerveModules.get(0).getAzimuthAbsoluteEncoderCounts());
+            SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Absolute Counts", swerveModules.get(1).getAzimuthAbsoluteEncoderCounts());
+            SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Absolute Counts", swerveModules.get(2).getAzimuthAbsoluteEncoderCounts());
+            SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Absolute Counts", swerveModules.get(3).getAzimuthAbsoluteEncoderCounts());
+        }
 
         // Relative encoder data
-//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Relative Counts", swerveModules.get(0).getAzimuthRelativeEncoderCounts());
-//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Relative Counts", swerveModules.get(1).getAzimuthRelativeEncoderCounts());
-//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Relative Counts", swerveModules.get(2).getAzimuthRelativeEncoderCounts());
-//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Relative Counts", swerveModules.get(3).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Relative Counts", swerveModules.get(0).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Relative Counts", swerveModules.get(1).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Relative Counts", swerveModules.get(2).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Relative Counts", swerveModules.get(3).getAzimuthRelativeEncoderCounts());
 
         // Azimuth degree data
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Angle Degrees", swerveModules.get(0).getAzimuthRotation2d().getDegrees());
@@ -457,6 +464,12 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     public double getAngularVelocityDegreesPerSec() {
         return -ahrs.getRate();
+    }
+
+    public static class PeriodicIO {
+        // Inputs
+        public Rotation2d robotHeading = Rotation2d.fromDegrees(0);
+
     }
 
 }
