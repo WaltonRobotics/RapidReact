@@ -253,6 +253,99 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
+            public RelativeEncoderConfig[] getAzimuthQuadratureConfigs() {
+                return new RelativeEncoderConfig[] {
+                        new RelativeEncoderConfig() {
+                            @Override
+                            public double getDistancePerPulse() {
+                                return 1;
+                            }
+
+                            @Override
+                            public int getChannelA() {
+                                return 5;
+                            }
+
+                            @Override
+                            public int getChannelB() {
+                                return 6;
+                            }
+
+                            @Override
+                            public boolean isInverted() {
+                                return true;
+                            }
+                        },
+
+                        new RelativeEncoderConfig() {
+                            @Override
+                            public double getDistancePerPulse() {
+                                return 1;
+                            }
+
+                            @Override
+                            public int getChannelA() {
+                                return 7;
+                            }
+
+                            @Override
+                            public int getChannelB() {
+                                return 8;
+                            }
+
+                            @Override
+                            public boolean isInverted() {
+                                return true;
+                            }
+                        },
+
+                        new RelativeEncoderConfig() {
+                            @Override
+                            public double getDistancePerPulse() {
+                                return 1;
+                            }
+
+                            @Override
+                            public int getChannelA() {
+                                return 9;
+                            }
+
+                            @Override
+                            public int getChannelB() {
+                                return 10;
+                            }
+
+                            @Override
+                            public boolean isInverted() {
+                                return true;
+                            }
+                        },
+
+                        new RelativeEncoderConfig() {
+                            @Override
+                            public double getDistancePerPulse() {
+                                return 1;
+                            }
+
+                            @Override
+                            public int getChannelA() {
+                                return 11;
+                            }
+
+                            @Override
+                            public int getChannelB() {
+                                return 12;
+                            }
+
+                            @Override
+                            public boolean isInverted() {
+                                return true;
+                            }
+                        }
+                };
+            }
+
+            @Override
             public int[] getAzimuthControllerIDs() {
                 return new int[]{1, 2, 3, 4};
             }

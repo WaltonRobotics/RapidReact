@@ -14,8 +14,10 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycle;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
 import frc.lib.strykeforce.swerve.SwerveModule;
+import frc.robot.config.RelativeEncoderConfig;
 
 import java.util.logging.Level;
 
@@ -28,6 +30,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     private final CANSparkMax azimuthSparkMax;
     private final BaseTalon driveTalon;
+    private final Encoder quadratureEncoder;
     private final DutyCycle azimuthAbsoluteEncoderPWM;
     private final boolean isAzimuthAbsoluteEncoderInverted;
     private final double azimuthAbsoluteCountsPerRev;
@@ -73,6 +76,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         azimuthSparkMax = builder.azimuthSparkMax;
 
         driveTalon = builder.driveTalon;
+        quadratureEncoder = new Encoder(builder.quadratureConfig.getChannelA(), builder.quadratureConfig.getChannelB());
         azimuthAbsoluteEncoderPWM = builder.azimuthAbsoluteEncoderPWM;
         isAzimuthAbsoluteEncoderInverted = builder.isAzimuthAbsoluteEncoderInverted;
         azimuthAbsoluteCountsPerRev = builder.azimuthAbsoluteCountsPerRev;
@@ -106,6 +110,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         this.startingPosition = startingPose;
 
 //        SmartDashboard.putNumber("Wheel " + getWheelIndex() + " p", azimuthController.getP());
+
+        quadratureEncoder.setDistancePerPulse(builder.quadratureConfig.getDistancePerPulse());
     }
 
     @Override
@@ -468,6 +474,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         private CANSparkMax azimuthSparkMax;
         private PIDController azimuthController;
         private BaseTalon driveTalon;
+        private RelativeEncoderConfig quadratureConfig;
         private DutyCycle azimuthAbsoluteEncoderPWM;
         private boolean isAzimuthAbsoluteEncoderInverted;
         private double driveMetersPerNU;
@@ -499,6 +506,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             }
 
             throw new IllegalArgumentException("expect drive talon is TalonFX or TalonSRX");
+        }
+
+        public Builder quadratureConfig(RelativeEncoderConfig config) {
+            this.quadratureConfig = config;
+            return this;
         }
 
         public Builder azimuthAbsoluteEncoderPWM(DutyCycle encoderPWM) {
