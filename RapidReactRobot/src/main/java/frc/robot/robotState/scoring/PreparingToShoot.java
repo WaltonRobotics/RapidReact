@@ -1,5 +1,7 @@
 package frc.robot.robotState.scoring;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
@@ -8,8 +10,10 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
+import static frc.robot.Constants.DriverPreferences.kMotionCorrectShooting;
 import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterTuningSetpointVelocityNUKey;
 import static frc.robot.OI.barfButton;
@@ -62,11 +66,9 @@ public class PreparingToShoot implements IState {
             return new ShootWhileMoving();
         }
 
-        shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+        godSubsystem.handleMotionCorrect();
 
         godSubsystem.handleIntakingAndOuttaking();
-
-        godSubsystem.getDrivetrain().xLockSwerveDrive();
 
         return new SpinningUp();
     }

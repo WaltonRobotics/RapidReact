@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,6 +19,7 @@ import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.*;
 import static frc.robot.Constants.DriverPreferences.*;
 import static frc.robot.Constants.FieldConstants.kCenterOfHubPose;
+import static frc.robot.Constants.Shooter.kFlywheelNUToMPS;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Constants.VisionConstants.kAlignmentToShootToleranceDegrees;
@@ -437,6 +439,34 @@ public class Superstructure extends SubsystemBase {
                 drivetrain.getConfig().getAutoAlignController().getPositionError());
 
         drivetrain.move(vx, vy, turnRate, isFieldRelative);
+    }
+
+    public void handleMotionCorrect() {
+        ChassisSpeeds robotSpeeds = godSubsystem.getDrivetrain().getRobotRelativeSpeeds();
+
+        if (LimelightHelper.getTV() >= 1 && (Math.abs(robotSpeeds.vxMetersPerSecond) > 0.1
+                || Math.abs(robotSpeeds.vyMetersPerSecond) > 0.1) && kMotionCorrectShooting) {
+            double shooterVelocityNU = godSubsystem.getShooter().getEstimatedVelocityFromTarget();
+            double shooterMPS = shooterVelocityNU * kFlywheelNUToMPS
+                    * godSubsystem.getShooter().getHoodAngleFromHorizontal().getCos();
+
+            Rotation2d robotTarget = godSubsystem.getDrivetrain().getHeading().minus(
+                    Rotation2d.fromDegrees(LimelightHelper.getTX()));
+
+            double correctionXSpeed = shooterMPS * robotTarget.getCos() - robotSpeeds.vxMetersPerSecond;
+            double correctionYSpeed = shooterMPS * robotTarget.getSin() - robotSpeeds.vyMetersPerSecond;
+
+            robotTarget = new Rotation2d(Math.atan2(correctionYSpeed, correctionXSpeed));
+
+            shooterMPS = Math.sqrt(correctionXSpeed * correctionXSpeed + correctionYSpeed * correctionYSpeed);
+            shooterVelocityNU = shooterMPS / kFlywheelNUToMPS;
+
+            shooter.setFlywheelDemand(shooterVelocityNU);
+            godSubsystem.getDrivetrain().faceDirection(0, 0, robotTarget, false);
+        } else {
+            shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+            godSubsystem.getDrivetrain().xLockSwerveDrive();
+        }
     }
 
     public boolean doesAutonNeedToIdleSpinUp() {

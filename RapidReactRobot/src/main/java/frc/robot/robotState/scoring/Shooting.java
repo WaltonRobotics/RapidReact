@@ -50,13 +50,11 @@ public class Shooting implements IState {
             return new ShootWhileMoving();
         }
 
-        shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
-
 //        if (Math.abs(shooter.getFlywheelClosedLoopErrorNU()) > kShootingToleranceRawUnits) {
 //            return new SpinningUp();
 //        }
 
-        godSubsystem.getDrivetrain().xLockSwerveDrive();
+        godSubsystem.handleMotionCorrect();
 
         if (intakeButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToIntake())) {
             godSubsystem.handleIntaking();
