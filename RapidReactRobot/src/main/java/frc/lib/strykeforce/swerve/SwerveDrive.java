@@ -268,7 +268,10 @@ public class SwerveDrive {
     if (!godSubsystem.isInAuton()) {
       chassisSpeeds.vxMetersPerSecond = xLimiter.calculate(chassisSpeeds.vxMetersPerSecond);
       chassisSpeeds.vyMetersPerSecond = yLimiter.calculate(chassisSpeeds.vyMetersPerSecond);
-      chassisSpeeds.omegaRadiansPerSecond = omegaLimiter.calculate(chassisSpeeds.omegaRadiansPerSecond);
+
+      if (!godSubsystem.isAutoAligning()) {
+        chassisSpeeds.omegaRadiansPerSecond = omegaLimiter.calculate(chassisSpeeds.omegaRadiansPerSecond);
+      }
     }
 
     var swerveModuleStates = kinematics.toSwerveModuleStates(chassisSpeeds);

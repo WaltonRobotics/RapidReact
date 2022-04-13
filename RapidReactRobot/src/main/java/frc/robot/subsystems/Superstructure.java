@@ -45,6 +45,7 @@ public class Superstructure extends SubsystemBase {
 
     private boolean isInAuton = false;
     private boolean isInPitCheckMode = false;
+    private boolean isAutoAligning = false;
 
     private boolean doesAutonNeedToTrackTarget = false;
     private boolean doesAutonNeedToIdleSpinUp = false;
@@ -141,6 +142,14 @@ public class Superstructure extends SubsystemBase {
 
     public void setIsInPitCheckMode(boolean inPitCheckMode) {
         isInPitCheckMode = inPitCheckMode;
+    }
+
+    public boolean isAutoAligning() {
+        return isAutoAligning;
+    }
+
+    public void setAutoAligning(boolean autoAligning) {
+        isAutoAligning = autoAligning;
     }
 
     public boolean doesAutonNeedToIntake() {

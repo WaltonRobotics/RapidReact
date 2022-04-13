@@ -69,8 +69,12 @@ public class DriveCommand extends CommandBase {
 
             // Limit movement when climbing
             if (faceClosestButton.get()) {
+                godSubsystem.setAutoAligning(false);
+
                 drivetrain.faceClosest(vx, vy, isFieldRelative);
             } else if (isPositionalRotation && godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
+                godSubsystem.setAutoAligning(false);
+
                 double rotateX = -godSubsystem.getRotateX() * 10;
                 double rotateY = godSubsystem.getRotateY() * 10;
 
@@ -82,8 +86,10 @@ public class DriveCommand extends CommandBase {
                     drivetrain.move(vx, vy, 0, isFieldRelative);
                 }
             } else if (trackTargetButton.get()) {
+                godSubsystem.setAutoAligning(true);
                 godSubsystem.handleAutoAlign(vx, vy, omega, isFieldRelative);
             } else {
+                godSubsystem.setAutoAligning(false);
                 drivetrain.move(vx, vy, omega, isFieldRelative);
 //            drivetrain.move(0, 0, SmartDashboard.getNumber("Minimum omega command", 0.1), true);
             }

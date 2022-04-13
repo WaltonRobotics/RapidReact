@@ -71,6 +71,7 @@ public class AligningAndSpinningUp implements IState {
                     drivetrain.getConfig().getMinTurnOmega());
         }
 
+        godSubsystem.setAutoAligning(true);
         godSubsystem.handleAutoAlign(0, 0, omega, false);
 
         if (LimelightHelper.getTV() >= 1) {
@@ -108,6 +109,8 @@ public class AligningAndSpinningUp implements IState {
 
         driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
         driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0);
+
+        godSubsystem.setAutoAligning(false);
     }
 
 }
