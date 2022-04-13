@@ -12,6 +12,7 @@ import frc.robot.config.ShooterConfig;
 import frc.robot.util.UtilMethods;
 import frc.robot.util.interpolation.InterpolatingDouble;
 import frc.robot.vision.LimelightHelper;
+import frc.robot.vision.ColorSensor;
 
 import java.util.logging.Level;
 
@@ -97,6 +98,8 @@ public class Shooter implements SubSubsystem {
 
             SmartDashboard.putBoolean("Hood ready", true);
         }
+
+        SmartDashboard.putString("Ball Color", ColorSensor.getColorMatch());
     }
 
     @Override

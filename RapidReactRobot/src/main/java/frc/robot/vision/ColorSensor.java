@@ -10,44 +10,38 @@ public class ColorSensor {
     public static final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
     private static final ColorMatch colorMatcher = new ColorMatch();
 
-    private static final Color blueTarget = new Color(0.143, 0.427, 0.429);
-    private static final Color greenTarget = new Color(0.197, 0.561, 0.240);
-    private static final Color redTarget = new Color(0.361, 0.524, 0.113);
+    private static final Color blueBall = new Color(0.143, 0.427, 0.429);
+    private static final Color redBall = new Color(0.361, 0.524, 0.113);
     private static final int targetDistanceLimit = 200;
 
+    /**
+     * initialize colors in robot init
+     */
     public static void loadColorMatcher() {
-        colorMatcher.addColorMatch(blueTarget);
-        colorMatcher.addColorMatch(greenTarget);
-        colorMatcher.addColorMatch(redTarget);
+        colorMatcher.addColorMatch(blueBall);
+        colorMatcher.addColorMatch(redBall);
     }
 
+    /**
+     * @return detected color
+     */
     public static String getColorMatch() {
         Color detectedColor = colorSensor.getColor();
         ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
         if (getProximity() > targetDistanceLimit) {
             String colorString;
-            if (match.color == blueTarget) {
+            if (match.color == blueBall) {
                 colorString = "Blue";
-            } else if (match.color == redTarget) {
+            } else if (match.color == redBall) {
                 colorString = "Red";
-            } else if (match.color == greenTarget) {
-                colorString = "Green";
             } else {
                 colorString = "Unknown";
             }
             return colorString;
         }
-        return "Unknown";
+        return "Out of Proximity";
     }
 
-    public static boolean[] allAligned() {
-        boolean[] statuses = new boolean[3];
-        //TODO: check if all 3 sensors match the color and return array
-        //use for loop to check color match for each sensor
-        //set arrays indices to if each sensor matches (left to right)
-        return statuses;
-
-    }
 
     private static Color getColor() {
         return colorSensor.getColor();
