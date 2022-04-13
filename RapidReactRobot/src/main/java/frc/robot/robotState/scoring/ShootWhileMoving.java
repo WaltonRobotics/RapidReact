@@ -86,6 +86,9 @@ public class ShootWhileMoving implements IState {
 
         // Set robot vx, vy and make it face robotTarget
 
+        vx = UtilMethods.limitMagnitude(vx, 0.5);
+        vy = UtilMethods.limitMagnitude(vy, 0.5);
+
         double thetaError = godSubsystem.getDrivetrain().faceDirection(vx, vy, robotTarget, false);
 
         double flywheelError =
