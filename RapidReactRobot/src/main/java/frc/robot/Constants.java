@@ -113,7 +113,7 @@ public final class Constants {
         public static final double kFlywheelNUToRPM = 600.0 / 2048.0 * 1.5;
         public static final double kFlywheelNUToMPS = kFlywheelNUToRPM / 60.0 * (2 * Math.PI * kFlywheelRadiusMeters);
 
-        public static final double kFullyExtendedHoodAngleFromHorizontalDeg = 100;
+        public static final double kHoodAngleToDegrees = 100;
 
     }
 
