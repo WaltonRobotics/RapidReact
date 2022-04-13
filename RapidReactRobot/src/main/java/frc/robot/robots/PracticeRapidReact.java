@@ -263,59 +263,15 @@ public class PracticeRapidReact extends WaltRobot {
 
                             @Override
                             public int getChannelA() {
-                                return 5;
-                            }
-
-                            @Override
-                            public int getChannelB() {
-                                return 6;
-                            }
-
-                            @Override
-                            public boolean isInverted() {
-                                return true;
-                            }
-                        },
-
-                        new RelativeEncoderConfig() {
-                            @Override
-                            public double getDistancePerPulse() {
-                                return 1;
-                            }
-
-                            @Override
-                            public int getChannelA() {
-                                return 7;
-                            }
-
-                            @Override
-                            public int getChannelB() {
-                                return 8;
-                            }
-
-                            @Override
-                            public boolean isInverted() {
-                                return true;
-                            }
-                        },
-
-                        new RelativeEncoderConfig() {
-                            @Override
-                            public double getDistancePerPulse() {
-                                return 1;
-                            }
-
-                            @Override
-                            public int getChannelA() {
-                                return 9;
-                            }
-
-                            @Override
-                            public int getChannelB() {
                                 return 10;
                             }
 
                             @Override
+                            public int getChannelB() {
+                                return 11;
+                            }
+
+                            @Override
                             public boolean isInverted() {
                                 return true;
                             }
@@ -329,12 +285,56 @@ public class PracticeRapidReact extends WaltRobot {
 
                             @Override
                             public int getChannelA() {
-                                return 11;
+                                return 12;
                             }
 
                             @Override
                             public int getChannelB() {
-                                return 12;
+                                return 13;
+                            }
+
+                            @Override
+                            public boolean isInverted() {
+                                return true;
+                            }
+                        },
+
+                        new RelativeEncoderConfig() {
+                            @Override
+                            public double getDistancePerPulse() {
+                                return 1;
+                            }
+
+                            @Override
+                            public int getChannelA() {
+                                return 14;
+                            }
+
+                            @Override
+                            public int getChannelB() {
+                                return 15;
+                            }
+
+                            @Override
+                            public boolean isInverted() {
+                                return true;
+                            }
+                        },
+
+                        new RelativeEncoderConfig() {
+                            @Override
+                            public double getDistancePerPulse() {
+                                return 1;
+                            }
+
+                            @Override
+                            public int getChannelA() {
+                                return 16;
+                            }
+
+                            @Override
+                            public int getChannelB() {
+                                return 17;
                             }
 
                             @Override
