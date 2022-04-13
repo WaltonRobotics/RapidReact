@@ -22,8 +22,7 @@ import static frc.robot.Constants.FieldConstants.kCenterOfHubPose;
 import static frc.robot.Constants.Shooter.kFlywheelNUToMPS;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.Constants.VisionConstants.kAlignmentToShootToleranceDegrees;
-import static frc.robot.Constants.VisionConstants.kUseOdometryBackup;
+import static frc.robot.Constants.VisionConstants.*;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.*;
 import static frc.robot.util.UtilMethods.monitorTemp;
@@ -409,7 +408,7 @@ public class Superstructure extends SubsystemBase {
             double headingError = LimelightHelper.getTX();
             turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
 
-            if (Math.abs(headingError) < kAlignmentToShootToleranceDegrees) {
+            if (Math.abs(headingError) < kAutoAlignToleranceDegrees) {
                 turnRate = 0;
             }
 
@@ -422,7 +421,7 @@ public class Superstructure extends SubsystemBase {
 
             turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
 
-            if (Math.abs(headingError) < kAlignmentToShootToleranceDegrees) {
+            if (Math.abs(headingError) < kAutoAlignToleranceDegrees) {
                 turnRate = 0;
             }
 
@@ -535,7 +534,7 @@ public class Superstructure extends SubsystemBase {
 
         SmartDashboard.putBoolean(kDriverIsAlignedKey,
                 hasTarget &&
-                        UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToShootToleranceDegrees));
+                        UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kShootingAlignmentToleranceDegrees));
 
 //        SmartDashboard.putBoolean(kDriverIsMoneyShotKey,
 //                hasTarget && UtilMethods.isWithinTolerance(limelightDistance, kMoneyShotDistance,

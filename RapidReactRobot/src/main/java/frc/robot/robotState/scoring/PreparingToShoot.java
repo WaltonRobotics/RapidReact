@@ -34,6 +34,8 @@ public class PreparingToShoot implements IState {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
+        LimelightHelper.takeSnapshot();
+
         if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
             if (godSubsystem.isInAuton()) {
                 godSubsystem.setCurrentTargetFlywheelVelocity(kAutonBarfVelocityRawUnits);
