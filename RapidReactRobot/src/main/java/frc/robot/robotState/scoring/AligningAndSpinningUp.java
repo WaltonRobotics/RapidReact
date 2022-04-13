@@ -13,7 +13,7 @@ import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
-import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
+import static frc.robot.Constants.VisionConstants.kShootingAlignmentToleranceDegrees;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
@@ -94,7 +94,7 @@ public class AligningAndSpinningUp implements IState {
 
         godSubsystem.handleIntakingAndOuttaking();
 
-        if ((UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees)
+        if ((UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kShootingAlignmentToleranceDegrees)
                 || overrideAutoAimAndShootButton.get())) {
             return new PreparingToShoot();
         }
