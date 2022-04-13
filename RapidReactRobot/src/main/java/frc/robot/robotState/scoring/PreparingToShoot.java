@@ -6,6 +6,10 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.*;
 import frc.robot.vision.ColorSensor;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
@@ -29,6 +33,8 @@ public class PreparingToShoot implements IState {
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.VELOCITY);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
+
+        LimelightHelper.takeSnapshot();
 
         if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
             if (godSubsystem.isInAuton()) {
