@@ -260,7 +260,7 @@ public class PracticeRapidReact extends WaltRobot {
                         new RelativeEncoderConfig() {
                             @Override
                             public double getDistancePerPulse() {
-                                return 1;
+                                return 4.0;
                             }
 
                             @Override
@@ -275,14 +275,14 @@ public class PracticeRapidReact extends WaltRobot {
 
                             @Override
                             public boolean isInverted() {
-                                return true;
+                                return false;
                             }
                         },
 
                         new RelativeEncoderConfig() {
                             @Override
                             public double getDistancePerPulse() {
-                                return 1;
+                                return 4.0;
                             }
 
                             @Override
@@ -297,14 +297,14 @@ public class PracticeRapidReact extends WaltRobot {
 
                             @Override
                             public boolean isInverted() {
-                                return true;
+                                return false;
                             }
                         },
 
                         new RelativeEncoderConfig() {
                             @Override
                             public double getDistancePerPulse() {
-                                return 1;
+                                return 4.0;
                             }
 
                             @Override
@@ -319,14 +319,14 @@ public class PracticeRapidReact extends WaltRobot {
 
                             @Override
                             public boolean isInverted() {
-                                return true;
+                                return false;
                             }
                         },
 
                         new RelativeEncoderConfig() {
                             @Override
                             public double getDistancePerPulse() {
-                                return 1;
+                                return 4.0;
                             }
 
                             @Override
@@ -341,7 +341,7 @@ public class PracticeRapidReact extends WaltRobot {
 
                             @Override
                             public boolean isInverted() {
-                                return true;
+                                return false;
                             }
                         }
                 };

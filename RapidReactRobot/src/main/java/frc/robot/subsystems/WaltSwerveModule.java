@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.strykeforce.swerve.SwerveModule;
 
 import java.util.logging.Level;
@@ -90,7 +91,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
                 referenceController.getI(), referenceController.getD());
 
         azimuthController.setTolerance(1);
-        azimuthController.enableContinuousInput(0, azimuthAbsoluteCountsPerRev);
+//        azimuthController.enableContinuousInput(0, azimuthAbsoluteCountsPerRev);
 
         previousEncDistance = 0;
 
@@ -121,7 +122,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         periodicIO.hasDriveControllerReset = driveTalon.hasResetOccurred();
 //        periodicIO.azimuthAbsoluteFrequency = azimuthAbsoluteEncoderPWM.getFrequency();
 //        periodicIO.azimuthAbsoluteOutput = azimuthAbsoluteEncoderPWM.getOutput();
-        periodicIO.azimuthRelativeCounts = quadratureEncoder.get();
+        periodicIO.azimuthRelativeCounts = quadratureEncoder.getDistance();
         periodicIO.drivePositionNU = driveTalon.getSelectedSensorPosition();
         periodicIO.driveVelocityNU = driveTalon.getSelectedSensorVelocity();
         periodicIO.driveClosedLoopErrorNU = driveTalon.getClosedLoopError();
@@ -133,7 +134,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             configDriveStatusFrames();
         }
 
-//        SmartDashboard.putNumber("Module " + getWheelIndex() + " absolute demand", periodicIO.azimuthAbsoluteCountsDemand);
+//        SmartDashboard.putNumber("Module " + getWheelIndex() + " absolute demand", periodicIO.azimuthCountsDemand);
 
 //        azimuthSparkMax.getPIDController().setReference(periodicIO.relativeCountsDemand, CANSparkMax.ControlType.kPosition);
 
@@ -327,7 +328,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         double countsFromAngle =
                 angle.getRadians() / (2.0 * Math.PI) * azimuthAbsoluteCountsPerRev;
         double countsDelta = Math.IEEEremainder(countsFromAngle - countsBefore, azimuthAbsoluteCountsPerRev);
-        periodicIO.azimuthCountsDemand = countsBefore + countsDelta;
+        periodicIO.azimuthCountsDemand = periodicIO.azimuthRelativeCounts + countsDelta;
     }
 
     private SwerveModuleState setAzimuthOptimizedState(SwerveModuleState desiredState) {
