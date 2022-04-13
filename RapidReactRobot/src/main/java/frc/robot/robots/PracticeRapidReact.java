@@ -254,6 +254,8 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public RelativeEncoderConfig[] getAzimuthQuadratureConfigs() {
+                // The following channels refer to the MXP DIO ports 0-9
+
                 return new RelativeEncoderConfig[] {
                         new RelativeEncoderConfig() {
                             @Override
@@ -263,12 +265,12 @@ public class PracticeRapidReact extends WaltRobot {
 
                             @Override
                             public int getChannelA() {
-                                return 10;
+                                return 0;
                             }
 
                             @Override
                             public int getChannelB() {
-                                return 11;
+                                return 1;
                             }
 
                             @Override
@@ -285,12 +287,12 @@ public class PracticeRapidReact extends WaltRobot {
 
                             @Override
                             public int getChannelA() {
-                                return 12;
+                                return 2;
                             }
 
                             @Override
                             public int getChannelB() {
-                                return 13;
+                                return 3;
                             }
 
                             @Override
@@ -307,12 +309,12 @@ public class PracticeRapidReact extends WaltRobot {
 
                             @Override
                             public int getChannelA() {
-                                return 14;
+                                return 4;
                             }
 
                             @Override
                             public int getChannelB() {
-                                return 15;
+                                return 5;
                             }
 
                             @Override
@@ -329,12 +331,12 @@ public class PracticeRapidReact extends WaltRobot {
 
                             @Override
                             public int getChannelA() {
-                                return 16;
+                                return 6;
                             }
 
                             @Override
                             public int getChannelB() {
-                                return 17;
+                                return 7;
                             }
 
                             @Override
