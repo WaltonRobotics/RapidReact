@@ -108,6 +108,11 @@ public final class Constants {
         // The full range of angles for the hood
         public static final double kFullHoodAngleRange = 1.0;
 
+        // NU conversion factors
+        public static final double kFlywheelRadiusMeters = Units.inchesToMeters(1.25) + Units.inchesToMeters(0.5);
+        public static final double kFlywheelNUToRPM = 600.0 / 2048.0 * 1.5;
+        public static final double kFlywheelNUToMPS = kFlywheelNUToRPM / 60.0 * (2 * Math.PI * kFlywheelRadiusMeters);
+
     }
 
     public static final class Climber {
