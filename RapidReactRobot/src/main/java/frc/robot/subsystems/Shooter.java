@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -219,6 +220,11 @@ public class Shooter implements SubSubsystem {
 
     public double getEstimatedHoodPosition() {
         return periodicIO.estimatedHoodPosition;
+    }
+
+    public Rotation2d getHoodAngleFromHorizontal() {
+        double hoodPosition = periodicIO.estimatedHoodPosition - kHoodLowerLimit;
+        return Rotation2d.fromDegrees(kHoodAngleToDegreesIntercept + kHoodAngleToDegreesSlope * hoodPosition);
     }
 
     public double getMasterTemp() {
