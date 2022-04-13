@@ -11,6 +11,7 @@ import com.revrobotics.RelativeEncoder;
 import com.team254.lib.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -290,7 +291,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveDrive.move(vxMetersPerSecond, vyMetersPerSecond, omegaRadiansPerSecond, isFieldOriented);
     }
 
-    public void faceDirection(double vx, double vy, Rotation2d theta, boolean isFieldRelative) {
+    public double faceDirection(double vx, double vy, Rotation2d theta, boolean isFieldRelative) {
         double currentHeading = UtilMethods.restrictAngle(getHeading().getDegrees(), -180, 180);
         double thetaTarget = UtilMethods.restrictAngle(theta.getDegrees(), -180, 180);
         double thetaError = thetaTarget - currentHeading;
@@ -307,6 +308,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         }
 
         move(vx, vy, output, isFieldRelative);
+
+        return thetaError;
     }
 
     public void faceClosest(double vx, double vy, boolean isFieldRelative) {
@@ -382,6 +385,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     public DrivetrainConfig getConfig() {
         return config;
+    }
+
+    public ChassisSpeeds getRobotRelativeSpeeds() {
+        return swerveDrive.getRobotRelativeSpeeds();
     }
 
     public void xLockSwerveDrive() {

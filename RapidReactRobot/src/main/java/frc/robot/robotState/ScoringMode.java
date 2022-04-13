@@ -5,6 +5,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.scoring.AdjustingHood;
 import frc.robot.robotState.scoring.Intaking;
 import frc.robot.robotState.scoring.Outtaking;
+import frc.robot.robotState.scoring.ShootWhileMoving;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.*;
 
@@ -46,7 +47,7 @@ public class ScoringMode implements IState {
             return new Outtaking();
         }
 
-        if (shootButton.isRisingEdge() || barfButton.isRisingEdge()
+        if (shootButton.get() || barfButton.isRisingEdge()
                 || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
                 || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot())
                 || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {

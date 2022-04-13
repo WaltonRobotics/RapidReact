@@ -62,6 +62,10 @@ public class AdjustingHood implements IState {
             return new ScoringModeTransition();
         }
 
+        if (godSubsystem.isRobotMotionOverride()) {
+            return new ShootWhileMoving();
+        }
+
         godSubsystem.handleIntakingAndOuttaking();
 
         if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {

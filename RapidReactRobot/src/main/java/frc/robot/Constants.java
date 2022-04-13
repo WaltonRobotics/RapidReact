@@ -35,7 +35,7 @@ public final class Constants {
 
         public static final boolean kUseAzimuthDeadband = true;
 
-        public static final boolean kMotionCorrectShooting = false;
+        public static final boolean kMotionCorrectShooting = true;
 
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;

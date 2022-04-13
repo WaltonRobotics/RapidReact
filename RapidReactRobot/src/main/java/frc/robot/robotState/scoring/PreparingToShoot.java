@@ -58,6 +58,10 @@ public class PreparingToShoot implements IState {
             return new Disabled();
         }
 
+        if (godSubsystem.isRobotMotionOverride()) {
+            return new ShootWhileMoving();
+        }
+
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
         godSubsystem.handleIntakingAndOuttaking();

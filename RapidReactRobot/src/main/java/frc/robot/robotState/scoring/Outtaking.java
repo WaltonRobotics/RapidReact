@@ -44,6 +44,8 @@ public class Outtaking implements IState {
             return new AdjustingHood();
         }
 
+        godSubsystem.handleTrackTarget();
+
         godSubsystem.handleOuttakingWithConveyor();
 
         godSubsystem.getShooter().setFlywheelDemand(kOuttakeVelocityRawUnits);

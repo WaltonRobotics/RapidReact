@@ -46,6 +46,10 @@ public class Shooting implements IState {
             return new SpinningDown();
         }
 
+        if (godSubsystem.isRobotMotionOverride()) {
+            return new ShootWhileMoving();
+        }
+
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
 //        if (Math.abs(shooter.getFlywheelClosedLoopErrorNU()) > kShootingToleranceRawUnits) {

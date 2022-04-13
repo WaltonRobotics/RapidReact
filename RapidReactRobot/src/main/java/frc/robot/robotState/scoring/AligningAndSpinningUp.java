@@ -60,16 +60,13 @@ public class AligningAndSpinningUp implements IState {
             return new ScoringMode();
         }
 
+        if (godSubsystem.isRobotMotionOverride()) {
+            return new ShootWhileMoving();
+        }
+
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 
-        double yaw = OI.yawScale.apply(godSubsystem.getRotateX());
-        double omega = 0;
-
-        // Ensure at least the minimum turn omega is supplied to the drivetrain to prevent stalling
-        if (Math.abs(godSubsystem.getRotateX()) > yawScale.getDeadband()) {
-            omega = Math.signum(yaw) * Math.max(Math.abs(yaw * drivetrain.getConfig().getMaxOmega()),
-                    drivetrain.getConfig().getMinTurnOmega());
-        }
+        double omega = godSubsystem.getOmega();
 
         godSubsystem.setAutoAligning(true);
         godSubsystem.handleAutoAlign(0, 0, omega, false);

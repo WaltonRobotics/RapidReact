@@ -16,16 +16,14 @@ import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.*;
-import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
-import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
+import static frc.robot.Constants.DriverPreferences.*;
 import static frc.robot.Constants.FieldConstants.kCenterOfHubPose;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Constants.VisionConstants.kAlignmentToShootToleranceDegrees;
 import static frc.robot.Constants.VisionConstants.kUseOdometryBackup;
 import static frc.robot.OI.*;
-import static frc.robot.RobotContainer.allianceColorChooser;
-import static frc.robot.RobotContainer.currentRobot;
+import static frc.robot.RobotContainer.*;
 import static frc.robot.util.UtilMethods.monitorTemp;
 
 public class Superstructure extends SubsystemBase {
@@ -455,6 +453,35 @@ public class Superstructure extends SubsystemBase {
 
     public void setDoesAutonNeedToTrackTarget(boolean doesAutonNeedToTrackTarget) {
         this.doesAutonNeedToTrackTarget = doesAutonNeedToTrackTarget;
+    }
+
+    public double getVx() {
+        double forward = OI.forwardScale.apply(getForward());
+        return forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
+    }
+
+    public double getVy() {
+        double strafe = OI.strafeScale.apply(getStrafe());
+        return strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
+    }
+
+    public double getOmega() {
+        double yaw = OI.yawScale.apply(getRotateX());
+
+        double omega = 0;
+
+        // Ensure at least the minimum turn omega is supplied to the drivetrain to prevent stalling
+        if (Math.abs(getRotateX()) > yawScale.getDeadband()) {
+            omega = Math.signum(yaw) * Math.max(Math.abs(yaw * drivetrain.getConfig().getMaxOmega()),
+                    drivetrain.getConfig().getMinTurnOmega());
+        }
+
+        return omega;
+    }
+
+    public boolean isRobotMotionOverride() {
+        return (Math.abs(getVx()) > 0.3
+                || Math.abs(getVy()) > 0.3) && kMotionCorrectShooting;
     }
 
     public void updateShuffleboard() {

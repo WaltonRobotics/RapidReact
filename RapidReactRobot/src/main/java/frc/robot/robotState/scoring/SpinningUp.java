@@ -45,9 +45,11 @@ public class SpinningUp implements IState {
             return new ScoringModeTransition();
         }
 
-        if (!godSubsystem.isInAuton()) {
-            godSubsystem.getDrivetrain().xLockSwerveDrive();
+        if (godSubsystem.isRobotMotionOverride()) {
+            return new ShootWhileMoving();
         }
+
+        godSubsystem.getDrivetrain().xLockSwerveDrive();
 
         shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
 

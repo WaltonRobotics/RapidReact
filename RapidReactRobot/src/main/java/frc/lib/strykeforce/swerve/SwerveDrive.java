@@ -249,6 +249,13 @@ public class SwerveDrive {
     }
   }
 
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+    return kinematics.toChassisSpeeds(swerveModules[0].getState(),
+            swerveModules[1].getState(),
+            swerveModules[2].getState(),
+            swerveModules[3].getState());
+  }
+
   private SwerveModuleState[] getSwerveModuleStates(
       double vxMetersPerSecond,
       double vyMetersPerSecond,

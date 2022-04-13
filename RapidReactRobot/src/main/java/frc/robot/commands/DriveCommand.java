@@ -45,20 +45,9 @@ public class DriveCommand extends CommandBase {
             SmartDashboard.putBoolean(kDrivetrainIsFieldRelativeKey, isFieldRelative);
             SmartDashboard.putBoolean(kDrivetrainIsPositionalRotationKey, isPositionalRotation);
 
-            double forward = OI.forwardScale.apply(godSubsystem.getForward());
-            double strafe = OI.strafeScale.apply(godSubsystem.getStrafe());
-
-            double vx = forward * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
-            double vy = strafe * drivetrain.getConfig().getMaxSpeedMetersPerSecond();
-
-            double yaw = OI.yawScale.apply(godSubsystem.getRotateX());
-            double omega = 0;
-
-            // Ensure at least the minimum turn omega is supplied to the drivetrain to prevent stalling
-            if (Math.abs(godSubsystem.getRotateX()) > yawScale.getDeadband()) {
-                omega = Math.signum(yaw) * Math.max(Math.abs(yaw * drivetrain.getConfig().getMaxOmega()),
-                        drivetrain.getConfig().getMinTurnOmega());
-            }
+            double vx = godSubsystem.getVx();
+            double vy = godSubsystem.getVy();
+            double omega = godSubsystem.getOmega();
 
             // Limit movement when climbing
             if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
