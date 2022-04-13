@@ -10,6 +10,7 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+import static frc.robot.Constants.Shooter.kBarfVelocityRawUnits;
 import static frc.robot.Constants.Shooter.kSpinningUpToleranceRawUnits;
 import static frc.robot.OI.overrideAutoAimAndShootButton;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -50,14 +51,23 @@ public class SpinningUp implements IState {
             godSubsystem.getDrivetrain().xLockSwerveDrive();
         }
 
-        shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+        if (godSubsystem.needsToAutoReject()) {
+            shooter.setFlywheelDemand(kBarfVelocityRawUnits);
+
+            if ((Math.abs(kBarfVelocityRawUnits - shooter.getFlywheelVelocityNU())
+                    <= kSpinningUpToleranceRawUnits) || overrideAutoAimAndShootButton.get()) {
+                return new Shooting();
+            }
+        } else {
+            shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+
+            if ((Math.abs(godSubsystem.getCurrentTargetFlywheelVelocity() - shooter.getFlywheelVelocityNU())
+                    <= kSpinningUpToleranceRawUnits) || overrideAutoAimAndShootButton.get()) {
+                return new Shooting();
+            }
+        }
 
         godSubsystem.handleIntakingAndOuttaking();
-
-        if ((Math.abs(godSubsystem.getCurrentTargetFlywheelVelocity() - shooter.getFlywheelVelocityNU())
-                <= kSpinningUpToleranceRawUnits) || overrideAutoAimAndShootButton.get()) {
-            return new Shooting();
-        }
 
         godSubsystem.getConveyor().setTransportDemand(godSubsystem.getConveyor().getConfig().getTransportIntakePercentOutput());
         godSubsystem.getConveyor().setFeedDemand(0);

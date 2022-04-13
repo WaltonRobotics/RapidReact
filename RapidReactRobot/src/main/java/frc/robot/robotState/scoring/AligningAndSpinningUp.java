@@ -11,6 +11,7 @@ import frc.robot.subsystems.*;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.Shooter.kBarfVelocityRawUnits;
 import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
@@ -56,11 +57,16 @@ public class AligningAndSpinningUp implements IState {
         }
 
         if (!OI.shootButton.get() && !OI.barfButton.get() && !overrideAutoAimAndShootButton.get()
-                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))
+                && !godSubsystem.needsToAutoReject()) {
             return new ScoringMode();
         }
 
-        shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+        if (godSubsystem.needsToAutoReject()) {
+            shooter.setFlywheelDemand(kBarfVelocityRawUnits);
+        } else {
+            shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+        }
 
         double yaw = OI.yawScale.apply(godSubsystem.getRotateX());
         double omega = 0;

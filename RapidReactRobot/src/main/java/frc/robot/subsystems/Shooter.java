@@ -222,6 +222,10 @@ public class Shooter implements SubSubsystem {
         return periodicIO.estimatedHoodPosition;
     }
 
+    public boolean isHoodReady() {
+        return periodicIO.isHoodReady;
+    }
+
     public double getMasterTemp() {
         return flywheelMasterController.getTemperature();
     }
@@ -235,8 +239,6 @@ public class Shooter implements SubSubsystem {
     }
 
     public double getEstimatedHoodAngleFromTarget() {
-        LimelightHelper.takeSnapshot();
-
         if (LimelightHelper.getTV() <= 0) {
             robotLogger.log(Level.WARNING, "No target found for shooter. Using default hood angle");
 

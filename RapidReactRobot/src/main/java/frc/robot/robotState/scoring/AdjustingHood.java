@@ -39,8 +39,7 @@ public class AdjustingHood implements IState {
 //                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
 //            }
 
-            if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())
-                    || godSubsystem.needsToAutoReject()) {
+            if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
                 shooter.setAdjustableHoodDutyCycleDemand(kBarfHoodAngle);
             } else {
                 shooter.setAdjustableHoodDutyCycleDemand(shooter.getEstimatedHoodAngleFromTarget());
@@ -67,8 +66,7 @@ public class AdjustingHood implements IState {
 
         godSubsystem.handleIntakingAndOuttaking();
 
-        if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())
-                || godSubsystem.needsToAutoReject()) {
+        if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
             return new PreparingToShoot();
         }
 

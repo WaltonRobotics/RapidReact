@@ -6,6 +6,7 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.*;
 import frc.robot.vision.ColorSensor;
+import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.DriverPreferences.kUseAutoReject;
@@ -29,8 +30,7 @@ public class PreparingToShoot implements IState {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
-        if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())
-                || godSubsystem.needsToAutoReject()) {
+        if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
             if (godSubsystem.isInAuton()) {
                 godSubsystem.setCurrentTargetFlywheelVelocity(kAutonBarfVelocityRawUnits);
             } else {
@@ -49,6 +49,8 @@ public class PreparingToShoot implements IState {
 //            }
 
             // Recalculate target velocity
+            LimelightHelper.takeSnapshot();
+
             godSubsystem.setCurrentTargetFlywheelVelocity(shooter.getEstimatedVelocityFromTarget());
         }
     }
@@ -59,7 +61,11 @@ public class PreparingToShoot implements IState {
             return new Disabled();
         }
 
-        shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+        if (godSubsystem.needsToAutoReject()) {
+            shooter.setFlywheelDemand(kBarfVelocityRawUnits);
+        } else {
+            shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+        }
 
         godSubsystem.handleIntakingAndOuttaking();
 

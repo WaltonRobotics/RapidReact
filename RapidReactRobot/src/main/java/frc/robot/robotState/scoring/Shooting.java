@@ -9,6 +9,7 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+import static frc.robot.Constants.Shooter.kBarfVelocityRawUnits;
 import static frc.robot.Constants.Shooter.kRecoveryToleranceRawUnits;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -47,7 +48,13 @@ public class Shooting implements IState {
             return new SpinningDown();
         }
 
-        shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+        boolean needsToAutoReject = godSubsystem.needsToAutoReject();
+
+        if (needsToAutoReject) {
+            shooter.setFlywheelDemand(kBarfVelocityRawUnits);
+        } else {
+            shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
+        }
 
 //        if (Math.abs(shooter.getFlywheelClosedLoopErrorNU()) > kShootingToleranceRawUnits) {
 //            return new SpinningUp();
@@ -61,12 +68,12 @@ public class Shooting implements IState {
             godSubsystem.handleOuttaking();
         }
 
-        double flywheelError =
+        double flywheelError = needsToAutoReject ? 0 :
                 Math.abs(shooter.getFlywheelVelocityNU() - godSubsystem.getCurrentTargetFlywheelVelocity());
 
         // Wait for hood to move in position
-        if ((shooter.getEstimatedHoodPosition() == shooter.getAdjustableHoodDutyCycleDemand()
-                && flywheelError <= kRecoveryToleranceRawUnits) || overrideAutoAimAndShootButton.get()) {
+        if ((shooter.isHoodReady() && flywheelError <= kRecoveryToleranceRawUnits)
+                || overrideAutoAimAndShootButton.get()) {
             conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
             conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {
