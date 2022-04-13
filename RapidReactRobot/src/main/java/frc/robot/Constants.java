@@ -20,7 +20,7 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean kIsInCompetition = true;
+        public static final boolean kIsInCompetition = false;
         public static final boolean kIsInTuningMode = true;
         public static final boolean kIsInShooterTuningMode = false;
 
@@ -145,7 +145,7 @@ public final class Constants {
 
         public static final boolean kUseOdometryBackup = true;
 
-        public static final double kLimelightOffsetFeet = 0.10748657;
+        public static final double kLimelightOffsetFeet = 0;
 
     }
 
