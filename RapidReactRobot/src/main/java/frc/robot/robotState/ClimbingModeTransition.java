@@ -8,6 +8,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.Climber.kDefaultPivotAcceleration;
+import static frc.robot.Constants.Climber.kDefaultPivotCruiseVelocity;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class ClimbingModeTransition implements IState {
@@ -44,7 +46,8 @@ public class ClimbingModeTransition implements IState {
 //        new TurnToAngle(180).withTimeout(3.0)
 //                .withInterrupt(godSubsystem::isClimbingMovementOverride).schedule();
 
-        godSubsystem.getClimber().configExtensionSmartMotion(15000, 11000);
+        godSubsystem.getClimber().configExtensionSmartMotion(20000, 40000);
+        godSubsystem.getClimber().configPivotSmartMotion(kDefaultPivotCruiseVelocity, kDefaultPivotAcceleration);
 
         LimelightHelper.setLEDMode(false);
     }

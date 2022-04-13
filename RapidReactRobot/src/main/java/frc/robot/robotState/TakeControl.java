@@ -17,6 +17,9 @@ public class TakeControl implements IState {
         // Enable drive
         DriveCommand.setIsEnabled(true);
 
+        // Load swerve zeros
+        godSubsystem.getDrivetrain().reloadAzimuthZeros();
+
         // Load pivot reference
         godSubsystem.getClimber().zeroSensors();
 
@@ -37,7 +40,8 @@ public class TakeControl implements IState {
 
         if (
 //                angleTarget.isWithinTolerance(pivotAngle, 100) &&
-                godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
+                godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE
+                        || godSubsystem.isInAuton()) {
             return new ScoringModeTransition();
         } else if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
             return new ClimbingModeTransition();

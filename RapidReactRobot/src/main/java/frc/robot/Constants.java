@@ -20,7 +20,7 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean kIsInCompetition = true;
+        public static final boolean kIsInCompetition = false;
         public static final boolean kIsInTuningMode = true;
         public static final boolean kIsInShooterTuningMode = false;
 
@@ -33,7 +33,7 @@ public final class Constants {
             public static final int kManipulationXboxControllerPort = 1;
         }
 
-        public static final boolean kUseAzimuthDeadband = false;
+        public static final boolean kUseAzimuthDeadband = true;
 
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;
@@ -71,15 +71,16 @@ public final class Constants {
 
         public static final double kAbsoluteMaximumVelocityNU = 15500;
 
-        public static final double kDefaultVelocityRawUnits = 8850;
+        public static final double kDefaultVelocityRawUnits = 9100;
         public static final double kBarfVelocityRawUnits = 4500;
-        public static final double kIdleVelocityRawUnits = 6000;
+        public static final double kAutonBarfVelocityRawUnits = 5250;
+        public static final double kIdleVelocityRawUnits = 8500;
         public static final double kOuttakeVelocityRawUnits = -4500;
 
-        public static final double kDefaultHighGoalHoodAngle = 0.35;
-        public static final double kDefaultHighGoalVelocity = 8850;
-        public static final double kDefaultLowGoalHoodAngle = 0;
-        public static final double kDefaultLowGoalVelocity = 5600;
+        public static final double kDefaultHighGoalHoodAngle = 0.6;
+        public static final double kDefaultHighGoalVelocity = 9100;
+        public static final double kDefaultLowGoalHoodAngle = 0.2;
+        public static final double kDefaultLowGoalVelocity = 6500;
 
         public static final double kBarfHoodAngle = 0;
 
@@ -89,7 +90,7 @@ public final class Constants {
         public static final double kShootingToleranceRawUnits = 160;
 
         // The tolerance needed to feed in the next ball
-        public static final double kRecoveryToleranceRawUnits = 500;
+        public static final double kRecoveryToleranceRawUnits = 350;
 
         // Short period of time after the shoot button is released where the flywheels
         // continue rotating to ensure last few shots don't go amiss
@@ -111,10 +112,13 @@ public final class Constants {
 
         public static final double kExtensionZeroingPercentOutput = -0.1;
         public static final double kFastExtensionZeroingPercentOutput = -0.2;
-        public static final double kTransferPercentOutput = -0.35;
+        public static final double kTransferPercentOutput = -0.2;
 
         public static final double kDefaultExtensionCruiseVelocity = 11250;
         public static final double kDefaultExtensionAcceleration = 9000;
+
+        public static final double kDefaultPivotCruiseVelocity = 700;
+        public static final double kDefaultPivotAcceleration = 800;
 
         public static final double kSlowPullUpExtensionCruiseVelocity = 10500;
         public static final double kSlowPullUpExtensionAcceleration = 8000;
@@ -136,7 +140,7 @@ public final class Constants {
 
         public static final int kAlignmentPipeline = 0;
 
-        public static final double kAlignmentToleranceDegrees = 1.5;
+        public static final double kAlignmentToleranceDegrees = 2.5;
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
         public static final boolean kUseOdometryBackup = true;
@@ -176,7 +180,7 @@ public final class Constants {
 //        public static final String kDriverYawScaleKey = "Driver/Yaw Scale";
 
         public static final String kDriverIsAlignedKey = "Driver/Is Aligned";
-        public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
+        //        public static final String kDriverIsMoneyShotKey = "Driver/Is Money Shot";
         public static final String kDriverSelectedRungKey = "Driver/Selected Rung";
 
         public static final String kClimberPivotAngleFromVerticalKey = "Climber/Angle From Vertical Deg";
@@ -235,7 +239,7 @@ public final class Constants {
 
     public static final class PathFollowing {
 
-        public static final double kPathLookaheadTime = 0.1;  // seconds to look ahead along the path for steering 0.4
+        public static final double kPathLookaheadTime = 0.25;  // seconds to look ahead along the path for steering 0.4
         public static final double kPathMinLookaheadDistance = Units.inchesToMeters(6.0);  // inches 24.0 (we've been using 3.0)
 
     }

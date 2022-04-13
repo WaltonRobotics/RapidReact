@@ -2,7 +2,6 @@ package frc.robot.robotState.scoring;
 
 import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
-import frc.robot.robotState.ScoringMode;
 import frc.robot.robotState.ScoringModeTransition;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;

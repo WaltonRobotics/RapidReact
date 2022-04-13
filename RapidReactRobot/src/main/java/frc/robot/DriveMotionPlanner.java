@@ -1,23 +1,19 @@
 package frc.robot;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.team254.lib.geometry.Pose2d;
 import com.team254.lib.geometry.Pose2dWithCurvature;
 import com.team254.lib.geometry.Rotation2d;
 import com.team254.lib.geometry.Translation2d;
-import com.team254.lib.trajectory.DistanceView;
-import com.team254.lib.trajectory.Trajectory;
-import com.team254.lib.trajectory.TrajectoryIterator;
-import com.team254.lib.trajectory.TrajectorySamplePoint;
-import com.team254.lib.trajectory.TrajectoryUtil;
+import com.team254.lib.trajectory.*;
 import com.team254.lib.trajectory.timing.TimedState;
 import com.team254.lib.trajectory.timing.TimingConstraint;
 import com.team254.lib.trajectory.timing.TimingUtil;
 import com.team254.lib.util.CSVWritable;
 import com.team254.lib.util.Util;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static frc.robot.RobotContainer.godSubsystem;
 
@@ -43,15 +39,18 @@ public class DriveMotionPlanner implements CSVWritable {
     }
 
     TrajectoryIterator<TimedState<Pose2dWithCurvature>> mCurrentTrajectory;
-    public Trajectory<TimedState<Pose2dWithCurvature>> getTrajectory(){
+
+    public Trajectory<TimedState<Pose2dWithCurvature>> getTrajectory() {
         return mCurrentTrajectory.trajectory();
     }
-    public double getRemainingProgress(){
-        if(mCurrentTrajectory != null){
+
+    public double getRemainingProgress() {
+        if (mCurrentTrajectory != null) {
             return mCurrentTrajectory.getRemainingProgress();
         }
         return 0.0;
     }
+
     boolean mIsReversed = false;
     double mLastTime = Double.POSITIVE_INFINITY;
     public TimedState<Pose2dWithCurvature> mSetpoint = new TimedState<>(Pose2dWithCurvature.identity());
@@ -61,17 +60,17 @@ public class DriveMotionPlanner implements CSVWritable {
 
     double mDt = 0.0;
 
-    public double getMaxRotationSpeed(){
+    public double getMaxRotationSpeed() {
         final double kStartPoint = 0.2;
         final double kPivotPoint = 0.5;
         final double kEndPoint = 0.8;
         final double kMaxSpeed = 1.0;
         double normalizedProgress = mCurrentTrajectory.getProgress() / currentTrajectoryLength;
         double scalar = 0.0;
-        if(kStartPoint <= normalizedProgress && normalizedProgress <= kEndPoint){
-            if(normalizedProgress <= kPivotPoint){
+        if (kStartPoint <= normalizedProgress && normalizedProgress <= kEndPoint) {
+            if (normalizedProgress <= kPivotPoint) {
                 scalar = (normalizedProgress - kStartPoint) / (kPivotPoint - kStartPoint);
-            }else{
+            } else {
                 scalar = 1.0 - ((normalizedProgress - kPivotPoint) / (kEndPoint - kPivotPoint));
             }
         }
@@ -216,10 +215,10 @@ public class DriveMotionPlanner implements CSVWritable {
         //System.out.println("Lookahead point: " + lookahead_state.state().getTranslation().toString() + " Current State: " + current_state.getTranslation().toString() + " Lookahad translation: " + lookaheadTranslation.toString());
 
         //System.out.println("Speed: " + normalizedSpeed + " DefaultCook: " + defaultCook + " setpoint t:" + mSetpoint.t() + " Length: " + currentTrajectoryLength);
-        if(normalizedSpeed > defaultCook || mSetpoint.t() > (currentTrajectoryLength / 2.0)){
+        if (normalizedSpeed > defaultCook || mSetpoint.t() > (currentTrajectoryLength / 2.0)) {
             useDefaultCook = false;
         }
-        if(useDefaultCook){
+        if (useDefaultCook) {
             normalizedSpeed = defaultCook;
         }
 
@@ -232,7 +231,7 @@ public class DriveMotionPlanner implements CSVWritable {
     }
 
     public Translation2d update(double timestamp, Pose2d current_state) {
-        if (mCurrentTrajectory == null){
+        if (mCurrentTrajectory == null) {
             //System.out.println("Trajectory is null, returning zero trajectory");
             return Translation2d.identity();
         }
@@ -251,12 +250,12 @@ public class DriveMotionPlanner implements CSVWritable {
         double forwardDistance = distance(current_state, previewQuantity + searchStepSize);
         double reverseDistance = distance(current_state, previewQuantity - searchStepSize);
         searchDirection = Math.signum(reverseDistance - forwardDistance);
-        while(searchStepSize > 0.001){
-            if(Util.epsilonEquals(distance(current_state, previewQuantity), 0.0, 0.001)) break;
-            while(/* next point is closer than current point */ distance(current_state, previewQuantity + searchStepSize*searchDirection) <
+        while (searchStepSize > 0.001) {
+            if (Util.epsilonEquals(distance(current_state, previewQuantity), 0.0, 0.001)) break;
+            while (/* next point is closer than current point */ distance(current_state, previewQuantity + searchStepSize * searchDirection) <
                     distance(current_state, previewQuantity)) {
                 /* move to next point */
-                previewQuantity += searchStepSize*searchDirection;
+                previewQuantity += searchStepSize * searchDirection;
             }
             searchStepSize /= 10.0;
             searchDirection *= -1;
@@ -282,7 +281,7 @@ public class DriveMotionPlanner implements CSVWritable {
         return mOutput;
     }
 
-    private double distance(Pose2d current_state, double additional_progress){
+    private double distance(Pose2d current_state, double additional_progress) {
         return mCurrentTrajectory.preview(additional_progress).state().state().getPose().distance(current_state);
     }
 

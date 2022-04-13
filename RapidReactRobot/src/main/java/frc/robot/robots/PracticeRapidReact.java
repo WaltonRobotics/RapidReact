@@ -17,8 +17,7 @@ import frc.robot.util.interpolation.InterpolatingTreeMap;
 
 import java.util.HashMap;
 
-import static frc.robot.Constants.Climber.kDefaultExtensionAcceleration;
-import static frc.robot.Constants.Climber.kDefaultExtensionCruiseVelocity;
+import static frc.robot.Constants.Climber.*;
 import static frc.robot.subsystems.Climber.ClimberExtensionLimits.*;
 import static frc.robot.subsystems.Climber.ClimberExtensionPosition.*;
 import static frc.robot.subsystems.Climber.ClimberPivotLimits.*;
@@ -45,7 +44,6 @@ public class PracticeRapidReact extends WaltRobot {
     // 16: Climber extension
 
     // Drivetrain constants
-    private final PIDController azimuthController = new PIDController(50.0 / 4096.0, 0.0, 0.0);
     private final TalonFXConfiguration[] driveControllerConfigs = new TalonFXConfiguration[4];
 
     // Bumper-bumper length: 33.489 in
@@ -76,7 +74,7 @@ public class PracticeRapidReact extends WaltRobot {
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
     private final PIDController faceDirectionController = new PIDController(0.09, 0, 0);
-    private final PIDController autoAlignController = new PIDController(0.05, 0, 0);
+    private final PIDController autoAlignController = new PIDController(0.1, 0, 0);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0, new TrapezoidProfile.Constraints(
                     Math.toDegrees(kMaxOmega / 1.1), 360.0));
@@ -87,28 +85,67 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final double[][] lowGoalMap = {
             // Actual measured distance, Limelight distance, hood angle, velocity
-            {0, 3.879, 0, 5000},
-            {0, 6.456, 0, 6200},
+            {0, 3.803, 0, 5389},
+            {0, 6.105, 0.2, 6813},
+            {0, 8.754, 0.4, 7831},
+            {0, 9.037, 0.419, 8136},
+            {0, 15.407, 0.85, 10426},
     };
 
     private final double[][] highGoalMap = {
             // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
-            {-1, 5.139874, 0, 8800},
-            {-1, 6.110874, 0.2, 8850},
-            {-1, 7.051874, 0.4, 9000},
-            {-1, 8.163874, 0.7, 9177},
-            {-1, 8.979874, 0.75, 9370},
-            {-1, 9.876874, 0.75, 9600},
-            {-1, 10.961874, 0.75, 10050},
-            {-1, 11.948874, 0.75, 10400},
-            {-1, 12.873874, 0.75, 10679},
-            {-1, 13.778874, 0.9, 11000},
-            {-1, 14.951874, 1.0, 11390},
-            {-1, 15.857874, 1.0, 11718},
-            {-1, 16.678874, 1.0, 12001},
-            {-1, 17.840874, 1.0, 12403},
-            {-1, 19.388874, 1.0, 13000},
-            {-1, 20.253874, 1.0, 13350},
+            // 48 in to front bumper, 6.47448657 ft
+            // Measured at states: 6.367 ft
+//            {-1, 5.139874, 0, 8800},
+//            {-1, 6.110874, 0.2, 8850},
+//            {-1, 7.051874, 0.4, 9000},
+//            {-1, 8.163874, 0.7, 9177},
+//            {-1, 8.979874, 0.75, 9370},
+//            {-1, 9.876874, 0.75, 9600},
+//            {-1, 10.961874, 0.75, 10050},
+//            {-1, 11.948874, 0.75, 10400},
+//            {-1, 12.873874, 0.75, 10679},
+//            {-1, 13.778874, 0.9, 11000},
+//            {-1, 14.951874, 1.0, 11390},
+//            {-1, 15.857874, 1.0, 11718},
+//            {-1, 16.678874, 1.0, 12001},
+//            {-1, 17.840874, 1.0, 12403},
+//            {-1, 19.388874, 1.0, 13000},
+//            {-1, 20.253874, 1.0, 13350},
+
+//            {-1, 5.139874, 0, (9000 + 200)},
+//            {-1, 6.110874, 0.2, 9051 + 200},
+//            {-1, 7.051874, 0.4, 9205 + 200},
+//            {-1, 8.163874, 0.7, 9386 + 200},
+//            {-1, 8.979874, 0.75, 9583 + 200},
+//            {-1, 9.876874, 0.75, 9818 + 200},
+//            {-1, 10.961874, 0.75, 10278 + 200},
+//            {-1, 11.948874, 0.75, 10636 + 200},
+//            {-1, 12.873874, 0.75, 10922 + 200},
+//            {-1, 13.778874, 0.9, 11250 + 200},
+//            {-1, 14.951874, 1.0, 11649 + 200},
+//            {-1, 15.857874, 1.0, 11984 + 200},
+//            {-1, 16.678874, 1.0, 12274 + 200},
+//            {-1, 17.840874, 1.0, 12685 + 200},
+//            {-1, 19.388874, 1.0, 13295 + 200},
+//            {-1, 20.253874, 1.0, 13653 + 200},
+
+            {-1, 5.139874, 0, 9154},
+            {-1, 6.110874, 0.2, 9204},
+            {-1, 7.051874, 0.4, 9357},
+            {-1, 8.163874, 0.7, 9537},
+            {-1, 8.979874, 0.75, 9734},
+            {-1, 9.876874, 0.75, 9968},
+            {-1, 10.961874, 0.75, 10426},
+            {-1, 11.948874, 0.75, 10782},
+            {-1, 12.873874, 0.75, 11066},
+            {-1, 13.778874, 0.9, 11392},
+            {-1, 14.951874, 1.0, 11789},
+            {-1, 15.857874, 1.0, 12123},
+            {-1, 16.678874, 1.0, 12411},
+            {-1, 17.840874, 1.0, 12820},
+            {-1, 19.388874, 1.0, 13428},
+            {-1, 20.253874, 1.0, 13784},
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -143,23 +180,48 @@ public class PracticeRapidReact extends WaltRobot {
             driveConfig.supplyCurrLimit.triggerThresholdCurrent = 45;
             driveConfig.supplyCurrLimit.triggerThresholdTime = 40;
             driveConfig.supplyCurrLimit.enable = true;
-            driveConfig.slot0.kP = 0.00096971;
-            driveConfig.slot0.kI = 0;
-            driveConfig.slot0.kD = 0;
-            driveConfig.slot0.kF = 0;
-//            driveConfig.slot0.kP = 0.045;
-//            driveConfig.slot0.kI = 0.0005;
-//            driveConfig.slot0.kD = 0.000;
-//            driveConfig.slot0.kF = 0.047;
-            driveConfig.slot0.integralZone = 750;
-            driveConfig.slot0.maxIntegralAccumulator = 75_000;
-            driveConfig.slot0.allowableClosedloopError = 0;
             driveConfig.velocityMeasurementPeriod = SensorVelocityMeasPeriod.Period_50Ms;
             driveConfig.velocityMeasurementWindow = 32;
             driveConfig.voltageCompSaturation = 12;
 
             driveControllerConfigs[i] = driveConfig;
         }
+
+        // Front-left
+        driveControllerConfigs[0].slot0.kP = 0.0095;
+        driveControllerConfigs[0].slot0.kI = 0;
+        driveControllerConfigs[0].slot0.kD = 0;
+        driveControllerConfigs[0].slot0.kF = 0.04878923;
+        driveControllerConfigs[0].slot0.integralZone = 750;
+        driveControllerConfigs[0].slot0.maxIntegralAccumulator = 75_000;
+        driveControllerConfigs[0].slot0.allowableClosedloopError = 0;
+
+        // Front-right
+        driveControllerConfigs[1].slot0.kP = 0.0048;
+        driveControllerConfigs[1].slot0.kI = 0;
+        driveControllerConfigs[1].slot0.kD = 0;
+        driveControllerConfigs[1].slot0.kF = 0.04836;
+        driveControllerConfigs[1].slot0.integralZone = 750;
+        driveControllerConfigs[1].slot0.maxIntegralAccumulator = 75_000;
+        driveControllerConfigs[1].slot0.allowableClosedloopError = 0;
+
+        // Left-rear
+        driveControllerConfigs[2].slot0.kP = 0.008;
+        driveControllerConfigs[2].slot0.kI = 0;
+        driveControllerConfigs[2].slot0.kD = 0;
+        driveControllerConfigs[2].slot0.kF = 0.046872;
+        driveControllerConfigs[2].slot0.integralZone = 750;
+        driveControllerConfigs[2].slot0.maxIntegralAccumulator = 75_000;
+        driveControllerConfigs[2].slot0.allowableClosedloopError = 0;
+
+        // Right-rear
+        driveControllerConfigs[3].slot0.kP = 0.005;
+        driveControllerConfigs[3].slot0.kI = 0;
+        driveControllerConfigs[3].slot0.kD = 0;
+        driveControllerConfigs[3].slot0.kF = 0.04636619;
+        driveControllerConfigs[3].slot0.integralZone = 750;
+        driveControllerConfigs[3].slot0.maxIntegralAccumulator = 75_000;
+        driveControllerConfigs[3].slot0.allowableClosedloopError = 0;
 
         final double x = kDistanceBetweenWheelsLengthWiseMeters / 2.0; // front-back, was ROBOT_LENGTH
         final double y = kDistanceBetweenWheelsWidthWiseMeters / 2.0; // left-right, was ROBOT_WIDTH
@@ -169,8 +231,6 @@ public class PracticeRapidReact extends WaltRobot {
         wheelLocationMeters[2] = new Translation2d(-x, y); // left rear
         wheelLocationMeters[3] = new Translation2d(-x, -y); // right rear
 
-        azimuthController.setTolerance(1);
-
         turnToAngleController.enableContinuousInput(-180.0, 180.0);
         turnToAngleController.setTolerance(1.5, 1.0);
         faceDirectionController.enableContinuousInput(-180, 180);
@@ -178,8 +238,13 @@ public class PracticeRapidReact extends WaltRobot {
 
         drivetrainConfig = new DrivetrainConfig() {
             @Override
-            public PIDController getAzimuthPositionalPID() {
-                return azimuthController;
+            public PIDController[] getAzimuthPositionalPIDs() {
+                return new PIDController[]{
+                        new PIDController(13.0 / 4096.0, 0.0, 0.0), // left front
+                        new PIDController(15.1 / 4096.0, 0.0, 0.0), // right front
+                        new PIDController(15.0 / 4096.0, 0.0, 0.0), // left rear
+                        new PIDController(15.0 / 4096.0, 0.0, 0.0), // right rear
+                };
             }
 
             @Override
@@ -293,7 +358,7 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public double getMinTurnOmega() {
-                return 0.05;
+                return 0.6;
             }
 
             @Override
@@ -445,8 +510,8 @@ public class PracticeRapidReact extends WaltRobot {
 
         // Spinning up profile
         flywheelMasterTalonConfig.slot0.kF = 0.05;
-        flywheelMasterTalonConfig.slot0.kP = 0.00085;
-        flywheelMasterTalonConfig.slot0.kI = 1.38282776E-05;
+        flywheelMasterTalonConfig.slot0.kP = 0.00087;
+        flywheelMasterTalonConfig.slot0.kI = 9E-05;
         flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot0.integralZone = 300;
@@ -456,7 +521,7 @@ public class PracticeRapidReact extends WaltRobot {
         // Shooting profile
         flywheelMasterTalonConfig.slot1.kF = 0.05;
         flywheelMasterTalonConfig.slot1.kP = 0.00088;
-        flywheelMasterTalonConfig.slot1.kI = 1.38282776E-05;
+        flywheelMasterTalonConfig.slot1.kI = 9E-05;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot1.integralZone = 300;
@@ -566,8 +631,8 @@ public class PracticeRapidReact extends WaltRobot {
         pivotControllerTalonConfig.slot0.integralZone = 300; // 750
         pivotControllerTalonConfig.slot0.maxIntegralAccumulator = 250_000;
         pivotControllerTalonConfig.slot0.closedLoopPeakOutput = 1.0;
-        pivotControllerTalonConfig.motionCruiseVelocity = 700;
-        pivotControllerTalonConfig.motionAcceleration = 600;
+        pivotControllerTalonConfig.motionCruiseVelocity = kDefaultPivotCruiseVelocity;
+        pivotControllerTalonConfig.motionAcceleration = kDefaultPivotAcceleration;
         pivotControllerTalonConfig.motionCurveStrength = 3;
 
         extensionControllerTalonConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
@@ -721,14 +786,14 @@ public class PracticeRapidReact extends WaltRobot {
     public void defineLimits() {
         climberPivotLimits.put(PIVOT_STOWED, new LimitPair(956, 1006));
         climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(969, 1065));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(969, 1065));
+        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(969, 1006));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(969, 1065));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(969, 1065));
         climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(969, 1065));
 
         climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));
         climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 470081));
-        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(5000, 470081));
+        climberExtensionLimits.put(MID_BAR_FINALIZE_CLIMB, new LimitPair(5000, 470081));
         climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(5000, 470081));
     }
 
@@ -776,7 +841,8 @@ public class PracticeRapidReact extends WaltRobot {
         climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
         climberExtensionTargets.put(HIGH_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(369664, 1877)); // 21.467 in
         climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(120000, 1877)); // 11.0 in
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(40549, 1877)); // 3.0 in
+        climberExtensionTargets.put(CLOSE_IN_TO_ZERO_LENGTH, new Target(15000, 1877));
+        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(50000, 1877)); // 3.0 in
         climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(469500, 1877)); // 25 in
         climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(120000, 1877)); // 13.50 in
         climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(40549, 1877)); // 3.0 in

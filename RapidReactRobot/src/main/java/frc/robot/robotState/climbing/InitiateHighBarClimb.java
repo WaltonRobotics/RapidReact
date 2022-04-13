@@ -26,7 +26,7 @@ public class InitiateHighBarClimb implements IState {
                 Climber.ClimberExtensionPosition.HOOKING_ONTO_HIGH_BAR_LENGTH);
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
 
-        godSubsystem.getClimber().configExtensionSmartMotion(15000, 11000);
+        godSubsystem.getClimber().configExtensionSmartMotion(20000, 40000);
     }
 
     @Override

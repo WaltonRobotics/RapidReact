@@ -151,7 +151,7 @@ public class RobotContainer {
         SmartDashboard.putData(kAllianceColorKey, allianceColorChooser);
 
         SmartDashboard.putBoolean(kDriverIsAlignedKey, false);
-        SmartDashboard.putBoolean(kDriverIsMoneyShotKey, false);
+//        SmartDashboard.putBoolean(kDriverIsMoneyShotKey, false);
 
         SmartDashboard.putString(kDriverSelectedRungKey, godSubsystem.getSelectedRung().name());
 
@@ -211,9 +211,6 @@ public class RobotContainer {
             SmartDashboard.putNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits);
 
             SmartDashboard.putNumber(kShooterHoodPositionSetpointKey, 0.0);
-
-            SmartDashboard.putData("Move Half Foot Backwards",
-                    AutonRoutine.HALF_FOOT_BACKWARDS.getCommandGroup());
         }
 
         SmartDashboard.putBoolean("Flywheel on target", false);

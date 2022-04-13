@@ -41,7 +41,8 @@ public class Shooting implements IState {
 
         if (!OI.shootButton.get() && !OI.barfButton.get() && !overrideAutoAimAndShootButton.get()
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))
-                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf()))) {
             return new SpinningDown();
         }
 
@@ -68,7 +69,8 @@ public class Shooting implements IState {
             conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
             conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
         } else {
-            godSubsystem.handleTransportConveyorManualOverride();
+//            godSubsystem.handleTransportConveyorManualOverride();
+            conveyor.setTransportDemand(conveyor.getConfig().getTransportIntakePercentOutput());
             godSubsystem.handleFeedConveyorManualOverride();
         }
 

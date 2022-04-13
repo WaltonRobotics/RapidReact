@@ -3,7 +3,6 @@ package frc.robot.robotState.scoring;
 import frc.robot.OI;
 import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
-import frc.robot.robotState.ScoringMode;
 import frc.robot.robotState.ScoringModeTransition;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
@@ -41,7 +40,8 @@ public class SpinningUp implements IState {
 
         if (!OI.shootButton.get() && !OI.barfButton.get() && !overrideAutoAimAndShootButton.get()
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))
-                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))) {
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf()))) {
             return new ScoringModeTransition();
         }
 
@@ -57,6 +57,9 @@ public class SpinningUp implements IState {
                 <= kSpinningUpToleranceRawUnits) || overrideAutoAimAndShootButton.get()) {
             return new Shooting();
         }
+
+        godSubsystem.getConveyor().setTransportDemand(godSubsystem.getConveyor().getConfig().getTransportIntakePercentOutput());
+        godSubsystem.getConveyor().setFeedDemand(0);
 
         return this;
     }

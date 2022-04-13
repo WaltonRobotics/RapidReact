@@ -8,7 +8,6 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.team254.lib.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,7 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
 import frc.lib.strykeforce.swerve.SwerveModule;
-import frc.robot.commands.auton.LiveDashboardHelper;
 import frc.robot.config.DrivetrainConfig;
 import frc.robot.util.UtilMethods;
 
@@ -71,18 +69,18 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
             // 1.0 reported by the azimuth relative encoder should correspond to 1 full rotation of the wheel
             RelativeEncoder azimuthRelativeEncoder = azimuthSparkMax.getEncoder();
-            SparkMaxPIDController azimuthPID = azimuthSparkMax.getPIDController();
+//            SparkMaxPIDController azimuthPID = azimuthSparkMax.getPIDController();
 
             azimuthRelativeEncoder.setPositionConversionFactor(config.getRelativeEncoderRotationsPerTick());
             azimuthRelativeEncoder.setVelocityConversionFactor(config.getRelativeEncoderRotationsPerTick());
 
             // Smart Motion Configuration
-            azimuthPID.setP(config.getAzimuthPositionalPID().getP() * 4096.0);
-            azimuthPID.setI(config.getAzimuthPositionalPID().getI() * 4096.0);
-            azimuthPID.setD(config.getAzimuthPositionalPID().getD() * 4096.0);
-            azimuthPID.setIZone(0);
-            azimuthPID.setFF(0);
-            azimuthPID.setOutputRange(-1, 1);
+//            azimuthPID.setP(config.getAzimuthPositionalPIDs().getP() * 4096.0);
+//            azimuthPID.setI(config.getAzimuthPositionalPIDs().getI() * 4096.0);
+//            azimuthPID.setD(config.getAzimuthPositionalPIDs().getD() * 4096.0);
+//            azimuthPID.setIZone(0);
+//            azimuthPID.setFF(0);
+//            azimuthPID.setOutputRange(-1, 1);
 
             if (kIsInCompetition) {
                 azimuthSparkMax.burnFlash();
@@ -110,14 +108,15 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 //            controller.enableContinuousInput(-90 * 4096.0, 90 * 4096.0);
 
             swerveModules.add(moduleBuilder
-                            .azimuthSparkMax(azimuthSparkMax)
-                            .azimuthController(config.getAzimuthPositionalPID())
-                            .driveTalon(driveTalon)
-                            .azimuthAbsoluteEncoderPWM(encoderPWM)
-                            .isAzimuthAbsoluteEncoderInverted(config.getAbsoluteEncoderInversions()[i])
-                            .wheelLocationMeters(config.getWheelLocationMeters()[i])
-                            .build());
+                    .azimuthSparkMax(azimuthSparkMax)
+                    .azimuthController(config.getAzimuthPositionalPIDs()[i])
+                    .driveTalon(driveTalon)
+                    .azimuthAbsoluteEncoderPWM(encoderPWM)
+                    .isAzimuthAbsoluteEncoderInverted(config.getAbsoluteEncoderInversions()[i])
+                    .wheelLocationMeters(config.getWheelLocationMeters()[i])
+                    .build());
         }
+
         SwerveModule[] modules = new SwerveModule[swerveModules.size()];
         modules = swerveModules.toArray(modules);
 
@@ -162,9 +161,9 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return swerveDrive.getKinematics();
     }
 
-//    public void reloadAzimuthZeros() {
-//        swerveDrive.reloadAzimuthZeros();
-//    }
+    public void reloadAzimuthZeros() {
+        swerveDrive.reloadAzimuthZeros();
+    }
 
     public void zeroHeading() {
         setHeadingOffset(Rotation2d.fromDegrees(0.0));
@@ -201,14 +200,16 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                 new Rotation2d(pose.getRotation().getRadians()));
     }
 
-    /** Playing around with different methods of odometry. This will require the use of all four modules, however. */
+    /**
+     * Playing around with different methods of odometry. This will require the use of all four modules, however.
+     */
     public synchronized void alternatePoseUpdate() {
         double x = 0.0;
         double y = 0.0;
 
         double[][] distances = new double[4][2];
 
-        for(WaltSwerveModule m : swerveModules) {
+        for (WaltSwerveModule m : swerveModules) {
             m.updatePose(getHeading());
             double distance = m.getEstimatedRobotPose().getTranslation().distance(pose.getTranslation());
             int moduleID = m.getWheelIndex();
@@ -224,23 +225,23 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         double secondDifference = distances[2][1] - distances[1][1];
         double thirdDifference = distances[3][1] - distances[2][1];
 
-        if(secondDifference > (1.5 * firstDifference)){
-            modulesToUse.add(swerveModules.get((int)distances[0][0]));
-            modulesToUse.add(swerveModules.get((int)distances[1][0]));
-        }else if(thirdDifference > (1.5 * firstDifference)){
-            modulesToUse.add(swerveModules.get((int)distances[0][0]));
-            modulesToUse.add(swerveModules.get((int)distances[1][0]));
-            modulesToUse.add(swerveModules.get((int)distances[2][0]));
-        }else{
-            modulesToUse.add(swerveModules.get((int)distances[0][0]));
-            modulesToUse.add(swerveModules.get((int)distances[1][0]));
-            modulesToUse.add(swerveModules.get((int)distances[2][0]));
-            modulesToUse.add(swerveModules.get((int)distances[3][0]));
+        if (secondDifference > (1.5 * firstDifference)) {
+            modulesToUse.add(swerveModules.get((int) distances[0][0]));
+            modulesToUse.add(swerveModules.get((int) distances[1][0]));
+        } else if (thirdDifference > (1.5 * firstDifference)) {
+            modulesToUse.add(swerveModules.get((int) distances[0][0]));
+            modulesToUse.add(swerveModules.get((int) distances[1][0]));
+            modulesToUse.add(swerveModules.get((int) distances[2][0]));
+        } else {
+            modulesToUse.add(swerveModules.get((int) distances[0][0]));
+            modulesToUse.add(swerveModules.get((int) distances[1][0]));
+            modulesToUse.add(swerveModules.get((int) distances[2][0]));
+            modulesToUse.add(swerveModules.get((int) distances[3][0]));
         }
 
         SmartDashboard.putNumber("Modules Used", modulesToUse.size());
 
-        for(WaltSwerveModule m : modulesToUse){
+        for (WaltSwerveModule m : modulesToUse) {
             x += m.getEstimatedRobotPose().getTranslation().x();
             y += m.getEstimatedRobotPose().getTranslation().y();
         }
@@ -395,6 +396,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     @Override
     public synchronized void zeroSensors() {
         zeroHeading();
+        reloadAzimuthZeros();
     }
 
     @Override
@@ -409,6 +411,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     @Override
     public void updateShuffleboard() {
+//        SmartDashboard.putNumber("Left front voltage", getSwerveModules().get(0).getDriveVoltage());
         // Absolute encoder data
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Absolute Counts", swerveModules.get(0).getAzimuthAbsoluteEncoderCounts());
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Absolute Counts", swerveModules.get(1).getAzimuthAbsoluteEncoderCounts());
@@ -444,6 +447,11 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Velocity Error", swerveModules.get(1).getDriveVelocityErrorNU());
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Velocity Error", swerveModules.get(2).getDriveVelocityErrorNU());
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Velocity Error", swerveModules.get(3).getDriveVelocityErrorNU());
+
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Velocity", swerveModules.get(0).getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Velocity", swerveModules.get(1).getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Velocity", swerveModules.get(2).getDriveMetersPerSecond());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Velocity", swerveModules.get(3).getDriveMetersPerSecond());
     }
 
     public double getAngularVelocityDegreesPerSec() {

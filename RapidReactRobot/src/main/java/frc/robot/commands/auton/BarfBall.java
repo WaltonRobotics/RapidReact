@@ -1,38 +1,21 @@
 package frc.robot.commands.auton;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import static frc.robot.RobotContainer.godSubsystem;
-public class BarfBall extends CommandBase {
-    private final Timer timer = new Timer();
-    private final double totalTimeSeconds;
 
-    public BarfBall(double timeSeconds){
-        totalTimeSeconds = timeSeconds;
-    }
+public class BarfBall extends SequentialCommandGroup {
 
-    @Override
-    public void initialize() {
-        timer.reset();
-        timer.start();
-    }
+    public BarfBall(int numberOfBalls, double timeout) {
+        addCommands(new InstantCommand(() -> godSubsystem.setDoesAutonNeedToBarf(true)));
 
-    @Override
-    public void execute() {
-        godSubsystem.setDoesAutonNeedToAlignAndShoot(true);
-    }
+        for (int i = 0; i < numberOfBalls; i++) {
+            addCommands(new WaitForCargoShot().withTimeout(timeout));
+        }
 
-    @Override
-    public void end(boolean interrupted) {
-        godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return timer.hasElapsed(totalTimeSeconds);
+        addCommands(new InstantCommand(() -> godSubsystem.setDoesAutonNeedToBarf(false)));
     }
 
 }

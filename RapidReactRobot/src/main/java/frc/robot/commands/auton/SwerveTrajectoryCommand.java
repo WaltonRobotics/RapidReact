@@ -2,24 +2,18 @@ package frc.robot.commands.auton;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.WaltSwerveModule;
 import frc.robot.util.UtilMethods;
 import frc.robot.util.averages.CumulativeAverage;
 
-import java.util.ArrayList;
-
 import static frc.robot.Constants.PathFollowing.kPathLookaheadTime;
 import static frc.robot.Constants.SmartDashboardKeys.kTrajectoryThetaPKey;
-import static frc.robot.Paths.NewFiveBallRoutine.fiveBall1;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class SwerveTrajectoryCommand extends CommandBase {
@@ -106,7 +100,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
             yPositionErrorAverage.addData(kYInstantPositionError);
             thetaPositionErrorAverage.addData(kThetaInstantPositionError);
         } else if (!moduleConfigRequested) {
-            drivetrain.getSwerveModules().forEach(m -> m.setAbsoluteAzimuthRotation2d(initialModuleAngle));
+            drivetrain.getSwerveModules().forEach(m -> m.setAzimuthRotation2d(initialModuleAngle));
 
             moduleConfigRequested = true;
         }
@@ -122,7 +116,7 @@ public class SwerveTrajectoryCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(trajectory.getTotalTimeSeconds());
+        return modulesReady && timer.hasElapsed(trajectory.getTotalTimeSeconds());
     }
 
     @Override
@@ -139,11 +133,15 @@ public class SwerveTrajectoryCommand extends CommandBase {
     private boolean moduleAnglesOnTarget() {
         boolean onTarget = true;
 
-        for(WaltSwerveModule m : drivetrain.getSwerveModules()) {
-            double currentAngle = UtilMethods.restrictAngle(m.getAzimuthRotation2d().getDegrees(), -180, 180);
-            double targetAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees(), -180, 180);
+//        SmartDashboard.putNumber("Initial module angle", initialModuleAngle.getDegrees());
 
-            onTarget &= Math.abs(targetAngle - currentAngle) < 0.25;
+        for (WaltSwerveModule m : drivetrain.getSwerveModules()) {
+            double currentAngle = UtilMethods.restrictAngle(m.getAzimuthRotation2d().getDegrees(), -180, 180);
+            double firstTargetAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees(), -180, 180);
+            double secondTargetAngle = UtilMethods.restrictAngle(initialModuleAngle.getDegrees() - 180, -180, 180);
+
+            onTarget &= Math.abs(firstTargetAngle - currentAngle) < 5.0
+                    || Math.abs(secondTargetAngle - currentAngle) < 5.0;
         }
 
         return onTarget;

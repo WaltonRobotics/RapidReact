@@ -171,8 +171,13 @@ public class SwerveTestbed extends WaltRobot {
 
         drivetrainConfig = new DrivetrainConfig() {
             @Override
-            public PIDController getAzimuthPositionalPID() {
-                return new PIDController(1.0, 0.0, 0.0);
+            public PIDController[] getAzimuthPositionalPIDs() {
+                return new PIDController[]{
+                        new PIDController(1.0, 0.0, 0.0),
+                        new PIDController(1.0, 0.0, 0.0),
+                        new PIDController(1.0, 0.0, 0.0),
+                        new PIDController(1.0, 0.0, 0.0),
+                };
             }
 
             @Override
@@ -709,7 +714,7 @@ public class SwerveTestbed extends WaltRobot {
 
         climberExtensionLimits.put(STOWED, new LimitPair(-4694, 4694));
         climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(-4694, 965347));
-        climberExtensionLimits.put(MID_BAR_POSITION_FIXED_ARM, new LimitPair(464673, 474061));
+        climberExtensionLimits.put(MID_BAR_FINALIZE_CLIMB, new LimitPair(464673, 474061));
         climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(582015, 591403));
     }
 

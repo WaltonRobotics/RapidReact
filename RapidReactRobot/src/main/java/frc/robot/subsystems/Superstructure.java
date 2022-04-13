@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,12 +13,13 @@ import frc.robot.stateMachine.IState;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
+import frc.robot.vision.IndicatorLights;
 
 import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.*;
 import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
 import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
-import static frc.robot.Constants.FieldConstants.*;
+import static frc.robot.Constants.FieldConstants.kCenterOfHubPose;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
@@ -36,6 +36,7 @@ public class Superstructure extends SubsystemBase {
     private final Conveyor conveyor = new Conveyor();
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
+//    private final IndicatorLights lights = new IndicatorLights();
 
     private boolean isEnabled = false;
     private CurrentMode currentMode = CurrentMode.SCORING_MODE;
@@ -44,6 +45,7 @@ public class Superstructure extends SubsystemBase {
     private double currentTargetFlywheelVelocity = 0;
 
     private boolean isInAuton = false;
+    private boolean isInPitCheckMode = false;
 
     private boolean doesAutonNeedToTrackTarget = false;
     private boolean doesAutonNeedToIdleSpinUp = false;
@@ -106,6 +108,10 @@ public class Superstructure extends SubsystemBase {
         return climber;
     }
 
+//    public IndicatorLights getLights(){
+//        return lights;
+//    }
+
     public boolean isEnabled() {
         return isEnabled;
     }
@@ -130,6 +136,14 @@ public class Superstructure extends SubsystemBase {
         isInAuton = inAuton;
     }
 
+    public boolean isInPitCheckMode() {
+        return isInPitCheckMode;
+    }
+
+    public void setIsInPitCheckMode(boolean inPitCheckMode) {
+        isInPitCheckMode = inPitCheckMode;
+    }
+
     public boolean doesAutonNeedToIntake() {
         return doesAutonNeedToIntake;
     }
@@ -146,11 +160,11 @@ public class Superstructure extends SubsystemBase {
         this.doesAutonNeedToShoot = needsToShoot;
     }
 
-    public boolean doesAutonNeedToBarf(){
+    public boolean doesAutonNeedToBarf() {
         return doesAutonNeedToBarf;
     }
 
-    public void setDoesAutonNeedToBarf(boolean doesAutonNeedToBarf){
+    public void setDoesAutonNeedToBarf(boolean doesAutonNeedToBarf) {
         this.doesAutonNeedToBarf = doesAutonNeedToBarf;
     }
 
@@ -195,6 +209,32 @@ public class Superstructure extends SubsystemBase {
             getConveyor().setFeedDemand(0);
         }
     }
+
+    /**
+     * purple if both intakes, red if right intake
+     * blue if left intake, green if aligned
+     * no color else wise
+     */
+//    public void handleLEDLights() {
+//        if(intake.isLeftIntakeDeployed() && intake.isRightIntakeDeployed()){
+//            lights.setPurple();
+//        }
+//        else if(intake.isRightIntakeDeployed()){
+//            lights.setRed();
+//        }
+//        else if(intake.isLeftIntakeDeployed()){
+//            lights.setBlue();
+//        }
+//        else{
+//            if(LimelightHelper.getTV() >= 1 &&
+//                    UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees)){
+//                lights.setGreen();
+//            }
+//            else{
+//                lights.setOff();
+//            }
+//        }
+//    }
 
     public void handleIntaking() {
         if (intake.isLeftIntakeDeployed()) {
@@ -344,19 +384,7 @@ public class Superstructure extends SubsystemBase {
         if (getInferredAllianceColor() == AllianceColor.BLUE) {
             return drivetrain.getPoseMeters();
         } else {
-            Translation2d oldTranslation = drivetrain.getPoseMeters().getTranslation();
-
-            // Reflect robot translation over origin if on red
-            double dx = kCenterOfHubPose.getX() - oldTranslation.getX();
-            double dy = kCenterOfHubPose.getY() - oldTranslation.getY();
-
-            Translation2d newTranslation = new Translation2d(kCenterOfHubPose.getX() + dx,
-                    kCenterOfHubPose.getY() + dy);
-
-            // Flip the robot heading since the robot 0 is now facing in the direction of the blue alliance
-
-            return new Pose2d(newTranslation,
-                    drivetrain.getPoseMeters().getRotation().minus(Rotation2d.fromDegrees(180)));
+            return LiveDashboardHelper.reflectPose(drivetrain.getPoseMeters());
         }
     }
 
@@ -367,7 +395,7 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void handleAutoAlign(double vx, double vy, double manualOmega, boolean isFieldRelative) {
-        double turnRate = 0;
+        double turnRate;
 
         if (LimelightHelper.getTV() >= 1) {
             double headingError = LimelightHelper.getTX();
@@ -376,13 +404,21 @@ public class Superstructure extends SubsystemBase {
             if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
                 turnRate = 0;
             }
+
+            turnRate = Math.signum(turnRate) * Math.max(Math.abs(turnRate),
+                    drivetrain.getConfig().getMinTurnOmega());
         } else if (kUseOdometryBackup) {
             double headingError = UtilMethods.restrictAngle(
                     getEstimatedAngleToHub().getDegrees(), -180, 180);
 
+            turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
+
             if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
                 turnRate = 0;
             }
+
+            turnRate = Math.signum(turnRate) * Math.max(Math.abs(turnRate),
+                    drivetrain.getConfig().getMinTurnOmega());
         } else {
             turnRate = manualOmega;
         }
@@ -413,9 +449,10 @@ public class Superstructure extends SubsystemBase {
 
     public void updateShuffleboard() {
         if (!kIsInCompetition) {
-            intake.updateShuffleboard();
             conveyor.updateShuffleboard();
         }
+
+        intake.updateShuffleboard();
 
         drivetrain.updateShuffleboard();
         shooter.updateShuffleboard();
@@ -433,9 +470,9 @@ public class Superstructure extends SubsystemBase {
                 hasTarget &&
                         UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees));
 
-        SmartDashboard.putBoolean(kDriverIsMoneyShotKey,
-                hasTarget && UtilMethods.isWithinTolerance(limelightDistance, kMoneyShotDistance,
-                        kMoneyShotTolerance));
+//        SmartDashboard.putBoolean(kDriverIsMoneyShotKey,
+//                hasTarget && UtilMethods.isWithinTolerance(limelightDistance, kMoneyShotDistance,
+//                        kMoneyShotTolerance));
     }
 
     public void monitorTemperatures() {

@@ -39,7 +39,7 @@ public class PositionFixedArmForHighBarTransfer implements IState {
 
         if ((angleTarget.isWithinTolerance(pivotAngle) && advanceClimbingProcessButton.get())
                 || overrideNextClimbStateButton.isRisingEdge()) {
-            return new FullyPullUpToHighBar();
+            return new PartiallyPullUpToHighBar();
         }
 
         godSubsystem.handlePivotManualOverride();

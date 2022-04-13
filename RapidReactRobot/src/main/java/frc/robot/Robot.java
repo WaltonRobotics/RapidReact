@@ -5,23 +5,26 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.auton.SetModuleStates;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.util.WaltTimesliceRobot;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
-import static frc.robot.Constants.SmartDashboardKeys.kClimberExtensionCoastModeKey;
-import static frc.robot.Constants.SmartDashboardKeys.kClimberPivotCoastModeKey;
+import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.OI.driveGamepad;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -41,6 +44,9 @@ public class Robot extends WaltTimesliceRobot {
 
     private final PowerDistribution pdp = new PowerDistribution();
     private final PneumaticHub pneumaticHub = new PneumaticHub();
+
+    private boolean pitCheckConfigureClimber = false;
+    private double pitCheckStartTime;
 
     public Robot() {
         super(0.002, 0.02);
@@ -84,6 +90,7 @@ public class Robot extends WaltTimesliceRobot {
 
         // Monitor motor temperatures every second
         addPeriodic(godSubsystem::monitorTemperatures, 1.0);
+//        addPeriodic(godSubsystem::handleLEDLights, .25);
 
         LimelightHelper.setLEDMode(false);
     }
@@ -117,12 +124,23 @@ public class Robot extends WaltTimesliceRobot {
 
         godSubsystem.setInAuton(false);
 
+        godSubsystem.setIsInPitCheckMode(false);
+
         SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
         SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
 
 //        LimelightHelper.setLEDMode(false);
 
         godSubsystem.getDrivetrain().setCoastNeutralMode();
+
+        SmartDashboard.putData(kDrivetrainSetModuleStatesKey, new SequentialCommandGroup(
+                new SetModuleStates()
+        ));
+
+        SmartDashboard.putData(kDrivetrainResetKey, new InstantCommand(godSubsystem.getDrivetrain()::zeroSensors));
+
+        SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
+        SmartDashboard.putNumber(kDrivetrainSetpointVelocityKey, 0.0);
     }
 
     @Override
@@ -156,6 +174,9 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setDoesAutonNeedToIntake(false);
         godSubsystem.setDoesAutonNeedToShoot(false);
         godSubsystem.setDoesAutonNeedToAlignAndShoot(false);
+        godSubsystem.setDoesAutonNeedToBarf(false);
+
+        godSubsystem.setIsInPitCheckMode(false);
 
         SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
         SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
@@ -196,6 +217,7 @@ public class Robot extends WaltTimesliceRobot {
         godSubsystem.setEnabled(true);
 
         godSubsystem.setInAuton(false);
+        godSubsystem.setIsInPitCheckMode(false);
 
         SmartDashboard.putBoolean(kClimberPivotCoastModeKey, false);
         SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
@@ -220,7 +242,7 @@ public class Robot extends WaltTimesliceRobot {
             autonomousCommand.cancel();
         }
 
-        new RunCommand( () -> {
+        new RunCommand(() -> {
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.25);
             driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0.25);
         }).withTimeout(2.5).andThen(() -> {
@@ -238,12 +260,30 @@ public class Robot extends WaltTimesliceRobot {
 
     @Override
     public void testInit() {
-        godSubsystem.setEnabled(true);
+        godSubsystem.setEnabled(false);
 
         godSubsystem.setInAuton(false);
+        godSubsystem.setIsInPitCheckMode(true);
+
+        pitCheckConfigureClimber = true;
+        pitCheckStartTime = Timer.getFPGATimestamp();
 
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
+
+        godSubsystem.getClimber().zeroSensors();
+
+//        godSubsystem.getClimber().setClimberLockStateDemand(true);
+
+        SmartDashboard.putData("Nudge Climber", new InstantCommand(() -> {
+            if (!godSubsystem.isEnabled() && godSubsystem.isInPitCheckMode()) {
+                double currentPivotAngle = godSubsystem.getClimber().getPivotPositionDemandNU();
+
+                godSubsystem.getClimber().setPivotPositionDemandNU(currentPivotAngle + kPivotArmNudgeIncrementNU);
+            }
+        }));
+
+        CommandScheduler.getInstance().enable();
     }
 
     /**
@@ -251,5 +291,17 @@ public class Robot extends WaltTimesliceRobot {
      */
     @Override
     public void testPeriodic() {
+        if (pitCheckConfigureClimber && Timer.getFPGATimestamp() - pitCheckStartTime > 0.25) {
+            godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
+            godSubsystem.getClimber().setPivotPositionDemandNU(godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU());
+            godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
+
+            pitCheckConfigureClimber = false;
+        }
+
+        godSubsystem.getDrivetrain().setModuleStates(new SwerveModuleState(
+                SmartDashboard.getNumber(kDrivetrainSetpointVelocityKey, 0.0),
+                Rotation2d.fromDegrees(SmartDashboard.getNumber(kDrivetrainSetpointAngleDegreesKey, 0.0))
+        ));
     }
 }

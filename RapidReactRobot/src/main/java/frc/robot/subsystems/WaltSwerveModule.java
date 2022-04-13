@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
@@ -12,7 +11,6 @@ import com.team254.lib.geometry.Pose2d;
 import com.team254.lib.geometry.Translation2d;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycle;
@@ -37,11 +35,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
     private final double driveDeadbandMetersPerSecond;
     private final double driveMaximumMetersPerSecond;
     private final edu.wpi.first.math.geometry.Translation2d wheelLocationMeters;
-    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.74425, 2.3973, 0.072907);
+//    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.74425, 2.3973, 0.072907);
 
     private double previousEncDistance = 0;
     private Translation2d position;
-    private Translation2d startingPosition;
+    private final Translation2d startingPosition;
     private Pose2d estimatedRobotPose = new Pose2d();
 
     private final PeriodicIO periodicIO = new PeriodicIO();
@@ -55,13 +53,13 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         // Outputs
         public double azimuthAbsoluteCountsDemand;
         public double driveDemand;
-        public double driveFeedforward;
+//        public double driveFeedforward;
 
         // Inputs
         public boolean hasDriveControllerReset;
         public int azimuthAbsoluteFrequency;
         public double azimuthAbsoluteOutput;
-//        public double azimuthRelativeCounts;
+        //        public double azimuthRelativeCounts;
         public double driveVelocityNU;
         public double drivePositionNU;
         public double driveClosedLoopErrorNU;
@@ -73,7 +71,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     public WaltSwerveModule(Builder builder) {
         azimuthSparkMax = builder.azimuthSparkMax;
-        azimuthController = builder.azimuthController;
+
         driveTalon = builder.driveTalon;
         azimuthAbsoluteEncoderPWM = builder.azimuthAbsoluteEncoderPWM;
         isAzimuthAbsoluteEncoderInverted = builder.isAzimuthAbsoluteEncoderInverted;
@@ -82,6 +80,20 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         driveDeadbandMetersPerSecond = builder.driveDeadbandMetersPerSecond;
         driveMaximumMetersPerSecond = builder.driveMaximumMetersPerSecond;
         wheelLocationMeters = builder.wheelLocationMeters;
+
+        PIDController referenceController = builder.azimuthController;
+
+//        if (getWheelIndex() == 1) {
+//            azimuthController = new PIDController(8.0, 0, 0);
+//        } else {
+//
+//        }
+
+        azimuthController = new PIDController(referenceController.getP(),
+                referenceController.getI(), referenceController.getD());
+
+        azimuthController.setTolerance(1);
+        azimuthController.enableContinuousInput(0, azimuthAbsoluteCountsPerRev);
 
         previousEncDistance = 0;
 
@@ -92,6 +104,8 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
         position = startingPose;
         this.startingPosition = startingPose;
+
+//        SmartDashboard.putNumber("Wheel " + getWheelIndex() + " p", azimuthController.getP());
     }
 
     @Override
@@ -122,7 +136,11 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
             configDriveStatusFrames();
         }
 
+//        SmartDashboard.putNumber("Module " + getWheelIndex() + " absolute demand", periodicIO.azimuthAbsoluteCountsDemand);
+
 //        azimuthSparkMax.getPIDController().setReference(periodicIO.relativeCountsDemand, CANSparkMax.ControlType.kPosition);
+
+//        azimuthController.setP(SmartDashboard.getNumber("Wheel " + getWheelIndex() + " p", azimuthController.getP()));
 
         double output = azimuthController.calculate(getAzimuthAbsoluteEncoderCounts(),
                 periodicIO.azimuthAbsoluteCountsDemand);
@@ -134,12 +152,14 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         }
 
         if (driveControlState == DriveControlState.OPEN_LOOP) {
-            driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand,
-                    DemandType.ArbitraryFeedForward, periodicIO.driveFeedforward);
+            driveTalon.set(ControlMode.PercentOutput, periodicIO.driveDemand);
         } else if (driveControlState == DriveControlState.VELOCITY) {
-            driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand,
-                    DemandType.ArbitraryFeedForward, periodicIO.driveFeedforward);
+            driveTalon.set(ControlMode.Velocity, periodicIO.driveDemand);
         }
+    }
+
+    public double getDriveVoltage() {
+        return driveTalon.getBusVoltage();
     }
 
     @Override
@@ -330,14 +350,14 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return periodicIO.driveVelocityNU * driveMetersPerNU * k100msPerSecond;
     }
 
-    private void setDriveOpenLoopMetersPerSecond(double metersPerSecond) {
+    public void setDriveOpenLoopMetersPerSecond(double metersPerSecond) {
         if (driveControlState != DriveControlState.OPEN_LOOP) {
             robotLogger.log(Level.FINEST, "Switching swerve module index {0} to open loop", new Object[]{getWheelIndex()});
             driveControlState = DriveControlState.OPEN_LOOP;
         }
 
         periodicIO.driveDemand = metersPerSecond / driveMaximumMetersPerSecond;
-        periodicIO.driveFeedforward = 0;
+//        periodicIO.driveFeedforward = 0;
     }
 
     public void setDriveClosedLoopMetersPerSecond(double metersPerSecond) {
@@ -347,7 +367,17 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         }
 
         periodicIO.driveDemand = metersPerSecond / driveMetersPerNU / k100msPerSecond;
-        periodicIO.driveFeedforward = feedforward.calculate(metersPerSecond) / 12.0;
+//        periodicIO.driveFeedforward = feedforward.calculate(metersPerSecond) / 12.0;
+    }
+
+    public void setDriveClosedLoopVelocityNU(double velocityNU) {
+        if (driveControlState != DriveControlState.VELOCITY) {
+            robotLogger.log(Level.FINEST, "Switching swerve module index {0} to velocity", new Object[]{getWheelIndex()});
+            driveControlState = DriveControlState.VELOCITY;
+        }
+
+        periodicIO.driveDemand = velocityNU;
+//        periodicIO.driveFeedforward = feedforward.calculate(metersPerSecond) / 12.0;
     }
 
     public void setBrakeNeutralMode() {
@@ -373,20 +403,20 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         return 3;
     }
 
-    public Translation2d getPosition(){
+    public Translation2d getPosition() {
         return position;
     }
 
-    public Pose2d getEstimatedRobotPose(){
+    public Pose2d getEstimatedRobotPose() {
         return estimatedRobotPose;
     }
 
-    public synchronized void updatePose(Rotation2d robotHeading){
+    public synchronized void updatePose(Rotation2d robotHeading) {
         double currentEncDistance = getDrivePositionMeters();
         double deltaEncDistance = (currentEncDistance - previousEncDistance);
         Rotation2d currentWheelAngle = getFieldCentricAngle(robotHeading);
-        Translation2d deltaPosition = new Translation2d(currentWheelAngle.getCos()*deltaEncDistance,
-                currentWheelAngle.getSin()*deltaEncDistance);
+        Translation2d deltaPosition = new Translation2d(currentWheelAngle.getCos() * deltaEncDistance,
+                currentWheelAngle.getSin() * deltaEncDistance);
 
 
         deltaPosition = new Translation2d(deltaPosition.x(),
@@ -400,16 +430,16 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
         previousEncDistance = currentEncDistance;
     }
 
-    public synchronized void resetPose(Pose2d robotPose){
+    public synchronized void resetPose(Pose2d robotPose) {
         Translation2d modulePosition = robotPose.transformBy(Pose2d.fromTranslation(startingPosition)).getTranslation();
         position = modulePosition;
     }
 
-    public synchronized void resetPose(){
+    public synchronized void resetPose() {
         position = startingPosition;
     }
 
-    public synchronized void resetLastEncoderReading(){
+    public synchronized void resetLastEncoderReading() {
         previousEncDistance = getDrivePositionMeters();
     }
 

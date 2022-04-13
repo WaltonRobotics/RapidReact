@@ -10,8 +10,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
-import static frc.robot.Constants.Shooter.kBarfVelocityRawUnits;
-import static frc.robot.Constants.Shooter.kDefaultVelocityRawUnits;
+import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterTuningSetpointVelocityNUKey;
 import static frc.robot.OI.barfButton;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -31,8 +30,12 @@ public class PreparingToShoot implements IState {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
-        if (barfButton.get()) {
-            godSubsystem.setCurrentTargetFlywheelVelocity(kBarfVelocityRawUnits);
+        if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
+            if (godSubsystem.isInAuton()) {
+                godSubsystem.setCurrentTargetFlywheelVelocity(kAutonBarfVelocityRawUnits);
+            } else {
+                godSubsystem.setCurrentTargetFlywheelVelocity(kBarfVelocityRawUnits);
+            }
         } else if (kIsInShooterTuningMode) {
             godSubsystem.setCurrentTargetFlywheelVelocity(
                     SmartDashboard.getNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits));
