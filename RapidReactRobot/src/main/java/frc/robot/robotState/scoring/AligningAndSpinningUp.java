@@ -76,6 +76,11 @@ public class AligningAndSpinningUp implements IState {
         if (LimelightHelper.getTV() >= 1) {
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
             driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0);
+
+            if ((UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kShootingAlignmentToleranceDegrees)
+                    || overrideAutoAimAndShootButton.get())) {
+                return new PreparingToShoot();
+            }
         } else {
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.15);
             driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0.15);
@@ -93,11 +98,6 @@ public class AligningAndSpinningUp implements IState {
 //        }
 
         godSubsystem.handleIntakingAndOuttaking();
-
-        if ((UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kShootingAlignmentToleranceDegrees)
-                || overrideAutoAimAndShootButton.get())) {
-            return new PreparingToShoot();
-        }
 
         return this;
     }
