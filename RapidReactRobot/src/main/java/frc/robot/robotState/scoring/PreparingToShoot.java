@@ -4,10 +4,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Conveyor;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.*;
+import frc.robot.vision.ColorSensor;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.Shooter.*;
@@ -39,7 +37,13 @@ public class PreparingToShoot implements IState {
         } else if (kIsInShooterTuningMode) {
             godSubsystem.setCurrentTargetFlywheelVelocity(
                     SmartDashboard.getNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits));
-        } else {
+        } else if ((godSubsystem.getInferredAllianceColor() == Superstructure.AllianceColor.BLUE
+                && ColorSensor.getColorMatch().equals("Red")) ||
+                (godSubsystem.getInferredAllianceColor() == Superstructure.AllianceColor.RED
+                && ColorSensor.getColorMatch().equals("Blue"))){
+            godSubsystem.setCurrentTargetFlywheelVelocity(kBarfVelocityRawUnits);
+        }
+        else {
             // Re-adjust hood
 //            if (LimelightHelper.getDistanceToTargetFeet() <= kHoodCloseUpDistanceFeet) {
 //                shooter.setHoodPosition(Shooter.HoodPosition.SEVENTY_DEGREES);
