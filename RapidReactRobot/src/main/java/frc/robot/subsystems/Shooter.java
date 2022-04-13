@@ -220,6 +220,10 @@ public class Shooter implements SubSubsystem {
         return periodicIO.estimatedHoodPosition;
     }
 
+    public boolean isHoodReady() {
+        return periodicIO.isHoodReady;
+    }
+
     public double getMasterTemp() {
         return flywheelMasterController.getTemperature();
     }
