@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
 import frc.lib.strykeforce.swerve.SwerveModule;
 import frc.robot.config.DrivetrainConfig;
+import frc.robot.config.RelativeEncoderConfig;
 import frc.robot.util.UtilMethods;
 
 import java.util.ArrayList;
@@ -110,10 +111,17 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 //            controller.setTolerance(30.0);
 //            controller.enableContinuousInput(-90 * 4096.0, 90 * 4096.0);
 
+            RelativeEncoderConfig quadratureConfig = config.getAzimuthQuadratureConfigs()[i];
+            Encoder quadratureEncoder = new Encoder(quadratureConfig.getChannelA(), quadratureConfig.getChannelB());
+
+            quadratureEncoder.setReverseDirection(quadratureConfig.isInverted());
+            quadratureEncoder.setDistancePerPulse(quadratureConfig.getDistancePerPulse());
+
             swerveModules.add(moduleBuilder
                     .azimuthSparkMax(azimuthSparkMax)
                     .azimuthController(config.getAzimuthPositionalPIDs()[i])
                     .driveTalon(driveTalon)
+                    .quadratureEncoder(quadratureEncoder)
                     .azimuthAbsoluteEncoderPWM(encoderPWM)
                     .isAzimuthAbsoluteEncoderInverted(config.getAbsoluteEncoderInversions()[i])
                     .wheelLocationMeters(config.getWheelLocationMeters()[i])
