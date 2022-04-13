@@ -24,6 +24,7 @@ import frc.lib.strykeforce.swerve.SwerveDrive;
 import frc.lib.strykeforce.swerve.SwerveModule;
 import frc.robot.config.DrivetrainConfig;
 import frc.robot.config.RelativeEncoderConfig;
+import frc.robot.util.MXPHelper;
 import frc.robot.util.UtilMethods;
 
 import java.util.ArrayList;
@@ -112,7 +113,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 //            controller.enableContinuousInput(-90 * 4096.0, 90 * 4096.0);
 
             RelativeEncoderConfig quadratureConfig = config.getAzimuthQuadratureConfigs()[i];
-            Encoder quadratureEncoder = new Encoder(quadratureConfig.getChannelA(), quadratureConfig.getChannelB());
+
+            int channelA = MXPHelper.getChannelFromPin(MXPHelper.PinType.DigitalIO, quadratureConfig.getChannelA());
+            int channelB = MXPHelper.getChannelFromPin(MXPHelper.PinType.DigitalIO, quadratureConfig.getChannelB());
+            Encoder quadratureEncoder = new Encoder(channelA, channelB);
 
             quadratureEncoder.setReverseDirection(quadratureConfig.isInverted());
             quadratureEncoder.setDistancePerPulse(quadratureConfig.getDistancePerPulse());
