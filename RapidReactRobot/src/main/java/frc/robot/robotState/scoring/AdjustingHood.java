@@ -11,6 +11,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
+import static frc.robot.Constants.DriverPreferences.kUseAutoReject;
 import static frc.robot.Constants.Shooter.kBarfHoodAngle;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterHoodPositionSetpointKey;
 import static frc.robot.OI.barfButton;
@@ -38,7 +39,8 @@ public class AdjustingHood implements IState {
 //                shooter.setHoodPosition(Shooter.HoodPosition.SIXTY_DEGREES);
 //            }
 
-            if (barfButton.get() || godSubsystem.doesAutonNeedToBarf()) {
+            if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())
+                    || godSubsystem.needsToAutoReject()) {
                 shooter.setAdjustableHoodDutyCycleDemand(kBarfHoodAngle);
             } else {
                 shooter.setAdjustableHoodDutyCycleDemand(shooter.getEstimatedHoodAngleFromTarget());
@@ -58,13 +60,15 @@ public class AdjustingHood implements IState {
         if (!OI.shootButton.get() && !barfButton.get() && !overrideAutoAimAndShootButton.get()
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot()))
                 && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot()))
-                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf()))) {
+                && !((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf()))
+                && !godSubsystem.needsToAutoReject()) {
             return new ScoringModeTransition();
         }
 
         godSubsystem.handleIntakingAndOuttaking();
 
-        if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
+        if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())
+                || godSubsystem.needsToAutoReject()) {
             return new PreparingToShoot();
         }
 

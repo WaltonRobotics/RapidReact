@@ -71,7 +71,6 @@ public class Robot extends WaltTimesliceRobot {
     public void robotInit() {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
-        ColorSensor.loadColorMatcher();
         robotContainer = new RobotContainer();
 
         // Schedule low-level periodic input and output methods for each subsystem
@@ -105,6 +104,8 @@ public class Robot extends WaltTimesliceRobot {
 //        addPeriodic(godSubsystem::handleLEDLights, .25);
 
         LimelightHelper.setLEDMode(false);
+
+        ColorSensor.loadColorMatcher();
     }
 
     /**

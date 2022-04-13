@@ -34,6 +34,7 @@ public final class Constants {
         }
 
         public static final boolean kUseAzimuthDeadband = true;
+        public static final boolean kUseAutoReject = true;
 
         // Climbing
         public static final double kPivotManualOverrideDeadband = 0.1;

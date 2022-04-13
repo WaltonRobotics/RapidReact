@@ -8,6 +8,7 @@ import frc.robot.subsystems.*;
 import frc.robot.vision.ColorSensor;
 
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
+import static frc.robot.Constants.DriverPreferences.kUseAutoReject;
 import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.SmartDashboardKeys.kShooterTuningSetpointVelocityNUKey;
 import static frc.robot.OI.barfButton;
@@ -28,7 +29,8 @@ public class PreparingToShoot implements IState {
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.DISABLED);
 
-        if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
+        if (barfButton.get() || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())
+                || godSubsystem.needsToAutoReject()) {
             if (godSubsystem.isInAuton()) {
                 godSubsystem.setCurrentTargetFlywheelVelocity(kAutonBarfVelocityRawUnits);
             } else {
@@ -37,11 +39,6 @@ public class PreparingToShoot implements IState {
         } else if (kIsInShooterTuningMode) {
             godSubsystem.setCurrentTargetFlywheelVelocity(
                     SmartDashboard.getNumber(kShooterTuningSetpointVelocityNUKey, kDefaultVelocityRawUnits));
-        } else if ((godSubsystem.getInferredAllianceColor() == Superstructure.AllianceColor.BLUE
-                && ColorSensor.getColorMatch().equals("Red")) ||
-                (godSubsystem.getInferredAllianceColor() == Superstructure.AllianceColor.RED
-                && ColorSensor.getColorMatch().equals("Blue"))){
-            godSubsystem.setCurrentTargetFlywheelVelocity(kBarfVelocityRawUnits);
         }
         else {
             // Re-adjust hood

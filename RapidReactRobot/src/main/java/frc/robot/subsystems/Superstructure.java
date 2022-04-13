@@ -12,21 +12,21 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
+import frc.robot.vision.ColorSensor;
 import frc.robot.vision.LimelightHelper;
 import frc.robot.vision.IndicatorLights;
 
 import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.*;
-import static frc.robot.Constants.DriverPreferences.kExtensionManualOverrideDeadband;
-import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband;
+import static frc.robot.Constants.DriverPreferences.*;
 import static frc.robot.Constants.FieldConstants.kCenterOfHubPose;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
 import static frc.robot.Constants.VisionConstants.kUseOdometryBackup;
 import static frc.robot.OI.*;
-import static frc.robot.RobotContainer.allianceColorChooser;
-import static frc.robot.RobotContainer.currentRobot;
+import static frc.robot.RobotContainer.*;
+import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.util.UtilMethods.monitorTemp;
 
 public class Superstructure extends SubsystemBase {
@@ -488,6 +488,18 @@ public class Superstructure extends SubsystemBase {
         monitorTemp(drivetrain.getLeftBackTurnTemp(), 60, "Left Back NEO Overheating");
         monitorTemp(drivetrain.getRightFrontTurnTemp(), 60, "Right Front NEO Overheating");
         monitorTemp(drivetrain.getRightBackTurnTemp(), 60, "Right Back NEO Overheating");
+    }
+
+    public boolean isEnemyBallDetected() {
+        AllianceColor allianceColor = godSubsystem.getInferredAllianceColor();
+        String ballColor = ColorSensor.getColorMatch();
+
+        return (allianceColor == Superstructure.AllianceColor.BLUE && ballColor.equals("Red"))
+                || (allianceColor == Superstructure.AllianceColor.RED && ballColor.equals("Blue"));
+    }
+
+    public boolean needsToAutoReject() {
+        return kUseAutoReject && isEnemyBallDetected();
     }
 
     public AllianceColor getInferredAllianceColor() {
