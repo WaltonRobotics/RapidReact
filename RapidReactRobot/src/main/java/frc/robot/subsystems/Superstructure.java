@@ -13,7 +13,6 @@ import frc.robot.stateMachine.IState;
 import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
-import frc.robot.vision.IndicatorLights;
 
 import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.*;
@@ -22,7 +21,7 @@ import static frc.robot.Constants.DriverPreferences.kPivotManualOverrideDeadband
 import static frc.robot.Constants.FieldConstants.kCenterOfHubPose;
 import static frc.robot.Constants.Shooter.kIdleVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
-import static frc.robot.Constants.VisionConstants.kAlignmentToleranceDegrees;
+import static frc.robot.Constants.VisionConstants.kAlignmentToShootToleranceDegrees;
 import static frc.robot.Constants.VisionConstants.kUseOdometryBackup;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.allianceColorChooser;
@@ -401,24 +400,26 @@ public class Superstructure extends SubsystemBase {
             double headingError = LimelightHelper.getTX();
             turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
 
-            if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
+            if (Math.abs(headingError) < kAlignmentToShootToleranceDegrees) {
                 turnRate = 0;
             }
 
-            turnRate = Math.signum(turnRate) * Math.max(Math.abs(turnRate),
-                    drivetrain.getConfig().getMinTurnOmega());
+            turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
+                    Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
+                    drivetrain.getConfig().getMaxFaceDirectionOmega());
         } else if (kUseOdometryBackup) {
             double headingError = UtilMethods.restrictAngle(
                     getEstimatedAngleToHub().getDegrees(), -180, 180);
 
             turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
 
-            if (Math.abs(headingError) < kAlignmentToleranceDegrees) {
+            if (Math.abs(headingError) < kAlignmentToShootToleranceDegrees) {
                 turnRate = 0;
             }
 
-            turnRate = Math.signum(turnRate) * Math.max(Math.abs(turnRate),
-                    drivetrain.getConfig().getMinTurnOmega());
+            turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
+                    Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
+                    drivetrain.getConfig().getMaxFaceDirectionOmega());
         } else {
             turnRate = manualOmega;
         }
@@ -468,7 +469,7 @@ public class Superstructure extends SubsystemBase {
 
         SmartDashboard.putBoolean(kDriverIsAlignedKey,
                 hasTarget &&
-                        UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToleranceDegrees));
+                        UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kAlignmentToShootToleranceDegrees));
 
 //        SmartDashboard.putBoolean(kDriverIsMoneyShotKey,
 //                hasTarget && UtilMethods.isWithinTolerance(limelightDistance, kMoneyShotDistance,

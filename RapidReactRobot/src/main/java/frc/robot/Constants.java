@@ -140,7 +140,7 @@ public final class Constants {
 
         public static final int kAlignmentPipeline = 0;
 
-        public static final double kAlignmentToleranceDegrees = 2.5;
+        public static final double kAlignmentToShootToleranceDegrees = 2.5;
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
         public static final boolean kUseOdometryBackup = true;
