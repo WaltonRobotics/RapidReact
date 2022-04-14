@@ -212,6 +212,58 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                 new Rotation2d(pose.getRotation().getRadians()));
     }
 
+    /** The tried and true algorithm for keeping track of position */
+    public synchronized void updatePose() {
+        double x = 0.0;
+        double y = 0.0;
+        Rotation2d heading = getHeading();
+
+        double averageDistance = 0.0;
+        double[] distances = new double[4];
+        for(WaltSwerveModule m : swerveModules){
+            m.updatePose(heading);
+            double distance = m.getEstimatedRobotPose().getTranslation().translateBy(pose.getTranslation().inverse()).norm();
+            distances[m.getWheelIndex()] = distance;
+            averageDistance += distance;
+        }
+        averageDistance /= swerveModules.size();
+
+        int minDevianceIndex = 0;
+        double minDeviance = 100.0;
+        List<WaltSwerveModule> modulesToUse = new ArrayList<>();
+        for(WaltSwerveModule m : swerveModules){
+            double deviance = Math.abs(distances[m.getWheelIndex()] - averageDistance);
+            if(deviance < minDeviance){
+                minDeviance = deviance;
+                minDevianceIndex = m.getWheelIndex();
+            }
+            if(deviance <= 0.01){
+                modulesToUse.add(m);
+            }
+        }
+
+        if(modulesToUse.isEmpty()){
+            modulesToUse.add(swerveModules.get(minDevianceIndex));
+        }
+
+        //SmartDashboard.putNumber("Modules Used", modulesToUse.size());
+
+        for(WaltSwerveModule m : modulesToUse){
+            x += m.getEstimatedRobotPose().getTranslation().x();
+            y += m.getEstimatedRobotPose().getTranslation().y();
+        }
+        com.team254.lib.geometry.Pose2d updatedPose;
+
+        updatedPose = new com.team254.lib.geometry.Pose2d(new Translation2d(x / modulesToUse.size(), y / modulesToUse.size()),
+                new com.team254.lib.geometry.Rotation2d(getHeading().getDegrees()));
+        double deltaPos = updatedPose.getTranslation().translateBy(pose.getTranslation().inverse()).norm();
+        distanceTraveled += deltaPos;
+
+        pose = updatedPose;
+        swerveModules.forEach((m) -> m.resetPose(pose));
+    }
+
+
     /**
      * Playing around with different methods of odometry. This will require the use of all four modules, however.
      */
@@ -280,7 +332,9 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 //        SmartDashboard.putNumber("Robot roll angle", ahrs.getRoll());
 //        field.setRobotPose(getPoseMeters());
 
-        alternatePoseUpdate();
+//        alternatePoseUpdate();
+
+        updatePose();
     }
 
     /**

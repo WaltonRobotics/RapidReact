@@ -150,7 +150,7 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(fiveBall1),
             new SetRightIntakeDeployed(false),
             new ParallelDeadlineGroup(
-                    new ShootCargo(3, 3.0),
+                    new ShootCargo(3, 2.0),
                     new SequentialCommandGroup(
                             new WaitCommand(0.5),
                             new SetLeftIntakeDeployed(false)
@@ -167,7 +167,7 @@ public enum AutonRoutine {
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(fiveBall3),
                     new SequentialCommandGroup(
-                            new WaitCommand(fiveBall3.getTotalTimeSeconds() * 0.5),  // spin up 50% through path
+                            new WaitCommand(fiveBall3.getTotalTimeSeconds() * 0.75),
                             new SetLeftIntakeDeployed(false),
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
                     )

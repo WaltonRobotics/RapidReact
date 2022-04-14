@@ -42,6 +42,7 @@ public class Shooter implements SubSubsystem {
         flywheelMasterController.setInverted(config.getFlywheelMasterControllerMotorConfig().isInverted());
         flywheelMasterController.setSensorPhase(config.getFlywheelMasterControllerMotorConfig().isInverted());
         flywheelMasterController.setNeutralMode(NeutralMode.Coast);
+        flywheelMasterController.configVoltageCompSaturation(12.0);
         flywheelMasterController.enableVoltageCompensation(true);
 
         flywheelSlaveController.configFactoryDefault(10);
@@ -49,6 +50,7 @@ public class Shooter implements SubSubsystem {
         flywheelSlaveController.setInverted(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setSensorPhase(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setNeutralMode(NeutralMode.Coast);
+        flywheelSlaveController.configVoltageCompSaturation(12.0);
         flywheelSlaveController.enableVoltageCompensation(false);
         configFollower();
 
