@@ -447,7 +447,7 @@ public class WaltSwerveModule implements SubSubsystem, SwerveModule {
 
     private void configDriveStatusFrames() {
         driveTalon.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
-        driveTalon.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        driveTalon.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
         driveTalon.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 1000);
         driveTalon.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
         driveTalon.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
