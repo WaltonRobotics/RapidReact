@@ -301,7 +301,7 @@ public class Shooter implements SubSubsystem {
     }
 
     private void configFlywheelSlaveStatusFrames() {
-        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_1_General, 255);
         flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
         flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
         flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
