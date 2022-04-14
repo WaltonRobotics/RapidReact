@@ -452,7 +452,10 @@ public class Superstructure extends SubsystemBase {
 
         intake.updateShuffleboard();
 
-        drivetrain.updateShuffleboard();
+        if (!isInAuton) {
+            drivetrain.updateShuffleboard();
+        }
+
         shooter.updateShuffleboard();
         climber.updateShuffleboard();
 

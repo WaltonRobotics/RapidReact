@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -237,7 +238,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                 minDeviance = deviance;
                 minDevianceIndex = m.getWheelIndex();
             }
-            if(deviance <= 0.01){
+            if(deviance <= Units.inchesToMeters(0.01)) {
                 modulesToUse.add(m);
             }
         }
@@ -248,7 +249,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
         SmartDashboard.putNumber("Modules Used", modulesToUse.size());
 
-        for(WaltSwerveModule m : modulesToUse){
+        for(WaltSwerveModule m : modulesToUse) {
             x += m.getEstimatedRobotPose().getTranslation().x();
             y += m.getEstimatedRobotPose().getTranslation().y();
         }
