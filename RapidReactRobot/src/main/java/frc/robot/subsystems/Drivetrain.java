@@ -246,7 +246,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             modulesToUse.add(swerveModules.get(minDevianceIndex));
         }
 
-        //SmartDashboard.putNumber("Modules Used", modulesToUse.size());
+        SmartDashboard.putNumber("Modules Used", modulesToUse.size());
 
         for(WaltSwerveModule m : modulesToUse){
             x += m.getEstimatedRobotPose().getTranslation().x();
