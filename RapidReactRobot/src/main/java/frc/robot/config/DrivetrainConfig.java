@@ -14,6 +14,8 @@ public interface DrivetrainConfig {
 
     TalonFXConfiguration[] getDriveControllerConfigs();
 
+    RelativeEncoderConfig[] getAzimuthQuadratureConfigs();
+
     int[] getAzimuthControllerIDs();
 
     int[] getDriveControllerIDs();

@@ -14,15 +14,16 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycle;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.strykeforce.swerve.SwerveDrive;
 import frc.lib.strykeforce.swerve.SwerveModule;
 import frc.robot.config.DrivetrainConfig;
+import frc.robot.config.RelativeEncoderConfig;
+import frc.robot.util.MXPHelper;
 import frc.robot.util.UtilMethods;
 
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     // Odometry
     private com.team254.lib.geometry.Pose2d pose = new com.team254.lib.geometry.Pose2d();
     double distanceTraveled;
+
+    private final PeriodicIO periodicIO = new PeriodicIO();
 
     public Drivetrain() {
         var moduleBuilder =
@@ -108,10 +111,20 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 //            controller.setTolerance(30.0);
 //            controller.enableContinuousInput(-90 * 4096.0, 90 * 4096.0);
 
+            RelativeEncoderConfig quadratureConfig = config.getAzimuthQuadratureConfigs()[i];
+
+            int channelA = MXPHelper.getChannelFromPin(MXPHelper.PinType.DigitalIO, quadratureConfig.getChannelA());
+            int channelB = MXPHelper.getChannelFromPin(MXPHelper.PinType.DigitalIO, quadratureConfig.getChannelB());
+            Encoder quadratureEncoder = new Encoder(channelA, channelB);
+
+            quadratureEncoder.setReverseDirection(quadratureConfig.isInverted());
+            quadratureEncoder.setDistancePerPulse(quadratureConfig.getDistancePerPulse());
+
             swerveModules.add(moduleBuilder
                     .azimuthSparkMax(azimuthSparkMax)
                     .azimuthController(config.getAzimuthPositionalPIDs()[i])
                     .driveTalon(driveTalon)
+                    .quadratureEncoder(quadratureEncoder)
                     .azimuthAbsoluteEncoderPWM(encoderPWM)
                     .isAzimuthAbsoluteEncoderInverted(config.getAbsoluteEncoderInversions()[i])
                     .wheelLocationMeters(config.getWheelLocationMeters()[i])
@@ -201,6 +214,58 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
                 new Rotation2d(pose.getRotation().getRadians()));
     }
 
+    /** The tried and true algorithm for keeping track of position */
+    public synchronized void updatePose() {
+        double x = 0.0;
+        double y = 0.0;
+        Rotation2d heading = getHeading();
+
+        double averageDistance = 0.0;
+        double[] distances = new double[4];
+        for(WaltSwerveModule m : swerveModules){
+            m.updatePose(heading);
+            double distance = m.getEstimatedRobotPose().getTranslation().translateBy(pose.getTranslation().inverse()).norm();
+            distances[m.getWheelIndex()] = distance;
+            averageDistance += distance;
+        }
+        averageDistance /= swerveModules.size();
+
+        int minDevianceIndex = 0;
+        double minDeviance = 100.0;
+        List<WaltSwerveModule> modulesToUse = new ArrayList<>();
+        for(WaltSwerveModule m : swerveModules){
+            double deviance = Math.abs(distances[m.getWheelIndex()] - averageDistance);
+            if(deviance < minDeviance){
+                minDeviance = deviance;
+                minDevianceIndex = m.getWheelIndex();
+            }
+            if(deviance <= Units.inchesToMeters(0.01)) {
+                modulesToUse.add(m);
+            }
+        }
+
+        if(modulesToUse.isEmpty()){
+            modulesToUse.add(swerveModules.get(minDevianceIndex));
+        }
+
+        SmartDashboard.putNumber("Modules Used", modulesToUse.size());
+
+        for(WaltSwerveModule m : modulesToUse) {
+            x += m.getEstimatedRobotPose().getTranslation().x();
+            y += m.getEstimatedRobotPose().getTranslation().y();
+        }
+        com.team254.lib.geometry.Pose2d updatedPose;
+
+        updatedPose = new com.team254.lib.geometry.Pose2d(new Translation2d(x / modulesToUse.size(), y / modulesToUse.size()),
+                new com.team254.lib.geometry.Rotation2d(getHeading().getDegrees()));
+        double deltaPos = updatedPose.getTranslation().translateBy(pose.getTranslation().inverse()).norm();
+        distanceTraveled += deltaPos;
+
+        pose = updatedPose;
+        swerveModules.forEach((m) -> m.resetPose(pose));
+    }
+
+
     /**
      * Playing around with different methods of odometry. This will require the use of all four modules, however.
      */
@@ -269,7 +334,9 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 //        SmartDashboard.putNumber("Robot roll angle", ahrs.getRoll());
 //        field.setRobotPose(getPoseMeters());
 
-        alternatePoseUpdate();
+//        alternatePoseUpdate();
+
+        updatePose();
     }
 
     /**
@@ -336,7 +403,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public Rotation2d getHeading() {
-        return swerveDrive.getHeading();
+        return periodicIO.robotHeading;
     }
 
     public Rotation2d getPitch() {
@@ -409,6 +476,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     @Override
     public synchronized void collectData() {
         swerveModules.forEach(WaltSwerveModule::collectData);
+
+        periodicIO.robotHeading = swerveDrive.getHeading();
     }
 
     @Override
@@ -419,17 +488,20 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     @Override
     public void updateShuffleboard() {
 //        SmartDashboard.putNumber("Left front voltage", getSwerveModules().get(0).getDriveVoltage());
+
         // Absolute encoder data
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Absolute Counts", swerveModules.get(0).getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Absolute Counts", swerveModules.get(1).getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Absolute Counts", swerveModules.get(2).getAzimuthAbsoluteEncoderCounts());
-        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Absolute Counts", swerveModules.get(3).getAzimuthAbsoluteEncoderCounts());
+        if (swerveModules.parallelStream().allMatch(WaltSwerveModule::isAzimuthAbsoluteEncoderValid)) {
+            SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Absolute Counts", swerveModules.get(0).getAzimuthAbsoluteEncoderCounts());
+            SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Absolute Counts", swerveModules.get(1).getAzimuthAbsoluteEncoderCounts());
+            SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Absolute Counts", swerveModules.get(2).getAzimuthAbsoluteEncoderCounts());
+            SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Absolute Counts", swerveModules.get(3).getAzimuthAbsoluteEncoderCounts());
+        }
 
         // Relative encoder data
-//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Relative Counts", swerveModules.get(0).getAzimuthRelativeEncoderCounts());
-//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Relative Counts", swerveModules.get(1).getAzimuthRelativeEncoderCounts());
-//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Relative Counts", swerveModules.get(2).getAzimuthRelativeEncoderCounts());
-//        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Relative Counts", swerveModules.get(3).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Relative Counts", swerveModules.get(0).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Front Relative Counts", swerveModules.get(1).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Relative Counts", swerveModules.get(2).getAzimuthRelativeEncoderCounts());
+        SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Relative Counts", swerveModules.get(3).getAzimuthRelativeEncoderCounts());
 
         // Azimuth degree data
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Angle Degrees", swerveModules.get(0).getAzimuthRotation2d().getDegrees());
@@ -463,6 +535,12 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
     public double getAngularVelocityDegreesPerSec() {
         return -ahrs.getRate();
+    }
+
+    public static class PeriodicIO {
+        // Inputs
+        public Rotation2d robotHeading = Rotation2d.fromDegrees(0);
+
     }
 
 }

@@ -154,7 +154,7 @@ public final class Constants {
         public static final int kAlignmentPipeline = 0;
 
         public static final double kAutoAlignToleranceDegrees = 0.3;
-        public static final double kShootingAlignmentToleranceDegrees = 2.5;
+        public static final double kShootingAlignmentToleranceDegrees = 2.25;
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
         public static final boolean kUseOdometryBackup = true;

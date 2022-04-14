@@ -56,7 +56,7 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final Translation2d[] wheelLocationMeters = new Translation2d[4];
 
-    private final double kTranslationalP = 6.0;
+    private final double kTranslationalP = 4.5;
     private final double kTranslationalD = 0.02;
 
     private final double kMaxSpeedMetersPerSecond = 3.889;
@@ -68,12 +68,12 @@ public class PracticeRapidReact extends WaltRobot {
     private final PIDController yController = new PIDController(kTranslationalP, 0.0, kTranslationalD);
     private final ProfiledPIDController thetaController =
             new ProfiledPIDController(
-                    3.5,
+                    3.0,
                     0,
                     0,
                     new TrapezoidProfile.Constraints(kMaxOmega / 2.0, 3.14));
 
-    private final PIDController faceDirectionController = new PIDController(0.09, 0, 0);
+    private final PIDController faceDirectionController = new PIDController(0.08, 0, 0);
     private final PIDController autoAlignController = new PIDController(0.1, 0, 0);
     private final ProfiledPIDController turnToAngleController = new ProfiledPIDController
             (0.05, 0.015, 0, new TrapezoidProfile.Constraints(
@@ -96,56 +96,40 @@ public class PracticeRapidReact extends WaltRobot {
             // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
             // 48 in to front bumper, 6.47448657 ft
             // Measured at states: 6.367 ft
-//            {-1, 5.139874, 0, 8800},
-//            {-1, 6.110874, 0.2, 8850},
-//            {-1, 7.051874, 0.4, 9000},
-//            {-1, 8.163874, 0.7, 9177},
-//            {-1, 8.979874, 0.75, 9370},
-//            {-1, 9.876874, 0.75, 9600},
-//            {-1, 10.961874, 0.75, 10050},
-//            {-1, 11.948874, 0.75, 10400},
-//            {-1, 12.873874, 0.75, 10679},
-//            {-1, 13.778874, 0.9, 11000},
-//            {-1, 14.951874, 1.0, 11390},
-//            {-1, 15.857874, 1.0, 11718},
-//            {-1, 16.678874, 1.0, 12001},
-//            {-1, 17.840874, 1.0, 12403},
-//            {-1, 19.388874, 1.0, 13000},
-//            {-1, 20.253874, 1.0, 13350},
+            {-1, 5.139874, 0, 8800},
+            {-1, 6.110874, 0.2, 8850},
+            {-1, 7.051874, 0.4, 9000},
+            {-1, 8.163874, 0.7, 9177},
+            {-1, 8.979874, 0.75, 9370},
+            {-1, 9.876874, 0.75, 9600},
+            {-1, 10.961874, 0.75, 10050},
+            {-1, 11.948874, 0.75, 10400},
+            {-1, 12.873874, 0.75, 10679},
+            {-1, 13.778874, 0.9, 11000},
+            {-1, 14.951874, 1.0, 11390},
+            {-1, 15.857874, 1.0, 11718},
+            {-1, 16.678874, 1.0, 12001},
+            {-1, 17.840874, 1.0, 12403},
+            {-1, 19.388874, 1.0, 13000},
+            {-1, 20.253874, 1.0, 13350},
 
-//            {-1, 5.139874, 0, (9000 + 200)},
-//            {-1, 6.110874, 0.2, 9051 + 200},
-//            {-1, 7.051874, 0.4, 9205 + 200},
-//            {-1, 8.163874, 0.7, 9386 + 200},
-//            {-1, 8.979874, 0.75, 9583 + 200},
-//            {-1, 9.876874, 0.75, 9818 + 200},
-//            {-1, 10.961874, 0.75, 10278 + 200},
-//            {-1, 11.948874, 0.75, 10636 + 200},
-//            {-1, 12.873874, 0.75, 10922 + 200},
-//            {-1, 13.778874, 0.9, 11250 + 200},
-//            {-1, 14.951874, 1.0, 11649 + 200},
-//            {-1, 15.857874, 1.0, 11984 + 200},
-//            {-1, 16.678874, 1.0, 12274 + 200},
-//            {-1, 17.840874, 1.0, 12685 + 200},
-//            {-1, 19.388874, 1.0, 13295 + 200},
-//            {-1, 20.253874, 1.0, 13653 + 200},
-
-            {-1, 5.139874, 0, 9154},
-            {-1, 6.110874, 0.2, 9204},
-            {-1, 7.051874, 0.4, 9357},
-            {-1, 8.163874, 0.7, 9537},
-            {-1, 8.979874, 0.75, 9734},
-            {-1, 9.876874, 0.75, 9968},
-            {-1, 10.961874, 0.75, 10426},
-            {-1, 11.948874, 0.75, 10782},
-            {-1, 12.873874, 0.75, 11066},
-            {-1, 13.778874, 0.9, 11392},
-            {-1, 14.951874, 1.0, 11789},
-            {-1, 15.857874, 1.0, 12123},
-            {-1, 16.678874, 1.0, 12411},
-            {-1, 17.840874, 1.0, 12820},
-            {-1, 19.388874, 1.0, 13428},
-            {-1, 20.253874, 1.0, 13784},
+//            {-1, 5.139874, 0, 9154},
+//            {-1, 6.110874, 0.2, 9204},
+//            {-1, 7.051874, 0.4, 9357},
+//            {-1, 8.163874, 0.7, 9537},
+//            {-1, 8.979874, 0.75, 9734},
+//            {-1, 9.876874, 0.75, 9968},
+//            {-1, 10.961874, 0.75, 10426},
+//            {-1, 11.948874, 0.75, 10782},
+//            {-1, 12.873874, 0.75, 11066},
+//            {-1, 13.778874, 0.9, 11392},
+//            {-1, 14.951874, 1.0, 11789},
+////            {-1, 15.103704, 1.0, 11500},
+//            {-1, 15.857874, 1.0, 12123},
+//            {-1, 16.678874, 1.0, 12411},
+//            {-1, 17.840874, 1.0, 12820},
+//            {-1, 19.388874, 1.0, 13428},
+//            {-1, 20.253874, 1.0, 13784},
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -250,6 +234,101 @@ public class PracticeRapidReact extends WaltRobot {
             @Override
             public TalonFXConfiguration[] getDriveControllerConfigs() {
                 return driveControllerConfigs;
+            }
+
+            @Override
+            public RelativeEncoderConfig[] getAzimuthQuadratureConfigs() {
+                // The following channels refer to the MXP DIO ports 0-9
+
+                return new RelativeEncoderConfig[] {
+                        new RelativeEncoderConfig() {
+                            @Override
+                            public double getDistancePerPulse() {
+                                return 4.0;
+                            }
+
+                            @Override
+                            public int getChannelA() {
+                                return 0;
+                            }
+
+                            @Override
+                            public int getChannelB() {
+                                return 1;
+                            }
+
+                            @Override
+                            public boolean isInverted() {
+                                return false;
+                            }
+                        },
+
+                        new RelativeEncoderConfig() {
+                            @Override
+                            public double getDistancePerPulse() {
+                                return 4.0;
+                            }
+
+                            @Override
+                            public int getChannelA() {
+                                return 2;
+                            }
+
+                            @Override
+                            public int getChannelB() {
+                                return 3;
+                            }
+
+                            @Override
+                            public boolean isInverted() {
+                                return false;
+                            }
+                        },
+
+                        new RelativeEncoderConfig() {
+                            @Override
+                            public double getDistancePerPulse() {
+                                return 4.0;
+                            }
+
+                            @Override
+                            public int getChannelA() {
+                                return 4;
+                            }
+
+                            @Override
+                            public int getChannelB() {
+                                return 5;
+                            }
+
+                            @Override
+                            public boolean isInverted() {
+                                return false;
+                            }
+                        },
+
+                        new RelativeEncoderConfig() {
+                            @Override
+                            public double getDistancePerPulse() {
+                                return 4.0;
+                            }
+
+                            @Override
+                            public int getChannelA() {
+                                return 6;
+                            }
+
+                            @Override
+                            public int getChannelB() {
+                                return 7;
+                            }
+
+                            @Override
+                            public boolean isInverted() {
+                                return false;
+                            }
+                        }
+                };
             }
 
             @Override

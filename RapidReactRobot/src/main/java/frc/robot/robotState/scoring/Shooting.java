@@ -66,7 +66,7 @@ public class Shooting implements IState {
                 Math.abs(shooter.getFlywheelVelocityNU() - godSubsystem.getCurrentTargetFlywheelVelocity());
 
         // Wait for hood to move in position
-        if ((shooter.getEstimatedHoodPosition() == shooter.getAdjustableHoodDutyCycleDemand()
+        if ((shooter.isHoodReady()
                 && flywheelError <= kRecoveryToleranceRawUnits) || overrideAutoAimAndShootButton.get()) {
             conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
             conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());

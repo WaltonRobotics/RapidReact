@@ -43,6 +43,7 @@ public class Shooter implements SubSubsystem {
         flywheelMasterController.setInverted(config.getFlywheelMasterControllerMotorConfig().isInverted());
         flywheelMasterController.setSensorPhase(config.getFlywheelMasterControllerMotorConfig().isInverted());
         flywheelMasterController.setNeutralMode(NeutralMode.Coast);
+        flywheelMasterController.configVoltageCompSaturation(12.0);
         flywheelMasterController.enableVoltageCompensation(true);
 
         flywheelSlaveController.configFactoryDefault(10);
@@ -50,6 +51,7 @@ public class Shooter implements SubSubsystem {
         flywheelSlaveController.setInverted(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setSensorPhase(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setNeutralMode(NeutralMode.Coast);
+        flywheelSlaveController.configVoltageCompSaturation(12.0);
         flywheelSlaveController.enableVoltageCompensation(false);
         configFollower();
 
@@ -90,13 +92,11 @@ public class Shooter implements SubSubsystem {
                     * (kFullHoodAngleRange / kHoodTransitionTimeSeconds);
 
             periodicIO.estimatedHoodPosition += dx;
-
-            SmartDashboard.putBoolean("Hood ready", false);
+            periodicIO.isHoodReady = false;
         } else {
             // Hood has reached setpoint
             periodicIO.estimatedHoodPosition = periodicIO.adjustableHoodDutyCycleDemand;
-
-            SmartDashboard.putBoolean("Hood ready", true);
+            periodicIO.isHoodReady = true;
         }
     }
 
@@ -154,6 +154,7 @@ public class Shooter implements SubSubsystem {
         SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Velocity NU", periodicIO.flywheelVelocityNU);
 //        SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Closed Loop Error NU", periodicIO.flywheelClosedLoopErrorNU);
         SmartDashboard.putNumber("Shooter/Periodic IO/Estimated Hood Position", periodicIO.estimatedHoodPosition);
+        SmartDashboard.putBoolean("Shooter/Periodic IO/Is Hood Ready", periodicIO.isHoodReady);
     }
 
     public void configFollower() {
@@ -225,6 +226,10 @@ public class Shooter implements SubSubsystem {
     public Rotation2d getHoodAngleFromHorizontal() {
         double hoodPosition = periodicIO.estimatedHoodPosition - kHoodLowerLimit;
         return Rotation2d.fromDegrees(kHoodAngleToDegreesIntercept + kHoodAngleToDegreesSlope * hoodPosition);
+    }
+    
+    public boolean isHoodReady() {
+        return periodicIO.isHoodReady;
     }
 
     public double getMasterTemp() {
@@ -302,7 +307,7 @@ public class Shooter implements SubSubsystem {
     }
 
     private void configFlywheelSlaveStatusFrames() {
-        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
+        flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_1_General, 255);
         flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
         flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 200);
         flywheelSlaveController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
@@ -344,6 +349,7 @@ public class Shooter implements SubSubsystem {
         public double flywheelVelocityNU;
         //        public double flywheelClosedLoopErrorNU;
         public double estimatedHoodPosition;
+        public boolean isHoodReady;
 
         // Outputs
         public AimTarget aimTarget = AimTarget.HIGH_GOAL;
