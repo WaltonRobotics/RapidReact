@@ -803,12 +803,12 @@ public class SwerveTestbed extends WaltRobot {
 
     @Override
     public void defineLimits() {
-        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(-1138, 1138));
-        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(-17067, 45511));
+        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(956, 1006));
+        climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(969, 1065));
 
-        climberExtensionLimits.put(STOWED, new LimitPair(-4694, 4694));
-        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(-4694, 965347));
-        climberExtensionLimits.put(MID_BAR_FINALIZE_CLIMB, new LimitPair(464673, 474061));
+        climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));
+        climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 470081));
+        climberExtensionLimits.put(MID_BAR_FINALIZE_CLIMB, new LimitPair(119000, 121000));
     }
 
     @Override
@@ -837,16 +837,18 @@ public class SwerveTestbed extends WaltRobot {
         // 200:1 GR
         // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (200 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
         // Tolerance: 1 deg
-        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 1138)); // 0 deg
+        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 75)); // 0 deg
 
         // Lengths are relative to uppermost ring of outer arm
         // 36:1 GR
         // Output shaft: 0.5 inch diameter (may change if spool is added)
         // Encoder counts = inches * (1 output rev / 0.5*pi inches) * (36 extension motor rev / 1 output rev) * (2048 counts / 1 extension motor rev)
         // Tolerance: 0.1 in
-        climberExtensionTargets.put(STOWED_HEIGHT, new Target(0, 4694)); // 1 in
-        climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(960653, 4694)); // 21.467 in
-        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(469367, 4694)); // 11.0 in
+        climberExtensionTargets.put(STOWED_HEIGHT, new Target(6500, 1500)); // 1 in
+        climberExtensionTargets.put(CLOSE_IN_TO_ZERO_LENGTH, new Target(15000, 1877));
+        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(120000, 1877)); // 11.0 in
+        climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
+        climberExtensionTargets.put(FINALIZE_HIGH_BAR_CLIMB_LENGTH, new Target(200000, 1877));
     }
 
     @Override

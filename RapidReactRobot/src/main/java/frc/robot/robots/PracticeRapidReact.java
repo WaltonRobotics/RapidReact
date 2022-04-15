@@ -873,7 +873,7 @@ public class PracticeRapidReact extends WaltRobot {
 
         climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));
         climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 470081));
-        climberExtensionLimits.put(MID_BAR_FINALIZE_CLIMB, new LimitPair(5000, 470081));
+        climberExtensionLimits.put(MID_BAR_FINALIZE_CLIMB, new LimitPair(119000, 121000));
     }
 
     @Override
@@ -908,9 +908,10 @@ public class PracticeRapidReact extends WaltRobot {
         // Encoder counts = inches * (1 output rev / 0.5*pi inches) * (36 extension motor rev / 1 output rev) * (2048 counts / 1 extension motor rev)
         // Tolerance: 0.1 in
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(6500, 1500)); // 1 in
-        climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
-        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(120000, 1877)); // 11.0 in
         climberExtensionTargets.put(CLOSE_IN_TO_ZERO_LENGTH, new Target(15000, 1877));
+        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(120000, 1877)); // 11.0 in
+        climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
+        climberExtensionTargets.put(FINALIZE_HIGH_BAR_CLIMB_LENGTH, new Target(200000, 1877));
     }
 
     @Override
