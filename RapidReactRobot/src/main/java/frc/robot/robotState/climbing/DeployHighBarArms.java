@@ -1,21 +1,15 @@
 package frc.robot.robotState.climbing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import frc.robot.config.Target;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
-import static frc.robot.OI.overrideNextClimbStateButton;
-import static frc.robot.OI.stopClimbButton;
-import static frc.robot.RobotContainer.currentRobot;
+import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Climber.ClimberPivotPosition.STOWED_ANGLE;
 
-public class HighBarClimbPullUpToMidBar implements IState {
-
-    private final Target pullUpLength = currentRobot.getExtensionTarget(
-            Climber.ClimberExtensionPosition.CLOSE_IN_TO_ZERO_LENGTH);
+public class DeployHighBarArms implements IState {
 
     @Override
     public void initialize() {
@@ -25,11 +19,10 @@ public class HighBarClimbPullUpToMidBar implements IState {
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setExtensionPositionDemand(
-                Climber.ClimberExtensionPosition.CLOSE_IN_TO_ZERO_LENGTH);
-        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
+        godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
+        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.STOWED);
 
-        godSubsystem.getClimber().configExtensionSmartMotion(20000, 40000);
+        godSubsystem.getClimber().setHighBarArmsDeployed(true);
     }
 
     @Override
@@ -42,11 +35,8 @@ public class HighBarClimbPullUpToMidBar implements IState {
             return new FinalizeClimb();
         }
 
-        double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
-
-        if ((pullUpLength.isWithinTolerance(extensionHeight))
-                || overrideNextClimbStateButton.isRisingEdge()) {
-            return new PullUpOntoMidBar();
+        if (advanceClimbingProcessButton.isRisingEdge()) {
+            return new PullOntoHighBar();
         }
 
         godSubsystem.handleExtensionManualOverride();

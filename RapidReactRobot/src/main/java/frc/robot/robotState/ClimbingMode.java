@@ -15,8 +15,8 @@ import static frc.robot.RobotContainer.godSubsystem;
 
 public class ClimbingMode implements IState {
 
-    private Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
-    private Target hookingLength = currentRobot.getExtensionTarget(
+    private final Target stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.STOWED_ANGLE);
+    private final Target hookingLength = currentRobot.getExtensionTarget(
             Climber.ClimberExtensionPosition.MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH);
 
     @Override
@@ -25,8 +25,8 @@ public class ClimbingMode implements IState {
 
         godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
-        godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
+        godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_STOWED);
 
         godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Brake);
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
@@ -49,20 +49,8 @@ public class ClimbingMode implements IState {
 
         if (selectMidRungButton.isRisingEdge()) {
             godSubsystem.setSelectedRung(Superstructure.ClimbingTargetRung.MID_RUNG);
-            stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
-            godSubsystem.getClimber().setPivotPositionDemand(stowedAngle);
-
-            hookingLength = currentRobot.getExtensionTarget(
-                    Climber.ClimberExtensionPosition.MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH);
-            godSubsystem.getClimber().setExtensionPositionDemand(hookingLength);
         } else if (selectHighRungButton.isRisingEdge()) {
             godSubsystem.setSelectedRung(Superstructure.ClimbingTargetRung.HIGH_RUNG);
-            stowedAngle = currentRobot.getPivotTarget(Climber.ClimberPivotPosition.ANGLE_HOOK_THETA_FOR_MID_BAR);
-            godSubsystem.getClimber().setPivotPositionDemand(stowedAngle);
-
-            hookingLength = currentRobot.getExtensionTarget(
-                    Climber.ClimberExtensionPosition.HIGH_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH);
-            godSubsystem.getClimber().setExtensionPositionDemand(hookingLength);
         }
 
         double pivotAngle = godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU();

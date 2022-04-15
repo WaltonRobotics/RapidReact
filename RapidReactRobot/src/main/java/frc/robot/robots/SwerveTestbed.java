@@ -780,6 +780,11 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
+            public int getHighBarArmsSolenoidChannel() {
+                return 4;
+            }
+
+            @Override
             public double getManualPivotPercentOutputLimit() {
                 return 0.3;
             }
@@ -800,15 +805,10 @@ public class SwerveTestbed extends WaltRobot {
     public void defineLimits() {
         climberPivotLimits.put(PIVOT_STOWED, new LimitPair(-1138, 1138));
         climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(-17067, 45511));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_MID_BAR, new LimitPair(-12174, -9898));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_HIGH_BAR, new LimitPair(23324, 25600));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, new LimitPair(-12971, -10695));
-        climberPivotLimits.put(PIVOT_PULL_UP_TO_TRAVERSAL_BAR, new LimitPair(21618, 23894));
 
         climberExtensionLimits.put(STOWED, new LimitPair(-4694, 4694));
         climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(-4694, 965347));
         climberExtensionLimits.put(MID_BAR_FINALIZE_CLIMB, new LimitPair(464673, 474061));
-        climberExtensionLimits.put(HIGH_BAR_TRANSFER_TO_FIXED_ARM, new LimitPair(582015, 591403));
     }
 
     @Override
@@ -838,13 +838,6 @@ public class SwerveTestbed extends WaltRobot {
         // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (200 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
         // Tolerance: 1 deg
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 1138)); // 0 deg
-        climberPivotTargets.put(ANGLE_HOOK_THETA_FOR_MID_BAR, new Target(-11036, 1138)); // -9.7 deg
-        climberPivotTargets.put(REACHING_FOR_HIGH_BAR_PIVOT_ANGLE, new Target(26624, 1138)); // 23.4 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_HIGH_BAR, new Target(24462, 1138)); // 21.5 deg
-        climberPivotTargets.put(ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER, new Target(-11833, 1138)); // -10.4 deg
-        climberPivotTargets.put(FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE, new Target(-1138, 1138)); // -1.0 deg
-        climberPivotTargets.put(REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE, new Target(30265, 1138)); // 26.6 deg
-        climberPivotTargets.put(ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR, new Target(22756, 1138)); // 20.0 deg
 
         // Lengths are relative to uppermost ring of outer arm
         // 36:1 GR
@@ -853,14 +846,7 @@ public class SwerveTestbed extends WaltRobot {
         // Tolerance: 0.1 in
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(0, 4694)); // 1 in
         climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(960653, 4694)); // 21.467 in
-        climberExtensionTargets.put(HIGH_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(960653, 4694)); // 21.467 in
         climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(469367, 4694)); // 11.0 in
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_MID_BAR, new Target(93873, 4694)); // 3.0 in
-        climberExtensionTargets.put(HOOKING_ONTO_HIGH_BAR_LENGTH, new Target(1126481, 4694)); // 25 in
-        climberExtensionTargets.put(PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH, new Target(586709, 4694)); // 13.50 in
-        climberExtensionTargets.put(LENGTH_TO_DISENGAGE_FROM_HIGH_BAR, new Target(93873, 4694)); // 3.0 in
-        climberExtensionTargets.put(HOOKING_ONTO_TRAVERSAL_BAR_LENGTH, new Target(1173418, 4694)); // 26.0 in
-        climberExtensionTargets.put(LENGTH_TO_HANG_FROM_TRAVERSAL_BAR, new Target(497529, 4694)); // 11.6 in
     }
 
     @Override

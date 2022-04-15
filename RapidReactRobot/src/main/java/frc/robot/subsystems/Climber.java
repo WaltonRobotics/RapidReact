@@ -31,6 +31,7 @@ public class Climber implements SubSubsystem {
 
     private final Solenoid climberLock = new Solenoid(PneumaticsModuleType.REVPH, config.getClimberLockSolenoidChannel());
     private final Solenoid climberDiscBrake = new Solenoid(PneumaticsModuleType.REVPH, config.getClimberDiscBrakeSolenoidChannel());
+    private final Solenoid highBarArmsSolenoid = new Solenoid(PneumaticsModuleType.REVPH, config.getHighBarArmsSolenoidChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
 
@@ -204,6 +205,7 @@ public class Climber implements SubSubsystem {
 
         climberLock.set(periodicIO.climberLockStateDemand);
         climberDiscBrake.set(periodicIO.climberDiscBrakeStateDemand);
+        highBarArmsSolenoid.set(periodicIO.highBarArmsStateDemand);
     }
 
     @Override
@@ -411,6 +413,14 @@ public class Climber implements SubSubsystem {
         periodicIO.climberDiscBrakeStateDemand = unengaged;
     }
 
+    public boolean areHighBarArmsDeployed() {
+        return periodicIO.highBarArmsStateDemand;
+    }
+
+    public void setHighBarArmsDeployed(boolean deployed) {
+        periodicIO.highBarArmsStateDemand = deployed;
+    }
+
     public double getPivotAbsoluteEncoderPositionNU() {
         return periodicIO.pivotAbsoluteEncoderPositionNU;
     }
@@ -507,48 +517,47 @@ public class Climber implements SubSubsystem {
 
     public enum ClimberExtensionPosition {
         STOWED_HEIGHT,
-        MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH,
-        HIGH_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH,
-        PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH,
         CLOSE_IN_TO_ZERO_LENGTH,
-        LENGTH_TO_DISENGAGE_FROM_MID_BAR,
-        HOOKING_ONTO_HIGH_BAR_LENGTH,
-        PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH,
-        LENGTH_TO_DISENGAGE_FROM_HIGH_BAR,
-        HOOKING_ONTO_TRAVERSAL_BAR_LENGTH,
-        LENGTH_TO_HANG_FROM_TRAVERSAL_BAR
+        PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH,
+        MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH,
+        FINALIZE_HIGH_BAR_CLIMB_LENGTH
+//        LENGTH_TO_DISENGAGE_FROM_MID_BAR,
+//        HOOKING_ONTO_HIGH_BAR_LENGTH,
+//        PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH,
+//        LENGTH_TO_DISENGAGE_FROM_HIGH_BAR,
+//        HOOKING_ONTO_TRAVERSAL_BAR_LENGTH,
+//        LENGTH_TO_HANG_FROM_TRAVERSAL_BAR
     }
 
     public enum ClimberExtensionLimits {
         STOWED, // Corresponds to STOWED_HEIGHT
         EXTENSION_FULL_ROM,
         MID_BAR_FINALIZE_CLIMB, // Corresponds to PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH
-        HIGH_BAR_TRANSFER_TO_FIXED_ARM, // Corresponds to PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH
+//        HIGH_BAR_TRANSFER_TO_FIXED_ARM, // Corresponds to PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH
     }
 
     public enum ClimberPivotPosition {
         // If the position begins with ANGLE, rotation is CW
         // If the position ends with ANGLE, rotation is CCW
 
-        LINING_UP_FOR_MID_BAR,
         STOWED_ANGLE,
-        ANGLE_HOOK_THETA_FOR_MID_BAR,
-        PIVOT_BACK_TO_TRANSFER,
-        REACHING_FOR_HIGH_BAR_PIVOT_ANGLE,
-        ANGLE_TO_HOOK_ONTO_HIGH_BAR,
-        ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER,
-        FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE,
-        REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE,
-        ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR
+//        ANGLE_HOOK_THETA_FOR_MID_BAR,
+//        PIVOT_BACK_TO_TRANSFER,
+//        REACHING_FOR_HIGH_BAR_PIVOT_ANGLE,
+//        ANGLE_TO_HOOK_ONTO_HIGH_BAR,
+//        ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER,
+//        FIXED_ARM_TO_HOOK_ONTO_HIGH_BAR_ANGLE,
+//        REACHING_FOR_TRAVERSAL_BAR_PIVOT_ANGLE,
+//        ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR
     }
 
     public enum ClimberPivotLimits {
         PIVOT_STOWED, // Corresponds to STOWED_ANGLE
         PIVOT_FULL_ROM,
-        PIVOT_PULL_UP_TO_MID_BAR, // Corresponds to ANGLE_HOOK_THETA_FOR_MID_BAR
-        PIVOT_PULL_UP_TO_HIGH_BAR, // Corresponds to ANGLE_TO_HOOK_ONTO_HIGH_BAR
-        PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, // Corresponds to ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER
-        PIVOT_PULL_UP_TO_TRAVERSAL_BAR, // Corresponds to ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR
+//        PIVOT_PULL_UP_TO_MID_BAR, // Corresponds to ANGLE_HOOK_THETA_FOR_MID_BAR
+//        PIVOT_PULL_UP_TO_HIGH_BAR, // Corresponds to ANGLE_TO_HOOK_ONTO_HIGH_BAR
+//        PIVOT_PULL_UP_TO_TRANSFER_HIGH_BAR, // Corresponds to ANGLE_TO_POSITION_FIXED_ARM_FOR_HIGH_BAR_TRANSFER
+//        PIVOT_PULL_UP_TO_TRAVERSAL_BAR, // Corresponds to ANGLE_TO_HOOK_ONTO_TRAVERSAL_BAR
     }
 
     public static class PeriodicIO {
@@ -577,6 +586,7 @@ public class Climber implements SubSubsystem {
         public double extensionPositionDemandNU;
         public boolean climberLockStateDemand;
         public boolean climberDiscBrakeStateDemand;
+        public boolean highBarArmsStateDemand;
         public ClimberControlState pivotControlState = ClimberControlState.DISABLED;
         public ClimberControlState extensionControlState = ClimberControlState.DISABLED;
         public boolean isFastZeroing;

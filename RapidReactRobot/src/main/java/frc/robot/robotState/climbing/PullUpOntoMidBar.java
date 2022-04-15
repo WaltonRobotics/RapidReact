@@ -12,8 +12,8 @@ public class PullUpOntoMidBar implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_PULL_UP_TO_MID_BAR);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
+        godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
         godSubsystem.getClimber().releaseExtensionLowerLimit();
@@ -31,7 +31,7 @@ public class PullUpOntoMidBar implements IState {
 
         if (godSubsystem.getClimber().isLeftExtensionLowerLimitClosed() ||
                 godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) {
-            return new TransferMidBarFromPivotToFixed();
+            return new DeployHighBarArms();
         }
 
         godSubsystem.getClimber().setExtensionPercentOutputDemand(kTransferPercentOutput);
