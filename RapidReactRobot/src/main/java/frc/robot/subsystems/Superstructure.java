@@ -449,8 +449,7 @@ public class Superstructure extends SubsystemBase {
             double shooterMPS = shooterVelocityNU * kFlywheelNUToMPS
                     * godSubsystem.getShooter().getHoodAngleFromHorizontal().getCos();
 
-            Rotation2d robotTarget = godSubsystem.getDrivetrain().getHeading().minus(
-                    Rotation2d.fromDegrees(LimelightHelper.getTX()));
+            Rotation2d robotTarget = Rotation2d.fromDegrees(-LimelightHelper.getTX());
 
             double correctionXSpeed = shooterMPS * robotTarget.getCos() - robotSpeeds.vxMetersPerSecond;
             double correctionYSpeed = shooterMPS * robotTarget.getSin() - robotSpeeds.vyMetersPerSecond;
@@ -461,7 +460,8 @@ public class Superstructure extends SubsystemBase {
             shooterVelocityNU = shooterMPS / kFlywheelNUToMPS;
 
             shooter.setFlywheelDemand(shooterVelocityNU);
-            godSubsystem.getDrivetrain().faceDirection(0, 0, robotTarget, false);
+            godSubsystem.getDrivetrain().faceDirection(0, 0,
+                    godSubsystem.getDrivetrain().getHeading().plus(robotTarget), false);
         } else {
             shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
             godSubsystem.getDrivetrain().xLockSwerveDrive();

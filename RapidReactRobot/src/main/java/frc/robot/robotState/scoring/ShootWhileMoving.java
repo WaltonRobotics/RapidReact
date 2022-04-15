@@ -60,11 +60,12 @@ public class ShootWhileMoving implements IState {
         double shooterMPS = shooterVelocityNU * kFlywheelNUToMPS
                 * godSubsystem.getShooter().getHoodAngleFromHorizontal().getCos();
 
-        Rotation2d robotTarget = godSubsystem.getDrivetrain().getHeading().minus(
-                Rotation2d.fromDegrees(LimelightHelper.getTX()));
+        Rotation2d robotTarget = Rotation2d.fromDegrees(0);
 
         if (LimelightHelper.getTV() >= 1) {
             ChassisSpeeds robotSpeeds = godSubsystem.getDrivetrain().getRobotRelativeSpeeds();
+
+            robotTarget = Rotation2d.fromDegrees(-LimelightHelper.getTX());
 
             if (Math.abs(robotSpeeds.vxMetersPerSecond) > 0.1
                     || Math.abs(robotSpeeds.vyMetersPerSecond) > 0.1) {
@@ -89,7 +90,8 @@ public class ShootWhileMoving implements IState {
         vx = UtilMethods.limitMagnitude(vx, 0.5);
         vy = UtilMethods.limitMagnitude(vy, 0.5);
 
-        double thetaError = godSubsystem.getDrivetrain().faceDirection(vx, vy, robotTarget, false);
+        double thetaError = godSubsystem.getDrivetrain().faceDirection(vx, vy,
+                godSubsystem.getDrivetrain().getHeading().plus(robotTarget), false);
 
         double flywheelError =
                 Math.abs(shooter.getFlywheelVelocityNU() - godSubsystem.getCurrentTargetFlywheelVelocity());
