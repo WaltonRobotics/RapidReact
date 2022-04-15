@@ -89,6 +89,6 @@ deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
 
-//test {
-//    exclude '**/*'
-//}
+test {
+    exclude '**/*'
+}
