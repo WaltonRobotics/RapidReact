@@ -120,6 +120,9 @@ public class Robot extends WaltTimesliceRobot {
      */
     @Override
     public void disabledInit() {
+        godSubsystem.getClimber().setClimberLockStateDemand(false);
+        godSubsystem.getClimber().setHighBarArmsDeployed(false);
+
         godSubsystem.setEnabled(false);
 
         godSubsystem.setInAuton(false);

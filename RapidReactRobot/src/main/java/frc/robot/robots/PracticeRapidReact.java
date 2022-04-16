@@ -840,13 +840,8 @@ public class PracticeRapidReact extends WaltRobot {
             }
 
             @Override
-            public int getClimberDiscBrakeSolenoidChannel() {
-                return 1;
-            }
-
-            @Override
             public int getHighBarArmsSolenoidChannel() {
-                return 4;
+                return 1;
             }
 
             @Override
@@ -901,6 +896,7 @@ public class PracticeRapidReact extends WaltRobot {
         // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (200 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
         // Tolerance: 1 deg
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 75)); // 0 deg
+        climberPivotTargets.put(FINALIZE_HIGH_CLIMB_ANGLE, new Target(-3675, 75));
 
         // Lengths are relative to uppermost ring of outer arm
         // 36:1 GR
@@ -910,8 +906,8 @@ public class PracticeRapidReact extends WaltRobot {
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(6500, 1500)); // 1 in
         climberExtensionTargets.put(CLOSE_IN_TO_ZERO_LENGTH, new Target(15000, 1877));
         climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(120000, 1877)); // 11.0 in
-        climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(384261, 1877)); // 21.467 in
-        climberExtensionTargets.put(FINALIZE_HIGH_BAR_CLIMB_LENGTH, new Target(200000, 1877));
+        climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(470081, 1877)); // 21.467 in
+        climberExtensionTargets.put(FINALIZE_HIGH_BAR_CLIMB_LENGTH, new Target(350000, 1877));
     }
 
     @Override

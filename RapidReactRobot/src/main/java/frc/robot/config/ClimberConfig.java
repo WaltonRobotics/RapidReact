@@ -35,8 +35,6 @@ public interface ClimberConfig {
 
     int getClimberLockSolenoidChannel();
 
-    int getClimberDiscBrakeSolenoidChannel();
-
     int getHighBarArmsSolenoidChannel();
 
     double getManualPivotPercentOutputLimit();

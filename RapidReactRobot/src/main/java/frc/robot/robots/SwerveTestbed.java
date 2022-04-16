@@ -775,11 +775,6 @@ public class SwerveTestbed extends WaltRobot {
             }
 
             @Override
-            public int getClimberDiscBrakeSolenoidChannel() {
-                return 4;
-            }
-
-            @Override
             public int getHighBarArmsSolenoidChannel() {
                 return 4;
             }

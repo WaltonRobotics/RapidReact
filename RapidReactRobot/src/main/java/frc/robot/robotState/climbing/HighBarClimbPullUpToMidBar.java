@@ -1,6 +1,7 @@
 package frc.robot.robotState.climbing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.config.Target;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
@@ -17,6 +18,8 @@ public class HighBarClimbPullUpToMidBar implements IState {
     private final Target pullUpLength = currentRobot.getExtensionTarget(
             Climber.ClimberExtensionPosition.CLOSE_IN_TO_ZERO_LENGTH);
 
+    private final Timer timer = new Timer();
+
     @Override
     public void initialize() {
         godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
@@ -29,7 +32,12 @@ public class HighBarClimbPullUpToMidBar implements IState {
                 Climber.ClimberExtensionPosition.CLOSE_IN_TO_ZERO_LENGTH);
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.EXTENSION_FULL_ROM);
 
+//        godSubsystem.getClimber().setHighBarArmsDeployed(true);
+
         godSubsystem.getClimber().configExtensionSmartMotion(20000, 40000);
+
+        timer.reset();
+        timer.start();
     }
 
     @Override
@@ -40,6 +48,10 @@ public class HighBarClimbPullUpToMidBar implements IState {
 
         if (stopClimbButton.isRisingEdge()) {
             return new FinalizeClimb();
+        }
+
+        if (timer.hasElapsed(0.25)) {
+            godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Coast);
         }
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();

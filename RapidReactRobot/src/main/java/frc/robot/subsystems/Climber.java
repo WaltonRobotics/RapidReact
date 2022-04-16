@@ -30,7 +30,6 @@ public class Climber implements SubSubsystem {
     private final TalonFX extensionController = new TalonFX(config.getExtensionControllerMotorConfig().getChannelOrID());
 
     private final Solenoid climberLock = new Solenoid(PneumaticsModuleType.REVPH, config.getClimberLockSolenoidChannel());
-    private final Solenoid climberDiscBrake = new Solenoid(PneumaticsModuleType.REVPH, config.getClimberDiscBrakeSolenoidChannel());
     private final Solenoid highBarArmsSolenoid = new Solenoid(PneumaticsModuleType.REVPH, config.getHighBarArmsSolenoidChannel());
 
     private final PeriodicIO periodicIO = new PeriodicIO();
@@ -204,7 +203,6 @@ public class Climber implements SubSubsystem {
         }
 
         climberLock.set(periodicIO.climberLockStateDemand);
-        climberDiscBrake.set(periodicIO.climberDiscBrakeStateDemand);
         highBarArmsSolenoid.set(periodicIO.highBarArmsStateDemand);
     }
 
@@ -541,6 +539,7 @@ public class Climber implements SubSubsystem {
         // If the position ends with ANGLE, rotation is CCW
 
         STOWED_ANGLE,
+        FINALIZE_HIGH_CLIMB_ANGLE
 //        ANGLE_HOOK_THETA_FOR_MID_BAR,
 //        PIVOT_BACK_TO_TRANSFER,
 //        REACHING_FOR_HIGH_BAR_PIVOT_ANGLE,
