@@ -5,6 +5,7 @@ import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 
+import static frc.robot.Constants.Climber.kTransferPercentOutput;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Climber.ClimberPivotPosition.STOWED_ANGLE;
@@ -18,9 +19,8 @@ public class DeployHighBarArms implements IState {
         godSubsystem.getClimber().setPivotPositionDemand(STOWED_ANGLE);
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 
-        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
-        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.STOWED);
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
+        godSubsystem.getClimber().releaseExtensionLowerLimit();
 
         godSubsystem.getClimber().setHighBarArmsDeployed(true);
     }
@@ -39,14 +39,27 @@ public class DeployHighBarArms implements IState {
             return new PullOntoHighBar();
         }
 
-        godSubsystem.handleExtensionManualOverride();
+//        godSubsystem.handleExtensionManualOverride();
+
+        if (!godSubsystem.getClimber().isLeftExtensionLowerLimitClosed()
+                && !godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) {
+            godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
+            godSubsystem.getClimber().setExtensionPercentOutputDemand(kTransferPercentOutput);
+        } else {
+            godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
+            godSubsystem.getClimber().enableExtensionLowerLimit();
+            godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
+        }
 
         return this;
     }
 
     @Override
     public void finish() {
-
+        godSubsystem.getClimber().enableExtensionLowerLimit();
+        godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
+        godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
+        godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.STOWED);
     }
 
 }
