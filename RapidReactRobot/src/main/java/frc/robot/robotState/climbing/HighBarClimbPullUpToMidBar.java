@@ -6,6 +6,7 @@ import frc.robot.config.Target;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
+import frc.robot.util.UtilMethods;
 
 import static frc.robot.OI.overrideNextClimbStateButton;
 import static frc.robot.OI.stopClimbButton;
@@ -55,6 +56,11 @@ public class HighBarClimbPullUpToMidBar implements IState {
         }
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
+
+        if ((UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), 44, 1)
+                && godSubsystem.getDrivetrain().isOnFrontSwing())) {
+            return new DeployHighBarArms();
+        }
 
         if ((pullUpLength.isWithinTolerance(extensionHeight))
                 || overrideNextClimbStateButton.isRisingEdge()) {

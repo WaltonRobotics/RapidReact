@@ -31,21 +31,28 @@ public class PullUpOntoMidBar implements IState {
             return new FinalizeClimb();
         }
 
-        if (((godSubsystem.getClimber().isLeftExtensionLowerLimitClosed() ||
-                godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) &&
-                UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), 44, 1)
+        if ((UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), 44, 1)
                 && godSubsystem.getDrivetrain().isOnFrontSwing())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new DeployHighBarArms();
         }
 
-        godSubsystem.getClimber().setExtensionPercentOutputDemand(kTransferPercentOutput);
+        if (!godSubsystem.getClimber().isLeftExtensionLowerLimitClosed()
+                && !godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) {
+            godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
+            godSubsystem.getClimber().setExtensionPercentOutputDemand(kTransferPercentOutput);
+        } else {
+            godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
+            godSubsystem.getClimber().enableExtensionLowerLimit();
+            godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
+        }
 
         return this;
     }
 
     @Override
     public void finish() {
+        godSubsystem.getClimber().enableExtensionLowerLimit();
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
     }
