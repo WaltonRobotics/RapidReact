@@ -23,6 +23,8 @@ public class TakeControl implements IState {
         // Load pivot reference
         godSubsystem.getClimber().zeroSensors();
 
+        godSubsystem.getClimber().setHighBarArmsDeployed(false);
+
         godSubsystem.getIntake().setIntakeControlState(Intake.IntakeControlState.DISABLED);
         godSubsystem.getConveyor().setConveyorControlState(Conveyor.ConveyorControlState.DISABLED);
         godSubsystem.getShooter().setShooterControlState(Shooter.ShooterControlState.DISABLED);

@@ -1,5 +1,6 @@
 package frc.robot.robotState.climbing;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.config.Target;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
@@ -17,8 +18,9 @@ public class MidBarClimbPullUp implements IState {
 
     @Override
     public void initialize() {
-        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
-        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.LINING_UP_FOR_MID_BAR);
+        godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
+        godSubsystem.getClimber().setPivotPositionDemand(Climber.ClimberPivotPosition.STOWED_ANGLE);
         godSubsystem.getClimber().setClimberLockStateDemand(false);
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 

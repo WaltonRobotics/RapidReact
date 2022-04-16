@@ -38,7 +38,7 @@ public class Superstructure extends SubsystemBase {
 
     private boolean isEnabled = false;
     private CurrentMode currentMode = CurrentMode.SCORING_MODE;
-    private ClimbingTargetRung selectedRung = ClimbingTargetRung.MID_RUNG;
+    private ClimbingTargetRung selectedRung = ClimbingTargetRung.HIGH_RUNG;
 
     private double currentTargetFlywheelVelocity = 0;
 

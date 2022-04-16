@@ -330,7 +330,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     public void periodic() {
 //        swerveDrive.periodic();
 
-//        SmartDashboard.putNumber("Robot pitch angle", ahrs.getPitch());
+        SmartDashboard.putNumber("Robot pitch angle", ahrs.getPitch());
 //        SmartDashboard.putNumber("Robot roll angle", ahrs.getRoll());
 //        field.setRobotPose(getPoseMeters());
 
@@ -407,7 +407,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public Rotation2d getPitch() {
-        return Rotation2d.fromDegrees(ahrs.getPitch());
+        return Rotation2d.fromDegrees(periodicIO.currentPitch);
     }
 
     public double getLeftFrontDriveTemp() {
@@ -478,6 +478,16 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         swerveModules.forEach(WaltSwerveModule::collectData);
 
         periodicIO.robotHeading = swerveDrive.getHeading();
+
+        periodicIO.currentPitch = ahrs.getPitch();
+
+        periodicIO.isOnFrontSwing = periodicIO.currentPitch - periodicIO.lastPitch < 0;
+
+        periodicIO.lastPitch = periodicIO.currentPitch;
+    }
+
+    public boolean isOnFrontSwing() {
+        return periodicIO.isOnFrontSwing;
     }
 
     @Override
@@ -496,6 +506,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
             SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Rear Absolute Counts", swerveModules.get(2).getAzimuthAbsoluteEncoderCounts());
             SmartDashboard.putNumber("Drivetrain/Periodic IO/Right Rear Absolute Counts", swerveModules.get(3).getAzimuthAbsoluteEncoderCounts());
         }
+
+        SmartDashboard.putBoolean("Is On Front Swing", periodicIO.isOnFrontSwing);
 
         // Relative encoder data
         SmartDashboard.putNumber("Drivetrain/Periodic IO/Left Front Relative Counts", swerveModules.get(0).getAzimuthRelativeEncoderCounts());
@@ -540,6 +552,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     public static class PeriodicIO {
         // Inputs
         public Rotation2d robotHeading = Rotation2d.fromDegrees(0);
+
+        public double currentPitch;
+        public double lastPitch;
+        public boolean isOnFrontSwing;
 
     }
 
