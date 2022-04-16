@@ -1,5 +1,6 @@
 package frc.robot.robotState.scoring;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
@@ -10,6 +11,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.Shooter.kRecoveryToleranceRawUnits;
+import static frc.robot.Constants.SmartDashboardKeys.kFlywheelOnTargetKey;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SHOOTING_SLOT;
@@ -64,6 +66,8 @@ public class Shooting implements IState {
 
         double flywheelError =
                 Math.abs(shooter.getFlywheelVelocityNU() - godSubsystem.getCurrentTargetFlywheelVelocity());
+
+        SmartDashboard.putBoolean(kFlywheelOnTargetKey, flywheelError <= kRecoveryToleranceRawUnits);
 
         // Wait for hood to move in position
         if ((shooter.isHoodReady()

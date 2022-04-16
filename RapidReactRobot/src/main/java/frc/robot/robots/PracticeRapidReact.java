@@ -588,9 +588,9 @@ public class PracticeRapidReact extends WaltRobot {
         flywheelSlaveTalonConfig.voltageCompSaturation = 12.0;
 
         // Spinning up profile
-        flywheelMasterTalonConfig.slot0.kF = 0.05;
-        flywheelMasterTalonConfig.slot0.kP = 0.00087;
-        flywheelMasterTalonConfig.slot0.kI = 9E-05;
+        flywheelMasterTalonConfig.slot0.kF = 0.0500652529;
+        flywheelMasterTalonConfig.slot0.kP = 0.01;
+        flywheelMasterTalonConfig.slot0.kI = 1E-04;
         flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot0.integralZone = 300;
@@ -598,8 +598,8 @@ public class PracticeRapidReact extends WaltRobot {
         flywheelMasterTalonConfig.slot0.closedLoopPeakOutput = 1.0;
 
         // Shooting profile
-        flywheelMasterTalonConfig.slot1.kF = 0.05;
-        flywheelMasterTalonConfig.slot1.kP = 0.00088;
+        flywheelMasterTalonConfig.slot1.kF = 0.0500652529;
+        flywheelMasterTalonConfig.slot1.kP = 0.005;
         flywheelMasterTalonConfig.slot1.kI = 9E-05;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
@@ -895,6 +895,7 @@ public class PracticeRapidReact extends WaltRobot {
         // 200:1 GR
         // Encoder counts = deg * (1 pivot arm rev / 360 deg) * (200 pivot motor rev / 1 pivot arm rev) * (2048 counts / 1 pivot motor rev)
         // Tolerance: 1 deg
+        // samit is very good
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 75)); // 0 deg
         climberPivotTargets.put(FINALIZE_HIGH_CLIMB_ANGLE, new Target(-3675, 75));
 

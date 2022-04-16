@@ -138,7 +138,7 @@ public final class Constants {
 
         public static final double kPivotArmNudgeIncrementNU = 1137;
 
-        public static final double kDeployHighBarArmsAngleDegrees = 44;
+        public static final double kDeployHighBarArmsAngleDegrees = 46;
 
     }
 
@@ -227,6 +227,8 @@ public final class Constants {
         public static final String kClimberDeployHighBarArmsAngleKey = "Climber/Deploy High Bar Arms Angle";
 
         public static final String kAllianceColorKey = "Alliance Color";
+
+        public static final String kFlywheelOnTargetKey = "Flywheel on target";
 
     }
 

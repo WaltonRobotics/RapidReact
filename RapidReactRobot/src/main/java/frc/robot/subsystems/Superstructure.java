@@ -545,18 +545,24 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void monitorTemperatures() {
-        monitorTemp(climber.getPivotTemp(), 60, "Pivot Overheating");
-        monitorTemp(climber.getExtensionTemp(), 70, "Extension Overheating");
-        monitorTemp(shooter.getMasterTemp(), 70, "Right Shooter Overheating");
-        monitorTemp(shooter.getSlaveTemp(), 70, "Left Shooter Overheating");
-        monitorTemp(drivetrain.getLeftFrontDriveTemp(), 70, "Left Front Talon Overheating");
-        monitorTemp(drivetrain.getLeftBackDriveTemp(), 70, "Left Back Talon Overheating");
-        monitorTemp(drivetrain.getRightFrontDriveTemp(), 70, "Right Front Talon Overheating");
-        monitorTemp(drivetrain.getRightBackDriveTemp(), 70, "Right Back Talon Overheating");
-        monitorTemp(drivetrain.getLeftFrontTurnTemp(), 60, "Left Front NEO Overheating");
-        monitorTemp(drivetrain.getLeftBackTurnTemp(), 60, "Left Back NEO Overheating");
-        monitorTemp(drivetrain.getRightFrontTurnTemp(), 60, "Right Front NEO Overheating");
-        monitorTemp(drivetrain.getRightBackTurnTemp(), 60, "Right Back NEO Overheating");
+        boolean climberStatus = monitorTemp(climber.getPivotTemp(), 70, "Pivot Overheating") &&
+                monitorTemp(climber.getExtensionTemp(), 70, "Extension Overheating");
+
+        boolean shooterStatus = monitorTemp(shooter.getMasterTemp(), 70, "Right Shooter Overheating")
+                && monitorTemp(shooter.getSlaveTemp(), 70, "Left Shooter Overheating");
+
+        boolean drivetrainStatus = monitorTemp(drivetrain.getLeftFrontDriveTemp(), 70, "Left Front Talon Overheating")
+                && monitorTemp(drivetrain.getLeftBackDriveTemp(), 70, "Left Back Talon Overheating")
+                && monitorTemp(drivetrain.getRightFrontDriveTemp(), 70, "Right Front Talon Overheating")
+                && monitorTemp(drivetrain.getRightBackDriveTemp(), 70, "Right Back Talon Overheating")
+                && monitorTemp(drivetrain.getLeftFrontTurnTemp(), 60, "Left Front NEO Overheating")
+                && monitorTemp(drivetrain.getLeftBackTurnTemp(), 60, "Left Back NEO Overheating")
+                && monitorTemp(drivetrain.getRightFrontTurnTemp(), 60, "Right Front NEO Overheating")
+                && monitorTemp(drivetrain.getRightBackTurnTemp(), 60, "Right Back NEO Overheating");
+
+        SmartDashboard.putBoolean("Climber System Check", climberStatus);
+        SmartDashboard.putBoolean("Shooter System Check", shooterStatus);
+        SmartDashboard.putBoolean("Drivetrain System Check", drivetrainStatus);
     }
 
     public AllianceColor getInferredAllianceColor() {

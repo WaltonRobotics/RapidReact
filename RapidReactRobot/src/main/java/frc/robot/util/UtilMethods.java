@@ -8,10 +8,13 @@ import static frc.robot.RobotContainer.robotLogger;
 
 public class UtilMethods {
 
-    public static void monitorTemp(double currentTemp, double maxTemp, String warningMsg) {
+    public static boolean monitorTemp(double currentTemp, double maxTemp, String warningMsg) {
         if (currentTemp >= maxTemp) {
             robotLogger.log(Level.SEVERE, warningMsg);
+            return false;
         }
+
+        return true;
     }
 
     public static double limitMagnitude(double value, double maxMagnitude) {

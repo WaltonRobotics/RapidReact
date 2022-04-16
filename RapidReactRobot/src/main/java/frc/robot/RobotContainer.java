@@ -216,7 +216,7 @@ public class RobotContainer {
             SmartDashboard.putNumber(kShooterHoodPositionSetpointKey, 0.0);
         }
 
-        SmartDashboard.putBoolean("Flywheel on target", false);
+        SmartDashboard.putBoolean(kFlywheelOnTargetKey, false);
 
         SmartDashboard.putBoolean("Is Ready For Match", !kIsInShooterTuningMode);
 

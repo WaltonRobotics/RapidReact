@@ -136,7 +136,7 @@ public class Shooter implements SubSubsystem {
 
         if (periodicIO.lastAdjustableHoodDutyCycleDemand != periodicIO.adjustableHoodDutyCycleDemand) {
             periodicIO.lastAdjustableHoodChangeFPGATime = currentFPGATime;
-            periodicIO.savedLastPosition = periodicIO.estimatedHoodPosition;
+            periodicIO.savedLastPosition = periodicIO.lastAdjustableHoodDutyCycleDemand;
             periodicIO.lastAdjustableHoodDutyCycleDemand = periodicIO.adjustableHoodDutyCycleDemand;
         }
 

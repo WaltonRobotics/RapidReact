@@ -6,6 +6,7 @@ import frc.robot.robotState.scoring.Shooting;
 import frc.robot.util.EnhancedBoolean;
 
 import static frc.robot.Constants.Shooter.kRecoveryToleranceRawUnits;
+import static frc.robot.Constants.SmartDashboardKeys.kFlywheelOnTargetKey;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class WaitForCargoShot extends CommandBase {
@@ -33,7 +34,7 @@ public class WaitForCargoShot extends CommandBase {
             flywheelOnTarget.set(false);
         }
 
-        SmartDashboard.putBoolean("Flywheel on target", flywheelOnTarget.get());
+        SmartDashboard.putBoolean(kFlywheelOnTargetKey, flywheelOnTarget.get());
     }
 
     @Override

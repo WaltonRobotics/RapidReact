@@ -56,9 +56,11 @@ public class ShootWhileMoving implements IState {
         double vx = godSubsystem.getVx();
         double vy = godSubsystem.getVy();
 
+        double hoodAngleCos = godSubsystem.getShooter().getHoodAngleFromHorizontal().getCos();
+
         double shooterVelocityNU = godSubsystem.getShooter().getEstimatedVelocityFromTarget();
         double shooterMPS = shooterVelocityNU * kFlywheelNUToMPS
-                * godSubsystem.getShooter().getHoodAngleFromHorizontal().getCos();
+                * hoodAngleCos;
 
         Rotation2d robotTarget = Rotation2d.fromDegrees(0);
 
@@ -75,7 +77,7 @@ public class ShootWhileMoving implements IState {
                 robotTarget = new Rotation2d(Math.atan2(correctionYSpeed, correctionXSpeed));
 
                 shooterMPS = Math.sqrt(correctionXSpeed * correctionXSpeed + correctionYSpeed * correctionYSpeed);
-                shooterVelocityNU = shooterMPS / kFlywheelNUToMPS;
+                shooterVelocityNU = shooterMPS / kFlywheelNUToMPS * (1.0 / hoodAngleCos);
             }
         }
 
@@ -97,7 +99,7 @@ public class ShootWhileMoving implements IState {
                 Math.abs(shooter.getFlywheelVelocityNU() - godSubsystem.getCurrentTargetFlywheelVelocity());
 
         if ((UtilMethods.isWithinTolerance(thetaError, 0, kShootingToleranceRawUnits)
-                && shooter.getEstimatedHoodPosition() == shooter.getAdjustableHoodDutyCycleDemand()
+                && shooter.isHoodReady()
                 && flywheelError <= kSpinningUpToleranceRawUnits) || overrideAutoAimAndShootButton.get()) {
             conveyor.setTransportDemand(conveyor.getConfig().getTransportShootPercentOutput());
             conveyor.setFeedDemand(conveyor.getConfig().getFeedShootPercentOutput());
