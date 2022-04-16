@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static frc.robot.Constants.Climber.kDeployHighBarArmsAngleDegrees;
 import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
@@ -159,6 +160,8 @@ public class RobotContainer {
         SmartDashboard.putBoolean(kClimberExtensionCoastModeKey, false);
 
         if (kIsInTuningMode) {
+            SmartDashboard.putNumber(kClimberDeployHighBarArmsAngleKey, kDeployHighBarArmsAngleDegrees);
+
             SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
             SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);
             SmartDashboard.putNumber(kDrivetrainLeftRearZeroValueKey, 0.0);

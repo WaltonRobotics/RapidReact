@@ -138,6 +138,8 @@ public final class Constants {
 
         public static final double kPivotArmNudgeIncrementNU = 1137;
 
+        public static final double kDeployHighBarArmsAngleDegrees = 44;
+
     }
 
     public static final class VisionConstants {
@@ -221,6 +223,8 @@ public final class Constants {
 
         public static final String kClimberPivotCoastModeKey = "Climber Pivot Coast Mode";
         public static final String kClimberExtensionCoastModeKey = "Climber Extension Coast Mode";
+
+        public static final String kClimberDeployHighBarArmsAngleKey = "Climber/Deploy High Bar Arms Angle";
 
         public static final String kAllianceColorKey = "Alliance Color";
 

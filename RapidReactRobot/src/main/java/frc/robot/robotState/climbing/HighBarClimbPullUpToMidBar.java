@@ -2,12 +2,15 @@ package frc.robot.robotState.climbing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.Target;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.util.UtilMethods;
 
+import static frc.robot.Constants.Climber.kDeployHighBarArmsAngleDegrees;
+import static frc.robot.Constants.SmartDashboardKeys.kClimberDeployHighBarArmsAngleKey;
 import static frc.robot.OI.overrideNextClimbStateButton;
 import static frc.robot.OI.stopClimbButton;
 import static frc.robot.RobotContainer.currentRobot;
@@ -57,7 +60,9 @@ public class HighBarClimbPullUpToMidBar implements IState {
 
         double extensionHeight = godSubsystem.getClimber().getExtensionIntegratedEncoderPosition();
 
-        if ((UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), 44, 1)
+        double targetPitch = SmartDashboard.getNumber(kClimberDeployHighBarArmsAngleKey, kDeployHighBarArmsAngleDegrees);
+
+        if ((UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), targetPitch, 1)
                 && godSubsystem.getDrivetrain().isOnFrontSwing())) {
             return new DeployHighBarArms();
         }
