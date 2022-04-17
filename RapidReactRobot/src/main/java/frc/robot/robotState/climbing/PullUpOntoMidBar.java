@@ -1,11 +1,14 @@
 package frc.robot.robotState.climbing;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
 import frc.robot.util.UtilMethods;
 
+import static frc.robot.Constants.Climber.kDeployHighBarArmsAngleDegrees;
 import static frc.robot.Constants.Climber.kTransferPercentOutput;
+import static frc.robot.Constants.SmartDashboardKeys.kClimberDeployHighBarArmsAngleKey;
 import static frc.robot.OI.overrideNextClimbStateButton;
 import static frc.robot.OI.stopClimbButton;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -31,7 +34,10 @@ public class PullUpOntoMidBar implements IState {
             return new FinalizeClimb();
         }
 
-        if ((UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), 44, 1)
+        double targetPitch = SmartDashboard.getNumber(kClimberDeployHighBarArmsAngleKey, kDeployHighBarArmsAngleDegrees);
+
+        if (((godSubsystem.getClimber().isLeftExtensionLowerLimitClosed()
+                || godSubsystem.getClimber().isRightExtensionLowerLimitClosed()) && UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), targetPitch, 1)
                 && godSubsystem.getDrivetrain().isOnFrontSwing())
                 || overrideNextClimbStateButton.isRisingEdge()) {
             return new DeployHighBarArms();
@@ -43,7 +49,6 @@ public class PullUpOntoMidBar implements IState {
             godSubsystem.getClimber().setExtensionPercentOutputDemand(kTransferPercentOutput);
         } else {
             godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.AUTO);
-            godSubsystem.getClimber().enableExtensionLowerLimit();
             godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
         }
 

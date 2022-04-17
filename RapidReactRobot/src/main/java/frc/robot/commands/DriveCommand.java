@@ -1,9 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.util.UtilMethods;
@@ -64,7 +64,7 @@ public class DriveCommand extends CommandBase {
             if (faceClosestButton.get()) {
                 godSubsystem.setAutoAligning(false);
 
-                drivetrain.faceClosest(vx, vy, isFieldRelative);
+                drivetrain.faceToClimb(vx, vy, isFieldRelative);
             } else if (isPositionalRotation && godSubsystem.getCurrentMode() == Superstructure.CurrentMode.SCORING_MODE) {
                 godSubsystem.setAutoAligning(false);
 
@@ -80,11 +80,15 @@ public class DriveCommand extends CommandBase {
                 }
             } else if (trackTargetButton.get()) {
                 godSubsystem.setAutoAligning(true);
-                godSubsystem.handleAutoAlign(vx, vy, omega, isFieldRelative);
+                godSubsystem.handleAutoAlign(vx, vy, omega, isFieldRelative, true);
             } else {
                 godSubsystem.setAutoAligning(false);
                 drivetrain.move(vx, vy, omega, isFieldRelative);
 //            drivetrain.move(0, 0, SmartDashboard.getNumber("Minimum omega command", 0.1), true);
+            }
+        } else {
+            if (godSubsystem.getCurrentMode() == Superstructure.CurrentMode.CLIMBING_MODE) {
+                drivetrain.setModuleStates(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
             }
         }
     }

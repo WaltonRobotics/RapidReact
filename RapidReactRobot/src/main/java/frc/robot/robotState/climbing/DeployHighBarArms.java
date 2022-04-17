@@ -1,6 +1,7 @@
 package frc.robot.robotState.climbing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import frc.robot.config.Target;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
 import frc.robot.subsystems.Climber;
@@ -15,8 +16,8 @@ public class DeployHighBarArms implements IState {
     @Override
     public void initialize() {
         godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
-        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.DISABLED);
-        godSubsystem.getClimber().setPivotPositionDemand(STOWED_ANGLE);
+        godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
+        godSubsystem.getClimber().setPivotPositionDemand(new Target(godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU()));
         godSubsystem.getClimber().setPivotLimits(Climber.ClimberPivotLimits.PIVOT_FULL_ROM);
 
         godSubsystem.getClimber().setExtensionControlState(Climber.ClimberControlState.OPEN_LOOP);
@@ -50,6 +51,8 @@ public class DeployHighBarArms implements IState {
             godSubsystem.getClimber().enableExtensionLowerLimit();
             godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
         }
+
+        godSubsystem.handlePivotManualOverride();
 
         return this;
     }

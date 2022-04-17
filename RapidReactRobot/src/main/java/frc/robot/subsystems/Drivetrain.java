@@ -374,7 +374,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         output = Math.signum(output) * UtilMethods.limitRange(
                 Math.abs(output), config.getMinTurnOmega(), config.getMaxFaceDirectionOmega());
 
-        if (Math.abs(thetaError) < kFaceDirectionToleranceDegrees && deadband) {
+        if (Math.abs(config.getFaceDirectionController().getPositionError()) < kFaceDirectionToleranceDegrees && deadband) {
             output = 0;
         }
 
@@ -383,16 +383,8 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return thetaError;
     }
 
-    public void faceClosest(double vx, double vy, boolean isFieldRelative) {
-        double currentHeading = UtilMethods.restrictAngle(getHeading().getDegrees(), 0, 360);
-
-//        SmartDashboard.putNumber("Current face closest heading", currentHeading);
-
-        if (currentHeading <= 90 || currentHeading >= 270) {
-            faceDirection(vx, vy, Rotation2d.fromDegrees(0), isFieldRelative);
-        } else {
-            faceDirection(vx, vy, Rotation2d.fromDegrees(180), isFieldRelative);
-        }
+    public void faceToClimb(double vx, double vy, boolean isFieldRelative) {
+        faceDirection(vx, vy, Rotation2d.fromDegrees(180), isFieldRelative);
     }
 
     public void setModuleStates(SwerveModuleState state) {

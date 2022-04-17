@@ -3,6 +3,7 @@ package frc.robot.robotState.climbing;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.DriveCommand;
 import frc.robot.config.Target;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
@@ -62,10 +63,10 @@ public class HighBarClimbPullUpToMidBar implements IState {
 
         double targetPitch = SmartDashboard.getNumber(kClimberDeployHighBarArmsAngleKey, kDeployHighBarArmsAngleDegrees);
 
-        if ((UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), targetPitch, 1)
-                && godSubsystem.getDrivetrain().isOnFrontSwing())) {
-            return new DeployHighBarArms();
-        }
+//        if ((UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), targetPitch, 1)
+//                && godSubsystem.getDrivetrain().isOnFrontSwing())) {
+//            return new DeployHighBarArms();
+//        }
 
         if ((pullUpLength.isWithinTolerance(extensionHeight))
                 || overrideNextClimbStateButton.isRisingEdge()) {
@@ -79,7 +80,7 @@ public class HighBarClimbPullUpToMidBar implements IState {
 
     @Override
     public void finish() {
-
+        DriveCommand.setIsEnabled(false);
     }
 
 }

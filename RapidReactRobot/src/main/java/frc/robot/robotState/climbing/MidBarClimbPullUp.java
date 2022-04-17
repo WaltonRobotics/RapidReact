@@ -1,6 +1,7 @@
 package frc.robot.robotState.climbing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import frc.robot.commands.DriveCommand;
 import frc.robot.config.Target;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
@@ -57,6 +58,8 @@ public class MidBarClimbPullUp implements IState {
     @Override
     public void finish() {
         godSubsystem.getClimber().setExtensionLimits(Climber.ClimberExtensionLimits.MID_BAR_FINALIZE_CLIMB);
+
+        DriveCommand.setIsEnabled(false);
     }
 
 }

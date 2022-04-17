@@ -43,7 +43,7 @@ public final class Constants {
 
         public static final double kFinishedClimbingRumbleValue = 1.0;
 
-        public static final double kFaceDirectionToleranceDegrees = 0.5;
+        public static final double kFaceDirectionToleranceDegrees = 2.0;
 
         public static final double kMaxShootOnTheMoveVelocity = 0.5;
 
@@ -81,8 +81,8 @@ public final class Constants {
         public static final double kIdleVelocityRawUnits = 8500;
         public static final double kOuttakeVelocityRawUnits = -4500;
 
-        public static final double kDefaultHighGoalHoodAngle = 0.6;
-        public static final double kDefaultHighGoalVelocity = 9100;
+        public static final double kDefaultHighGoalHoodAngle = 0.5370843525179856;
+        public static final double kDefaultHighGoalVelocity = 9080;
         public static final double kDefaultLowGoalHoodAngle = 0.2;
         public static final double kDefaultLowGoalVelocity = 6500;
 
@@ -140,7 +140,7 @@ public final class Constants {
 
         public static final double kPivotArmNudgeIncrementNU = 1137;
 
-        public static final double kDeployHighBarArmsAngleDegrees = 46;
+        public static final double kDeployHighBarArmsAngleDegrees = 57;
 
     }
 
@@ -157,11 +157,11 @@ public final class Constants {
 
         public static final int kAlignmentPipeline = 0;
 
-        public static final double kAutoAlignToleranceDegrees = 0.3;
+        public static final double kAutoAlignToleranceDegrees = 1.5;
         public static final double kShootingAlignmentToleranceDegrees = 2.25;
         public static final double kAlignmentTimeoutSeconds = 1.5;
 
-        public static final boolean kUseOdometryBackup = true;
+        public static final boolean kUseOdometryBackup = false;
 
         public static final double kLimelightOffsetFeet = 0;
 

@@ -77,7 +77,10 @@ public class Shooter implements SubSubsystem {
 //        periodicIO.flywheelClosedLoopErrorNU = flywheelMasterController.getClosedLoopError();
         LimelightHelper.updateData();
 
-        double displacement = periodicIO.adjustableHoodDutyCycleDemand - periodicIO.savedLastPosition;
+        double demand = UtilMethods.limitRange(periodicIO.adjustableHoodDutyCycleDemand, kHoodLowerLimit, 1.0);
+        double savedPosition = UtilMethods.limitRange(periodicIO.savedLastPosition, kHoodLowerLimit, 1.0);
+
+        double displacement = demand - savedPosition;
         double timeToMove = (kHoodTransitionTimeSeconds / kFullHoodAngleRange) *
                 Math.abs(displacement);
         double currentTime = Timer.getFPGATimestamp();

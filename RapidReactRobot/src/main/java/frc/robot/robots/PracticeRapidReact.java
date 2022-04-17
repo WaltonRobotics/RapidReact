@@ -599,7 +599,7 @@ public class PracticeRapidReact extends WaltRobot {
 
         // Shooting profile
         flywheelMasterTalonConfig.slot1.kF = 0.0500652529;
-        flywheelMasterTalonConfig.slot1.kP = 0.005;
+        flywheelMasterTalonConfig.slot1.kP = 0.007;
         flywheelMasterTalonConfig.slot1.kI = 9E-05;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
@@ -863,7 +863,7 @@ public class PracticeRapidReact extends WaltRobot {
 
     @Override
     public void defineLimits() {
-        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(956, 1006));
+        climberPivotLimits.put(PIVOT_STOWED, new LimitPair(980, 1050));
         climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(969, 1065));
 
         climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));

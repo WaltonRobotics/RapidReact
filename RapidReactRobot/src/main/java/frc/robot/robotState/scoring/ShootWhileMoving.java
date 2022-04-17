@@ -17,6 +17,7 @@ import frc.robot.vision.LimelightHelper;
 import static frc.robot.Constants.DriverPreferences.kMaxShootOnTheMoveVelocity;
 import static frc.robot.Constants.DriverPreferences.kMotionCorrectShooting;
 import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Constants.SmartDashboardKeys.kFlywheelOnTargetKey;
 import static frc.robot.Constants.SmartDashboardKeys.kMaxShootOnTheMoveVelocityKey;
 import static frc.robot.OI.*;
 import static frc.robot.OI.outtakeButton;
@@ -103,6 +104,8 @@ public class ShootWhileMoving implements IState {
 
         double flywheelError =
                 Math.abs(shooter.getFlywheelVelocityNU() - godSubsystem.getCurrentTargetFlywheelVelocity());
+
+        SmartDashboard.putBoolean(kFlywheelOnTargetKey, flywheelError <= kSpinningUpToleranceRawUnits);
 
         if ((UtilMethods.isWithinTolerance(thetaError, 0, kShootingToleranceRawUnits)
                 && shooter.isHoodReady()

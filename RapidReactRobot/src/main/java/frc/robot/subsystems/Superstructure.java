@@ -398,36 +398,37 @@ public class Superstructure extends SubsystemBase {
     public Rotation2d getEstimatedAngleToHub() {
         Pose2d targetRobotRelative = kCenterOfHubPose.relativeTo(getAllianceSpecificPose());
 
-        return new Rotation2d(Math.atan2(targetRobotRelative.getY(), targetRobotRelative.getX()));
+        return new Rotation2d(-Math.atan2(targetRobotRelative.getY(), targetRobotRelative.getX()));
     }
 
-    public void handleAutoAlign(double vx, double vy, double manualOmega, boolean isFieldRelative) {
+    public double handleAutoAlign(double vx, double vy, double manualOmega, boolean isFieldRelative,
+                                  boolean useOdometryBackup) {
         double turnRate;
+        double headingError = 0;
 
         if (LimelightHelper.getTV() >= 1) {
-            double headingError = LimelightHelper.getTX();
+            headingError = LimelightHelper.getTX();
             turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
-
-            if (Math.abs(headingError) < kAutoAlignToleranceDegrees) {
-                turnRate = 0;
-            }
 
             turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
                     Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
                     drivetrain.getConfig().getMaxFaceDirectionOmega());
-        } else if (kUseOdometryBackup) {
-            double headingError = UtilMethods.restrictAngle(
-                    getEstimatedAngleToHub().getDegrees(), -180, 180);
-
-            turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
 
             if (Math.abs(headingError) < kAutoAlignToleranceDegrees) {
                 turnRate = 0;
             }
+        } else if (useOdometryBackup && Math.abs(getOmega()) <= yawScale.getDeadband()) {
+            headingError = UtilMethods.restrictAngle(getEstimatedAngleToHub().getDegrees(), -180, 180);
+
+            turnRate = drivetrain.getConfig().getAutoAlignController().calculate(headingError, 0.0);
 
             turnRate = Math.signum(turnRate) * UtilMethods.limitRange(
                     Math.abs(turnRate), drivetrain.getConfig().getMinTurnOmega(),
                     drivetrain.getConfig().getMaxFaceDirectionOmega());
+
+            if (Math.abs(headingError) < kAutoAlignToleranceDegrees) {
+                turnRate = 0;
+            }
         } else {
             turnRate = manualOmega;
         }
@@ -438,6 +439,8 @@ public class Superstructure extends SubsystemBase {
                 drivetrain.getConfig().getAutoAlignController().getPositionError());
 
         drivetrain.move(vx, vy, turnRate, isFieldRelative);
+
+        return headingError;
     }
 
     public void handleMotionCorrect() {

@@ -12,8 +12,7 @@ import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
-import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
-import static frc.robot.Constants.VisionConstants.kShootingAlignmentToleranceDegrees;
+import static frc.robot.Constants.VisionConstants.*;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
 import static frc.robot.subsystems.Shooter.ShooterProfileSlot.SPINNING_UP_SLOT;
@@ -69,19 +68,24 @@ public class AligningAndSpinningUp implements IState {
         double omega = godSubsystem.getOmega();
 
         godSubsystem.setAutoAligning(true);
-        godSubsystem.handleAutoAlign(0, 0, omega, false);
+        double error = godSubsystem.handleAutoAlign(0, 0, omega, false, kUseOdometryBackup);
 
         if (LimelightHelper.getTV() >= 1) {
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
             driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0);
 
-            if ((UtilMethods.isWithinTolerance(LimelightHelper.getTX(), 0, kShootingAlignmentToleranceDegrees)
+            if ((UtilMethods.isWithinTolerance(Math.abs(error), 0, kShootingAlignmentToleranceDegrees)
                     || overrideAutoAimAndShootButton.get())) {
                 return new PreparingToShoot();
             }
         } else {
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.15);
             driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0.15);
+
+            if (kUseOdometryBackup && (UtilMethods.isWithinTolerance(Math.abs(error), 0, kShootingAlignmentToleranceDegrees)
+                    || overrideAutoAimAndShootButton.get())) {
+                return new PreparingToShoot();
+            }
         }
 
 //        if (godSubsystem.getCurrentTime() < nudgeDownTimeout) {
