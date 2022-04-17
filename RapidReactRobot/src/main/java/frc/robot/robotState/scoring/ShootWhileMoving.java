@@ -2,6 +2,7 @@ package frc.robot.robotState.scoring;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
 import frc.robot.robotState.ScoringModeTransition;
@@ -13,8 +14,10 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
+import static frc.robot.Constants.DriverPreferences.kMaxShootOnTheMoveVelocity;
 import static frc.robot.Constants.DriverPreferences.kMotionCorrectShooting;
 import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Constants.SmartDashboardKeys.kMaxShootOnTheMoveVelocityKey;
 import static frc.robot.OI.*;
 import static frc.robot.OI.outtakeButton;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -89,11 +92,14 @@ public class ShootWhileMoving implements IState {
 
         // Set robot vx, vy and make it face robotTarget
 
-        vx = UtilMethods.limitMagnitude(vx, 0.5);
-        vy = UtilMethods.limitMagnitude(vy, 0.5);
+        double velocityLimit = SmartDashboard.getNumber(kMaxShootOnTheMoveVelocityKey, kMaxShootOnTheMoveVelocity);
+
+        vx = UtilMethods.limitMagnitude(vx, velocityLimit);
+        vy = UtilMethods.limitMagnitude(vy, velocityLimit);
 
         double thetaError = godSubsystem.getDrivetrain().faceDirection(vx, vy,
-                godSubsystem.getDrivetrain().getHeading().plus(robotTarget), false, false);
+                godSubsystem.getDrivetrain().getHeading().plus(robotTarget),
+                DriveCommand.isFieldRelative(), false);
 
         double flywheelError =
                 Math.abs(shooter.getFlywheelVelocityNU() - godSubsystem.getCurrentTargetFlywheelVelocity());

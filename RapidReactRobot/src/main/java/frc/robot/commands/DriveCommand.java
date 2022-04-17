@@ -18,7 +18,7 @@ public class DriveCommand extends CommandBase {
     private final Drivetrain drivetrain = godSubsystem.getDrivetrain();
 
     private static boolean enabled = true;
-    private boolean isFieldRelative = true;
+    private static boolean isFieldRelative = true;
     private boolean isPositionalRotation = false;
 
     public DriveCommand() {
@@ -29,6 +29,10 @@ public class DriveCommand extends CommandBase {
 
     public static void setIsEnabled(boolean isEnabled) {
         enabled = isEnabled;
+    }
+
+    public static boolean isFieldRelative() {
+        return isFieldRelative;
     }
 
     @Override

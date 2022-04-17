@@ -45,6 +45,8 @@ public final class Constants {
 
         public static final double kFaceDirectionToleranceDegrees = 0.5;
 
+        public static final double kMaxShootOnTheMoveVelocity = 0.5;
+
     }
 
     public static final class DioIDs {
@@ -229,6 +231,8 @@ public final class Constants {
         public static final String kAllianceColorKey = "Alliance Color";
 
         public static final String kFlywheelOnTargetKey = "Flywheel on target";
+
+        public static final String kMaxShootOnTheMoveVelocityKey = "Max Shoot On The Move Velocity";
 
     }
 

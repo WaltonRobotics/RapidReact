@@ -461,7 +461,7 @@ public class Superstructure extends SubsystemBase {
 
             shooter.setFlywheelDemand(shooterVelocityNU);
             godSubsystem.getDrivetrain().faceDirection(0, 0,
-                    godSubsystem.getDrivetrain().getHeading().plus(robotTarget), false);
+                    godSubsystem.getDrivetrain().getHeading().plus(robotTarget), false, true);
         } else {
             shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
             godSubsystem.getDrivetrain().xLockSwerveDrive();

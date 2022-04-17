@@ -33,6 +33,7 @@ import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
 import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
 import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
+import static frc.robot.Constants.DriverPreferences.kMaxShootOnTheMoveVelocity;
 import static frc.robot.Constants.Shooter.kDefaultVelocityRawUnits;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.OI.*;
@@ -161,6 +162,7 @@ public class RobotContainer {
 
         if (kIsInTuningMode) {
             SmartDashboard.putNumber(kClimberDeployHighBarArmsAngleKey, kDeployHighBarArmsAngleDegrees);
+            SmartDashboard.putNumber(kMaxShootOnTheMoveVelocityKey, kMaxShootOnTheMoveVelocity);
 
             SmartDashboard.putNumber(kDrivetrainLeftFrontZeroValueKey, 0.0);
             SmartDashboard.putNumber(kDrivetrainRightFrontZeroValueKey, 0.0);
