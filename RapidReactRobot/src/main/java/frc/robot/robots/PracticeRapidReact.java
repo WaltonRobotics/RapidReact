@@ -172,37 +172,37 @@ public class PracticeRapidReact extends WaltRobot {
         }
 
         // Front-left
-        driveControllerConfigs[0].slot0.kP = 0.0095;
-        driveControllerConfigs[0].slot0.kI = 0;
+        driveControllerConfigs[0].slot0.kP = 0.065;
+        driveControllerConfigs[0].slot0.kI = 0.00065;
         driveControllerConfigs[0].slot0.kD = 0;
-        driveControllerConfigs[0].slot0.kF = 0.04878923;
+        driveControllerConfigs[0].slot0.kF = 0.0473976833976834;
         driveControllerConfigs[0].slot0.integralZone = 750;
-        driveControllerConfigs[0].slot0.maxIntegralAccumulator = 75_000;
+        driveControllerConfigs[0].slot0.maxIntegralAccumulator = 300_000;
         driveControllerConfigs[0].slot0.allowableClosedloopError = 0;
 
         // Front-right
-        driveControllerConfigs[1].slot0.kP = 0.0048;
-        driveControllerConfigs[1].slot0.kI = 0;
+        driveControllerConfigs[1].slot0.kP = 0.065;
+        driveControllerConfigs[1].slot0.kI = 0.00065;
         driveControllerConfigs[1].slot0.kD = 0;
-        driveControllerConfigs[1].slot0.kF = 0.04836;
+        driveControllerConfigs[1].slot0.kF = 0.0473976833976834;
         driveControllerConfigs[1].slot0.integralZone = 750;
         driveControllerConfigs[1].slot0.maxIntegralAccumulator = 75_000;
         driveControllerConfigs[1].slot0.allowableClosedloopError = 0;
 
         // Left-rear
-        driveControllerConfigs[2].slot0.kP = 0.008;
-        driveControllerConfigs[2].slot0.kI = 0;
+        driveControllerConfigs[2].slot0.kP = 0.065;
+        driveControllerConfigs[2].slot0.kI = 0.00065;
         driveControllerConfigs[2].slot0.kD = 0;
-        driveControllerConfigs[2].slot0.kF = 0.046872;
+        driveControllerConfigs[2].slot0.kF = 0.0473976833976834;
         driveControllerConfigs[2].slot0.integralZone = 750;
         driveControllerConfigs[2].slot0.maxIntegralAccumulator = 75_000;
         driveControllerConfigs[2].slot0.allowableClosedloopError = 0;
 
         // Right-rear
-        driveControllerConfigs[3].slot0.kP = 0.005;
-        driveControllerConfigs[3].slot0.kI = 0;
+        driveControllerConfigs[3].slot0.kP = 0.065;
+        driveControllerConfigs[3].slot0.kI = 0.00065;
         driveControllerConfigs[3].slot0.kD = 0;
-        driveControllerConfigs[3].slot0.kF = 0.04636619;
+        driveControllerConfigs[3].slot0.kF = 0.0473976833976834;
         driveControllerConfigs[3].slot0.integralZone = 750;
         driveControllerConfigs[3].slot0.maxIntegralAccumulator = 75_000;
         driveControllerConfigs[3].slot0.allowableClosedloopError = 0;
@@ -224,10 +224,10 @@ public class PracticeRapidReact extends WaltRobot {
             @Override
             public PIDController[] getAzimuthPositionalPIDs() {
                 return new PIDController[]{
-                        new PIDController(13.0 / 4096.0, 0.0, 0.0), // left front
-                        new PIDController(15.1 / 4096.0, 0.0, 0.0), // right front
-                        new PIDController(15.0 / 4096.0, 0.0, 0.0), // left rear
-                        new PIDController(15.0 / 4096.0, 0.0, 0.0), // right rear
+                        new PIDController(16.0 / 4096.0, 0.0, 0.0), // left front
+                        new PIDController(17.0 / 4096.0, 0.0, 0.0), // right front
+                        new PIDController(16.0 / 4096.0, 0.0, 0.0), // left rear
+                        new PIDController(16.0 / 4096.0, 0.0, 0.0), // right rear
                 };
             }
 

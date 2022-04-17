@@ -359,6 +359,10 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
     }
 
     public double faceDirection(double vx, double vy, Rotation2d theta, boolean isFieldRelative) {
+        return faceDirection(vx, vy, theta, isFieldRelative, true);
+    }
+
+    public double faceDirection(double vx, double vy, Rotation2d theta, boolean isFieldRelative, boolean deadband) {
         double currentHeading = UtilMethods.restrictAngle(getHeading().getDegrees(), -180, 180);
         double thetaTarget = UtilMethods.restrictAngle(theta.getDegrees(), -180, 180);
         double thetaError = thetaTarget - currentHeading;
@@ -370,7 +374,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         output = Math.signum(output) * UtilMethods.limitRange(
                 Math.abs(output), config.getMinTurnOmega(), config.getMaxFaceDirectionOmega());
 
-        if (Math.abs(thetaError) < kFaceDirectionToleranceDegrees) {
+        if (Math.abs(thetaError) < kFaceDirectionToleranceDegrees && deadband) {
             output = 0;
         }
 

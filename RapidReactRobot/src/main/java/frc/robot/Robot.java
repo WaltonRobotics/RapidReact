@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.lib.strykeforce.swerve.SwerveModule;
 import frc.robot.commands.auton.SetModuleStates;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
@@ -301,6 +302,10 @@ public class Robot extends WaltTimesliceRobot {
 
             pitCheckConfigureClimber = false;
         }
+
+//        for (SwerveModule module : godSubsystem.getDrivetrain().getSwerveModules()) {
+//            module.setDesiredState(new SwerveModuleState(godSubsystem.getDrivetrain().getConfig().getMaxSpeedMetersPerSecond() * 0.6, Rotation2d.fromDegrees(SmartDashboard.getNumber(kDrivetrainSetpointVelocityKey, 0.0))), true);
+//        }
 
         godSubsystem.getDrivetrain().setModuleStates(new SwerveModuleState(
                 SmartDashboard.getNumber(kDrivetrainSetpointVelocityKey, 0.0),

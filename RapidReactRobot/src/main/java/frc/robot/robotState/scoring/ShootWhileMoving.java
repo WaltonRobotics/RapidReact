@@ -93,7 +93,7 @@ public class ShootWhileMoving implements IState {
         vy = UtilMethods.limitMagnitude(vy, 0.5);
 
         double thetaError = godSubsystem.getDrivetrain().faceDirection(vx, vy,
-                godSubsystem.getDrivetrain().getHeading().plus(robotTarget), false);
+                godSubsystem.getDrivetrain().getHeading().plus(robotTarget), false, false);
 
         double flywheelError =
                 Math.abs(shooter.getFlywheelVelocityNU() - godSubsystem.getCurrentTargetFlywheelVelocity());
