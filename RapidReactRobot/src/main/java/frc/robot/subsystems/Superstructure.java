@@ -448,9 +448,11 @@ public class Superstructure extends SubsystemBase {
 
         if (LimelightHelper.getTV() >= 1 && (Math.abs(robotSpeeds.vxMetersPerSecond) > 0.1
                 || Math.abs(robotSpeeds.vyMetersPerSecond) > 0.1) && kMotionCorrectShooting) {
+            double hoodAngleCos = godSubsystem.getShooter().getHoodAngleFromHorizontal().getCos();
+
             double shooterVelocityNU = godSubsystem.getShooter().getEstimatedVelocityFromTarget();
             double shooterMPS = shooterVelocityNU * kFlywheelNUToMPS
-                    * godSubsystem.getShooter().getHoodAngleFromHorizontal().getCos();
+                    * hoodAngleCos;
 
             Rotation2d robotTarget = Rotation2d.fromDegrees(-LimelightHelper.getTX());
 
@@ -460,11 +462,11 @@ public class Superstructure extends SubsystemBase {
             robotTarget = new Rotation2d(Math.atan2(correctionYSpeed, correctionXSpeed));
 
             shooterMPS = Math.sqrt(correctionXSpeed * correctionXSpeed + correctionYSpeed * correctionYSpeed);
-            shooterVelocityNU = shooterMPS / kFlywheelNUToMPS;
+            shooterVelocityNU = shooterMPS / kFlywheelNUToMPS * (1.0 / hoodAngleCos);
 
             shooter.setFlywheelDemand(shooterVelocityNU);
             godSubsystem.getDrivetrain().faceDirection(0, 0,
-                    godSubsystem.getDrivetrain().getHeading().plus(robotTarget), false, true);
+                    godSubsystem.getDrivetrain().getHeading().plus(robotTarget), false, false);
         } else {
             shooter.setFlywheelDemand(godSubsystem.getCurrentTargetFlywheelVelocity());
             godSubsystem.getDrivetrain().xLockSwerveDrive();
