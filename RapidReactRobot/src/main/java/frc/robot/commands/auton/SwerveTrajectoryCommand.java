@@ -84,10 +84,10 @@ public class SwerveTrajectoryCommand extends CommandBase {
             PathPlannerTrajectory.PathPlannerState state = (PathPlannerTrajectory.PathPlannerState) trajectory.sample(currentTime);
             ChassisSpeeds speeds = holonomicDriveController.calculate(drivetrain.getPoseMeters(), state, state.holonomicRotation);
 
-//            drivetrain.move(
-//                    speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false);
+            drivetrain.move(
+                    speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false);
 
-            drivetrain.faceDirection(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, state.holonomicRotation, false);
+//            drivetrain.faceDirection(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, state.holonomicRotation, false);
 
             LiveDashboardHelper.putRobotData(godSubsystem.getAllianceSpecificPose());
             LiveDashboardHelper.putTrajectoryData(trajectory.sample(currentTime).poseMeters);
