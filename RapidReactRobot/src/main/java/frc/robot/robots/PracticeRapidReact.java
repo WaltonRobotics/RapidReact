@@ -96,6 +96,7 @@ public class PracticeRapidReact extends WaltRobot {
             // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
             // 48 in to front bumper, 6.47448657 ft
             // Measured at states: 6.367 ft
+            // tx: 3.84 deg, 6.417 ft measured from rightmost corner of tarmac fender, 40 in to front bumper
             {-1, 5.139874, 0, 8800},
             {-1, 6.110874, 0.2, 8850},
             {-1, 7.051874, 0.4, 9000},
