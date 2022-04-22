@@ -82,7 +82,7 @@ public class AligningAndSpinningUp implements IState {
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.15);
             driveGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0.15);
 
-            if (kUseOdometryBackup && (UtilMethods.isWithinTolerance(Math.abs(error), 0, kShootingAlignmentToleranceDegrees)
+            if ((kUseOdometryBackup && (UtilMethods.isWithinTolerance(Math.abs(error), 0, kShootingAlignmentToleranceDegrees))
                     || overrideAutoAimAndShootButton.get())) {
                 return new PreparingToShoot();
             }

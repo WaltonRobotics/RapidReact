@@ -38,6 +38,13 @@ public class ScoringMode implements IState {
             return new ClimbingModeTransition();
         }
 
+        if (shootButton.get() || barfButton.isRisingEdge()
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot())
+                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
+            return new AdjustingHood();
+        }
+
         if (OI.intakeButton.get()
                 || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToIntake())) {
             return new Intaking();
@@ -45,13 +52,6 @@ public class ScoringMode implements IState {
 
         if (OI.outtakeButton.get()) {
             return new Outtaking();
-        }
-
-        if (shootButton.get() || barfButton.isRisingEdge()
-                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
-                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToAlignAndShoot())
-                || (godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToBarf())) {
-            return new AdjustingHood();
         }
 
         godSubsystem.handleTrackTarget();

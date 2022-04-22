@@ -38,6 +38,8 @@ public class OI {
     public static final EnhancedJoystickButton idleSpinUpButton = new EnhancedJoystickButton(manipulationGamepad, kRightBumper.value);
     public static final EnhancedJoystickButton aimUpperButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_N);
     public static final EnhancedJoystickButton aimLowerButton = new EnhancedJoystickButton(manipulationGamepad, EnhancedJoystickButton.POV_S);
+    public static final EnhancedComboButton emoteButton = new EnhancedComboButton(new EnhancedJoystickButton(driveGamepad, kY.value),
+            new EnhancedJoystickButton(driveGamepad, EnhancedJoystickButton.POV_N));
 
     // Climbing mode
     // Out-of-the-way buttons

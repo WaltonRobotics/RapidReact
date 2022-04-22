@@ -3,7 +3,9 @@ package frc.robot.commands.auton;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
+import frc.robot.util.UtilMethods;
 
+import static frc.robot.Constants.Shooter.kShootingToleranceRawUnits;
 import static frc.robot.Paths.FiveBallRoutine.*;
 import static frc.robot.Paths.RoutineOne.gammaBackwards;
 import static frc.robot.Paths.RoutineTwo.betaBackwards;
@@ -48,8 +50,13 @@ public enum AutonRoutine {
             new ResetPose(gammaPickUpC),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new SetLeftIntakeDeployed(true),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
-            new SwerveTrajectoryCommand(gammaPickUpC),
+            new ParallelCommandGroup(
+                    new SwerveTrajectoryCommand(gammaPickUpC),
+                    new SequentialCommandGroup(
+                            new WaitCommand(0.15),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true))
+                    )
+            ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             new SetLeftIntakeDeployed(false),
 //            new TurnToAngle(90.0).withTimeout(2.0),
@@ -63,16 +70,28 @@ public enum AutonRoutine {
             new ResetPose(gammaPickUpC),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(true)),
             new SetLeftIntakeDeployed(true),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true)),
             new ParallelCommandGroup(
                     new SwerveTrajectoryCommand(gammaPickUpC),
                     new SequentialCommandGroup(
                             new WaitCommand(gammaPickUpC.getTotalTimeSeconds() * 0.75),
                             new SetLeftIntakeDeployed(false)
+                    ),
+                    new SequentialCommandGroup(
+                            new WaitCommand(0.15),
+                            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(true))
                     )
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
-            new ShootCargo(2, 3.0),
+            new ParallelDeadlineGroup(
+                    new ShootCargo(2, 3.0),
+                    new SequentialCommandGroup(
+                            new WaitCommand(0.1),
+                            new WaitUntilCommand(() ->
+                                    UtilMethods.isWithinTolerance(godSubsystem.getShooter().getFlywheelVelocityNU(),
+                                            godSubsystem.getShooter().getFlywheelDemand(),kShootingToleranceRawUnits)),
+                            new SetLeftIntakeDeployed(true)
+                    )
+            ),
             //throw enemy ball
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(twoBallThrow),

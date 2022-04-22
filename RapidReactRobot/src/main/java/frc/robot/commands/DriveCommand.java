@@ -20,6 +20,7 @@ public class DriveCommand extends CommandBase {
     private static boolean enabled = true;
     private static boolean isFieldRelative = true;
     private boolean isPositionalRotation = false;
+    private double lastEmoteDeployTime = 0;
 
     public DriveCommand() {
         addRequirements(drivetrain);
@@ -81,6 +82,15 @@ public class DriveCommand extends CommandBase {
             } else if (trackTargetButton.get()) {
                 godSubsystem.setAutoAligning(true);
                 godSubsystem.handleAutoAlign(vx, vy, omega, isFieldRelative, true);
+            } else if (emoteButton.get()) {
+                godSubsystem.setAutoAligning(false);
+                drivetrain.move(0, 0, 1.0, isFieldRelative);
+
+                if (godSubsystem.getCurrentTime() - lastEmoteDeployTime >= 2) {
+                    godSubsystem.getIntake().toggleLeftIntakeDeployStateDemand();
+                    godSubsystem.getIntake().toggleRightIntakeDeployStateDemand();
+                    lastEmoteDeployTime = godSubsystem.getCurrentTime();
+                }
             } else {
                 godSubsystem.setAutoAligning(false);
                 drivetrain.move(vx, vy, omega, isFieldRelative);

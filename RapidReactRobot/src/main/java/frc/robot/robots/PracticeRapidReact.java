@@ -94,43 +94,45 @@ public class PracticeRapidReact extends WaltRobot {
 
     private final double[][] highGoalMap = {
             // Actual measured distance (to front bumper) inches, Limelight distance, hood angle, velocity
-            // 48 in to front bumper, 6.47448657 ft
             // Measured at states: 6.367 ft
-            // tx: 3.84 deg, 6.417 ft measured from rightmost corner of tarmac fender, 40 in to front bumper
-            {-1, 5.139874, 0, 8800},
-            {-1, 6.110874, 0.2, 8850},
-            {-1, 7.051874, 0.4, 9000},
-            {-1, 8.163874, 0.7, 9177},
-            {-1, 8.979874, 0.75, 9370},
-            {-1, 9.876874, 0.75, 9600},
-            {-1, 10.961874, 0.75, 10050},
-            {-1, 11.948874, 0.75, 10400},
-            {-1, 12.873874, 0.75, 10679},
-            {-1, 13.778874, 0.9, 11000},
-            {-1, 14.951874, 1.0, 11390},
-            {-1, 15.857874, 1.0, 11718},
-            {-1, 16.678874, 1.0, 12001},
-            {-1, 17.840874, 1.0, 12403},
-            {-1, 19.388874, 1.0, 13000},
-            {-1, 20.253874, 1.0, 13350},
+            // tx: -3.84 deg, 6.417 ft measured from rightmost corner of tarmac fender, 40 in to front bumper
+            // Measured at worlds: 5.875 ft
+            // Measured at worlds 2: 5.942 ft
+            // Measured at worlds center 48 in: 6.585 ft
+//            {-1, 5.139874, 0, 8800},
+//            {-1, 6.110874, 0.2, 8850},
+//            {-1, 7.051874, 0.4, 9000},
+//            {-1, 8.163874, 0.7, 9177},
+//            {-1, 8.979874, 0.75, 9370},
+//            {-1, 9.876874, 0.75, 9600},
+//            {-1, 10.961874, 0.75, 10050},
+//            {-1, 11.948874, 0.75, 10400},
+//            {-1, 12.873874, 0.75, 10679},
+//            {-1, 13.778874, 0.9, 11000},
+//            {-1, 14.951874, 1.0, 11390},
+//            {-1, 15.857874, 1.0, 11718},
+//            {-1, 16.678874, 1.0, 12001},
+//            {-1, 17.840874, 1.0, 12403},
+//            {-1, 19.388874, 1.0, 13000},
+//            {-1, 20.253874, 1.0, 13350},
 
-//            {-1, 5.139874, 0, 9154},
-//            {-1, 6.110874, 0.2, 9204},
-//            {-1, 7.051874, 0.4, 9357},
-//            {-1, 8.163874, 0.7, 9537},
-//            {-1, 8.979874, 0.75, 9734},
-//            {-1, 9.876874, 0.75, 9968},
-//            {-1, 10.961874, 0.75, 10426},
-//            {-1, 11.948874, 0.75, 10782},
-//            {-1, 12.873874, 0.75, 11066},
-//            {-1, 13.778874, 0.9, 11392},
-//            {-1, 14.951874, 1.0, 11789},
-////            {-1, 15.103704, 1.0, 11500},
-//            {-1, 15.857874, 1.0, 12123},
-//            {-1, 16.678874, 1.0, 12411},
-//            {-1, 17.840874, 1.0, 12820},
-//            {-1, 19.388874, 1.0, 13428},
-//            {-1, 20.253874, 1.0, 13784},
+            {-1, 5.139874, 0, 9154},
+            {-1, 6.110874, 0.2, 9204},
+            {-1, 7.051874, 0.4, 9357},
+            {-1, 8.163874, 0.7, 9537},
+            {-1, 8.979874, 0.75, 9734},
+            {-1, 9.876874, 0.75, 9968},
+            {-1, 10.961874, 0.75, 10426},
+            {-1, 11.948874, 0.75, 10782},
+            {-1, 12.873874, 0.75, 11066},
+            {-1, 13.778874, 0.9, 11392},
+            {-1, 14.951874, 1.0, 11789},
+//            {-1, 15.103704, 1.0, 11500},
+            {-1, 15.857874, 1.0, 12123},
+            {-1, 16.678874, 1.0, 12411},
+            {-1, 17.840874, 1.0, 12820},
+            {-1, 19.388874, 1.0, 13428},
+            {-1, 20.253874, 1.0, 13784},
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -586,26 +588,25 @@ public class PracticeRapidReact extends WaltRobot {
     @Override
     public void configShooter() {
         flywheelMasterTalonConfig.voltageCompSaturation = 12.0;
-        flywheelSlaveTalonConfig.voltageCompSaturation = 12.0;
 
         // Spinning up profile
-        flywheelMasterTalonConfig.slot0.kF = 0.0500652529;
-        flywheelMasterTalonConfig.slot0.kP = 0.01;
-        flywheelMasterTalonConfig.slot0.kI = 1E-04;
+        flywheelMasterTalonConfig.slot0.kF = 0.05006504;
+        flywheelMasterTalonConfig.slot0.kP = 0.001;
+        flywheelMasterTalonConfig.slot0.kI = 0.0001;
         flywheelMasterTalonConfig.slot0.kD = 0;
         flywheelMasterTalonConfig.slot0.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot0.integralZone = 300;
-        flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 300000;
+        flywheelMasterTalonConfig.slot0.maxIntegralAccumulator = 75000;
         flywheelMasterTalonConfig.slot0.closedLoopPeakOutput = 1.0;
 
         // Shooting profile
         flywheelMasterTalonConfig.slot1.kF = 0.0500652529;
-        flywheelMasterTalonConfig.slot1.kP = 0.007;
+        flywheelMasterTalonConfig.slot1.kP = 0.0005;
         flywheelMasterTalonConfig.slot1.kI = 9E-05;
         flywheelMasterTalonConfig.slot1.kD = 0;
         flywheelMasterTalonConfig.slot1.allowableClosedloopError = 0;
         flywheelMasterTalonConfig.slot1.integralZone = 300;
-        flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 300000;
+        flywheelMasterTalonConfig.slot1.maxIntegralAccumulator = 75000;
         flywheelMasterTalonConfig.slot1.closedLoopPeakOutput = 1.0;
 
         shooterConfig = new ShooterConfig() {

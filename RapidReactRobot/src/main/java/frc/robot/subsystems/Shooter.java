@@ -1,9 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Servo;
@@ -38,7 +35,7 @@ public class Shooter implements SubSubsystem {
     private final PeriodicIO periodicIO = new PeriodicIO();
 
     public Shooter() {
-        flywheelMasterController.configFactoryDefault(10);
+//        flywheelMasterController.configFactoryDefault(10);
         flywheelMasterController.configAllSettings(config.getFlywheelMasterControllerTalonConfig(), 10);
         flywheelMasterController.setInverted(config.getFlywheelMasterControllerMotorConfig().isInverted());
         flywheelMasterController.setSensorPhase(config.getFlywheelMasterControllerMotorConfig().isInverted());
@@ -46,12 +43,11 @@ public class Shooter implements SubSubsystem {
         flywheelMasterController.configVoltageCompSaturation(12.0);
         flywheelMasterController.enableVoltageCompensation(true);
 
-        flywheelSlaveController.configFactoryDefault(10);
+//        flywheelSlaveController.configFactoryDefault(10);
         flywheelSlaveController.configAllSettings(config.getFlywheelSlaveControllerTalonConfig(), 10);
-        flywheelSlaveController.setInverted(config.getFlywheelSlaveControllerMotorConfig().isInverted());
+        flywheelSlaveController.setInverted(TalonFXInvertType.OpposeMaster);
         flywheelSlaveController.setSensorPhase(config.getFlywheelSlaveControllerMotorConfig().isInverted());
         flywheelSlaveController.setNeutralMode(NeutralMode.Coast);
-        flywheelSlaveController.configVoltageCompSaturation(12.0);
         flywheelSlaveController.enableVoltageCompensation(false);
         configFollower();
 
@@ -123,15 +119,18 @@ public class Shooter implements SubSubsystem {
         switch (periodicIO.shooterControlState) {
             case VELOCITY:
                 flywheelMasterController.set(ControlMode.Velocity, periodicIO.flywheelDemand);
-                flywheelSlaveController.set(TalonFXControlMode.Follower, masterID);
+                flywheelSlaveController.follow(flywheelMasterController);
+//                flywheelSlaveController.set(TalonFXControlMode.Follower, masterID);
                 break;
             case OPEN_LOOP:
                 flywheelMasterController.set(ControlMode.PercentOutput, periodicIO.flywheelDemand);
-                flywheelSlaveController.set(TalonFXControlMode.Follower, masterID);
+                flywheelSlaveController.follow(flywheelMasterController);
+//                flywheelSlaveController.set(TalonFXControlMode.Follower, masterID);
                 break;
             case DISABLED:
                 flywheelMasterController.set(ControlMode.Disabled, 0.0);
-                flywheelSlaveController.set(TalonFXControlMode.Follower, masterID);
+                flywheelSlaveController.follow(flywheelMasterController);
+//                flywheelSlaveController.set(TalonFXControlMode.Follower, masterID);
                 break;
         }
 
@@ -150,7 +149,7 @@ public class Shooter implements SubSubsystem {
     @Override
     public void updateShuffleboard() {
         SmartDashboard.putString("Shooter/Periodic IO/Aim Target", periodicIO.aimTarget.name());
-//        SmartDashboard.putString("Shooter/Periodic IO/Shooter Control State", periodicIO.shooterControlState.name());
+        SmartDashboard.putString("Shooter/Periodic IO/Shooter Control State", periodicIO.shooterControlState.name());
         SmartDashboard.putString("Shooter/Periodic IO/Selected Profile Slot", periodicIO.selectedProfileSlot.name());
         SmartDashboard.putNumber("Shooter/Periodic IO/Flywheel Demand", periodicIO.flywheelDemand);
         SmartDashboard.putNumber("Shooter/Periodic IO/Adjustable Hood Demand", periodicIO.adjustableHoodDutyCycleDemand);
