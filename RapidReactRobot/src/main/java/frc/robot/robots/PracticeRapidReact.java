@@ -116,23 +116,23 @@ public class PracticeRapidReact extends WaltRobot {
 //            {-1, 19.388874, 1.0, 13000},
 //            {-1, 20.253874, 1.0, 13350},
 
-            {-1, 5.139874, 0, 9154},
-            {-1, 6.110874, 0.2, 9204},
-            {-1, 7.051874, 0.4, 9357},
-            {-1, 8.163874, 0.7, 9537},
-            {-1, 8.979874, 0.75, 9734},
-            {-1, 9.876874, 0.75, 9968},
-            {-1, 10.961874, 0.75, 10426},
-            {-1, 11.948874, 0.75, 10782},
-            {-1, 12.873874, 0.75, 11066},
-            {-1, 13.778874, 0.9, 11392},
-            {-1, 14.951874, 1.0, 11789},
+            {-1, 5.139874, 0, 9154 - 50},
+            {-1, 6.110874, 0.2, 9204 - 50},
+            {-1, 7.051874, 0.4, 9357 - 50},
+            {-1, 8.163874, 0.7, 9537 - 50},
+            {-1, 8.979874, 0.75, 9734 - 50},
+            {-1, 9.876874, 0.75, 9968 - 50},
+            {-1, 10.961874, 0.75, 10426 - 50},
+            {-1, 11.948874, 0.75, 10782 - 50},
+            {-1, 12.873874, 0.75, 11066 - 50},
+            {-1, 13.778874, 0.9, 11392 - 50},
+            {-1, 14.951874, 1.0, 11789 - 150},
 //            {-1, 15.103704, 1.0, 11500},
-            {-1, 15.857874, 1.0, 12123},
-            {-1, 16.678874, 1.0, 12411},
-            {-1, 17.840874, 1.0, 12820},
-            {-1, 19.388874, 1.0, 13428},
-            {-1, 20.253874, 1.0, 13784},
+            {-1, 15.857874, 1.0, 12123 - 150},
+            {-1, 16.678874, 1.0, 12411 - 150},
+            {-1, 17.840874, 1.0, 12820 - 150},
+            {-1, 19.388874, 1.0, 13428 - 150},
+            {-1, 20.253874, 1.0, 13784 - 150},
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -180,7 +180,7 @@ public class PracticeRapidReact extends WaltRobot {
         driveControllerConfigs[0].slot0.kD = 0;
         driveControllerConfigs[0].slot0.kF = 0.0473976833976834;
         driveControllerConfigs[0].slot0.integralZone = 750;
-        driveControllerConfigs[0].slot0.maxIntegralAccumulator = 300_000;
+        driveControllerConfigs[0].slot0.maxIntegralAccumulator = 75_000;
         driveControllerConfigs[0].slot0.allowableClosedloopError = 0;
 
         // Front-right
@@ -899,6 +899,7 @@ public class PracticeRapidReact extends WaltRobot {
         // Tolerance: 1 deg
         // samit is very good
         climberPivotTargets.put(STOWED_ANGLE, new Target(0, 75)); // 0 deg
+        climberPivotTargets.put(STOWED_ANGLE, new Target(0, 75)); // 0 deg
         climberPivotTargets.put(FINALIZE_HIGH_CLIMB_ANGLE, new Target(-3675, 75));
 
         // Lengths are relative to uppermost ring of outer arm
@@ -908,7 +909,7 @@ public class PracticeRapidReact extends WaltRobot {
         // Tolerance: 0.1 in
         climberExtensionTargets.put(STOWED_HEIGHT, new Target(6500, 1500)); // 1 in
         climberExtensionTargets.put(CLOSE_IN_TO_ZERO_LENGTH, new Target(15000, 1877));
-        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(120000, 1877)); // 11.0 in
+        climberExtensionTargets.put(PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH, new Target(236103, 1877)); // 11.0 in
         climberExtensionTargets.put(MID_BAR_CLIMB_LINING_UP_TO_MID_BAR_LENGTH, new Target(470081, 1877)); // 21.467 in
         climberExtensionTargets.put(FINALIZE_HIGH_BAR_CLIMB_LENGTH, new Target(350000, 1877));
     }

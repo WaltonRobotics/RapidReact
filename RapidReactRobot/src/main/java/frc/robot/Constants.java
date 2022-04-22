@@ -21,7 +21,7 @@ public final class Constants {
     public static final class ContextFlags {
 
         public static final boolean kIsInCompetition = true;
-        public static final boolean kIsInTuningMode = false;
+        public static final boolean kIsInTuningMode = true;
         public static final boolean kIsInShooterTuningMode = false;
 
     }
@@ -77,7 +77,7 @@ public final class Constants {
 
         public static final double kDefaultVelocityRawUnits = 9100;
         public static final double kBarfVelocityRawUnits = 4500;
-        public static final double kAutonBarfVelocityRawUnits = 5250;
+        public static final double kAutonBarfVelocityRawUnits = 7000;
         public static final double kIdleVelocityRawUnits = 8500;
         public static final double kOuttakeVelocityRawUnits = -4500;
 
