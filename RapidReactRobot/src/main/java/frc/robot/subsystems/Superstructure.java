@@ -4,9 +4,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.OI;
 import frc.robot.commands.auton.LiveDashboardHelper;
 import frc.robot.robotState.Disabled;
@@ -359,6 +361,22 @@ public class Superstructure extends SubsystemBase {
         } else {
             shooter.setShooterControlState(Shooter.ShooterControlState.VELOCITY);
             shooter.setFlywheelDemand(0);
+        }
+    }
+
+    /**
+     * driver designates time remaining in seconds when controllers
+     * will rumble to signify that it's to climb
+     */
+    public void handleClimbTime(){
+        //if time has elapsed in match (teleop countdown time)
+        if(SmartDashboard.getNumber(kClimbTimeKey, 0) == ( DriverStation.getMatchTime())){
+            manipulationGamepad.setRumble(GenericHID.RumbleType.kLeftRumble,0.25);
+            manipulationGamepad.setRumble(GenericHID.RumbleType.kLeftRumble,0.25);
+            //rumble for 2 seconds
+            new WaitCommand(2.0);
+            manipulationGamepad.setRumble(GenericHID.RumbleType.kLeftRumble,0);
+            manipulationGamepad.setRumble(GenericHID.RumbleType.kLeftRumble,0);
         }
     }
 

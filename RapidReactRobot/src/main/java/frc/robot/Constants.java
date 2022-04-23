@@ -169,6 +169,7 @@ public final class Constants {
 
     public static final class SmartDashboardKeys {
 
+
         public static final String kDrivetrainSetModuleStatesKey = "Drivetrain/Set Module States";
         public static final String kDrivetrainSetpointAngleDegreesKey = "Drivetrain/Setpoint Angle Degrees";
         public static final String kDrivetrainSetpointVelocityKey = "Drivetrain/Setpoint Velocity MPS";
@@ -234,6 +235,7 @@ public final class Constants {
 
         public static final String kMaxShootOnTheMoveVelocityKey = "Max Shoot On The Move Velocity";
 
+        public static final String kClimbTimeKey = "Climb Time";
     }
 
     public static final class LiveDashboardKeys {

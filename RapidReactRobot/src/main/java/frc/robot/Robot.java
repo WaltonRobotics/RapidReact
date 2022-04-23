@@ -91,6 +91,7 @@ public class Robot extends WaltTimesliceRobot {
 
         // Monitor motor temperatures every second
         addPeriodic(godSubsystem::monitorTemperatures, 1.0);
+        addPeriodic(godSubsystem::handleClimbTime, .25);
 //        addPeriodic(godSubsystem::handleLEDLights, .25);
 
         LimelightHelper.setLEDMode(false);
@@ -145,6 +146,9 @@ public class Robot extends WaltTimesliceRobot {
 
         SmartDashboard.putNumber(kDrivetrainSetpointAngleDegreesKey, 0.0);
         SmartDashboard.putNumber(kDrivetrainSetpointVelocityKey, 0.0);
+        //driver's enter customizable time
+        SmartDashboard.putNumber(kClimbTimeKey, 20);
+
     }
 
     @Override
