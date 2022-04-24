@@ -4,10 +4,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.OI;
+import frc.robot.commands.DriveCommand;
 import frc.robot.commands.auton.LiveDashboardHelper;
 import frc.robot.robotState.Disabled;
 import frc.robot.stateMachine.IState;
@@ -15,6 +18,8 @@ import frc.robot.stateMachine.StateMachine;
 import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
+import static edu.wpi.first.wpilibj.GenericHID.RumbleType.kLeftRumble;
+import static edu.wpi.first.wpilibj.GenericHID.RumbleType.kRightRumble;
 import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
 import static frc.robot.Constants.ContextFlags.*;
 import static frc.robot.Constants.DriverPreferences.*;
@@ -518,6 +523,18 @@ public class Superstructure extends SubsystemBase {
                 || Math.abs(getVy()) > 0.3) && kMotionCorrectShooting;
     }
 
+    public void handleClimbTime() {
+        double matchTime = DriverStation.getMatchTime();
+
+        if(DriverStation.isTeleopEnabled() && matchTime <= 25) {
+            manipulationGamepad.setRumble(kLeftRumble, 0.15);
+            manipulationGamepad.setRumble(kRightRumble, 0.15);
+        } else if (DriverStation.isTeleopEnabled() && matchTime <= 23 && matchTime >= 22) {
+            manipulationGamepad.setRumble(kLeftRumble, 0);
+            manipulationGamepad.setRumble(kRightRumble, 0);
+        }
+    }
+
     public void updateShuffleboard() {
         if (!kIsInCompetition) {
             conveyor.updateShuffleboard();
@@ -601,6 +618,7 @@ public class Superstructure extends SubsystemBase {
         stateMachine.run();
 
         LiveDashboardHelper.putRobotData(getAllianceSpecificPose());
+        handleClimbTime();
     }
 
     public enum CurrentMode {
