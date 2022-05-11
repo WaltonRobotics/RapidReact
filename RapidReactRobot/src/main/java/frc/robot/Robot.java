@@ -237,6 +237,7 @@ public class Robot extends WaltTimesliceRobot {
 
         LimelightHelper.setPipeline(kAlignmentPipeline);
         LimelightHelper.setLEDMode(true);
+        LimelightHelper.setCamMode(false);  //steam camera, not vision processing
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
