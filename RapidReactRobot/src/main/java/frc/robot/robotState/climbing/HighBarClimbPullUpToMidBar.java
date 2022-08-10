@@ -52,6 +52,7 @@ public class HighBarClimbPullUpToMidBar implements IState {
         }
 
         if (stopClimbButton.isRisingEdge()) {
+            System.out.println("Climb Finalized");
             return new FinalizeClimb();
         }
 
@@ -70,6 +71,8 @@ public class HighBarClimbPullUpToMidBar implements IState {
 
         if ((pullUpLength.isWithinTolerance(extensionHeight))
                 || overrideNextClimbStateButton.isRisingEdge()) {
+            System.out.println("Entering Pull Up Onto Mid Bar state");
+            var rungState = godSubsystem.getSelectedRung();
             return new PullUpOntoMidBar();
         }
 

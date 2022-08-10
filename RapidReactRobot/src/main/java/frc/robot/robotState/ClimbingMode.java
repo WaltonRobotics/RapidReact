@@ -59,8 +59,10 @@ public class ClimbingMode implements IState {
         if ((stowedAngle.isWithinTolerance(pivotAngle) && hookingLength.isWithinTolerance(extensionHeight)
                 && advanceClimbingProcessButton.get()) || overrideNextClimbStateButton.isRisingEdge()) {
             if (godSubsystem.getSelectedRung() == Superstructure.ClimbingTargetRung.MID_RUNG) {
+                System.out.println("Entering Mid Bar Climb Pull Up");
                 return new MidBarClimbPullUp();
             } else {
+                System.out.println("Entering High Bar Climb Pull Up");
                 return new HighBarClimbPullUpToMidBar();
             }
         }

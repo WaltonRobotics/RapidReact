@@ -524,15 +524,15 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void handleClimbTime() {
-        double matchTime = DriverStation.getMatchTime();
-
-        if(DriverStation.isTeleopEnabled() && matchTime <= 25) {
-            manipulationGamepad.setRumble(kLeftRumble, 0.15);
-            manipulationGamepad.setRumble(kRightRumble, 0.15);
-        } else if (DriverStation.isTeleopEnabled() && matchTime <= 23 && matchTime >= 22) {
-            manipulationGamepad.setRumble(kLeftRumble, 0);
-            manipulationGamepad.setRumble(kRightRumble, 0);
-        }
+//        double matchTime = DriverStation.getMatchTime();
+//
+//        if(DriverStation.isTeleopEnabled() && matchTime <= 25) {
+//            manipulationGamepad.setRumble(kLeftRumble, 0.15);
+//            manipulationGamepad.setRumble(kRightRumble, 0.15);
+//        } else if (DriverStation.isTeleopEnabled() && matchTime <= 23 && matchTime >= 22) {
+//            manipulationGamepad.setRumble(kLeftRumble, 0);
+//            manipulationGamepad.setRumble(kRightRumble, 0);
+//        }
     }
 
     public void updateShuffleboard() {

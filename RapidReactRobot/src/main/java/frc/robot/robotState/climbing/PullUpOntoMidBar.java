@@ -30,9 +30,9 @@ public class PullUpOntoMidBar implements IState {
             return new Disabled();
         }
 
-        if (stopClimbButton.isRisingEdge()) {
-            return new FinalizeClimb();
-        }
+       if (stopClimbButton.isRisingEdge()) {
+           return new FinalizeClimb();
+       }
 
         double targetPitch = SmartDashboard.getNumber(kClimberDeployHighBarArmsAngleKey, kDeployHighBarArmsAngleDegrees);
 
@@ -41,6 +41,7 @@ public class PullUpOntoMidBar implements IState {
 //                && UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), targetPitch, 1)
                 // godSubsystem.getDrivetrain().isOnFrontSwing())
                 || overrideNextClimbStateButton.isRisingEdge())) {
+            System.out.println("Entering Deploy High Bar Arms state");
             return new DeployHighBarArms();
         }
 
@@ -53,6 +54,7 @@ public class PullUpOntoMidBar implements IState {
             godSubsystem.getClimber().setExtensionPercentOutputDemand(0);
         }
 
+        System.out.println("Condition for high not hit!");
         return this;
     }
 

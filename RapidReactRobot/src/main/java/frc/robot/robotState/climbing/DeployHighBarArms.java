@@ -15,6 +15,7 @@ public class DeployHighBarArms implements IState {
 
     @Override
     public void initialize() {
+        System.out.println("DEPLOYING HIGH BAR ARMS!");
         godSubsystem.getClimber().setPivotNeutralMode(NeutralMode.Brake);
         godSubsystem.getClimber().setPivotControlState(Climber.ClimberControlState.AUTO);
         godSubsystem.getClimber().setPivotPositionDemand(new Target(godSubsystem.getClimber().getPivotIntegratedEncoderPositionNU()));
