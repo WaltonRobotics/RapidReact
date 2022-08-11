@@ -20,9 +20,9 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean kIsInCompetition = true;
+        public static final boolean kIsInCompetition = false;
         public static final boolean kIsInTuningMode = true;
-        public static final boolean kIsInShooterTuningMode = false;
+        public static final boolean kIsInShooterTuningMode = true;
 
     }
 
@@ -103,7 +103,7 @@ public final class Constants {
         public static final double kNudgeDownTimeSeconds = 0.15;
 
         // Limits
-        public static final double kHoodLowerLimit = 0;
+        public static final double kHoodLowerLimit = -1;
 
         // Time it takes for the hood to change positions
         public static final double kHoodTransitionTimeSeconds = 1.3;
