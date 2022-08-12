@@ -36,11 +36,17 @@ public class PullUpOntoMidBar implements IState {
 
         double targetPitch = SmartDashboard.getNumber(kClimberDeployHighBarArmsAngleKey, kDeployHighBarArmsAngleDegrees);
 
-        if (((godSubsystem.getClimber().isLeftExtensionLowerLimitClosed()
-                && godSubsystem.getClimber().isRightExtensionLowerLimitClosed())
-//                && UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), targetPitch, 1)
-                // godSubsystem.getDrivetrain().isOnFrontSwing())
-                || overrideNextClimbStateButton.isRisingEdge())) {
+//        if (((godSubsystem.getClimber().isLeftExtensionLowerLimitClosed()
+//                && godSubsystem.getClimber().isRightExtensionLowerLimitClosed())
+////                && UtilMethods.isWithinTolerance(godSubsystem.getDrivetrain().getPitch().getDegrees(), targetPitch, 1)
+//                // godSubsystem.getDrivetrain().isOnFrontSwing())
+//                || overrideNextClimbStateButton.isRisingEdge())) {
+//            System.out.println("Entering Deploy High Bar Arms state");
+//            return new DeployHighBarArms();
+//        }
+
+        if(godSubsystem.getClimber().isLeftExtensionReadyForHigh() &&
+        godSubsystem.getClimber().isRightExtensionReadyForHigh() || overrideNextClimbStateButton.isRisingEdge()) {
             System.out.println("Entering Deploy High Bar Arms state");
             return new DeployHighBarArms();
         }

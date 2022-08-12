@@ -869,6 +869,7 @@ public class PracticeRapidReact extends WaltRobot {
         climberPivotLimits.put(PIVOT_FULL_ROM, new LimitPair(969, 1065));
 
         climberExtensionLimits.put(STOWED, new LimitPair(5000, 8000));
+        climberExtensionLimits.put(DEPLOY_HIGH_BAR_CLIMB, new LimitPair(5000,6000));
         climberExtensionLimits.put(EXTENSION_FULL_ROM, new LimitPair(5000, 470081));
         climberExtensionLimits.put(MID_BAR_FINALIZE_CLIMB, new LimitPair(119000, 121000));
     }

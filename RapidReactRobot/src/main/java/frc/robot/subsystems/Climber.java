@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.config.ClimberConfig;
 import frc.robot.config.LimitPair;
 import frc.robot.config.Target;
+import frc.robot.robotState.climbing.DeployHighBarArms;
 import frc.robot.util.EnhancedBoolean;
 
 import static frc.robot.Constants.Climber.kExtensionZeroingPercentOutput;
@@ -439,6 +440,18 @@ public class Climber implements SubSubsystem {
         return periodicIO.isRightExtensionLowerLimitClosed;
     }
 
+    public boolean isLeftExtensionReadyForHigh(){
+        return (periodicIO.extensionIntegratedEncoderPosition
+                <= config.getClimberExtensionLimits().get(ClimberExtensionLimits.DEPLOY_HIGH_BAR_CLIMB).getForwardsSoftLimitThreshold()
+        && periodicIO.extensionIntegratedEncoderPosition
+                >= config.getClimberExtensionLimits().get(ClimberExtensionLimits.DEPLOY_HIGH_BAR_CLIMB).getReverseSoftLimitThreshold())
+                ;
+    }
+
+    public boolean isRightExtensionReadyForHigh(){
+        return isLeftExtensionReadyForHigh();
+    }
+
     public double getExtensionIntegratedEncoderPosition() {
         return periodicIO.extensionIntegratedEncoderPosition;
     }
@@ -531,6 +544,7 @@ public class Climber implements SubSubsystem {
         STOWED, // Corresponds to STOWED_HEIGHT
         EXTENSION_FULL_ROM,
         MID_BAR_FINALIZE_CLIMB, // Corresponds to PULL_UP_TO_HOOK_ONTO_MID_BAR_LENGTH
+        DEPLOY_HIGH_BAR_CLIMB // Corresponds to DEPLOY_HIGH_BAR_CLIMB
 //        HIGH_BAR_TRANSFER_TO_FIXED_ARM, // Corresponds to PULLING_UP_TO_HIGH_BAR_TRANSFER_LENGTH
     }
 

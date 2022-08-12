@@ -20,9 +20,9 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean kIsInCompetition = false;
+        public static final boolean kIsInCompetition = true;
         public static final boolean kIsInTuningMode = true;
-        public static final boolean kIsInShooterTuningMode = true;
+        public static final boolean kIsInShooterTuningMode = false;
 
     }
 
@@ -103,12 +103,12 @@ public final class Constants {
         public static final double kNudgeDownTimeSeconds = 0.15;
 
         // Limits
-        public static final double kHoodLowerLimit = -1;
+        public static final double kHoodLowerLimit = 0;
 
         // Time it takes for the hood to change positions
         public static final double kHoodTransitionTimeSeconds = 1.3;
         // The full range of angles for the hood
-        public static final double kFullHoodAngleRange = 1.0;
+        public static final double kFullHoodAngleRange = 1;
 
         // NU conversion factors
         public static final double kFlywheelRadiusMeters = Units.inchesToMeters(1.25) + Units.inchesToMeters(0.5);
