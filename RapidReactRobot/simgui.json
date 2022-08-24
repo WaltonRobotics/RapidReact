@@ -1,0 +1,54 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "DutyCycleEncoder[4]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [2]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [4]": {
+        "header": {
+          "open": true
+        }
+      },
+      "navX-Sensor[0]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Alliance Color": "String Chooser",
+      "/SmartDashboard/Auton Selector": "String Chooser",
+      "/SmartDashboard/Drivetrain/Reset": "Command",
+      "/SmartDashboard/Drivetrain/Save Left Front Azimuth Zero": "Command",
+      "/SmartDashboard/Drivetrain/Save Left Rear Azimuth Zero": "Command",
+      "/SmartDashboard/Drivetrain/Save Right Front Azimuth Zero": "Command",
+      "/SmartDashboard/Drivetrain/Save Right Rear Azimuth Zero": "Command",
+      "/SmartDashboard/Drivetrain/Set Module States": "Command",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Limelight Align Controller": "PIDController",
+      "/SmartDashboard/PIDController[4]": "PIDController",
+      "/SmartDashboard/kXController": "PIDController",
+      "/SmartDashboard/kYController": "PIDController"
+    }
+  }
+}
