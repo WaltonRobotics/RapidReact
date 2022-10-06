@@ -43,7 +43,8 @@ public class AdjustingHood implements IState {
             } else {
                 shooter.setAdjustableHoodDutyCycleDemand(shooter.getEstimatedHoodAngleFromTarget());
             }
-        } else {
+        }
+        else {
             shooter.setAdjustableHoodDutyCycleDemand(
                     SmartDashboard.getNumber(kShooterHoodPositionSetpointKey, 0.0));
         }
