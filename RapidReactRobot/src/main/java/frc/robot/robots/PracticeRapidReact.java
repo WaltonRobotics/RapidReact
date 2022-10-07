@@ -106,8 +106,8 @@ public class PracticeRapidReact extends WaltRobot {
             {-1, 8.06, 0.3, 8425},
             {-1, 9.09177, 0.30, 8525},
             {-1, 10.095, 0.3, 8765},
-            {-1, 11.05, 0.30, 9000},
-            {-1, 12.014, 0.30, 9350},
+            {-1, 11.05, 0.30, 9100},
+            {-1, 12.014, 0.30, 9400},
             {-1, 13.00, 0.70, 9600},
             {-1, 14.05, .8, 9650},
 //            {-1, 15.103704, 1.0, 11500},
@@ -384,14 +384,14 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public AccelerationLimiter getXLimiter() {
-                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / 0.4,
+                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / 1,
                         kMaxSpeedMetersPerSecond / 0.6);
             }
 
             @Override
             public AccelerationLimiter getYLimiter() {
-                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / 0.4,
-                        5);
+                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / 1,
+                        3);
             }
 
             @Override
