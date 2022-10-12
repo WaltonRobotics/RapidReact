@@ -76,7 +76,7 @@ public class AligningAndSpinningUp implements IState {
 
             if ((UtilMethods.isWithinTolerance(Math.abs(error), 0, kShootingAlignmentToleranceDegrees)
                     || overrideAutoAimAndShootButton.get())) {
-                return new PreparingToShoot();
+                return new NudgingDown();
             }
         } else {
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.15);
@@ -84,7 +84,7 @@ public class AligningAndSpinningUp implements IState {
 
             if ((kUseOdometryBackup && (UtilMethods.isWithinTolerance(Math.abs(error), 0, kShootingAlignmentToleranceDegrees))
                     || overrideAutoAimAndShootButton.get())) {
-                return new PreparingToShoot();
+                return new NudgingDown();
             }
         }
 
