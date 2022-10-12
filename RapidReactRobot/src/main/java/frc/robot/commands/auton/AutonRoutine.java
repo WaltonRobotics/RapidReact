@@ -171,7 +171,7 @@ public enum AutonRoutine {
             new ParallelDeadlineGroup(
                     new ShootCargo(3, 2.0),
                     new SequentialCommandGroup(
-                            new WaitCommand(0.5),
+                            new WaitCommand(0.50),
                             new SetLeftIntakeDeployed(false)
                     )
             ),
@@ -182,7 +182,7 @@ public enum AutonRoutine {
                             new SetLeftIntakeDeployed(true)
                     )
             ),
-            new WaitCommand(.75),   // wait for human player
+            //new WaitCommand(.25),   // wait for human player
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(fiveBall3),
                     new SequentialCommandGroup(
@@ -191,8 +191,8 @@ public enum AutonRoutine {
                             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false))
                     )
             ),
-            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false)),
-            new AlignAndShootCargo(2, 4.0)
+            new AlignAndShootCargo(2, 4.0),
+            new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIdleSpinUp(false))
     )),
 
     STRAIGHT_FORWARD("Straight", new SequentialCommandGroup(

@@ -116,7 +116,6 @@ public class PracticeRapidReact extends WaltRobot {
             {-1, 18.074, 1.0, 10650},
             {-1, 19.028, 1.0, 10850},
             {-1, 20.12677, 1.0, 11100},
-
             //far shot
             {-1, 22.0, 1.0, 11900}
     };
