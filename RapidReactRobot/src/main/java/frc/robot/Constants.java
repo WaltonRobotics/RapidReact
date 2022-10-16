@@ -91,7 +91,7 @@ public final class Constants {
         // The tolerance to exit the spinning up state and enter the shooting state
         public static final double kSpinningUpToleranceRawUnits = 150;
         // The tolerance to maintain the shooting state
-        public static final double kShootingToleranceRawUnits = 170;
+        public static final double kShootingToleranceRawUnits = 150;
 
         // The tolerance needed to feed in the next ball
         public static final double kRecoveryToleranceRawUnits = 350;

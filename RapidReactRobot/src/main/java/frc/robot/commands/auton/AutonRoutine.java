@@ -169,9 +169,9 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(fiveBall1),
             new SetRightIntakeDeployed(false),
             new ParallelDeadlineGroup(
-                    new ShootCargo(3, 2.0),
+                    new ShootCargo(3, 1.0),
                     new SequentialCommandGroup(
-                            new WaitCommand(0.50),
+                            new WaitCommand(1.2),
                             new SetLeftIntakeDeployed(false)
                     )
             ),
