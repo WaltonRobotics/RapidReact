@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import static frc.robot.RobotContainer.robotLogger;
 import static frc.robot.util.UtilMethods.joinStrings;
 
-public class StateMachine {
+public class StateMachine{
 
     private boolean hasFirstStateInitialized;
 

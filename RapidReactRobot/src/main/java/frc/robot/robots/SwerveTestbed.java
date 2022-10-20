@@ -298,6 +298,7 @@ public class SwerveTestbed extends WaltRobot {
                 return new boolean[]{true, true, true, true};
             }
 
+            //dont touch this one, use the one in practicerapidreact
             @Override
             public boolean[] getDriveControllerInversions() {
                 return new boolean[]{true, true, false, true};
