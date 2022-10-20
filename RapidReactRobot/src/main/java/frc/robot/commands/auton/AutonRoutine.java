@@ -169,9 +169,9 @@ public enum AutonRoutine {
             new SwerveTrajectoryCommand(fiveBall1),
             new SetRightIntakeDeployed(false),
             new ParallelDeadlineGroup(
-                    new ShootCargo(3, 1.0),
+                    new ShootCargo(3, 1.2),
                     new SequentialCommandGroup(
-                            new WaitCommand(1.2),
+                            new WaitCommand(.75),
                             new SetLeftIntakeDeployed(false)
                     )
             ),
@@ -182,7 +182,7 @@ public enum AutonRoutine {
                             new SetLeftIntakeDeployed(true)
                     )
             ),
-            //new WaitCommand(.25),   // wait for human player
+            new WaitCommand(.25),
             new ParallelDeadlineGroup(
                     new SwerveTrajectoryCommand(fiveBall3),
                     new SequentialCommandGroup(
