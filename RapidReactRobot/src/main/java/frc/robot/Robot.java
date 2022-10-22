@@ -8,10 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.net.PortForwarder;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PneumaticHub;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.lib.strykeforce.swerve.SwerveModule;
@@ -23,8 +20,7 @@ import frc.robot.util.WaltTimesliceRobot;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.Climber.kPivotArmNudgeIncrementNU;
-import static frc.robot.Constants.ContextFlags.kIsInShooterTuningMode;
-import static frc.robot.Constants.ContextFlags.kIsInTuningMode;
+import static frc.robot.Constants.ContextFlags.*;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.OI.driveGamepad;
@@ -48,6 +44,8 @@ public class Robot extends WaltTimesliceRobot {
 
     private boolean pitCheckConfigureClimber = false;
     private double pitCheckStartTime;
+
+    private boolean hasSeenFMS = false;
 
     public Robot() {
         super(0.002, 0.02);
@@ -92,6 +90,7 @@ public class Robot extends WaltTimesliceRobot {
         // Monitor motor temperatures every second
         addPeriodic(godSubsystem::monitorTemperatures, 1.0);
 //        addPeriodic(godSubsystem::handleLEDLights, .25);
+
 
         LimelightHelper.setLEDMode(false);
     }
@@ -159,6 +158,12 @@ public class Robot extends WaltTimesliceRobot {
             godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Coast);
         } else {
             godSubsystem.getClimber().setExtensionNeutralMode(NeutralMode.Brake);
+        }
+
+        if(DriverStation.isFMSAttached() && !hasSeenFMS){
+            kIsInShooterTuningMode = false;
+            kIsInCompetition = true;
+            kIsInTuningMode = true;
         }
     }
 

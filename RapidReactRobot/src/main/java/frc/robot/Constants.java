@@ -20,9 +20,9 @@ public final class Constants {
 
     public static final class ContextFlags {
 
-        public static final boolean kIsInCompetition = false;
-        public static final boolean kIsInTuningMode = true;
-        public static final boolean kIsInShooterTuningMode = true;
+        public static boolean kIsInCompetition = true;
+        public static boolean kIsInTuningMode = true;
+        public static boolean kIsInShooterTuningMode = false;
 
     }
 
@@ -100,7 +100,7 @@ public final class Constants {
         // continue rotating to ensure last few shots don't go amiss
         public static final double kSpinDownTimeSeconds = 0.25;
 
-        public static final double kNudgeDownTimeSeconds = .128;
+        public static final double kNudgeDownTimeSeconds = .185;
 
         // Limits
         public static final double kHoodLowerLimit = 0;

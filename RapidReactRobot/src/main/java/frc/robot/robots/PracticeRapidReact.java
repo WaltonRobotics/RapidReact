@@ -112,12 +112,12 @@ public class PracticeRapidReact extends WaltRobot {
             {-1, 14.05, .1, 9975+50},
             {-1, 15.11, .25, 10150+50},
             {-1, 16.09, .35, 10330+50},
-            {-1, 17.00, .35, 10500+50}, //fiveball3
-            {-1, 18.074, .35, 10890+50},
-            {-1, 19.028, .35, 11400+50},
-            {-1, 20.12677, .35, 11550+50},
-            {-1, 21.23, .35,12100+50},
-            {-1, 22.0, .5, 12500+50}
+            {-1, 17.00, .35, 10500+ 115}, //fiveball3
+            {-1, 18.074, .35, 10890+ 115},
+            {-1, 19.028, .35, 11400+ 115},
+            {-1, 20.12677, .35, 11550+ 115},
+            {-1, 21.23, .35,12100+ 115},
+            {-1, 22.0, .5, 12500+ 115}
     };
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> lowGoalFlywheelVelocityMap
@@ -383,13 +383,13 @@ public class PracticeRapidReact extends WaltRobot {
 
             @Override
             public AccelerationLimiter getXLimiter() {
-                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / 1,
-                        kMaxSpeedMetersPerSecond / 0.6);
+                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / .75,
+                        kMaxSpeedMetersPerSecond / 0.5);
             }
 
             @Override
             public AccelerationLimiter getYLimiter() {
-                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / 1,
+                return new AccelerationLimiter(kMaxSpeedMetersPerSecond / .75,
                         3);
             }
 
