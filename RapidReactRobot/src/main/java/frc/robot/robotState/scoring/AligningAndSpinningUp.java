@@ -47,7 +47,7 @@ public class AligningAndSpinningUp implements IState {
 
         controller.reset();
 
-        nudgeDownTimeout = godSubsystem.getCurrentTime() + SmartDashboard.getNumber(kNudgeDownTimeKey,0);
+       // nudgeDownTimeout = godSubsystem.getCurrentTime() + SmartDashboard.getNumber(kNudgeDownTimeKey,0);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class AligningAndSpinningUp implements IState {
 
             if ((UtilMethods.isWithinTolerance(Math.abs(error), 0, kShootingAlignmentToleranceDegrees)
                     || overrideAutoAimAndShootButton.get())) {
-                return new NudgingDown();
+                return new PreparingToShoot();
             }
         } else {
             driveGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0.15);
@@ -86,7 +86,7 @@ public class AligningAndSpinningUp implements IState {
 
             if ((kUseOdometryBackup && (UtilMethods.isWithinTolerance(Math.abs(error), 0, kShootingAlignmentToleranceDegrees))
                     || overrideAutoAimAndShootButton.get())) {
-                return new NudgingDown();
+                return new PreparingToShoot();
             }
         }
 

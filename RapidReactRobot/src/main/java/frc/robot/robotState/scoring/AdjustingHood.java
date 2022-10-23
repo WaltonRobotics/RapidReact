@@ -76,7 +76,7 @@ public class AdjustingHood implements IState {
         if ((godSubsystem.isInAuton() && godSubsystem.doesAutonNeedToShoot())
                 || kIsInShooterTuningMode
                 || overrideAutoAimAndShootButton.get()) {
-            return new NudgingDown();
+            return new PreparingToShoot();
         }
 
         godSubsystem.handleIdleSpinUp();

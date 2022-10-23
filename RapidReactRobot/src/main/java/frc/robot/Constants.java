@@ -99,7 +99,7 @@ public final class Constants {
         // continue rotating to ensure last few shots don't go amiss
         public static final double kSpinDownTimeSeconds = 0.25;
 
-        public static final double kNudgeDownTimeSeconds = .185;
+        public static final double kNudgeDownTimeSeconds = 0;
 
         // Limits
         public static final double kHoodLowerLimit = 0;
