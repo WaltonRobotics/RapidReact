@@ -1,5 +1,6 @@
 package frc.robot.robotState.scoring;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
@@ -12,6 +13,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
+import static frc.robot.Constants.SmartDashboardKeys.kNudgeDownTimeKey;
 import static frc.robot.Constants.VisionConstants.kAlignmentPipeline;
 import static frc.robot.OI.barfButton;
 import static frc.robot.OI.overrideAutoAimAndShootButton;
@@ -39,7 +41,7 @@ public class NudgingDown implements IState {
         // Disable manual drive control
         DriveCommand.setIsEnabled(false);
 
-        timeout = godSubsystem.getCurrentTime() + kNudgeDownTimeSeconds;
+        timeout = godSubsystem.getCurrentTime() + SmartDashboard.getNumber(kNudgeDownTimeKey,0);
     }
 
     @Override

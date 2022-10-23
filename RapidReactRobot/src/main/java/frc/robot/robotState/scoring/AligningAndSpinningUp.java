@@ -2,6 +2,7 @@ package frc.robot.robotState.scoring;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.commands.DriveCommand;
 import frc.robot.robotState.Disabled;
@@ -12,6 +13,7 @@ import frc.robot.util.UtilMethods;
 import frc.robot.vision.LimelightHelper;
 
 import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
+import static frc.robot.Constants.SmartDashboardKeys.kNudgeDownTimeKey;
 import static frc.robot.Constants.VisionConstants.*;
 import static frc.robot.OI.*;
 import static frc.robot.RobotContainer.godSubsystem;
@@ -45,7 +47,7 @@ public class AligningAndSpinningUp implements IState {
 
         controller.reset();
 
-        nudgeDownTimeout = godSubsystem.getCurrentTime() + kNudgeDownTimeSeconds;
+        nudgeDownTimeout = godSubsystem.getCurrentTime() + SmartDashboard.getNumber(kNudgeDownTimeKey,0);
     }
 
     @Override

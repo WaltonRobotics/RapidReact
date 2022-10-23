@@ -35,6 +35,7 @@ import static frc.robot.Constants.DioIDs.kRobotID1;
 import static frc.robot.Constants.DioIDs.kRobotID2;
 import static frc.robot.Constants.DriverPreferences.kMaxShootOnTheMoveVelocity;
 import static frc.robot.Constants.Shooter.kDefaultVelocityRawUnits;
+import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.OI.*;
 import static frc.robot.commands.auton.AutonRoutine.DO_NOTHING;
@@ -143,6 +144,8 @@ public class RobotContainer {
 
         SmartDashboard.putNumber(kTrajectoryThetaPKey,
                 godSubsystem.getDrivetrain().getConfig().getThetaController().getP());
+
+        SmartDashboard.putNumber(kNudgeDownTimeKey,0);
 
         // Auton chooser
         Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));

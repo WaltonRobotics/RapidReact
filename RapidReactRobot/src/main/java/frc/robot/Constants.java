@@ -19,7 +19,6 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
     public static final class ContextFlags {
-
         public static boolean kIsInCompetition = true;
         public static boolean kIsInTuningMode = true;
         public static boolean kIsInShooterTuningMode = false;
@@ -208,6 +207,7 @@ public final class Constants {
         public static final String kShooterTuningSetpointVelocityNUKey = "Shooter/Tuning Setpoint Velocity NU";
         public static final String kShooterHoodPositionSetpointKey = "Shooter/Hood Position Setpoint";
         public static final String kShooterBallQualityAdditive = "Shooter/Ball Quality Additive";
+        public static final String kNudgeDownTimeKey = "Shooter Nudge Down Time Secs";
 
         public static final String kLimelightAlignControllerKey = "Limelight Align Controller";
         public static final String kLimelightAlignErrorDegrees = "Limelight Align Error Deg";
