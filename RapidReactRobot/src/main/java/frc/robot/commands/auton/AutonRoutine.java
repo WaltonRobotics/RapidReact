@@ -83,7 +83,7 @@ public enum AutonRoutine {
             ),
             new InstantCommand(() -> godSubsystem.setDoesAutonNeedToIntake(false)),
             //wait for 5-ball robots
-            new WaitCommand(1.6),
+            new WaitCommand(1.25),
             new ParallelDeadlineGroup(
                     new ShootCargo(2, 3.0),
                     new SequentialCommandGroup(
