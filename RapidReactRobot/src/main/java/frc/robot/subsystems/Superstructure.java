@@ -567,8 +567,8 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void monitorTemperatures() {
-        boolean climberStatus = monitorTemp(climber.getPivotTemp(), 70, "Pivot Overheating") &&
-                monitorTemp(climber.getExtensionTemp(), 70, "Extension Overheating");
+        // boolean climberStatus = monitorTemp(climber.getPivotTemp(), 70, "Pivot Overheating") &&
+        //         monitorTemp(climber.getExtensionTemp(), 70, "Extension Overheating");
 
         boolean shooterStatus = monitorTemp(shooter.getMasterTemp(), 70, "Right Shooter Overheating")
                 && monitorTemp(shooter.getSlaveTemp(), 70, "Left Shooter Overheating");
@@ -582,7 +582,7 @@ public class Superstructure extends SubsystemBase {
                 && monitorTemp(drivetrain.getRightFrontTurnTemp(), 60, "Right Front NEO Overheating")
                 && monitorTemp(drivetrain.getRightBackTurnTemp(), 60, "Right Back NEO Overheating");
 
-        SmartDashboard.putBoolean("Climber System Check", climberStatus);
+        // SmartDashboard.putBoolean("Climber System Check", climberStatus);
         SmartDashboard.putBoolean("Shooter System Check", shooterStatus);
         SmartDashboard.putBoolean("Drivetrain System Check", drivetrainStatus);
     }

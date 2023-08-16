@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.auton.AutonRoutine;
+// import frc.robot.commands.auton.AutonRoutine;
 import frc.robot.commands.auton.SetModuleStates;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
@@ -38,7 +38,7 @@ import static frc.robot.Constants.Shooter.kDefaultVelocityRawUnits;
 import static frc.robot.Constants.Shooter.kNudgeDownTimeSeconds;
 import static frc.robot.Constants.SmartDashboardKeys.*;
 import static frc.robot.OI.*;
-import static frc.robot.commands.auton.AutonRoutine.DO_NOTHING;
+// import static frc.robot.commands.auton.AutonRoutine.DO_NOTHING;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -51,7 +51,7 @@ public class RobotContainer {
     public static final WaltRobot currentRobot;
     public static final Superstructure godSubsystem;
     public static final Logger robotLogger = Logger.getLogger("frc.robot");
-    public static final SendableChooser<AutonRoutine> autonChooser = new SendableChooser<>();
+    // public static final SendableChooser<AutonRoutine> autonChooser = new SendableChooser<>();
     public static final SendableChooser<Superstructure.AllianceColor> allianceColorChooser = new SendableChooser<>();
 
     static {
@@ -148,9 +148,9 @@ public class RobotContainer {
         SmartDashboard.putNumber(kNudgeDownTimeKey,0);
 
         // Auton chooser
-        Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
-        autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
-        SmartDashboard.putData("Auton Selector", autonChooser);
+        // Arrays.stream(AutonRoutine.values()).forEach(n -> autonChooser.addOption(n.name(), n));
+        // autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING);
+        // SmartDashboard.putData("Auton Selector", autonChooser);
 
         Arrays.stream(Superstructure.AllianceColor.values()).forEach(n -> allianceColorChooser.addOption(n.name(), n));
         SmartDashboard.putData(kAllianceColorKey, allianceColorChooser);
@@ -233,12 +233,12 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() {
-        AutonRoutine routine = autonChooser.getSelected();
+    // public Command getAutonomousCommand() {
+    //     // AutonRoutine routine = autonChooser.getSelected();
 
-        robotLogger.log(Level.INFO, "Selected autonomous description: " + routine.getDescription());
+    //     // robotLogger.log(Level.INFO, "Selected autonomous description: " + routine.getDescription());
 
-        return routine.getCommandGroup();
-    }
+    //     // return routine.getCommandGroup();
+    // }
 
 }

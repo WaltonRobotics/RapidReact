@@ -1,6 +1,6 @@
 package frc.robot;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
+// import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,8 +13,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static frc.robot.Constants.PathFollowing.kPathLookaheadTime;
-import static frc.robot.Paths.FiveBallRoutine.fiveBall1;
-import static frc.robot.Paths.FiveBallRoutine.fiveBall2;
+// import static frc.robot.Paths.FiveBallRoutine.fiveBall1;
+// import static frc.robot.Paths.FiveBallRoutine.fiveBall2;
 import static frc.robot.RobotContainer.godSubsystem;
 
 public class RobotKinematics {
@@ -47,16 +47,16 @@ public class RobotKinematics {
                 drivetrain.getConfig().getYController(),
                 drivetrain.getConfig().getThetaController());
 
-        PathPlannerTrajectory.PathPlannerState state = (PathPlannerTrajectory.PathPlannerState)fiveBall1.sample(kPathLookaheadTime);
+        // PathPlannerTrajectory.PathPlannerState state = (PathPlannerTrajectory.PathPlannerState)fiveBall1.sample(kPathLookaheadTime);
 
-        ChassisSpeeds speeds = controller.calculate(new Pose2d(state.poseMeters.getX(), state.poseMeters.getY(),
-                state.holonomicRotation), state, state.holonomicRotation);
+        // ChassisSpeeds speeds = controller.calculate(new Pose2d(state.poseMeters.getX(), state.poseMeters.getY(),
+        //         state.holonomicRotation), state, state.holonomicRotation);
 
-        Rotation2d initialAngle = godSubsystem.getDrivetrain().getSwerveDriveKinematics().toSwerveModuleStates(speeds)[0].angle;
+        // Rotation2d initialAngle = godSubsystem.getDrivetrain().getSwerveDriveKinematics().toSwerveModuleStates(speeds)[0].angle;
 
-        System.out.println(initialAngle);
+        // System.out.println(initialAngle);
 
-        Assert.assertEquals(-90, initialAngle.getDegrees(), 0.5);
+        // Assert.assertEquals(-90, initialAngle.getDegrees(), 0.5);
     }
 
     @Test

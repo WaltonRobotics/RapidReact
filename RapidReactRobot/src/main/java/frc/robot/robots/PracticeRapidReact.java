@@ -342,7 +342,7 @@ public class PracticeRapidReact extends WaltRobot {
             //Invert drive motors (drivetrain)
             @Override
             public boolean[] getDriveControllerInversions() {
-                return new boolean[]{false, true, true, true};
+                return new boolean[]{true, true, true, true};
             }
 
             @Override

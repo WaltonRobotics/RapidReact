@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.PathPlannerTrajectory;
+// import com.pathplanner.lib.PathPlannerTrajectory;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
@@ -141,7 +141,7 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
 
         zeroSensors();
 
-        resetPose(kCenterOfHubPose, new PathPlannerTrajectory.PathPlannerState());
+        // resetPose(kCenterOfHubPose, new PathPlannerTrajectory.PathPlannerState());
 
 //        LiveDashboardTable.getInstance().setFollowingPath(true);
     }
@@ -191,18 +191,18 @@ public class Drivetrain extends SubsystemBase implements SubSubsystem {
         return swerveModules;
     }
 
-    public void resetPose(Pose2d robotPose, PathPlannerTrajectory.PathPlannerState state) {
-        zeroHeading();
-        setHeadingOffset(state.holonomicRotation);
+    // public void resetPose(Pose2d robotPose, PathPlannerTrajectory.PathPlannerState state) {
+    //     zeroHeading();
+    //     setHeadingOffset(state.holonomicRotation);
 
-        com.team254.lib.geometry.Pose2d startingPose = new com.team254.lib.geometry.Pose2d(robotPose.getX(),
-                robotPose.getY(), new com.team254.lib.geometry.Rotation2d(state.holonomicRotation.getDegrees()));
+    //     com.team254.lib.geometry.Pose2d startingPose = new com.team254.lib.geometry.Pose2d(robotPose.getX(),
+    //             robotPose.getY(), new com.team254.lib.geometry.Rotation2d(state.holonomicRotation.getDegrees()));
 
-        swerveModules.forEach(m -> m.zeroSensors(startingPose));
+    //     swerveModules.forEach(m -> m.zeroSensors(startingPose));
 
-        pose = startingPose;
-        distanceTraveled = 0;
-    }
+    //     pose = startingPose;
+    //     distanceTraveled = 0;
+    // }
 
     /**
      * Returns the position of the robot on the field.

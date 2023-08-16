@@ -27,8 +27,8 @@ public class Climber implements SubSubsystem {
     private final DigitalInput leftExtensionLowerLimit = new DigitalInput(config.getLeftExtensionLowerLimitChannel());
     private final DigitalInput rightExtensionLowerLimit = new DigitalInput(config.getRightExtensionLowerLimitChannel());
 
-    private final TalonFX pivotController = new TalonFX(config.getPivotControllerMotorConfig().getChannelOrID());
-    private final TalonFX extensionController = new TalonFX(config.getExtensionControllerMotorConfig().getChannelOrID());
+    // private final TalonFX pivotController = new TalonFX(config.getPivotControllerMotorConfig().getChannelOrID());
+    // private final TalonFX extensionController = new TalonFX(config.getExtensionControllerMotorConfig().getChannelOrID());
 
     private final Solenoid climberLock = new Solenoid(PneumaticsModuleType.REVPH, config.getClimberLockSolenoidChannel());
     private final Solenoid highBarArmsSolenoid = new Solenoid(PneumaticsModuleType.REVPH, config.getHighBarArmsSolenoidChannel());
@@ -44,19 +44,19 @@ public class Climber implements SubSubsystem {
         pivotAngleAbsoluteEncoder.setDutyCycleRange(1.0 / 1025.0, 1024.0 / 1025.0);
         pivotAngleAbsoluteEncoder.setDistancePerRotation(absoluteEncoderCountsPerRev);
 
-        pivotController.configFactoryDefault(10);
-        pivotController.configAllSettings(config.getPivotControllerTalonConfig(), 10);
-        pivotController.setInverted(config.getPivotControllerMotorConfig().isInverted());
-        pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
-        pivotController.setNeutralMode(NeutralMode.Brake);
-        pivotController.enableVoltageCompensation(true);
+        // pivotController.configFactoryDefault(10);
+        // pivotController.configAllSettings(config.getPivotControllerTalonConfig(), 10);
+        // pivotController.setInverted(config.getPivotControllerMotorConfig().isInverted());
+        // pivotController.setSensorPhase(config.getPivotControllerMotorConfig().isInverted());
+        // pivotController.setNeutralMode(NeutralMode.Brake);
+        // pivotController.enableVoltageCompensation(true);
 
-        extensionController.configFactoryDefault(10);
-        extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);
-        extensionController.setInverted(config.getExtensionControllerMotorConfig().isInverted());
-        extensionController.setSensorPhase(config.getExtensionControllerMotorConfig().isInverted());
-        extensionController.setNeutralMode(NeutralMode.Brake);
-        extensionController.enableVoltageCompensation(true);
+        // extensionController.configFactoryDefault(10);
+        // extensionController.configAllSettings(config.getExtensionControllerTalonConfig(), 10);
+        // extensionController.setInverted(config.getExtensionControllerMotorConfig().isInverted());
+        // extensionController.setSensorPhase(config.getExtensionControllerMotorConfig().isInverted());
+        // extensionController.setNeutralMode(NeutralMode.Brake);
+        // extensionController.enableVoltageCompensation(true);
 
         configPivotStatusFrames();
         configExtensionStatusFrames();
@@ -72,8 +72,8 @@ public class Climber implements SubSubsystem {
 
     @Override
     public synchronized void collectData() {
-        periodicIO.hasPivotControllerResetOccurred = pivotController.hasResetOccurred();
-        periodicIO.hasExtensionControllerResetOccurred = extensionController.hasResetOccurred();
+        // periodicIO.hasPivotControllerResetOccurred = pivotController.hasResetOccurred();
+        // periodicIO.hasExtensionControllerResetOccurred = extensionController.hasResetOccurred();
 
         // Absolute encoder feedback is non-continuous
         double absoluteEncoderDutyCycle = pivotAngleAbsoluteEncoder.getDistance();
@@ -96,7 +96,7 @@ public class Climber implements SubSubsystem {
         periodicIO.lastCollectDataTime = currentTime;
         periodicIO.lastPivotAbsoluteEncoderPositionNU = periodicIO.pivotAbsoluteEncoderPositionNU;
 
-        periodicIO.pivotIntegratedEncoderPositionNU = pivotController.getSelectedSensorPosition();
+        // periodicIO.pivotIntegratedEncoderPositionNU = pivotController.getSelectedSensorPosition();
 
         boolean reverse = getPivotAbsoluteEncoderPositionNU() < periodicIO.pivotLimits.getReverseSoftLimitThreshold();
         boolean forward = getPivotAbsoluteEncoderPositionNU() > periodicIO.pivotLimits.getForwardsSoftLimitThreshold();
@@ -107,7 +107,7 @@ public class Climber implements SubSubsystem {
         periodicIO.isLeftExtensionLowerLimitClosed = !leftExtensionLowerLimit.get();
         periodicIO.isRightExtensionLowerLimitClosed = !rightExtensionLowerLimit.get();
 
-        periodicIO.extensionIntegratedEncoderPosition = extensionController.getSelectedSensorPosition();
+        // periodicIO.extensionIntegratedEncoderPosition = extensionController.getSelectedSensorPosition();
     }
 
     @Override
@@ -123,85 +123,85 @@ public class Climber implements SubSubsystem {
         // When soft limits are rising, enable limiting based feedback from the integrated encoder
         // When soft limits are falling, disable soft limits based on feedback from the integrated encoder
 
-        if (periodicIO.pivotReverseSoftLimitBool.isRisingEdge()) {
-            pivotController.configReverseSoftLimitThreshold(periodicIO.pivotIntegratedEncoderPositionNU);
-        }
+        // if (periodicIO.pivotReverseSoftLimitBool.isRisingEdge()) {
+        //     pivotController.configReverseSoftLimitThreshold(periodicIO.pivotIntegratedEncoderPositionNU);
+        // }
 
-        pivotController.configReverseSoftLimitEnable(periodicIO.pivotReverseSoftLimitBool.get());
+        // pivotController.configReverseSoftLimitEnable(periodicIO.pivotReverseSoftLimitBool.get());
 
-        if (periodicIO.pivotForwardSoftLimitBool.isRisingEdge()) {
-            pivotController.configForwardSoftLimitThreshold(periodicIO.pivotIntegratedEncoderPositionNU);
-        }
+        // if (periodicIO.pivotForwardSoftLimitBool.isRisingEdge()) {
+        //     pivotController.configForwardSoftLimitThreshold(periodicIO.pivotIntegratedEncoderPositionNU);
+        // }
 
-        pivotController.configForwardSoftLimitEnable(periodicIO.pivotForwardSoftLimitBool.get());
+        // pivotController.configForwardSoftLimitEnable(periodicIO.pivotForwardSoftLimitBool.get());
 
-        if (periodicIO.resetExtensionLimits) {
-            System.out.println("Lower limit: " + periodicIO.extensionLimits.getReverseSoftLimitThreshold());
-            extensionController.configReverseSoftLimitThreshold(periodicIO.extensionLimits.getReverseSoftLimitThreshold());
-            extensionController.configForwardSoftLimitThreshold(periodicIO.extensionLimits.getForwardsSoftLimitThreshold());
-            periodicIO.resetExtensionLimits = false;
-        }
+        // if (periodicIO.resetExtensionLimits) {
+        //     System.out.println("Lower limit: " + periodicIO.extensionLimits.getReverseSoftLimitThreshold());
+        //     extensionController.configReverseSoftLimitThreshold(periodicIO.extensionLimits.getReverseSoftLimitThreshold());
+        //     extensionController.configForwardSoftLimitThreshold(periodicIO.extensionLimits.getForwardsSoftLimitThreshold());
+        //     periodicIO.resetExtensionLimits = false;
+        // }
 
-        extensionController.configReverseSoftLimitEnable(!periodicIO.releaseExtensionLowerLimit);
+        // extensionController.configReverseSoftLimitEnable(!periodicIO.releaseExtensionLowerLimit);
 
-        if (periodicIO.resetPivotNeutralMode) {
-            pivotController.setNeutralMode(periodicIO.pivotNeutralMode);
-            periodicIO.resetPivotNeutralMode = false;
-        }
+        // if (periodicIO.resetPivotNeutralMode) {
+        //     pivotController.setNeutralMode(periodicIO.pivotNeutralMode);
+        //     periodicIO.resetPivotNeutralMode = false;
+        // }
 
-        if (periodicIO.resetExtensionNeutralMode) {
-            extensionController.setNeutralMode(periodicIO.extensionNeutralMode);
-            periodicIO.resetExtensionNeutralMode = false;
-        }
+        // if (periodicIO.resetExtensionNeutralMode) {
+        //     extensionController.setNeutralMode(periodicIO.extensionNeutralMode);
+        //     periodicIO.resetExtensionNeutralMode = false;
+        // }
 
-        switch (periodicIO.pivotControlState) {
-            case ZEROING:
-                break;
-            case AUTO:
-                pivotController.set(ControlMode.MotionMagic, periodicIO.pivotPositionDemandNU);
-                periodicIO.pivotPercentOutputDemand = 0;
-                break;
-            case OPEN_LOOP:
-                pivotController.set(ControlMode.PercentOutput, periodicIO.pivotPercentOutputDemand);
+        // switch (periodicIO.pivotControlState) {
+        //     case ZEROING:
+        //         break;
+        //     case AUTO:
+        //         pivotController.set(ControlMode.MotionMagic, periodicIO.pivotPositionDemandNU);
+        //         periodicIO.pivotPercentOutputDemand = 0;
+        //         break;
+        //     case OPEN_LOOP:
+        //         pivotController.set(ControlMode.PercentOutput, periodicIO.pivotPercentOutputDemand);
 
-                periodicIO.pivotPositionDemandNU = periodicIO.pivotIntegratedEncoderPositionNU;
-                break;
-            case DISABLED:
-                pivotController.set(ControlMode.Disabled, 0);
-                periodicIO.pivotPercentOutputDemand = 0;
-                periodicIO.pivotPositionDemandNU = 0;
-                break;
-        }
+        //         periodicIO.pivotPositionDemandNU = periodicIO.pivotIntegratedEncoderPositionNU;
+        //         break;
+        //     case DISABLED:
+        //         pivotController.set(ControlMode.Disabled, 0);
+        //         periodicIO.pivotPercentOutputDemand = 0;
+        //         periodicIO.pivotPositionDemandNU = 0;
+        //         break;
+        // }
 
-        switch (periodicIO.extensionControlState) {
-            case ZEROING:
-                if (isFastZeroing()) {
-                    extensionController.set(ControlMode.PercentOutput, kFastExtensionZeroingPercentOutput);
-                } else {
-                    extensionController.set(ControlMode.PercentOutput, kExtensionZeroingPercentOutput);
-                }
+        // switch (periodicIO.extensionControlState) {
+        //     case ZEROING:
+        //         if (isFastZeroing()) {
+        //             extensionController.set(ControlMode.PercentOutput, kFastExtensionZeroingPercentOutput);
+        //         } else {
+        //             extensionController.set(ControlMode.PercentOutput, kExtensionZeroingPercentOutput);
+        //         }
 
-                if (isZeroRising()) {
-                    extensionController.setSelectedSensorPosition(0);
-                }
+        //         if (isZeroRising()) {
+        //             extensionController.setSelectedSensorPosition(0);
+        //         }
 
-                periodicIO.extensionPositionDemandNU = 0;
+        //         periodicIO.extensionPositionDemandNU = 0;
 
-                break;
-            case AUTO:
-                extensionController.set(ControlMode.MotionMagic, periodicIO.extensionPositionDemandNU);
-                periodicIO.extensionPercentOutputDemand = 0;
-                break;
-            case OPEN_LOOP:
-                extensionController.set(ControlMode.PercentOutput, periodicIO.extensionPercentOutputDemand);
-                periodicIO.extensionPositionDemandNU = periodicIO.extensionIntegratedEncoderPosition;
-                break;
-            case DISABLED:
-                extensionController.set(ControlMode.Disabled, 0);
-                periodicIO.extensionPercentOutputDemand = 0;
-                periodicIO.extensionPositionDemandNU = 0;
-                break;
-        }
+        //         break;
+        //     case AUTO:
+        //         extensionController.set(ControlMode.MotionMagic, periodicIO.extensionPositionDemandNU);
+        //         periodicIO.extensionPercentOutputDemand = 0;
+        //         break;
+        //     case OPEN_LOOP:
+        //         extensionController.set(ControlMode.PercentOutput, periodicIO.extensionPercentOutputDemand);
+        //         periodicIO.extensionPositionDemandNU = periodicIO.extensionIntegratedEncoderPosition;
+        //         break;
+        //     case DISABLED:
+        //         extensionController.set(ControlMode.Disabled, 0);
+        //         periodicIO.extensionPercentOutputDemand = 0;
+        //         periodicIO.extensionPositionDemandNU = 0;
+        //         break;
+        // }
 
         climberLock.set(periodicIO.climberLockStateDemand);
         highBarArmsSolenoid.set(periodicIO.highBarArmsStateDemand);
@@ -236,7 +236,7 @@ public class Climber implements SubSubsystem {
         double offsetAbsoluteCounts = getPivotAbsoluteEncoderPositionNU() - config.getVerticalReferenceAbsoluteCounts();
         double setpointIntegratedCounts = offsetAbsoluteCounts * config.getAbsoluteCountsToIntegratedCountsFactor();
 
-        pivotController.setSelectedSensorPosition(setpointIntegratedCounts);
+        // pivotController.setSelectedSensorPosition(setpointIntegratedCounts);
         setPivotPositionDemandNU(setpointIntegratedCounts);
     }
 
@@ -252,13 +252,13 @@ public class Climber implements SubSubsystem {
         return isZeroed.isRisingEdge();
     }
 
-    public double getPivotTemp() {
-        return pivotController.getTemperature();
-    }
+    // public double getPivotTemp() {
+    //     return pivotController.getTemperature();
+    // }
 
-    public double getExtensionTemp() {
-        return extensionController.getTemperature();
-    }
+    // public double getExtensionTemp() {
+    //     return extensionController.getTemperature();
+    // }
 
     public ClimberControlState getPivotControlState() {
         return periodicIO.pivotControlState;
@@ -489,37 +489,37 @@ public class Climber implements SubSubsystem {
     }
 
     private void configPivotStatusFrames() {
-        pivotController.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
-        pivotController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
-        pivotController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 1000);
-        pivotController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
-        pivotController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
-        pivotController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
-        pivotController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
-        pivotController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
-        pivotController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+        // pivotController.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
+        // pivotController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        // pivotController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 1000);
+        // pivotController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 1000);
+        // pivotController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        // pivotController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 1000);
+        // pivotController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        // pivotController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        // pivotController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
     }
 
     private void configExtensionStatusFrames() {
-        extensionController.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
-        extensionController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
-        extensionController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 1000);
-        extensionController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 10);
-        extensionController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
-        extensionController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 100);
-        extensionController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
-        extensionController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
-        extensionController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
+        // extensionController.setStatusFramePeriod(StatusFrame.Status_1_General, 10);
+        // extensionController.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        // extensionController.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 1000);
+        // extensionController.setStatusFramePeriod(StatusFrame.Status_10_Targets, 10);
+        // extensionController.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 1000);
+        // extensionController.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 100);
+        // extensionController.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 1000);
+        // extensionController.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+        // extensionController.setStatusFramePeriod(StatusFrame.Status_17_Targets1, 1000);
     }
 
     public void configExtensionSmartMotion(double cruiseVelocity, double maxAcceleration) {
-        extensionController.configMotionCruiseVelocity(cruiseVelocity);
-        extensionController.configMotionAcceleration(maxAcceleration);
+        // extensionController.configMotionCruiseVelocity(cruiseVelocity);
+        // extensionController.configMotionAcceleration(maxAcceleration);
     }
 
     public void configPivotSmartMotion(double cruiseVelocity, double maxAcceleration) {
-        pivotController.configMotionCruiseVelocity(cruiseVelocity);
-        pivotController.configMotionAcceleration(maxAcceleration);
+        // pivotController.configMotionCruiseVelocity(cruiseVelocity);
+        // pivotController.configMotionAcceleration(maxAcceleration);
     }
 
     public enum ClimberControlState {
